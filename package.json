@@ -1,0 +1,21 @@
+{
+  "name": "strabon2",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "concurrently -n server,web -c cyan,green \"npm run dev -w @strabon/server\" \"npm run dev -w @strabon/web\"",
+    "build": "npm run build -w @strabon/shared && npm run build -w @strabon/db && npm run build -w @strabon/server && npm run build -w @strabon/web",
+    "typecheck": "tsc --build packages/shared packages/db packages/server packages/web packages/scripts"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.2",
+    "concurrently": "^9.0.0",
+    "typescript": "^5.5.0"
+  }
+}

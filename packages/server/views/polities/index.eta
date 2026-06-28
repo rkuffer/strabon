@@ -1,0 +1,13 @@
+<%/* polities/index.eta */%>
+<div class="page-header">
+  <h1>Political Entities</h1>
+</div>
+<div class="polities-list">
+  <% it.polities.forEach(function(p) { %>
+  <article class="polity-card">
+    <span class="color-dot" style="background:<%= p.color || '#888' %>"></span>
+    <span class="polity-name"><%= p.name %></span>
+    <% if (p.type) { %><span class="tag"><%= p.type %></span><% } %>
+  </article>
+  <% }) %>
+</div>

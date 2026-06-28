@@ -1,0 +1,13 @@
+<%/* cultures/index.eta */%>
+<div class="page-header">
+  <h1>Archaeological Cultures</h1>
+</div>
+<div class="cultures-list">
+  <% it.cultures.forEach(function(c) { %>
+  <article class="culture-card">
+    <span class="color-dot" style="background:<%= c.color || '#888' %>"></span>
+    <span class="culture-name"><%= c.name %></span>
+    <% if (c.type) { %><span class="tag"><%= c.type %></span><% } %>
+  </article>
+  <% }) %>
+</div>

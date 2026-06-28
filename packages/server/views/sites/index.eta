@@ -1,0 +1,22 @@
+<%/* sites/index.eta */%>
+<div class="page-header">
+  <h1>Archaeological Sites</h1>
+  <p class="subtitle"><%= it.sites.length %> sites</p>
+</div>
+
+<div class="sites-list">
+  <% it.sites.forEach(function(site) { %>
+  <article class="site-card">
+    <h2><a href="/sites/<%= site.id %>"><%= site.title_en %></a></h2>
+    <div class="site-meta">
+      <% if (site.country) { %><span class="tag"><%= site.country %></span><% } %>
+      <% if (site.site_type) { %><span class="tag"><%= site.site_type %></span><% } %>
+      <% if (site.inception_year) { %>
+        <span class="tag">
+          <%= site.inception_year < 0 ? Math.abs(site.inception_year) + ' BC' : site.inception_year + ' AD' %>
+        </span>
+      <% } %>
+    </div>
+  </article>
+  <% }) %>
+</div>

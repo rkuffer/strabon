@@ -1,0 +1,173 @@
+<%/* admin/extract/list.eta */%>
+<div class="page-header">
+  <h1>Extraction LLM — Timeline</h1>
+</div>
+
+<form class="filter-bar" method="get" action="/admin/extract">
+  <!-- Filtre statut -->
+  <a href="?status=no_timeline&q=<%= it.q || '' %>" class="btn btn-sm <%= it.status === 'no_timeline' ? 'btn-active' : 'btn-ghost' %>">Sans timeline</a>
+  <a href="?status=has_timeline&q=<%= it.q || '' %>" class="btn btn-sm <%= it.status === 'has_timeline' ? 'btn-active' : 'btn-ghost' %>">Avec timeline</a>
+  <a href="?status=all&q=<%= it.q || '' %>" class="btn btn-sm <%= it.status === 'all' ? 'btn-active' : 'btn-ghost' %>">Tous</a>
+
+  <!-- Recherche -->
+  <input type="hidden" name="status" value="<%= it.status %>">
+  <input
+    type="text"
+    name="q"
+    value="<%= it.q || '' %>"
+    placeholder="Rechercher un site..."
+    class="input-text input-search-sm"
+    autocomplete="off"
+    id="search-input"
+  >
+  <% if (it.q) { %>
+    <a href="?status=<%= it.status %>" class="btn btn-sm btn-ghost">✕ Effacer</a>
+  <% } %>
+
+  <div style="margin-left:auto;display:flex;gap:8px">
+    <span class="text-muted" style="font-size:12px;align-self:center"><%= it.sites.length %> sites</span>
+    <button type="button" class="btn" onclick="extractSelected()">Extraire la sélection</button>
+    <button type="button" class="btn btn-ghost" onclick="selectAll()">Tout sélectionner</button>
+  </div>
+</form>
+
+<div id="batch-log" class="log-panel" style="display:none">
+  <div class="log-header">
+    <span>Extraction en cours</span>
+    <span id="batch-stats" class="text-muted"></span>
+  </div>
+  <div id="progress-bar-wrap">
+    <div id="progress-bar" style="width:0%;height:4px;background:var(--accent);transition:width .3s"></div>
+  </div>
+  <div id="batch-log-body" class="log-body"></div>
+</div>
+
+<table class="data-table" id="sites-table">
+  <thead>
+    <tr>
+      <th><input type="checkbox" onclick="toggleAll(this)"></th>
+      <th>Site</th>
+      <th>Pays</th>
+      <th>Importance</th>
+      <th>Timeline</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% it.sites.forEach(function(site) { %>
+    <tr id="row-<%= site.id %>">
+      <td><input type="checkbox" class="site-check" value="<%= site.id %>"></td>
+      <td><strong><a href="/admin/extract/<%= site.id %>"><%= site.title_en %></a></strong></td>
+      <td class="text-muted"><%= site.country || '—' %></td>
+      <td><span class="importance-badge"><%= site.base_importance %></span></td>
+      <td>
+        <% if (site.has_timeline) { %>
+          <span class="text-muted" style="font-size:11px">
+            <%= site.timeline_extraction_model %><br>
+            <%= new Date(site.timeline_extracted_at).toLocaleDateString('fr-FR') %>
+          </span>
+        <% } else { %>
+          <span class="text-warn">—</span>
+        <% } %>
+      </td>
+      <td><a href="/admin/extract/<%= site.id %>" class="btn btn-sm">Extraire →</a></td>
+    </tr>
+    <% }); %>
+  </tbody>
+</table>
+
+<style>
+.input-search-sm {
+  padding: 4px 10px;
+  font-size: 13px;
+  width: 220px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 2px;
+  outline: none;
+}
+.input-search-sm:focus { border-color: var(--accent); }
+</style>
+
+<script>
+// Debounce recherche
+(function() {
+  var timer;
+  var input = document.getElementById('search-input');
+  if (input) {
+    input.addEventListener('input', function() {
+      clearTimeout(timer);
+      timer = setTimeout(function() { input.form.submit(); }, 400);
+    });
+  }
+})();
+
+function toggleAll(cb) {
+  document.querySelectorAll('.site-check').forEach(function(c) { c.checked = cb.checked; });
+}
+
+function selectAll() {
+  document.querySelectorAll('.site-check').forEach(function(c) { c.checked = true; });
+}
+
+function extractSelected() {
+  var ids = Array.from(document.querySelectorAll('.site-check:checked')).map(function(c) { return c.value; });
+  if (!ids.length) return alert('Sélectionnez des sites');
+
+  document.getElementById('batch-log').style.display = 'block';
+  document.getElementById('batch-log-body').innerHTML = '';
+  document.getElementById('progress-bar').style.width = '0%';
+
+  var done = 0, errors = 0;
+  var sse = new EventSource('/admin/extract/stream?ids=' + ids.join(','));
+
+  sse.addEventListener('start',      function(e) { appendLog('info', 'Extraction de ' + JSON.parse(e.data).total + ' sites...'); });
+  sse.addEventListener('processing', function(e) { appendLog('info', '⏳ ' + JSON.parse(e.data).title + '...'); });
+  sse.addEventListener('done_one',   function(e) {
+    done++;
+    var d = JSON.parse(e.data);
+    appendLog('success', '✓ ' + d.title + (d.local_lang ? ' [+' + d.local_lang + ']' : ''));
+    updateProgress(done + errors, ids.length);
+    // Décocher la checkbox et marquer la row comme traitée
+    var row = document.getElementById('row-' + d.id);
+    if (row) {
+      var cb = row.querySelector('.site-check');
+      if (cb) cb.checked = false;
+      row.style.opacity = '0.45';
+      var td = row.querySelector('td:nth-child(5)');
+      if (td) td.innerHTML = '<span style="font-size:11px;color:var(--accent)">✓ extrait</span>';
+    }
+  });
+  sse.addEventListener('error', function(e) {
+    errors++;
+    var d = JSON.parse(e.data);
+    appendLog('error', '✗ ' + d.title + ': ' + d.message);
+    updateProgress(done + errors, ids.length);
+  });
+  sse.addEventListener('done', function(e) {
+    var d = JSON.parse(e.data);
+    appendLog('done', 'Terminé — ' + d.done + ' extraits, ' + d.errors + ' erreurs. Rechargement...');
+    sse.close();
+    setTimeout(function() { window.location.reload(); }, 2000);
+  });
+  sse.addEventListener('fatal', function(e) {
+    appendLog('error', 'Erreur: ' + JSON.parse(e.data).message);
+    sse.close();
+  });
+}
+
+function updateProgress(done, total) {
+  document.getElementById('progress-bar').style.width = Math.round(done / total * 100) + '%';
+  document.getElementById('batch-stats').textContent = done + ' / ' + total;
+}
+
+function appendLog(type, msg) {
+  var el = document.createElement('div');
+  el.className = 'log-line log-line--' + type;
+  el.textContent = msg;
+  var body = document.getElementById('batch-log-body');
+  body.appendChild(el);
+  body.scrollTop = body.scrollHeight;
+}
+</script>

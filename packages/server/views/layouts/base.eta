@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= it.title %></title>
+  <link rel="stylesheet" href="/public/css/main.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="site-nav">
+      <a href="/" class="nav-brand">STRABON</a>
+      <ul class="nav-links">
+        <li><a href="/sites">Sites</a></li>
+        <li><a href="/polities">Polities</a></li>
+        <li><a href="/cultures">Cultures</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="site-main">
+    <%~ it.body %>
+  </main>
+
+  <footer class="site-footer">
+    <p>Strabon © <%= it.year %></p>
+  </footer>
+</body>
+</html>

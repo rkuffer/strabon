@@ -1,0 +1,261 @@
+<%/* admin/index/form.eta */%>
+<div class="page-header">
+  <h1>Indexation Wikipedia</h1>
+</div>
+
+<div class="two-col">
+  <!-- Colonne gauche : formulaires -->
+  <div>
+    <div class="form-card" id="form-category">
+      <h3>Par catégorie Wikipedia</h3>
+      <p class="text-muted">Ex: <code>Phoenician_cities</code>, <code>Ancient_Mesopotamian_cities</code></p>
+      <div class="form-row">
+        <input type="text" id="cat-input" placeholder="Nom de la catégorie" class="input-text">
+        <button class="btn" onclick="startStream('category')">Indexer</button>
+        <button class="btn btn-ghost" onclick="previewMode('category')">Prévisualiser</button>
+      </div>
+    </div>
+
+    <div class="form-card" id="form-keyword">
+      <h3>Par mot-clé</h3>
+      <p class="text-muted">Ex: <code>ancient city Mesopotamia</code></p>
+      <div class="form-row">
+        <input type="text" id="kw-input" placeholder="Mots-clés de recherche" class="input-text">
+        <button class="btn" onclick="startStream('keyword')">Indexer</button>
+        <button class="btn btn-ghost" onclick="previewMode('keyword')">Prévisualiser</button>
+      </div>
+    </div>
+
+    <div class="form-card" id="form-manual">
+      <h3>Ajout manuel</h3>
+      <p class="text-muted">Recherchez un site par nom — sélectionnez le bon candidat Wikidata</p>
+      <div class="form-row">
+        <input type="text" id="manual-input" placeholder="Ex: Périgueux, Uruk, Carthage..." class="input-text" onkeydown="if(event.key==='Enter') searchWikidata()">
+        <button class="btn" onclick="searchWikidata()">Rechercher</button>
+      </div>
+      <div id="wikidata-results" style="display:none;margin-top:10px"></div>
+    </div>
+  </div>
+
+  <!-- Colonne droite : log / preview -->
+  <div>
+    <!-- Log SSE -->
+    <div id="log-panel" class="log-panel" style="display:none">
+      <div class="log-header">
+        <span id="log-title">Progression</span>
+        <span id="log-stats" class="text-muted"></span>
+      </div>
+      <div id="log-body" class="log-body"></div>
+    </div>
+
+    <!-- Preview avant import -->
+    <div id="preview-panel" style="display:none">
+      <div class="preview-header">
+        <span id="preview-title">Sites trouvés</span>
+        <button class="btn btn-sm" onclick="importSelected()">Importer la sélection</button>
+        <button class="btn btn-sm btn-ghost" onclick="selectAll()">Tout sélectionner</button>
+      </div>
+      <div id="preview-body"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentStream = null;
+let previewData = [];
+
+function getValue(mode) {
+  if (mode === 'category') return document.getElementById('cat-input').value.trim();
+  if (mode === 'keyword')  return document.getElementById('kw-input').value.trim();
+  return document.getElementById('manual-input').value.trim();
+}
+
+function startStream(mode) {
+  const value = getValue(mode);
+  if (!value) return;
+
+  const logPanel = document.getElementById('log-panel');
+  const logBody  = document.getElementById('log-body');
+  const logStats = document.getElementById('log-stats');
+  logPanel.style.display = 'block';
+  document.getElementById('preview-panel').style.display = 'none';
+  logBody.innerHTML = '';
+  document.getElementById('log-title').textContent = `Indexation ${mode}: ${value}`;
+
+  let added = 0, skipped = 0, errors = 0, total = 0;
+
+  currentStream?.close();
+  currentStream = new EventSource(`/admin/index/stream?mode=${mode}&value=${encodeURIComponent(value)}`);
+
+  currentStream.addEventListener('start',   e => appendLog('info',    JSON.parse(e.data).message));
+  currentStream.addEventListener('total',   e => { total = JSON.parse(e.data).total; logStats.textContent = `0 / ${total}`; });
+  currentStream.addEventListener('add',     e => { added++;   const d = JSON.parse(e.data); appendLog('success', `+ ${d.title} (${d.id})`); logStats.textContent = `${added + skipped + errors} / ${total}`; });
+  currentStream.addEventListener('skip',    e => { skipped++;  appendLog('skip',    `⊘ ${JSON.parse(e.data).title}`); });
+  currentStream.addEventListener('error',   e => { errors++;   appendLog('error',   `✗ ${JSON.parse(e.data).title}: ${JSON.parse(e.data).message}`); });
+  currentStream.addEventListener('done',    e => {
+    const d = JSON.parse(e.data);
+    appendLog('done', `Terminé — ${d.added} ajoutés, ${d.skipped} ignorés, ${d.errors} erreurs`);
+    currentStream.close();
+  });
+  currentStream.addEventListener('fatal',   e => { appendLog('error', 'Erreur fatale: ' + JSON.parse(e.data).message); currentStream.close(); });
+}
+
+async function previewMode(mode) {
+  const value = getValue(mode);
+  if (!value) return;
+  document.getElementById('log-panel').style.display = 'none';
+  document.getElementById('preview-panel').style.display = 'block';
+  document.getElementById('preview-title').textContent = 'Chargement...';
+
+  const res = await fetch('/admin/index/preview', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ mode, value }),
+  });
+  const data = await res.json();
+  previewData = data.titles;
+  document.getElementById('preview-title').textContent = `${data.total} pages trouvées (${previewData.filter(s => !s.already_exists).length} nouvelles)`;
+  renderPreview();
+}
+
+function renderPreview() {
+  const body = document.getElementById('preview-body');
+  body.innerHTML = previewData.map((s, i) => `
+    <div class="preview-row ${s.already_exists ? 'preview-row--exists' : ''}">
+      <input type="checkbox" data-idx="${i}" ${s.already_exists ? '' : 'checked'} ${s.already_exists ? 'disabled' : ''}>
+      <span class="preview-title">${s.title}</span>
+      ${s.lat ? '<span class="dot green" title="Coords OK">●</span>' : '<span class="dot red" title="Pas de coords">●</span>'}
+      ${s.already_exists ? '<span class="badge-exists">Déjà indexé</span>' : ''}
+    </div>
+  `).join('');
+}
+
+async function importSelected() {
+  const checks = document.querySelectorAll('#preview-body input[type=checkbox]:checked');
+  const toImport = [...checks].map(cb => previewData[+cb.dataset.idx]);
+  if (!toImport.length) return;
+
+  const res = await fetch('/admin/index/import', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ sites: toImport }),
+  });
+  const data = await res.json();
+  alert(`${data.imported} sites importés, ${data.errors} erreurs`);
+}
+
+function selectAll() {
+  document.querySelectorAll('#preview-body input[type=checkbox]:not([disabled])').forEach(cb => cb.checked = true);
+}
+
+async function searchWikidata() {
+  const value = document.getElementById('manual-input').value.trim();
+  if (!value) return;
+
+  const resultsDiv = document.getElementById('wikidata-results');
+  resultsDiv.style.display = 'block';
+  resultsDiv.innerHTML = '<span class="text-muted">Recherche en cours...</span>';
+
+  const res = await fetch('/admin/index/search-wikidata?q=' + encodeURIComponent(value));
+  if (!res.ok) {
+    resultsDiv.innerHTML = '<span class="text-error">Erreur lors de la recherche</span>';
+    return;
+  }
+  const data = await res.json();
+
+  if (!data.candidates.length) {
+    resultsDiv.innerHTML = '<span class="text-muted">Aucun résultat Wikidata trouvé</span>';
+    return;
+  }
+
+  resultsDiv.innerHTML = data.candidates.map((c, i) => `
+    <div class="wikidata-candidate ${c.already_exists ? 'candidate--exists' : ''}">
+      <label style="display:flex;align-items:flex-start;gap:8px;cursor:${c.already_exists ? 'default' : 'pointer'}">
+        <input type="radio" name="wikidata-pick" value="${i}"
+          ${c.already_exists ? 'disabled' : ''}
+          style="margin-top:3px;flex-shrink:0">
+        <span>
+          <strong>${c.label}</strong>
+          <span class="text-muted" style="font-size:11px;margin-left:6px">${c.qid}</span>
+          ${c.has_coords ? '<span class="dot green" title="Coordonnées disponibles">●</span>' : '<span class="dot red" title="Pas de coordonnées">●</span>'}
+          ${c.already_exists ? '<span class="badge-exists">Déjà indexé</span>' : ''}
+          <br>
+          <span class="text-muted" style="font-size:12px">${c.description || '—'}</span>
+          ${c.url ? `<br><a href="${c.url}" target="_blank" style="font-size:11px">${c.url}</a>` : ''}
+        </span>
+      </label>
+    </div>
+  `).join('');
+
+  // Bouton d'import
+  resultsDiv.innerHTML += `
+    <button class="btn" style="margin-top:10px" onclick="importWikidataCandidate(${JSON.stringify(data.candidates).replace(/"/g, '&quot;')})">
+      Importer le site sélectionné
+    </button>
+  `;
+}
+
+async function importWikidataCandidate(candidates) {
+  const picked = document.querySelector('input[name="wikidata-pick"]:checked');
+  if (!picked) return alert('Sélectionnez un site');
+
+  const candidate = candidates[+picked.value];
+  const site = {
+    title:       candidate.title,
+    url:         candidate.url,
+    wikidata_id: candidate.wikidata_id,
+    lat:         candidate.lat,
+    lon:         candidate.lon,
+    description: candidate.description,
+  };
+
+  const res = await fetch('/admin/index/import', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ sites: [site] }),
+  });
+  const data = await res.json();
+
+  const resultsDiv = document.getElementById('wikidata-results');
+  if (data.imported) {
+    resultsDiv.innerHTML += `<div class="log-line log-line--success">✓ ${candidate.label} (${candidate.qid}) importé avec succès</div>`;
+    // Marquer comme déjà indexé
+    picked.closest('.wikidata-candidate').classList.add('candidate--exists');
+    picked.disabled = true;
+  } else if (data.errors) {
+    resultsDiv.innerHTML += `<div class="log-line log-line--error">✗ Erreur lors de l'import</div>`;
+  }
+}
+
+function appendLog(type, msg) {
+  const el = document.createElement('div');
+  el.className = `log-line log-line--${type}`;
+  el.textContent = msg;
+  const body = document.getElementById('log-body');
+  body.appendChild(el);
+  body.scrollTop = body.scrollHeight;
+}
+</script>
+<style>
+.wikidata-candidate {
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  margin-bottom: 5px;
+  background: var(--bg);
+  transition: border-color 0.15s;
+}
+.wikidata-candidate:hover:not(.candidate--exists) {
+  border-color: var(--accent);
+}
+.candidate--exists {
+  opacity: 0.45;
+}
+.dot {
+  font-size: 9px;
+  vertical-align: middle;
+  margin-left: 4px;
+}
+.dot.green { color: #5a9a6a; }
+.dot.red   { color: #9a4a3a; }
+</style>

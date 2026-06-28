@@ -1,0 +1,194 @@
+/* =============================================================================
+   main.css — CSS statique pour les pages rendues par Fastify (templates Eta)
+   Subset des variables et styles de base de main.scss
+   En prod, remplacé par le build Vite compilé
+   ============================================================================= */
+
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap");
+
+:root {
+  --bg: #0e0f0e;
+  --surface: #161815;
+  --border: #2a2e28;
+  --text: #c8c4b0;
+  --muted: #6b6b5a;
+  --accent: #c9a84c;
+  --accent2: #7eb8a0;
+  --font-head: "Cinzel", serif;
+  --font-body: "Crimson Pro", Georgia, serif;
+  --panel-h: 240px;
+  --header-h: 52px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+
+/* ── Layout pages publiques (non-admin) ── */
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+}
+
+.nav-brand {
+  font-family: var(--font-head);
+  font-size: 14px;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+.nav-links a:hover {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.site-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  width: 100%;
+}
+
+.site-footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 16px 24px;
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.page-header {
+  margin-bottom: 40px;
+}
+.page-header h1 {
+  font-family: var(--font-head);
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+}
+.page-header .subtitle {
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+/* ── Cards generiques ── */
+.site-card,
+.polity-card,
+.culture-card {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.site-card h2 {
+  font-family: var(--font-head);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text);
+}
+.site-card h2 a {
+  color: var(--text);
+}
+.site-card h2 a:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+.site-meta {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+/* ── About ── */
+.about-page {
+  max-width: 680px;
+}
+.about-page h1 {
+  font-family: var(--font-head);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  margin-bottom: 20px;
+}
+.about-page p {
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+/* ── Color dot (polities/cultures) ── */
+.color-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.polity-name,
+.culture-name {
+  font-size: 14px;
+  color: var(--text);
+}

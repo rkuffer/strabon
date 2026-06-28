@@ -1,0 +1,41 @@
+Roman towns and cities in Portugal
+
+
+1. Cités phéniciennes (recommandé pour commencer)
+Byblos, Sidon, Tyr, Arwad, Beirut, Acre, Jaffa, Sarepta, Tripoli — 8-10 sites déjà dans ton index depuis la catégorie Phoenician_cities. Polity : Phoenicia (~1200-332 BC). Culture : Phoenician. Tous sur la côte levantine donc le hull sera une belle bande côtière. Période claire et limitée.
+
+2. Cités de la Grèce antique (Phocide)
+Abae que tu viens d'extraire appartient à Phocis. La catégorie Cities_in_ancient_Greece que tu as indexée contient des dizaines de sites. Hull intéressant car la Grèce antique a des configurations géographiques variées.
+
+3. Villes de la route de la soie sogdienne
+Ancient_Sogdian_cities — Samarkand, Pendjikent, Boukhara, Merv... L'actuel Ouzbékistan/Tadjikistan. Polity : Sogdiana, culture : Sogdian. Peu de sites mais très dispersés géographiquement, hull impressionnant. La catégorie était vide mais c'est parce qu'elle ne contient que des sous-catégories — à indexer différemment.
+
+4. Cités nabatéennes
+Pétra, Oboda, Mampsis, Avdat, Bosra, Hégra — ~8 sites dans le Negev/Jordanie/Arabie. Polity : Nabataean Kingdom (QID Q161779), ~300 BC - 106 AD. Zone géographique compacte mais significative.
+
+
+# Reset des timelines de TOUT les sites :
+
+sudo -u postgres psql -d strabon -c "
+UPDATE sites SET
+  timeline = NULL,
+  timeline_extracted_at = NULL,
+  timeline_extraction_model = NULL,
+  inception_year = NULL,
+  dissolution_year = NULL,
+  last_updated = now()
+WHERE timeline IS NOT NULL;
+
+TRUNCATE polities, cultures;
+
+SELECT COUNT(*) || ' sites réinitialisés' AS result FROM sites WHERE timeline IS NULL;
+"
+
+
+# Vider les tables cultures et polities :
+
+sudo -u postgres psql -d strabon -c "TRUNCATE polities, cultures;"
+
+# Supprimer tout les sites sans timeline :
+
+sudo -u postgres psql -d strabon -c "DELETE FROM sites WHERE timeline IS NULL;"

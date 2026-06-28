@@ -1,0 +1,40 @@
+// =============================================================================
+// _variables.scss — Design tokens Strabon
+// Importé dans tous les composants via vite.config additionalData
+// =============================================================================
+
+// ── Couleurs ──────────────────────────────────────────────────────────────────
+
+$bg: #0e0f0e;
+$surface: #161815;
+$border: #2a2e28;
+$text: #c8c4b0;
+$muted: #6b6b5a;
+$accent: #c9a84c;
+$accent2: #7eb8a0;
+
+// ── Typographie ───────────────────────────────────────────────────────────────
+
+$font-head: "Cinzel", serif;
+$font-body: "Crimson Pro", Georgia, serif;
+$font-mono: "JetBrains Mono", monospace;
+
+// ── Espacement ────────────────────────────────────────────────────────────────
+
+$space-xs: 4px;
+$space-sm: 8px;
+$space-md: 16px;
+$space-lg: 24px;
+$space-xl: 40px;
+
+// ── Carte ─────────────────────────────────────────────────────────────────────
+
+$panel-height: clamp(240px, 30vh, 420px);
+$header-height: 52px;
+
+// ── Breakpoints ───────────────────────────────────────────────────────────────
+
+$bp-sm: 576px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+$bp-xl: 1280px;

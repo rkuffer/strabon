@@ -1,0 +1,110 @@
+{
+  "id": "Q1218",
+  "timeline_extracted_at": "2026-06-06T00:00:00.000Z",
+  "timeline_extraction_model": "claude-sonnet-4-6",
+  "timeline": {
+    "site_type": {
+      "entries": [
+        { "from": -3500, "from_precision": 8, "from_circa": true,  "value": "settlement", "confidence": "high" },
+        { "from": -1700, "from_precision": 8, "from_circa": true,  "value": "city",       "confidence": "high" },
+        { "from": -1000, "from_precision": 9, "from_circa": true,  "value": "capital",    "confidence": "high" },
+        { "from": -586,  "from_precision": 9,                      "value": "ruins",      "confidence": "high" },
+        { "from": -539,  "from_precision": 9,                      "value": "town",       "confidence": "high" },
+        { "from": -164,  "from_precision": 9,                      "value": "capital",    "confidence": "high" },
+        { "from": 70,    "from_precision": 9,                      "value": "ruins",      "confidence": "high" },
+        { "from": 135,   "from_precision": 9,                      "value": "city",       "confidence": "high" },
+        { "from": 313,   "from_precision": 9,                      "value": "city",       "confidence": "high" },
+        { "from": 638,   "from_precision": 9,                      "value": "city",       "confidence": "high" },
+        { "from": 1099,  "from_precision": 9,                      "value": "capital",    "confidence": "high" },
+        { "from": 1187,  "from_precision": 9,                      "value": "city",       "confidence": "high" },
+        { "from": 1517,  "from_precision": 9,                      "value": "city",       "confidence": "high" },
+        { "from": 1949,  "from_precision": 9,                      "value": "capital",    "confidence": "high" }
+      ]
+    },
+    "polity": {
+      "entries": [
+        { "from": -3500, "from_precision": 8, "from_circa": true,  "value": { "name": "Canaan",                              "wikidata": "Q42621"   }, "confidence": "medium" },
+        { "from": -2000, "from_precision": 8, "from_circa": true,  "value": { "name": "Canaan (Egyptian vassal)",             "wikidata": "Q42621"   }, "confidence": "high",   "sources": ["Egyptian Execration Texts (c. 1900-1800 BCE)"] },
+        { "from": -1350, "from_precision": 8, "from_circa": true,  "value": { "name": "Egyptian Empire",                     "wikidata": "Q11768"   }, "confidence": "high",   "sources": ["Tell el-Amarna correspondence, Abdi-Kheba"] },
+        { "from": -1000, "from_precision": 9, "from_circa": true,  "value": { "name": "United Kingdom of Israel",            "wikidata": "Q486761"  }, "confidence": "high",   "sources": ["King David captured Jerusalem and made it the capital"] },
+        { "from": -930,  "from_precision": 8, "from_circa": true,  "value": { "name": "Kingdom of Judah",                    "wikidata": "Q170509"  }, "confidence": "high" },
+        { "from": -586,  "from_precision": 9,                      "value": { "name": "Neo-Babylonian Empire",               "wikidata": "Q165203"  }, "confidence": "high" },
+        { "from": -539,  "from_precision": 9,                      "value": { "name": "Achaemenid Empire (Yehud Medinata)",  "wikidata": "Q2756685" }, "confidence": "high" },
+        { "from": -332,  "from_precision": 9,                      "value": { "name": "Empire of Alexander the Great",       "wikidata": "Q8409"    }, "confidence": "high" },
+        { "from": -301,  "from_precision": 8, "from_circa": true,  "value": { "name": "Ptolemaic Kingdom",                   "wikidata": "Q38645"   }, "confidence": "medium" },
+        { "from": -198,  "from_precision": 9,                      "value": { "name": "Seleucid Empire",                     "wikidata": "Q83618"   }, "confidence": "high" },
+        { "from": -164,  "from_precision": 9,                      "value": { "name": "Hasmonean Kingdom",                   "wikidata": "Q170079"  }, "confidence": "high" },
+        { "from": -63,   "from_precision": 9,                      "value": { "name": "Roman Republic / Roman Empire",       "wikidata": "Q2277"    }, "confidence": "high" },
+        { "from": 313,   "from_precision": 9,                      "value": { "name": "Byzantine Empire",                    "wikidata": "Q12544"   }, "confidence": "high" },
+        { "from": 614,   "from_precision": 9,                      "value": { "name": "Sasanian Empire",                     "wikidata": "Q12426"   }, "confidence": "high",   "notes": "614-628" },
+        { "from": 628,   "from_precision": 9,                      "value": { "name": "Byzantine Empire",                    "wikidata": "Q12544"   }, "confidence": "high",   "notes": "628-638" },
+        { "from": 638,   "from_precision": 9,                      "value": { "name": "Rashidun Caliphate",                  "wikidata": "Q43292"   }, "confidence": "high" },
+        { "from": 661,   "from_precision": 9,                      "value": { "name": "Umayyad Caliphate",                   "wikidata": "Q8023"    }, "confidence": "high" },
+        { "from": 750,   "from_precision": 8,                      "value": { "name": "Abbasid Caliphate",                   "wikidata": "Q9292"    }, "confidence": "high" },
+        { "from": 969,   "from_precision": 9,                      "value": { "name": "Fatimid Caliphate",                   "wikidata": "Q42563"   }, "confidence": "high" },
+        { "from": 1099,  "from_precision": 9,                      "value": { "name": "Kingdom of Jerusalem",                "wikidata": "Q127050"  }, "confidence": "high" },
+        { "from": 1187,  "from_precision": 9,                      "value": { "name": "Ayyubid Sultanate",                   "wikidata": "Q1138390" }, "confidence": "high" },
+        { "from": 1229,  "from_precision": 9,                      "value": { "name": "Kingdom of Jerusalem (brief)",        "wikidata": "Q127050"  }, "confidence": "medium", "notes": "Traité de Jaffa 1229-1244" },
+        { "from": 1244,  "from_precision": 9,                      "value": { "name": "Mamluk Sultanate",                    "wikidata": "Q12521"   }, "confidence": "high" },
+        { "from": 1517,  "from_precision": 9,                      "value": { "name": "Ottoman Empire",                      "wikidata": "Q12560"   }, "confidence": "high" },
+        { "from": 1917,  "from_precision": 9,                      "value": { "name": "British Mandate for Palestine",       "wikidata": "Q72293"   }, "confidence": "high" },
+        { "from": 1948,  "from_precision": 9,                      "value": { "name": "Israel (West) / Jordan (East)",       "wikidata": "Q801"     }, "confidence": "high",   "notes": "Ville divisée" },
+        { "from": 1967,  "from_precision": 9,                      "value": { "name": "State of Israel",                     "wikidata": "Q801"     }, "confidence": "high" }
+      ]
+    },
+    "culture": {
+      "entries": [
+        { "from": -3500, "from_precision": 8, "from_circa": true,  "value": { "name": "Chalcolithic",              "wikidata": "Q213441"  }, "confidence": "high" },
+        { "from": -2000, "from_precision": 8, "from_circa": true,  "value": { "name": "Canaanite",                 "wikidata": "Q42621"   }, "confidence": "high" },
+        { "from": -1000, "from_precision": 9, "from_circa": true,  "value": { "name": "Israelite",                 "wikidata": "Q2649753" }, "confidence": "high" },
+        { "from": -332,  "from_precision": 9,                      "value": { "name": "Hellenistic",               "wikidata": "Q8432"    }, "confidence": "high" },
+        { "from": -164,  "from_precision": 9,                      "value": { "name": "Jewish (Second Temple)",    "wikidata": "Q1266620" }, "confidence": "high" },
+        { "from": -63,   "from_precision": 9,                      "value": { "name": "Roman",                     "wikidata": "Q2277"    }, "confidence": "high" },
+        { "from": 135,   "from_precision": 9,                      "value": { "name": "Roman (pagan)",             "wikidata": "Q2277"    }, "confidence": "high",   "notes": "Aelia Capitolina — Juifs expulsés" },
+        { "from": 313,   "from_precision": 9,                      "value": { "name": "Byzantine Christian",       "wikidata": "Q12544"   }, "confidence": "high" },
+        { "from": 638,   "from_precision": 9,                      "value": { "name": "Arab-Islamic",              "wikidata": "Q43292"   }, "confidence": "high" },
+        { "from": 1099,  "from_precision": 9,                      "value": { "name": "Latin Christian (Crusader)","wikidata": "Q127050"  }, "confidence": "high" },
+        { "from": 1187,  "from_precision": 9,                      "value": { "name": "Arab-Islamic",              "wikidata": "Q43292"   }, "confidence": "high" },
+        { "from": 1517,  "from_precision": 9,                      "value": { "name": "Ottoman Islamic",           "wikidata": "Q12560"   }, "confidence": "high" },
+        { "from": 1917,  "from_precision": 9,                      "value": { "name": "Multi-religious",           "wikidata": "local_multi_religious_jerusalem" }, "confidence": "high" },
+        { "from": 1948,  "from_precision": 9,                      "value": { "name": "Israeli / Palestinian",     "wikidata": "local_israeli_palestinian" }, "confidence": "high" }
+      ]
+    },
+    "name": {
+      "entries": [
+        { "from": -2000, "from_precision": 8, "from_circa": true,  "value": { "text": "Rušalimum",          "lang": "sem" }, "confidence": "high",   "sources": ["Egyptian Execration texts c. 2000 BCE"] },
+        { "from": -1000, "from_precision": 9, "from_circa": true,  "value": { "text": "יְרוּשָׁלַיִם",      "lang": "hbo" }, "confidence": "high" },
+        { "from": -332,  "from_precision": 9,                      "value": { "text": "Ἱεροσόλυμα",         "lang": "grc" }, "confidence": "high" },
+        { "from": 135,   "from_precision": 9,                      "value": { "text": "Aelia Capitolina",    "lang": "la"  }, "confidence": "high",   "notes": "Nom officiel romain 135-4e siècle" },
+        { "from": 313,   "from_precision": 9,                      "value": { "text": "Hierosolyma",         "lang": "la"  }, "confidence": "high" },
+        { "from": 638,   "from_precision": 9,                      "value": { "text": "القُدس",              "lang": "ar"  }, "confidence": "high" },
+        { "from": 1517,  "from_precision": 9,                      "value": { "text": "Kudüs",               "lang": "tr"  }, "confidence": "high" },
+        { "from": 1949,  "from_precision": 9,                      "value": { "text": "Jerusalem / ירושלים / القدس", "lang": "en" }, "confidence": "high" }
+      ]
+    },
+    "population": {
+      "entries": [
+        { "from": -1000, "from_precision": 7, "from_circa": true,  "value": 5000,    "confidence": "low",    "notes": "Estimate for City of David; unreliable" },
+        { "from": -37,   "from_precision": 9,                      "value": 80000,   "confidence": "medium", "notes": "Herodian peak including pilgrims" },
+        { "from": 135,   "from_precision": 9,                      "value": 30000,   "confidence": "low",    "notes": "Aelia Capitolina — Jews expelled" },
+        { "from": 1550,  "from_precision": 8, "from_circa": true,  "value": 14000,   "confidence": "medium" },
+        { "from": 1917,  "from_precision": 9,                      "value": 55000,   "confidence": "high" },
+        { "from": 1948,  "from_precision": 9,                      "value": 165000,  "confidence": "high" },
+        { "from": 1967,  "from_precision": 9,                      "value": 263307,  "confidence": "high" },
+        { "from": 2024,  "from_precision": 9,                      "value": 1050153, "confidence": "high" }
+      ]
+    },
+    "events": [
+      { "year": -586,  "year_precision": 9, "type": "destruction", "cause": "Neo-Babylonian conquest",        "perpetrator": "Neo-Babylonian Empire",     "perpetrator_wikidata": "Q165203",  "confidence": "high" },
+      { "year": -164,  "year_precision": 9, "type": "refounding",  "cause": "Maccabean revolt",               "perpetrator": "Hasmonean Kingdom",         "perpetrator_wikidata": "Q170079",  "confidence": "high" },
+      { "year": -63,   "year_precision": 9, "type": "conquest",    "cause": "Roman intervention",             "perpetrator": "Roman Republic",            "perpetrator_wikidata": "Q2277",    "confidence": "high" },
+      { "year": 70,    "year_precision": 9, "type": "destruction", "cause": "Suppression of Jewish revolt",   "perpetrator": "Roman Empire",              "perpetrator_wikidata": "Q2277",    "confidence": "high" },
+      { "year": 135,   "year_precision": 9, "type": "refounding",  "cause": "Bar Kokhba revolt suppressed",   "perpetrator": "Roman Empire",              "perpetrator_wikidata": "Q2277",    "confidence": "high",   "description": "Reconstruction en Aelia Capitolina. Interdiction aux Juifs." },
+      { "year": 614,   "year_precision": 9, "type": "conquest",    "cause": "Sasanian invasion of Palestine", "perpetrator": "Sasanian Empire",           "perpetrator_wikidata": "Q12426",   "confidence": "high" },
+      { "year": 1099,  "year_precision": 9, "type": "conquest",    "cause": "First Crusade",                  "perpetrator": "Kingdom of Jerusalem",      "perpetrator_wikidata": "Q127050",  "confidence": "high" },
+      { "year": 1187,  "year_precision": 9, "type": "conquest",    "cause": "Battle of Hattin",               "perpetrator": "Ayyubid Sultanate",         "perpetrator_wikidata": "Q1138390", "confidence": "high" },
+      { "year": 1948,  "year_precision": 9, "type": "conquest",    "cause": "1948 Arab-Israeli War",          "description": "Ville divisée — Ouest israélien, Est jordanien", "confidence": "high" },
+      { "year": 1967,  "year_precision": 9, "type": "conquest",    "cause": "Six-Day War",                    "perpetrator": "State of Israel",           "perpetrator_wikidata": "Q801",     "confidence": "high" }
+    ]
+  }
+}

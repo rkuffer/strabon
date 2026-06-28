@@ -1,0 +1,20 @@
+{
+  "name": "@strabon/scripts",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "indexer": "tsx src/indexer.ts",
+    "enricher": "tsx src/enricher.ts",
+    "migrate": "tsx src/migrate.ts",
+    "update-timeline": "tsx --env-file=../../.env --tsconfig tsconfig.json src/update-timeline.ts"
+  },
+  "dependencies": {
+    "@strabon/db": "*",
+    "@strabon/shared": "*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.42",
+    "tsx": "^4.0.0",
+    "typescript": "^5.5.0"
+  }
+}

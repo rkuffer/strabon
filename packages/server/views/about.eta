@@ -1,0 +1,13 @@
+<%/* about.eta */%>
+<div class="about-page">
+  <h1>About Strabon</h1>
+  <p>
+    Strabon is a temporal atlas of archaeological sites and historical cities.
+    It visualizes how settlements, cultures, and political entities evolved
+    across 12,000 years of human history.
+  </p>
+  <p>
+    Named after <a href="https://en.wikipedia.org/wiki/Strabo" target="_blank" rel="noopener">Strabo</a>
+    (64 BC – 24 AD), the Greek geographer and historian.
+  </p>
+</div>

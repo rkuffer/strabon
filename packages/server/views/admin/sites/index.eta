@@ -1,0 +1,66 @@
+<%/* admin/sites/index.eta */%>
+<div class="page-header">
+  <h1>Sites <span class="count">(<%= it.total.toLocaleString() %>)</span></h1>
+</div>
+
+<form class="filter-bar" method="get" action="/admin/sites">
+  <input type="text" name="q" value="<%= it.q || '' %>" placeholder="Rechercher..." class="input-search">
+  <select name="status" class="input-select">
+    <option value="all"         <%= it.status === 'all'         ? 'selected' : '' %>>Tous</option>
+    <option value="no_timeline" <%= it.status === 'no_timeline' ? 'selected' : '' %>>Sans timeline</option>
+    <option value="no_coords"   <%= it.status === 'no_coords'   ? 'selected' : '' %>>Sans coordonnées</option>
+    <option value="no_enrich"   <%= it.status === 'no_enrich'   ? 'selected' : '' %>>Non enrichis</option>
+  </select>
+  <select name="country" class="input-select">
+    <option value="">Tous les pays</option>
+    <% it.countries.forEach(function(c) { %>
+    <option value="<%= c %>" <%= it.country === c ? 'selected' : '' %>><%= c %></option>
+    <% }) %>
+  </select>
+  <button type="submit" class="btn">Filtrer</button>
+</form>
+
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>Site</th>
+      <th>Pays</th>
+      <th>Type</th>
+      <th>Importance</th>
+      <th>Coords</th>
+      <th>Wikidata</th>
+      <th>Timeline</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% it.sites.forEach(function(site) { %>
+    <tr>
+      <td><strong><a href="/admin/sites/<%= site.id %>"><%= site.title_en %></a></strong></td>
+      <td class="text-muted"><%= site.country || '—' %></td>
+      <td><span class="tag"><%= site.site_type || '—' %></span></td>
+      <td><span class="importance-badge"><%= site.base_importance %></span></td>
+      <td><span class="status-dot <%= site.has_coords ? 'green' : 'red' %>"></span></td>
+      <td><span class="status-dot <%= site.has_enrich ? 'green' : 'orange' %>"></span></td>
+      <td>
+        <% if (site.has_timeline) { %>
+          <span class="status-dot green" title="<%= site.timeline_extracted_at ? new Date(site.timeline_extracted_at).toLocaleDateString() : '' %>"></span>
+        <% } else { %>
+          <a href="/admin/extract/<%= site.id %>" class="btn btn-sm btn-ghost">Extraire</a>
+        <% } %>
+      </td>
+      <td><a href="/admin/sites/<%= site.id %>" class="link-arrow">→</a></td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<div class="pagination">
+  <% if (it.page > 1) { %>
+    <a href="?page=<%= it.page - 1 %>&q=<%= it.q || '' %>&status=<%= it.status %>&country=<%= it.country || '' %>" class="btn btn-sm">← Préc.</a>
+  <% } %>
+  <span class="page-info">Page <%= it.page %> / <%= it.pages %></span>
+  <% if (it.page < it.pages) { %>
+    <a href="?page=<%= it.page + 1 %>&q=<%= it.q || '' %>&status=<%= it.status %>&country=<%= it.country || '' %>" class="btn btn-sm">Suiv. →</a>
+  <% } %>
+</div>

@@ -1,0 +1,17 @@
+<%/* sites/show.eta */%>
+<div class="site-detail">
+  <h1><%= it.site.title_en %></h1>
+  <% if (it.site.meta && it.site.meta.description) { %>
+    <p class="description"><%= it.site.meta.description %></p>
+  <% } %>
+  <dl class="site-facts">
+    <% if (it.site.country) { %>
+      <dt>Country</dt><dd><%= it.site.country %></dd>
+    <% } %>
+    <% if (it.site.inception_year) { %>
+      <dt>Founded</dt>
+      <dd><%= it.site.inception_year < 0 ? Math.abs(it.site.inception_year) + ' BC' : it.site.inception_year + ' AD' %></dd>
+    <% } %>
+  </dl>
+  <a href="/sites" class="back-link">← All sites</a>
+</div>

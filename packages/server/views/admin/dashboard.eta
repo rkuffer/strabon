@@ -1,0 +1,73 @@
+<%/* admin/dashboard.eta */%>
+<div class="page-header">
+  <h1>Dashboard</h1>
+</div>
+
+<div class="stat-grid">
+  <div class="stat-card">
+    <div class="stat-value"><%= it.stats.total.toLocaleString() %></div>
+    <div class="stat-label">Total sites</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value"><%= it.stats.withCoords.toLocaleString() %></div>
+    <div class="stat-label">Avec coordonnées</div>
+    <div class="stat-pct"><%= Math.round(it.stats.withCoords / it.stats.total * 100) %>%</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value"><%= it.stats.withEnrich.toLocaleString() %></div>
+    <div class="stat-label">Enrichis Wikidata</div>
+    <div class="stat-pct"><%= Math.round(it.stats.withEnrich / it.stats.total * 100) %>%</div>
+  </div>
+  <div class="stat-card stat-card--highlight">
+    <div class="stat-value"><%= it.stats.withTimeline.toLocaleString() %></div>
+    <div class="stat-label">Avec timeline LLM</div>
+    <div class="stat-pct"><%= Math.round(it.stats.withTimeline / it.stats.total * 100) %>%</div>
+  </div>
+  <div class="stat-card stat-card--warn">
+    <div class="stat-value"><%= it.stats.noTimeline.toLocaleString() %></div>
+    <div class="stat-label">Sans timeline (avec coords)</div>
+    <div class="stat-action">
+      <a href="/admin/extract?status=no_timeline" class="btn btn-sm">Extraire →</a>
+    </div>
+  </div>
+</div>
+
+<div class="section-header">
+  <h2>Dernières mises à jour</h2>
+</div>
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>Site</th>
+      <th>Mis à jour</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% it.recent.forEach(function(site) { %>
+    <tr>
+      <td><strong><%= site.title_en %></strong></td>
+      <td class="text-muted"><%= new Date(site.last_updated).toLocaleString("fr-FR") %></td>
+      <td><a href="/admin/sites/<%= site.id %>" class="link-arrow">→</a></td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<div class="action-grid">
+  <a href="/admin/index"   class="action-card">
+    <div class="action-icon">🔍</div>
+    <div class="action-title">Indexation</div>
+    <div class="action-desc">Ajouter des sites depuis Wikipedia</div>
+  </a>
+  <a href="/admin/enrich"  class="action-card">
+    <div class="action-icon">🌐</div>
+    <div class="action-title">Enrichissement</div>
+    <div class="action-desc">Compléter depuis Wikidata</div>
+  </a>
+  <a href="/admin/extract" class="action-card">
+    <div class="action-icon">🤖</div>
+    <div class="action-title">Extraction LLM</div>
+    <div class="action-desc">Générer les timelines avec Claude</div>
+  </a>
+</div>

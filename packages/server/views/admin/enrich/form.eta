@@ -1,0 +1,88 @@
+<%/* admin/enrich/form.eta */%>
+<div class="page-header">
+  <h1>Enrichissement Wikidata</h1>
+</div>
+
+<div class="stat-grid stat-grid--sm">
+  <div class="stat-card">
+    <div class="stat-value"><%= it.stats.total %></div>
+    <div class="stat-label">Total sites</div>
+  </div>
+  <div class="stat-card stat-card--warn">
+    <div class="stat-value"><%= it.stats.pending %></div>
+    <div class="stat-label">Non enrichis</div>
+  </div>
+  <div class="stat-card stat-card--highlight">
+    <div class="stat-value"><%= it.stats.enrichable %></div>
+    <div class="stat-label">Enrichissables (ont un QID)</div>
+  </div>
+</div>
+
+<div class="form-card">
+  <h3>Lancer l'enrichissement</h3>
+  <div class="form-row">
+    <select id="enrich-mode" class="input-select">
+      <option value="">Tous les sites non enrichis</option>
+      <option value="7d">Ré-enrichir (> 7 jours)</option>
+      <option value="30d">Ré-enrichir (> 30 jours)</option>
+    </select>
+    <input type="number" id="enrich-limit" value="200" min="1" max="2000" class="input-number" style="width:100px">
+    <label class="text-muted" style="align-self:center">sites max</label>
+    <button class="btn" onclick="startEnrich()">Enrichir</button>
+  </div>
+</div>
+
+<div id="log-panel" class="log-panel" style="display:none">
+  <div class="log-header">
+    <span>Progression</span>
+    <span id="log-stats" class="text-muted"></span>
+  </div>
+  <div id="progress-bar-wrap">
+    <div id="progress-bar" style="width:0%;height:4px;background:var(--accent);transition:width .3s"></div>
+  </div>
+  <div id="log-body" class="log-body"></div>
+</div>
+
+<script>
+let sse = null;
+
+function startEnrich() {
+  const mode  = document.getElementById('enrich-mode').value;
+  const limit = document.getElementById('enrich-limit').value;
+
+  let url = `/admin/enrich/stream?limit=${limit}`;
+  if (mode === '7d')  url += `&since=${new Date(Date.now() - 7*86400000).toISOString()}`;
+  if (mode === '30d') url += `&since=${new Date(Date.now() - 30*86400000).toISOString()}`;
+
+  document.getElementById('log-panel').style.display = 'block';
+  document.getElementById('log-body').innerHTML = '';
+  document.getElementById('progress-bar').style.width = '0%';
+
+  let total = 0, done = 0;
+
+  sse?.close();
+  sse = new EventSource(url);
+
+  sse.addEventListener('start',    e => { total = JSON.parse(e.data).total; appendLog('info', `${total} sites à enrichir`); });
+  sse.addEventListener('enriched', e => { done++; const d = JSON.parse(e.data); appendLog('success', `✓ ${d.title}${d.has_coords ? ' (coords)' : ''}`); updateProgress(done, total); });
+  sse.addEventListener('error',    e => { done++; appendLog('error', `✗ ${JSON.parse(e.data).title}`); updateProgress(done, total); });
+  sse.addEventListener('progress', e => { const d = JSON.parse(e.data); updateProgress(d.done, d.total); });
+  sse.addEventListener('done',     e => { const d = JSON.parse(e.data); appendLog('done', `Terminé — ${d.enriched} enrichis, ${d.errors} erreurs`); sse.close(); });
+  sse.addEventListener('fatal',    e => { appendLog('error', 'Erreur: ' + JSON.parse(e.data).message); sse.close(); });
+}
+
+function updateProgress(done, total) {
+  const pct = total ? Math.round(done / total * 100) : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('log-stats').textContent = `${done} / ${total}`;
+}
+
+function appendLog(type, msg) {
+  const el = document.createElement('div');
+  el.className = `log-line log-line--${type}`;
+  el.textContent = msg;
+  const body = document.getElementById('log-body');
+  body.appendChild(el);
+  body.scrollTop = body.scrollHeight;
+}
+</script>

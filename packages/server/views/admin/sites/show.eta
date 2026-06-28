@@ -1,0 +1,240 @@
+<%/* admin/sites/show.eta — Vue détail complète d'un site */%>
+<%
+function fmtYear(y) {
+  if (y == null) return '—';
+  return y < 0 ? Math.abs(y) + ' BC' : y + ' AD';
+}
+function fmtDate(d) {
+  if (!d) return '—';
+  return new Date(d).toLocaleString('fr-FR');
+}
+function toDisplayStr(v) {
+  if (v == null) return '—';
+  if (typeof v === 'string') return v;
+  if (typeof v === 'number') return v.toLocaleString();
+  if (typeof v === 'object') {
+    if (v.name) return v.name + (v.wikidata ? ' <span class="wd-id">(' + v.wikidata + ')</span>' : '');
+    if (v.text) return v.text + (v.lang ? ' <span class="wd-id">(' + v.lang + ')</span>' : '');
+  }
+  return String(v);
+}
+const tl = it.site.timeline;
+const names = it.site.names || {};
+const meta  = it.site.meta  || {};
+const TRACK_KEYS = ['site_type','polity','culture','name','population'];
+%>
+
+<div class="page-header">
+  <a href="/admin/sites" class="back-link">← Sites</a>
+  <h1><%= it.site.title_en %></h1>
+  <div class="badge-group">
+    <span class="badge"><%= it.site.id %></span>
+    <% if (it.site.wikidata_id) { %>
+      <a href="https://www.wikidata.org/wiki/<%= it.site.wikidata_id %>" target="_blank" class="badge badge--info"><%= it.site.wikidata_id %> ↗</a>
+    <% } %>
+  </div>
+</div>
+
+<div class="action-bar">
+  <a href="/admin/extract/<%= it.site.id %>" class="btn btn-primary">🤖 Extraction LLM</a>
+  <a href="<%= it.site.wikipedia_page_en_url %>" target="_blank" class="btn btn-ghost">Wikipedia ↗</a>
+  <% if (it.site.wikidata_id) { %>
+    <a href="https://www.wikidata.org/wiki/<%= it.site.wikidata_id %>" target="_blank" class="btn btn-ghost">Wikidata ↗</a>
+  <% } %>
+</div>
+
+<!-- ── Métadonnées ── -->
+<div class="section-block">
+  <h2 class="section-title">Métadonnées</h2>
+  <div class="detail-grid-3">
+    <div class="detail-card">
+      <h3>Identification</h3>
+      <dl class="detail-dl">
+        <dt>ID</dt>         <dd><code><%= it.site.id %></code></dd>
+        <dt>Source</dt>     <dd><%= it.site.source || '—' %></dd>
+        <dt>Mis à jour</dt> <dd><%= fmtDate(it.site.last_updated) %></dd>
+        <dt>Importance</dt> <dd><span class="importance-badge"><%= it.site.base_importance %></span>/100</dd>
+      </dl>
+    </div>
+    <div class="detail-card">
+      <h3>Géographie</h3>
+      <dl class="detail-dl">
+        <dt>Pays</dt>     <dd><%= it.site.country || '—' %></dd>
+        <dt>QID pays</dt> <dd><%= it.site.country_qid || '—' %></dd>
+        <dt>Coords</dt>
+        <dd>
+          <% if (it.site.lat) { %>
+            <code><%= Number(it.site.lat).toFixed(5) %>, <%= Number(it.site.lon).toFixed(5) %></code>
+            <a href="https://www.openstreetmap.org/?mlat=<%= it.site.lat %>&mlon=<%= it.site.lon %>&zoom=12" target="_blank" class="link-small">OSM ↗</a>
+          <% } else { %><span class="text-warn">Manquantes</span><% } %>
+        </dd>
+      </dl>
+    </div>
+    <div class="detail-card">
+      <h3>Temporel</h3>
+      <dl class="detail-dl">
+        <dt>Inception (BDD)</dt>   <dd><%= fmtYear(it.site.inception_year) %></dd>
+        <dt>Dissolution (BDD)</dt> <dd><%= fmtYear(it.site.dissolution_year) %></dd>
+        <dt>Site type</dt>         <dd><%= it.site.site_type || '—' %></dd>
+      </dl>
+    </div>
+  </div>
+</div>
+
+<!-- ── Noms ── -->
+<% if (Object.keys(names).length || meta.native_label) { %>
+<div class="section-block">
+  <h2 class="section-title">Noms multilingues</h2>
+  <div class="detail-card">
+    <div class="names-grid">
+      <% Object.entries(names).forEach(function(entry) { var lang = entry[0]; var name = entry[1]; %>
+        <div class="name-entry">
+          <span class="name-lang"><%= lang %></span>
+          <span class="name-val"><%= name %></span>
+        </div>
+      <% }); %>
+      <% if (meta.native_label) { %>
+        <div class="name-entry">
+          <span class="name-lang">native</span>
+          <span class="name-val"><%= meta.native_label %></span>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</div>
+<% } %>
+
+<!-- ── Enrichissement ── -->
+<div class="section-block">
+  <h2 class="section-title">Enrichissement</h2>
+  <div class="detail-grid">
+    <div class="detail-card">
+      <h3>Wikidata</h3>
+      <dl class="detail-dl">
+        <dt>Enrichi le</dt>  <dd><%= fmtDate(it.site.wikidata_enriched_at) %></dd>
+        <dt>Description</dt> <dd class="text-muted"><%= meta.description || '—' %></dd>
+        <% if (Array.isArray(meta.cultures) && meta.cultures.length) { %>
+          <dt>Cultures WD</dt>
+          <dd>
+            <% meta.cultures.forEach(function(c) { %><span class="tag"><%= c %></span><% }); %>
+          </dd>
+        <% } %>
+      </dl>
+    </div>
+    <div class="detail-card">
+      <h3>Timeline LLM</h3>
+      <% if (tl) { %>
+        <dl class="detail-dl">
+          <dt>Extraite le</dt> <dd><%= fmtDate(it.site.timeline_extracted_at) %></dd>
+          <dt>Modèle</dt>      <dd><code><%= it.site.timeline_extraction_model || '—' %></code></dd>
+          <dt>Pistes</dt>
+          <dd>
+            <% TRACK_KEYS.forEach(function(k) { if (tl[k] && tl[k].entries) { %><span class="tag"><%= k %>: <%= tl[k].entries.length %></span><% } }); %>
+            <% if (Array.isArray(tl.events) && tl.events.length) { %><span class="tag">events: <%= tl.events.length %></span><% } %>
+          </dd>
+        </dl>
+      <% } else { %>
+        <div class="timeline-status missing">⚠️ Aucune timeline extraite</div>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<!-- ── Timeline détaillée ── -->
+<% if (tl) { %>
+<div class="section-block">
+  <h2 class="section-title">Timeline détaillée</h2>
+
+  <% for (var ki = 0; ki < TRACK_KEYS.length; ki++) {
+    var trackKey = TRACK_KEYS[ki];
+    var track = tl[trackKey];
+    if (!track || !Array.isArray(track.entries) || !track.entries.length) continue;
+  %>
+  <div class="track-block">
+    <h3 class="track-title"><%= trackKey.toUpperCase() %> <span class="text-muted">(<%= track.entries.length %> entrées)</span></h3>
+    <table class="data-table data-table--compact">
+      <thead><tr><th>From</th><th>Valeur</th><th>Confiance</th><th>Notes</th></tr></thead>
+      <tbody>
+        <% for (var ei = 0; ei < track.entries.length; ei++) { var e = track.entries[ei]; %>
+        <tr>
+          <td><code><%= fmtYear(e.from) %><%= e.from_circa ? ' ~' : '' %></code></td>
+          <td><%~ toDisplayStr(e.value) %></td>
+          <td>
+            <% if (e.confidence) { %>
+              <span class="conf-badge conf-badge--<%= e.confidence %>"><%= e.confidence %></span>
+            <% } else { %>—<% } %>
+          </td>
+          <td class="text-muted cell-notes"><%= e.notes || '' %></td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+  <% } %>
+
+  <% if (Array.isArray(tl.events) && tl.events.length) { %>
+  <div class="track-block">
+    <h3 class="track-title">EVENTS <span class="text-muted">(<%= tl.events.length %> événements)</span></h3>
+    <table class="data-table data-table--compact">
+      <thead><tr><th>Année</th><th>Type</th><th>Cause</th><th>Auteur</th><th>Description</th></tr></thead>
+      <tbody>
+        <% for (var evi = 0; evi < tl.events.length; evi++) { var ev = tl.events[evi]; %>
+        <tr>
+          <td><code><%= fmtYear(ev.year) %></code></td>
+          <td><span class="tag"><%= ev.type %></span></td>
+          <td class="text-muted"><%= ev.cause || '—' %></td>
+          <td>
+            <%= ev.perpetrator || '—' %>
+            <% if (ev.perpetrator_wikidata) { %>
+              <a href="https://www.wikidata.org/wiki/<%= ev.perpetrator_wikidata %>" target="_blank" class="link-small">(<%= ev.perpetrator_wikidata %>)</a>
+            <% } %>
+          </td>
+          <td class="text-muted cell-notes"><%= ev.description || '' %></td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+  <% } %>
+</div>
+<% } %>
+
+<!-- ── JSON brut ── -->
+<div class="section-block">
+  <h2 class="section-title" style="cursor:pointer" onclick="toggleJson()">
+    JSON brut <span id="json-toggle-icon">▶</span>
+  </h2>
+  <div id="json-raw" style="display:none">
+    <pre class="json-pre"><%= JSON.stringify(it.site, function(k, v) { return typeof v === 'bigint' ? v.toString() : v; }, 2) %></pre>
+  </div>
+</div>
+
+<style>
+.action-bar       { display:flex; gap:8px; margin-bottom:24px; flex-wrap:wrap; }
+.section-block    { margin-bottom:32px; }
+.section-title    { font-family:var(--font-head); font-size:13px; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:6px; }
+.detail-grid-3    { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+.names-grid       { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:6px; }
+.name-entry       { display:flex; gap:8px; align-items:baseline; font-size:13px; }
+.name-lang        { font-size:10px; color:var(--muted); letter-spacing:.06em; width:36px; flex-shrink:0; }
+.name-val         { color:var(--text); }
+.track-block      { margin-bottom:20px; }
+.track-title      { font-size:12px; font-weight:600; color:var(--accent2); letter-spacing:.08em; margin-bottom:6px; }
+.data-table--compact td, .data-table--compact th { padding:5px 8px; font-size:12px; }
+.cell-notes       { font-size:11px; max-width:300px; }
+.conf-badge       { font-size:10px; padding:1px 5px; border-radius:2px; }
+.conf-badge--high   { background:rgba(90,154,106,.15); color:#7eb8a0; }
+.conf-badge--medium { background:rgba(201,168,76,.15); color:var(--accent); }
+.conf-badge--low    { background:rgba(192,112,96,.15); color:#c07060; }
+.wd-id            { font-size:10px; color:var(--muted); }
+.json-pre         { background:var(--bg); padding:14px; border-radius:2px; font-size:11px; font-family:'JetBrains Mono',monospace; overflow-x:auto; color:var(--muted); border:1px solid var(--border); max-height:400px; overflow-y:auto; }
+</style>
+
+<script>
+function toggleJson() {
+  var el = document.getElementById('json-raw');
+  var icon = document.getElementById('json-toggle-icon');
+  if (el.style.display === 'none') { el.style.display='block'; icon.textContent='▼'; }
+  else { el.style.display='none'; icon.textContent='▶'; }
+}
+</script>

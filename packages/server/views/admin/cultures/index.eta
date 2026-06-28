@@ -1,0 +1,50 @@
+<%/* admin/cultures/index.eta */%>
+<div class="page-header">
+  <h1>Cultures (<%= it.cultures.length %>)</h1>
+  <p class="text-muted">Cultures archéologiques et civilisations extraites des timelines.</p>
+</div>
+
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>QID</th>
+      <th>Nom</th>
+      <th>Type</th>
+      <th>Couleur</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% it.cultures.forEach(function(c) { %>
+    <tr>
+      <td><a href="https://www.wikidata.org/wiki/<%= c.wikidata_id %>" target="_blank" class="text-muted"><%= c.wikidata_id %></a></td>
+      <td><strong><%= c.name %></strong></td>
+      <td>
+        <select class="input-select input-select--sm" onchange="updateCulture('<%= c.wikidata_id %>', 'type', this.value)">
+          <option value="">—</option>
+          <% ['archaeological_culture','civilization','period','religion'].forEach(function(t) { %>
+            <option value="<%= t %>" <%= c.type === t ? 'selected' : '' %>><%= t %></option>
+          <% }) %>
+        </select>
+      </td>
+      <td>
+        <div class="color-row">
+          <input type="color" value="<%= c.color || '#888888' %>"
+            onchange="updateCulture('<%= c.wikidata_id %>', 'color', this.value)"
+            class="color-picker">
+          <span class="color-preview" style="background:<%= c.color || '#888' %>"></span>
+        </div>
+      </td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<script>
+async function updateCulture(id, field, value) {
+  await fetch(`/admin/cultures/${encodeURIComponent(id)}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ [field]: value }),
+  });
+}
+</script>

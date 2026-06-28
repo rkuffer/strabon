@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@strabon/shared": ["../shared/src/index.ts"],
+      "@strabon/db": ["../db/src/index.ts"]
+    }
+  },
+  "include": ["src"]
+}

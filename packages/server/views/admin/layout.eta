@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= it.title %></title>
+  <link rel="stylesheet" href="/public/css/main.css">
+  <link rel="stylesheet" href="/public/css/admin.css">
+</head>
+<body class="admin-body">
+  <div class="admin-shell">
+
+    <nav class="admin-nav">
+      <a href="/admin" class="admin-brand">
+        <span class="brand-icon">🏛</span>
+        <span class="brand-text">STRABON</span>
+        <span class="brand-sub">ADMIN</span>
+      </a>
+      <ul class="admin-nav-links">
+        <li><a href="/admin"              class="nav-item">Dashboard</a></li>
+        <li><a href="/admin/sites"        class="nav-item">Sites</a></li>
+        <li class="nav-sep"></li>
+        <li><a href="/admin/index"        class="nav-item">Indexation</a></li>
+        <li><a href="/admin/enrich"       class="nav-item">Enrichissement</a></li>
+        <li><a href="/admin/extract"      class="nav-item">Extraction LLM</a></li>
+        <li class="nav-sep"></li>
+        <li><a href="/admin/polities"     class="nav-item">Polities</a></li>
+        <li><a href="/admin/cultures"     class="nav-item">Cultures</a></li>
+        <li class="nav-sep"></li>
+        <li><a href="/" target="_blank"   class="nav-item nav-item--external">Carte ↗</a></li>
+      </ul>
+    </nav>
+
+    <main class="admin-main">
+      <div class="admin-content">
+        <%~ it.body %>
+      </div>
+    </main>
+
+  </div>
+</body>
+</html>

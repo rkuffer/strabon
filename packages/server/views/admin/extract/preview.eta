@@ -1,0 +1,126 @@
+<%/* admin/extract/preview.eta */%>
+<%/* Ce template n'utilise PAS le layout admin car la preview timeline nécessite la SPA Vue admin */%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= it.title %></title>
+  <link rel="stylesheet" href="/public/css/main.css">
+  <link rel="stylesheet" href="/public/css/admin.css">
+</head>
+<body class="admin-body">
+<div class="admin-shell">
+
+  <nav class="admin-nav">
+    <a href="/admin" class="admin-brand">
+      <span class="brand-icon">🏛</span>
+      <span class="brand-text">STRABON</span>
+      <span class="brand-sub">ADMIN</span>
+    </a>
+    <ul class="admin-nav-links">
+      <li><a href="/admin/extract" class="nav-item">← Retour</a></li>
+    </ul>
+  </nav>
+
+  <main class="admin-main">
+    <div class="page-header">
+      <h1>Extraction LLM</h1>
+      <div class="badge-group">
+        <span class="badge"><%= it.site.id %></span>
+        <% if (it.site.timeline_extracted_at) { %>
+          <span class="badge badge--info">Dernière extraction : <%= new Date(it.site.timeline_extracted_at).toLocaleDateString('fr-FR') %></span>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- Site info -->
+    <div class="detail-card mb-md">
+      <h2><%= it.site.title_en %></h2>
+      <% if (it.site.meta && it.site.meta.description) { %>
+        <p class="text-muted"><%= it.site.meta.description %></p>
+      <% } %>
+      <div class="meta-row">
+        <% if (it.site.country) { %><span class="tag"><%= it.site.country %></span><% } %>
+        <% if (it.site.inception_year) { %>
+          <span class="tag"><%= it.site.inception_year < 0 ? Math.abs(it.site.inception_year) + ' BC' : it.site.inception_year + ' AD' %></span>
+        <% } %>
+        <a href="<%= it.site.wikipedia_page_en_url %>" target="_blank" class="link-small">Wikipedia ↗</a>
+      </div>
+    </div>
+
+    <!-- Bouton d'extraction -->
+    <div id="extract-controls" class="form-card">
+      <button id="btn-extract" class="btn btn-primary btn-lg" onclick="runExtraction()">
+        🤖 Extraire la timeline avec Claude
+      </button>
+      <% if (it.site.timeline) { %>
+        <button class="btn btn-ghost" onclick="loadExisting()">Recharger l'existante</button>
+      <% } %>
+      <div id="extract-status" class="text-muted" style="margin-top:8px"></div>
+    </div>
+
+    <!-- Zone de résultat — montée par Vue admin -->
+    <div id="admin-preview-app"
+      data-site-id="<%= it.site.id %>"
+      data-site-title="<%= it.site.title_en %>"
+      data-has-existing="<%= it.site.timeline ? 'true' : 'false' %>"
+    ></div>
+
+  </main>
+</div>
+
+<!-- SPA Vue admin pour la preview timeline -->
+<% if (it.viteDev) { %>
+  <!-- Dev : Vite sert les sources directement depuis :5173 -->
+  <script type="module" src="http://localhost:5173/src/admin.ts"></script>
+<% } else { %>
+  <!-- Prod : bundle compilé servi par Fastify -->
+  <script type="module" src="/assets/admin.js"></script>
+<% } %>
+<script>
+const SITE_ID = '<%= it.site.id %>';
+
+async function runExtraction() {
+  const btn = document.getElementById('btn-extract');
+  const status = document.getElementById('extract-status');
+  btn.disabled = true;
+  btn.textContent = '⏳ Extraction en cours...';
+  status.textContent = 'Appel à Claude...';
+
+  try {
+    const res = await fetch(`/admin/extract/${SITE_ID}/run`, { method: 'POST' });
+    const data = await res.json();
+
+    if (!res.ok) {
+      status.textContent = '❌ ' + (data.error ?? 'Erreur inconnue');
+      btn.disabled = false;
+      btn.textContent = '🤖 Réessayer';
+      return;
+    }
+
+    status.textContent = '✅ Extraction réussie — vérifiez la frise ci-dessous';
+    btn.textContent = '🔄 Re-extraire';
+    btn.disabled = false;
+
+    // Envoyer les données à la SPA Vue admin
+    window.dispatchEvent(new CustomEvent('timeline-extracted', { detail: data }));
+  } catch (err) {
+    status.textContent = '❌ ' + err.message;
+    btn.disabled = false;
+    btn.textContent = '🤖 Réessayer';
+  }
+}
+
+async function loadExisting() {
+  const res = await fetch(`/api/sites/${SITE_ID}`);
+  const site = await res.json();
+  if (site.timeline) {
+    window.dispatchEvent(new CustomEvent('timeline-extracted', {
+      detail: { site_id: SITE_ID, title: site.title_en, timeline: site.timeline }
+    }));
+  }
+}
+</script>
+</body>
+</html>
