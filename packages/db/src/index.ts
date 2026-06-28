@@ -8,3 +8,4 @@ export {
   upsertCulture,
   syncReferentialsFromTimeline,
 } from "./reference.js";
+export { searchEntities, type EntityCandidate } from "./entities.js";
