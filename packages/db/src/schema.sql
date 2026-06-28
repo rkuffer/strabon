@@ -291,3 +291,83 @@ CREATE INDEX IF NOT EXISTS idx_wikidata_entities_search_trgm
 -- Filtrage fréquent par nature.
 CREATE INDEX IF NOT EXISTS idx_wikidata_entities_kind
   ON wikidata_entities(kind);
+
+-- =============================================================================
+-- Table de travail : candidats de sites (pipeline Discovery → Resolution)
+-- =============================================================================
+-- Bac tampon entre les phases agentiques. Découplé de `sites` (production) :
+--   Discovery  écrit ici (status='discovered')
+--   Resolution lit ici, tranche l'identité/ancien-moderne, PROMEUT vers `sites`
+--              (status='resolved' + produced_site_ids), ou écarte
+--              (rejected/duplicate), ou demande l'humain (awaiting_human).
+--   Extraction travaille ensuite sur `sites` (timeline IS NULL).
+--
+-- Un candidat produit 0, 1 ou N sites (Corinthe antique + moderne → 2).
+-- Idempotence : Resolution ne traite que status='discovered' ; 'resolving' sert
+-- de verrou contre les exécutions concurrentes.
+-- =============================================================================
+
+CREATE TABLE IF NOT EXISTS site_candidates (
+  -- Identité interne (un candidat peut ne PAS avoir de QID au stade Discovery).
+  id                    BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+
+  -- Provenance : l'intention en langage naturel qui a engendré ce candidat.
+  discovery_intent      TEXT,
+
+  -- Titre Wikipédia brut tel que découvert (ex. "Hacılar").
+  raw_title             TEXT NOT NULL,
+
+  -- URL canonique EN : DISCRIMINANT de dédoublonnage grossier (Discovery).
+  -- Une même page Wikipédia = un seul candidat.
+  wikipedia_page_en_url TEXT,
+
+  -- QID Wikidata : souvent NULL à la découverte, établi par Resolution.
+  wikidata_id           TEXT,
+
+  -- Métadonnées brutes récupérées à la découverte.
+  lat                   DOUBLE PRECISION,
+  lon                   DOUBLE PRECISION,
+  description           TEXT,
+
+  -- État dans le pipeline. CHECK (et non ENUM) pour rester souple en phase d'itération.
+  status                TEXT NOT NULL DEFAULT 'discovered'
+                        CHECK (status IN (
+                          'discovered',     -- sorti de Discovery, à traiter
+                          'resolving',      -- Resolution en cours (verrou concurrentiel)
+                          'awaiting_human',  -- escalade : question en attente
+                          'resolved',       -- promu vers `sites` (voir produced_site_ids)
+                          'rejected',       -- pas un site valide (ex. homonyme sans rapport)
+                          'duplicate'       -- déjà présent en base
+                        )),
+
+  -- Escalade asynchrone vers l'humain (Resolution).
+  human_question        TEXT,
+  human_answer          TEXT,
+
+  -- Sites engendrés par la résolution (0, 1 ou N QID). Audit + idempotence.
+  produced_site_ids     TEXT[] NOT NULL DEFAULT '{}',
+
+  -- Bornes temporelles transmises à Extraction pour cadrer la timeline
+  -- (ex. Corinthe moderne : from_hint = 1858). Évite qu'une timeline déborde
+  -- sur l'histoire de son prédécesseur. NULL = pas de contrainte.
+  timeline_from_hint    INTEGER,
+  timeline_to_hint      INTEGER,
+
+  -- Raisonnement de l'agent (pourquoi fusion/séparation/rejet/doublon).
+  resolution_notes      TEXT,
+
+  created_at            TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at            TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- Dédoublonnage grossier (Discovery) : recherche rapide par URL canonique.
+CREATE INDEX IF NOT EXISTS idx_site_candidates_url
+  ON site_candidates(wikipedia_page_en_url);
+
+-- File de travail de Resolution : sélection des candidats à traiter par statut.
+CREATE INDEX IF NOT EXISTS idx_site_candidates_status
+  ON site_candidates(status);
+
+-- Recherche par QID une fois résolu (dédoublonnage fiable, audit).
+CREATE INDEX IF NOT EXISTS idx_site_candidates_wikidata
+  ON site_candidates(wikidata_id);

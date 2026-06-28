@@ -466,9 +466,13 @@ async function callClaude(
       .replace(/\s*```\s*$/, "")
       .trim();
     parsed = JSON.parse(cleaned);
-  } catch {
+  } catch (parseErr) {
+    console.error(`[extract] JSON.parse a échoué pour ce site`);
+    console.error(`[extract] erreur:`, (parseErr as Error).message);
+    console.error(
+      `[extract] réponse brute du modèle (${raw.length} chars):\n${raw}`,
+    );
     throw new SyntaxError("Invalid JSON from model");
-    console.log(raw);
   }
 
   const timeline = normalizeTimeline(parsed) as SiteTimeline;
