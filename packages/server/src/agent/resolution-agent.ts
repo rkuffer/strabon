@@ -32,6 +32,7 @@ export type SplitSite = {
   title: string;
   lat?: number | null;
   lon?: number | null;
+  country_qid?: string | null;
 };
 
 export type ResolutionVerdict = {
@@ -42,10 +43,11 @@ export type ResolutionVerdict = {
   title?: string;
   lat?: number | null;
   lon?: number | null;
+  country_qid?: string | null;
   // split (sites[0] = ancient/earlier, sites[1] = modern/later)
   sites?: SplitSite[];
   relation_note?: string;
-  timeline_to_hint?: number | null; // applies to sites[0] (ancient)
+  timeline_to_hint?: number | null;   // applies to sites[0] (ancient)
   timeline_from_hint?: number | null; // applies to sites[1] (modern)
   // duplicate
   existing_qid?: string;
@@ -88,6 +90,7 @@ A candidate is valid if it is a LOCALIZABLE INHABITED PLACE. Reject non-places (
 # Method
 1. If the candidate carries a QID, VERIFY it first with get_wikidata_entity: do its types, description and location match the expected kind of place? Wrong QIDs are common (e.g. a homonymous modern village instead of the intended Neolithic tell).
 2. If there is no QID, or the QID is wrong, search by name with search_wikidata_sites. Examine ALL returned candidates (types + descriptions). If every result is of an obviously wrong kind for this candidate (e.g. only modern villages when an ancient site is expected), REFORMULATE the search: try "höyük", "tell", "mound", "archaeological site", alternative spellings, or the native-language name. Reformulate toward archaeological terms ONLY when the expected kind justifies it — never by default.
+   IMPORTANT — how search works: search_wikidata_sites matches NAMES/LABELS, not descriptions. Keep every query SHORT (2–3 words max): the bare name, optionally plus ONE native-language type word ("Hacılar höyük", "Hacılar Mound", "Hacılar tepe"). Do NOT add descriptive qualifiers like "archaeological site", "prehistoric", "settlement", region names, or period names — those words are not in labels and will return nothing. If a short variant fails, try ANOTHER short variant (different spelling or type word), never a longer phrase.
 3. Decide whether the ancient/modern question arises AT ALL:
    - Purely modern town → single. Done.
    - Continuously inhabited city at the SAME location (Marseille, despite 2,600 years of history) → single.
@@ -196,6 +199,11 @@ const TOOLS: Anthropic.Tool[] = [
         title: { type: "string", description: "single only: site title" },
         lat: { type: "number", description: "single only" },
         lon: { type: "number", description: "single only" },
+        country_qid: {
+          type: "string",
+          description:
+            "single only: current-country QID (P17) you already saw via get_wikidata_entity. Omit if unknown.",
+        },
         sites: {
           type: "array",
           description:
@@ -207,6 +215,7 @@ const TOOLS: Anthropic.Tool[] = [
               title: { type: "string" },
               lat: { type: "number" },
               lon: { type: "number" },
+              country_qid: { type: "string" },
             },
             required: ["qid", "title"],
           },
@@ -274,16 +283,14 @@ export async function resolveCandidate(
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) throw new Error("ANTHROPIC_API_KEY not set in .env");
   const anthropic = new Anthropic({ apiKey });
-  const log = (msg: string) =>
-    opts.verbose && console.log(`[resolution] ${msg}`);
+  const verbose = opts.verbose ?? true; // reasoning visible by default
+  const log = (msg: string) => verbose && console.log(`[resolution] ${msg}`);
   const toolCalls: string[] = [];
 
   const userMessage = [
     `Candidate to resolve:`,
     `- raw_title: ${candidate.raw_title}`,
-    candidate.wikidata_id
-      ? `- tentative wikidata_id: ${candidate.wikidata_id}`
-      : null,
+    candidate.wikidata_id ? `- tentative wikidata_id: ${candidate.wikidata_id}` : null,
     candidate.description ? `- description: ${candidate.description}` : null,
     candidate.lat != null && candidate.lon != null
       ? `- coordinates: ${candidate.lat}, ${candidate.lon}`
@@ -299,6 +306,11 @@ export async function resolveCandidate(
     { role: "user", content: userMessage },
   ];
 
+  // Loop-breaker: remember (tool + args) already executed. If the model repeats
+  // an identical call, we short-circuit — return the prior result with a nudge
+  // to conclude, instead of re-hitting the network and feeding the loop.
+  const seenCalls = new Map<string, string>(); // key → previous output
+
   for (let turn = 1; turn <= MAX_TURNS; turn++) {
     const response = await anthropic.messages.create({
       model: MODEL,
@@ -312,6 +324,18 @@ export async function resolveCandidate(
     const toolUses = response.content.filter(
       (b): b is Anthropic.ToolUseBlock => b.type === "tool_use",
     );
+
+    // Surface the model's reasoning text every turn (helps diagnose loops).
+    const textBlocks = response.content.filter(
+      (b): b is Anthropic.TextBlock => b.type === "text" && b.text.trim() !== "",
+    );
+    if (textBlocks.length === 0) {
+      log(`turn ${turn} thinking: (no text — tool calls only: ${toolUses.map((t) => t.name).join(", ")})`);
+    } else {
+      for (const b of textBlocks) {
+        log(`turn ${turn} thinking: ${b.text.trim()}`);
+      }
+    }
 
     // Terminal tool → verdict.
     const verdictCall = toolUses.find((t) => t.name === "submit_verdict");
@@ -342,16 +366,37 @@ export async function resolveCandidate(
     const results: Anthropic.ToolResultBlockParam[] = [];
     for (const tu of toolUses) {
       const argsPreview = JSON.stringify(tu.input).slice(0, 120);
+      const callKey = `${tu.name}:${JSON.stringify(tu.input)}`;
+
+      // Loop-breaker: identical call already made → return prior result + nudge.
+      if (seenCalls.has(callKey)) {
+        log(`turn ${turn}: ${tu.name}(${argsPreview}) [REPEATED — short-circuited]`);
+        toolCalls.push(`${tu.name}(${argsPreview}) [repeat]`);
+        results.push({
+          type: "tool_result",
+          tool_use_id: tu.id,
+          content:
+            `You already called ${tu.name} with these exact arguments earlier and received this result:\n\n` +
+            `${seenCalls.get(callKey)}\n\n` +
+            `Do NOT call it again. Use this information. If you now have everything you need, conclude with submit_verdict.`,
+        });
+        continue;
+      }
+
       log(`turn ${turn}: ${tu.name}(${argsPreview})`);
       toolCalls.push(`${tu.name}(${argsPreview})`);
       try {
         const output = await dispatchTool(tu.name, tu.input);
+        seenCalls.set(callKey, output);
         results.push({
           type: "tool_result",
           tool_use_id: tu.id,
           content: output,
         });
       } catch (err: any) {
+        // Do NOT cache failures: a transient error (throttling) must stay
+        // retryable so a later attempt can succeed. The tool's own retry/backoff
+        // handles transient errors; MAX_TURNS bounds any genuinely stuck case.
         results.push({
           type: "tool_result",
           tool_use_id: tu.id,

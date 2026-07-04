@@ -16,20 +16,13 @@
 // =============================================================================
 
 import { getSql } from "@strabon/db";
-
-// Wikidata/Wikipedia require an identifiable User-Agent (403 otherwise).
-const USER_AGENT = "Strabon2/0.1 (pan-historical atlas; resolution agent)";
+import { wikiFetchJson } from "./wiki-fetch.js";
 
 const WIKIDATA_API = "https://www.wikidata.org/w/api.php";
 const WIKIPEDIA_API = "https://en.wikipedia.org/w/api.php";
 
-async function fetchJson(url: string): Promise<any> {
-  const res = await fetch(url, { headers: { "User-Agent": USER_AGENT } });
-  if (!res.ok) {
-    throw new Error(`HTTP ${res.status} on ${url.slice(0, 120)}`);
-  }
-  return res.json();
-}
+// All Wikimedia calls go through the shared utility (global spacing + retry).
+const fetchJson = wikiFetchJson;
 
 // ── Tool 1: searchWikidataSites ───────────────────────────────────────────────
 
