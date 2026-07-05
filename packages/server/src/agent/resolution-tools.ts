@@ -38,14 +38,19 @@ export type SiteCandidateResult = {
  * descriptions and P31 types, so the agent can disambiguate (e.g. the two
  * "Hacılar": the Neolithic tell vs the Hekimhan village).
  *
+ * @param language  search/label language ("en" or "fr"). Discovery searches
+ *                  both and merges, so a French place name ("Beyrouth") still
+ *                  resolves to its entity (Beirut).
+ *
  * Two HTTP calls: wbsearchentities (candidates) + wbgetentities (P31 + labels).
  */
 export async function searchWikidataSites(
   query: string,
   limit = 10,
+  language = "en",
 ): Promise<SiteCandidateResult[]> {
   const searchUrl =
-    `${WIKIDATA_API}?action=wbsearchentities&format=json&language=en&uselang=en` +
+    `${WIKIDATA_API}?action=wbsearchentities&format=json&language=${language}&uselang=${language}` +
     `&type=item&limit=${Math.min(limit, 20)}&search=${encodeURIComponent(query)}`;
   const search = await fetchJson(searchUrl);
   const hits: { id: string; label?: string; description?: string }[] =
