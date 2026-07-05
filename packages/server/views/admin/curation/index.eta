@@ -1,0 +1,157 @@
+<div class="page-header">
+  <h1>Curation — Site Priority</h1>
+  <p class="subtitle">
+    <%= it.total %> site(s)
+    <% if (it.levelCounts) { %>
+      —
+      <% for (const lc of it.levelCounts) { %>
+        <span class="level-count"><%= lc.enrichment_level %>: <%= lc.count %></span>
+      <% } %>
+    <% } %>
+  </p>
+</div>
+
+<!-- Filters -->
+<form class="filter-bar" method="get" action="/admin/curation">
+  <input
+    type="search"
+    name="q"
+    class="input-search"
+    placeholder="Search title or description…"
+    value="<%= it.q || '' %>"
+  />
+  <select name="level" class="input-select">
+    <option value="all" <%= it.level === 'all' ? 'selected' : '' %>>All levels</option>
+    <option value="indexed" <%= it.level === 'indexed' ? 'selected' : '' %>>Indexed (L0)</option>
+    <option value="queued" <%= it.level === 'queued' ? 'selected' : '' %>>Queued</option>
+    <option value="extracted" <%= it.level === 'extracted' ? 'selected' : '' %>>Extracted (L2)</option>
+  </select>
+  <select name="country" class="input-select">
+    <option value="">All countries</option>
+    <% for (const c of it.countries) { %>
+      <option value="<%= c %>" <%= it.country === c ? 'selected' : '' %>><%= c %></option>
+    <% } %>
+  </select>
+  <button type="submit" class="btn btn-sm">Filter</button>
+  <a href="/admin/curation" class="btn btn-sm btn-ghost">Reset</a>
+</form>
+
+<!-- Batch action -->
+<div class="batch-actions">
+  <label class="select-all-label">
+    <input type="checkbox" id="select-all" /> Select all on page
+  </label>
+  <button type="button" class="btn btn-sm" id="queue-btn" disabled>
+    Queue selected for extraction
+  </button>
+  <span id="selected-count"></span>
+</div>
+
+<!-- Data table -->
+<table class="data-table">
+  <thead>
+    <tr>
+      <th class="col-check"></th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Type</th>
+      <th>Country</th>
+      <th class="col-num">Sitelinks</th>
+      <th class="col-num">Population</th>
+      <th>Level</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (const s of it.sites) { %>
+      <tr class="level-<%= s.enrichment_level %>">
+        <td class="col-check">
+          <% if (s.enrichment_level === 'indexed') { %>
+            <input type="checkbox" class="site-check" value="<%= s.id %>" />
+          <% } %>
+        </td>
+        <td>
+          <a href="/admin/sites/<%= s.id %>"><%= s.title_en || s.id %></a>
+        </td>
+        <td class="col-desc"><%= s.description || '' %></td>
+        <td><%= s.site_type || '' %></td>
+        <td><%= s.country_qid || '' %></td>
+        <td class="col-num"><%= s.sitelinks_count != null ? s.sitelinks_count : '' %></td>
+        <td class="col-num"><%= s.population != null ? Number(s.population).toLocaleString() : '' %></td>
+        <td>
+          <span class="status-dot status-<%= s.enrichment_level %>"></span>
+          <%= s.enrichment_level %>
+        </td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+
+<!-- Pagination -->
+<% if (it.pages > 1) { %>
+  <nav class="pagination">
+    <% for (let p = 1; p <= it.pages; p++) { %>
+      <a
+        href="/admin/curation?page=<%= p %>&level=<%= it.level || '' %>&q=<%= it.q || '' %>&country=<%= it.country || '' %>"
+        class="btn btn-sm <%= p === it.page ? 'btn-active' : 'btn-ghost' %>"
+      ><%= p %></a>
+    <% } %>
+  </nav>
+<% } %>
+
+<style>
+  .level-count { margin-right: 1em; font-size: 0.85em; color: var(--text-muted); }
+  .batch-actions { display: flex; align-items: center; gap: 1em; margin: 1em 0; }
+  .select-all-label { font-size: 0.9em; cursor: pointer; }
+  #selected-count { font-size: 0.85em; color: var(--text-muted); }
+  .col-check { width: 2em; text-align: center; }
+  .col-num { text-align: right; white-space: nowrap; }
+  .col-desc { max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.85em; color: var(--text-muted); }
+  tr.level-extracted { opacity: 0.5; }
+  tr.level-queued { background: var(--bg-highlight, #fffce0); }
+  .status-indexed { background: var(--color-info, #3b82f6); }
+  .status-queued { background: var(--color-warning, #f59e0b); }
+  .status-extracted { background: var(--color-success, #22c55e); }
+</style>
+
+<script>
+  const selectAll = document.getElementById('select-all');
+  const checks = () => document.querySelectorAll('.site-check');
+  const queueBtn = document.getElementById('queue-btn');
+  const countSpan = document.getElementById('selected-count');
+
+  function updateCount() {
+    const n = document.querySelectorAll('.site-check:checked').length;
+    queueBtn.disabled = n === 0;
+    countSpan.textContent = n > 0 ? n + ' selected' : '';
+  }
+
+  selectAll.addEventListener('change', () => {
+    checks().forEach(c => c.checked = selectAll.checked);
+    updateCount();
+  });
+  document.querySelector('.data-table').addEventListener('change', (e) => {
+    if (e.target.classList.contains('site-check')) updateCount();
+  });
+
+  queueBtn.addEventListener('click', async () => {
+    const ids = [...document.querySelectorAll('.site-check:checked')].map(c => c.value);
+    if (ids.length === 0) return;
+    queueBtn.disabled = true;
+    queueBtn.textContent = 'Queuing...';
+    try {
+      const res = await fetch('/admin/curation/queue', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ site_ids: ids }),
+      });
+      if (!res.ok) throw new Error('Server error ' + res.status);
+      const data = await res.json();
+      // Reload to show updated levels
+      window.location.href = '/admin/curation?level=queued';
+    } catch (err) {
+      alert('Error: ' + err.message);
+      queueBtn.disabled = false;
+      queueBtn.textContent = 'Queue selected for extraction';
+    }
+  });
+</script>

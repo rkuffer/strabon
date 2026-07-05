@@ -67,7 +67,7 @@ SELECT DISTINCT
   ?d
   ?typeLabel
   ?coord
-  ?countryQid
+  ?country
   ?sl
   ?pop
 WHERE {
@@ -80,7 +80,7 @@ WHERE {
   ?type wdt:P279* ?rootType .
   VALUES ?rootType { ${classValues} }
   OPTIONAL { ?site schema:description ?d . FILTER(LANG(?d)="en") }
-  OPTIONAL { ?site wdt:P17 ?country . BIND(REPLACE(STR(?country), ".*/(Q\\\\d+)$", "$1") AS ?countryQid) }
+  OPTIONAL { ?site wdt:P17 ?country }
   OPTIONAL { ?site wikibase:sitelinks ?sl }
   OPTIONAL { ?site wdt:P1082 ?pop }
   SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
@@ -127,7 +127,7 @@ function parseResults(bindings: any[]): Omit<TileSite, "already_in_db">[] {
       type: b.typeLabel?.value ?? null,
       lat,
       lon,
-      country_qid: b.countryQid?.value ?? null,
+      country_qid: b.country?.value?.split("/").pop() ?? null,
       sitelinks_count: isNaN(sl as number) ? null : sl,
       population: isNaN(pop as number) ? null : pop,
     });

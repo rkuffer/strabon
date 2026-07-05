@@ -20,6 +20,8 @@
         <li><a href="/admin"              class="nav-item">Dashboard</a></li>
         <li><a href="/admin/sites"        class="nav-item">Sites</a></li>
         <li class="nav-sep"></li>
+        <li><a href="/admin/curation" class="nav-item">Curation</a></li>
+        <li class="nav-sep"></li>
         <li><a href="/admin/index"        class="nav-item">Indexation</a></li>
         <li><a href="/admin/enrich"       class="nav-item">Enrichissement</a></li>
         <li><a href="/admin/extract"      class="nav-item">Extraction LLM</a></li>
