@@ -1,0 +1,703 @@
+[
+  {
+    "name": "Islam",
+    "family": "Abrahamic",
+    "qid": "Q432",
+    "resolved_label": "Islam",
+    "resolved_description": "monotheistic Abrahamic religion founded by Muhammad",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Sunni Islam",
+    "family": "Abrahamic",
+    "qid": "Q483654",
+    "resolved_label": "Sunni Islam",
+    "resolved_description": "most populous Islamic denomination",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Shia Islam",
+    "family": "Abrahamic",
+    "qid": "Q9585",
+    "resolved_label": "Shia Islam",
+    "resolved_description": "second-most populous Islamic denomination",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Ismaili",
+    "family": "Abrahamic",
+    "qid": "Q230386",
+    "resolved_label": "Isma'ilism",
+    "resolved_description": "branch of Shi'a Islam",
+    "notes": "Ismaili branch of Shia Islam",
+    "ok": "✓"
+  },
+  {
+    "name": "Ibadi Islam",
+    "family": "Abrahamic",
+    "qid": "Q243551",
+    "resolved_label": "Ibadi Islam",
+    "resolved_description": "It is considered the third Islamic school of thought after the Sunni and Shia schools.",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Druze",
+    "family": "Abrahamic",
+    "qid": "Q163943",
+    "resolved_label": "Druze Faith",
+    "resolved_description": "Arab ethnoreligious group of the Levant",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Ahmadiyya",
+    "family": "Abrahamic",
+    "qid": "Q171764",
+    "resolved_label": "Ahmadiyya",
+    "resolved_description": "Islamic revival movement originating in the Indian subcontinent",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Christianity",
+    "family": "Abrahamic",
+    "qid": "Q5043",
+    "resolved_label": "Christianity",
+    "resolved_description": "Abrahamic monotheistic religion",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Eastern Orthodox Church",
+    "family": "Abrahamic",
+    "qid": "Q35032",
+    "resolved_label": "Eastern Orthodox Church",
+    "resolved_description": "second-largest Christian church",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Catholic Church",
+    "family": "Abrahamic",
+    "qid": "Q9592",
+    "resolved_label": "Catholic Church",
+    "resolved_description": "largest Christian Church, made up of 24 autonomous Churches in communion with the Pope, part of the Latin Church aka Latin Christianity aka western Christianity",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Protestantism",
+    "family": "Abrahamic",
+    "qid": "Q23540",
+    "resolved_label": "Protestantism",
+    "resolved_description": "division within Christianity, originating from the Reformation in the 16th century against the Catholic Church, that rejects the Catholic doctrines of papal supremacy and sacraments",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Lutheranism",
+    "family": "Abrahamic",
+    "qid": "Q75809",
+    "resolved_label": "Lutheranism",
+    "resolved_description": "form of Protestantism commonly associated with the teachings of Martin Luther",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Calvinism",
+    "family": "Abrahamic",
+    "qid": "Q101849",
+    "resolved_label": "Reformed Christianity",
+    "resolved_description": "branch of Protestantism",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Anglicanism",
+    "family": "Abrahamic",
+    "qid": "Q6423963",
+    "resolved_label": "Anglicanism",
+    "resolved_description": "Christian tradition developing out of the practices, liturgy and identity of the Church of England",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Baptists",
+    "family": "Abrahamic",
+    "qid": "Q93191",
+    "resolved_label": "Baptists",
+    "resolved_description": "evangelical Christian movement",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Anabaptism",
+    "family": "Abrahamic",
+    "qid": "Q165580",
+    "resolved_label": "Anabaptism",
+    "resolved_description": "Christian denominational family",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Church of the East",
+    "family": "Abrahamic",
+    "qid": "Q989799",
+    "resolved_label": "Church of the East",
+    "resolved_description": "traditional church of Mesopotamia and India",
+    "notes": "Nestorianism",
+    "ok": "✓"
+  },
+  {
+    "name": "Coptic Orthodox Church",
+    "family": "Abrahamic",
+    "qid": "Q198998",
+    "resolved_label": "Coptic Orthodox Church",
+    "resolved_description": "international Oriental Orthodox Christian church led by the Patriarch of Alexandria on the Holy See of St. Mark",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Armenian Apostolic Church",
+    "family": "Abrahamic",
+    "qid": "Q683724",
+    "resolved_label": "Armenian Apostolic Church",
+    "resolved_description": "national church of the Armenian people",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Ethiopian Orthodox Tewahedo Church",
+    "family": "Abrahamic",
+    "qid": "Q179829",
+    "resolved_label": "Ethiopian Orthodox Tewahedo Church",
+    "resolved_description": "oriental Orthodox Church denomination of Ethiopia",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Arianism",
+    "family": "Abrahamic",
+    "qid": "Q83922",
+    "resolved_label": "Arianism",
+    "resolved_description": "Christological doctrine, attributed to Arius",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Hussites",
+    "family": "Abrahamic",
+    "qid": "Q131372",
+    "resolved_label": "Hussites",
+    "resolved_description": "Czech pre-Protestant Christian movement",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Waldensians",
+    "family": "Abrahamic",
+    "qid": "Q201620",
+    "resolved_label": "Waldensians",
+    "resolved_description": "mediaval Christian movement",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Gnosticism",
+    "family": "Abrahamic",
+    "qid": "Q48420",
+    "resolved_label": "gnosticism",
+    "resolved_description": "early Christian and Jewish religious systems",
+    "notes": "sub-currents (Valentinianism, Marcionites) in meta",
+    "ok": "✓"
+  },
+  {
+    "name": "Manichaeism",
+    "family": "Abrahamic",
+    "qid": "Q131165",
+    "resolved_label": "Manichaeism",
+    "resolved_description": "Persian religion founded in the 3rd century CE",
+    "notes": "Iranian origin but classified here for hull grouping",
+    "ok": "✓"
+  },
+  {
+    "name": "Catharism",
+    "family": "Abrahamic",
+    "qid": "Q161696",
+    "resolved_label": "Catharism",
+    "resolved_description": "Christian dualist movement that thrived in some areas of Southern Europe",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Bogomilism",
+    "family": "Abrahamic",
+    "qid": "Q204095",
+    "resolved_label": "Bogomilism",
+    "resolved_description": "Christian neo-Gnostic sect founded in the First Bulgarian Empire during the 10th century",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Paulicianism",
+    "family": "Abrahamic",
+    "qid": "Q334727",
+    "resolved_label": "Paulicianism",
+    "resolved_description": "Christian adoptionist sect from Armenia formed in the 7th century",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Donatism",
+    "family": "Abrahamic",
+    "qid": "Q203204",
+    "resolved_label": "Donatism",
+    "resolved_description": "Christian sect",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Mandaeism",
+    "family": "Abrahamic",
+    "qid": "Q205754",
+    "resolved_label": "Mandaeism",
+    "resolved_description": "monotheistic Abrahamic religion",
+    "notes": "Separate entry due to importance in emergence of Islam",
+    "ok": "✓"
+  },
+  {
+    "name": "Judaism",
+    "family": "Abrahamic",
+    "qid": "Q9268",
+    "resolved_label": "Judaism",
+    "resolved_description": "Abrahamic monotheistic ethnic religion of the Jews",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "ancient Israelite religion",
+    "family": "Abrahamic",
+    "qid": "Q122221195",
+    "resolved_label": "ancient Israelite religion",
+    "resolved_description": "",
+    "notes": "pre-exilic Hebrew religion",
+    "ok": "✓"
+  },
+  {
+    "name": "Rabbinic Judaism",
+    "family": "Abrahamic",
+    "qid": "Q1366914",
+    "resolved_label": "Rabbinic Judaism",
+    "resolved_description": "mainstream form of Judaism since the 6th century CE",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Karaite Judaism",
+    "family": "Abrahamic",
+    "qid": "Q208398",
+    "resolved_label": "Karaite Judaism",
+    "resolved_description": "Jewish religious movement characterized by the recognition of the written Torah alone as its supreme authority in Jewish religious law and theology.",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Samaritanism",
+    "family": "Abrahamic",
+    "qid": "Q6981696",
+    "resolved_label": "Samaritanism",
+    "resolved_description": "monotheistic Abrahamic religion",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Zoroastrianism",
+    "family": "Iranian",
+    "qid": "Q9601",
+    "resolved_label": "Zoroastrianism",
+    "resolved_description": "Iranian religion founded by Zoroaster",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Zurvanism",
+    "family": "Iranian",
+    "qid": "Q1423009",
+    "resolved_label": "Zurvanism",
+    "resolved_description": "extinct branch of Zoroastrianism",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Yazidism",
+    "family": "Iranian",
+    "qid": "Q18670106",
+    "resolved_label": "Yazidism",
+    "resolved_description": "ancient monoteistic religion",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Hinduism",
+    "family": "Indian/Dharmic",
+    "qid": "Q9089",
+    "resolved_label": "Hinduism",
+    "resolved_description": "religion widely practiced in the Indian subcontinent",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Buddhism",
+    "family": "Indian/Dharmic",
+    "qid": "Q748",
+    "resolved_label": "Buddhism",
+    "resolved_description": "Indian religion",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Theravada",
+    "family": "Indian/Dharmic",
+    "qid": "Q132265",
+    "resolved_label": "Theravāda",
+    "resolved_description": "major branch of Buddhism following the Pāli Canon, dominant in Sri Lanka, Cambodia, Laos, Myanmar and Thailand",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Mahayana",
+    "family": "Indian/Dharmic",
+    "qid": "Q48362",
+    "resolved_label": "Mahāyāna",
+    "resolved_description": "branch of Buddhism popular in East Asia and Vietnam that sees the goal of becoming a buddha through the bodhisattva path as being available to all and sees the state of the arhat as incomplete",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Vajrayana",
+    "family": "Indian/Dharmic",
+    "qid": "Q172175",
+    "resolved_label": "Vajrayana",
+    "resolved_description": "Indian Buddhist tantric traditions given to Tibet, Bhutan, and East Asia",
+    "notes": "Tibetan Buddhism",
+    "ok": "✓"
+  },
+  {
+    "name": "Jainism",
+    "family": "Indian/Dharmic",
+    "qid": "Q9232",
+    "resolved_label": "Jainism",
+    "resolved_description": "Indian religion",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Sikhism",
+    "family": "Indian/Dharmic",
+    "qid": "Q9316",
+    "resolved_label": "Sikhism",
+    "resolved_description": "monotheistic Indian religion",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Historical Vedic religion",
+    "family": "Indian/Dharmic",
+    "qid": "Q194497",
+    "resolved_label": "Historical Vedic religion",
+    "resolved_description": "1500–500 BC Indo-Aryan religious practices of northwest India",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Ājīvika",
+    "family": "Indian/Dharmic",
+    "qid": "Q412873",
+    "resolved_label": "Ājīvika",
+    "resolved_description": "Indic philosophy",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Confucianism",
+    "family": "East Asian",
+    "qid": "Q9581",
+    "resolved_label": "Confucianism",
+    "resolved_description": "Chinese ethical and philosophical system",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Taoism",
+    "family": "East Asian",
+    "qid": "Q9598",
+    "resolved_label": "Taoism",
+    "resolved_description": "religious or philosophical tradition of Chinese origin",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Shinto",
+    "family": "East Asian",
+    "qid": "Q812767",
+    "resolved_label": "Shinto",
+    "resolved_description": "traditional religion of Japan",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Chinese folk religion",
+    "family": "East Asian",
+    "qid": "Q1074275",
+    "resolved_label": "Chinese folk religion",
+    "resolved_description": "traditional Han Chinese religious belief systems",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Bon",
+    "family": "East Asian",
+    "qid": "Q815628",
+    "resolved_label": "Bon",
+    "resolved_description": "Tibetan religion",
+    "notes": "pre-Buddhist Tibetan religion",
+    "ok": "✓"
+  },
+  {
+    "name": "Sumerian religion",
+    "family": "Ancient Near East",
+    "qid": "Q275051",
+    "resolved_label": "Sumerian religion",
+    "resolved_description": "first religion of Mesopotamia region which is tangible by writing",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Ancient Mesopotamian religion",
+    "family": "Ancient Near East",
+    "qid": "Q21028568",
+    "resolved_label": "Ancient Mesopotamian religion",
+    "resolved_description": "religion",
+    "notes": "Babylonian/Assyrian",
+    "ok": "✓"
+  },
+  {
+    "name": "ancient Egyptian religion",
+    "family": "Ancient Near East",
+    "qid": "Q447131",
+    "resolved_label": "religion of ancient Egypt",
+    "resolved_description": "system of polytheistic beliefs and rituals of ancient Egyptian",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Canaanite religion",
+    "family": "Ancient Near East",
+    "qid": "Q2914567",
+    "resolved_label": "Canaanite religion",
+    "resolved_description": "ancient Semitic polytheistic religion",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Hittite religion",
+    "family": "Ancient Near East",
+    "qid": "Q3424392",
+    "resolved_label": "Hittite religion",
+    "resolved_description": "religion of the ancient Hittites",
+    "notes": "may be hard to find on Wikidata",
+    "ok": "✓"
+  },
+  {
+    "name": "Ugaritic religion",
+    "family": "Ancient Near East",
+    "qid": "Q139690730",
+    "resolved_label": "Ugaritic Religion",
+    "resolved_description": "",
+    "notes": "may be hard to find on Wikidata",
+    "ok": "✓"
+  },
+  {
+    "name": "Phoenician religion",
+    "family": "Ancient Near East",
+    "qid": "Q123286262",
+    "resolved_label": "Phoenician religion",
+    "resolved_description": "religion of the Phoenicians",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "ancient Greek religion",
+    "family": "Ancient Mediterranean",
+    "qid": "Q855270",
+    "resolved_label": "Ancient Greek religion",
+    "resolved_description": "religion in ancient Greece",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "religion in ancient Rome",
+    "family": "Ancient Mediterranean",
+    "qid": "Q107013169",
+    "resolved_label": "religion in ancient Rome",
+    "resolved_description": "beliefs and practices in Roman-controlled areas",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Mithraism",
+    "family": "Ancient Mediterranean",
+    "qid": "Q219903",
+    "resolved_label": "Mithraic mysteries",
+    "resolved_description": "ancient Iranian religion in Iran and Roman Empire",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Eleusinian Mysteries",
+    "family": "Ancient Mediterranean",
+    "qid": "Q26314",
+    "resolved_label": "Eleusinian Mysteries",
+    "resolved_description": "secret religious rites in ancient Greece",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Orphism",
+    "family": "Ancient Mediterranean",
+    "qid": "Q242517",
+    "resolved_label": "Orphism",
+    "resolved_description": "set of religious beliefs and practices originating in the ancient Greek world",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Etruscan religion",
+    "family": "Ancient Mediterranean",
+    "qid": "Q11884379",
+    "resolved_label": "Etruscan religion",
+    "resolved_description": "polytheistic religion practised in ancient Etruria",
+    "notes": "may be hard to find",
+    "ok": "✓"
+  },
+  {
+    "name": "Tengrism",
+    "family": "Eurasian/Steppe",
+    "qid": "Q837605",
+    "resolved_label": "Tengrism",
+    "resolved_description": "original religion of the Turkic and Mongolic peoples",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Germanic paganism",
+    "family": "Eurasian/Steppe",
+    "qid": "Q1122452",
+    "resolved_label": "Germanic paganism",
+    "resolved_description": "ethnic religion practiced by the Germanic peoples from the Iron Age until Christianisation",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Celtic religion",
+    "family": "Eurasian/Steppe",
+    "qid": "Q263031",
+    "resolved_label": "Celtic polytheism",
+    "resolved_description": "religion practiced by ancient Celtic people",
+    "notes": "may be 'Celtic polytheism'",
+    "ok": "✓"
+  },
+  {
+    "name": "Slavic paganism",
+    "family": "Eurasian/Steppe",
+    "qid": "Q838267",
+    "resolved_label": "Slavic religion",
+    "resolved_description": "historical polytheistic religion of the Slavs",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Baltic paganism",
+    "family": "Eurasian/Steppe",
+    "qid": "Q3932329",
+    "resolved_label": "Baltic religion",
+    "resolved_description": "pre-Christian religious beliefs and cults of the Baltic nations",
+    "ok": "✓"
+  },
+  {
+    "name": "shamanism",
+    "family": "Eurasian/Steppe",
+    "qid": "Q42042",
+    "resolved_label": "shamanism",
+    "resolved_description": "practice that involves a practitioner reaching altered states of consciousness in order to perceive and interact with what they believe to be a spirit world",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Finnish paganism",
+    "family": "Eurasian/Steppe",
+    "qid": "Q3181226",
+    "resolved_label": "Baltic Finnic paganism",
+    "resolved_description": "polytheistic religion of the Baltic Finnic peoples prior to Christianisation",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "traditional African religions",
+    "family": "African traditional",
+    "qid": "Q386498",
+    "resolved_label": "traditional African religion",
+    "resolved_description": "diverse beliefs that include various ethnic religions",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Vodou",
+    "family": "African traditional",
+    "qid": "Q177764",
+    "resolved_label": "Voodoo Church",
+    "resolved_description": "religion practiced by the Aja, Ewe, and Fon people",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Yoruba religion",
+    "family": "African traditional",
+    "qid": "Q1086440",
+    "resolved_label": "Yoruba religion",
+    "resolved_description": "west-African religion",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Aztec religion",
+    "family": "Pre-Columbian",
+    "qid": "Q781560",
+    "resolved_label": "Aztec religion",
+    "resolved_description": "Mesoamerican religion of the Aztecs",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Maya religion",
+    "family": "Pre-Columbian",
+    "qid": "Q1921707",
+    "resolved_label": "Maya religion",
+    "resolved_description": "beliefs of the ancient Maya people",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Inca religion",
+    "family": "Pre-Columbian",
+    "qid": "Q6014023",
+    "resolved_label": "Inca religion in Cusco",
+    "resolved_description": "",
+    "notes": "",
+    "ok": "✓"
+  }
+]

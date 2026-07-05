@@ -5,6 +5,7 @@
 
 <form class="filter-bar" method="get" action="/admin/extract">
   <!-- Filtre statut -->
+  <a href="?status=queued&q=<%= it.q || '' %>" class="btn btn-sm <%= it.status === 'queued' ? 'btn-active' : 'btn-ghost' %>">À extraire</a>
   <a href="?status=no_timeline&q=<%= it.q || '' %>" class="btn btn-sm <%= it.status === 'no_timeline' ? 'btn-active' : 'btn-ghost' %>">Sans timeline</a>
   <a href="?status=has_timeline&q=<%= it.q || '' %>" class="btn btn-sm <%= it.status === 'has_timeline' ? 'btn-active' : 'btn-ghost' %>">Avec timeline</a>
   <a href="?status=all&q=<%= it.q || '' %>" class="btn btn-sm <%= it.status === 'all' ? 'btn-active' : 'btn-ghost' %>">Tous</a>

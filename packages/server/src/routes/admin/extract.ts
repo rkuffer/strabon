@@ -505,7 +505,7 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
     Querystring: { q?: string; status?: string };
   }>("/admin/extract", async (req, reply) => {
     const sql = getSql();
-    const { q, status = "no_timeline" } = req.query;
+    const { q, status = "queued" } = req.query;
 
     const sites = await sql.unsafe(`
         SELECT id, title_en, country, base_importance,
@@ -515,6 +515,7 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
         FROM sites
         WHERE location IS NOT NULL
           ${q ? `AND title_en ILIKE '%${q.replace(/'/g, "''")}%'` : ""}
+          ${status === "queued" ? "AND enrichment_level = 'queued'" : ""}
           ${status === "no_timeline" ? "AND timeline IS NULL" : ""}
           ${status === "has_timeline" ? "AND timeline IS NOT NULL" : ""}
         ORDER BY base_importance DESC, title_en
@@ -643,10 +644,11 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
 
     const sql = getSql();
     await sql`
-      UPDATE sites SET
+     UPDATE sites SET
         timeline                  = ${sql.json(timeline)},
         timeline_extracted_at     = ${extracted_at ?? new Date().toISOString()},
         timeline_extraction_model = ${model ?? MODEL},
+        enrichment_level          = 'extracted',
         last_updated              = now()
       WHERE id = ${id}
     `;
@@ -737,6 +739,7 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
               timeline                  = ${sql.json(timeline)},
               timeline_extracted_at     = now(),
               timeline_extraction_model = ${MODEL},
+              enrichment_level          = 'extracted',
               last_updated              = now()
             WHERE id = ${id}
           `;

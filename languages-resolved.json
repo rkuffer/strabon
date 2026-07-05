@@ -1,0 +1,1172 @@
+[
+  {
+    "name": "Latin",
+    "family": "Indo-European",
+    "qid": "Q397",
+    "resolved_label": "Latin",
+    "resolved_description": "Indo-European language of the Italic branch",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Old French",
+    "family": "Indo-European",
+    "qid": "Q35222",
+    "resolved_label": "Old French",
+    "resolved_description": "Gallo-Romance dialect continuum spoken from the 9th century to the middle of the 14th century",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "French",
+    "family": "Indo-European",
+    "qid": "Q150",
+    "resolved_label": "French",
+    "resolved_description": "Romance language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Occitan",
+    "family": "Indo-European",
+    "qid": "Q14185",
+    "resolved_label": "Occitan",
+    "resolved_description": "Romance language of Western Europe",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Spanish",
+    "family": "Indo-European",
+    "qid": "Q1321",
+    "resolved_label": "Spanish",
+    "resolved_description": "Romance language originating in the Iberian Peninsula",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Portuguese",
+    "family": "Indo-European",
+    "qid": "Q5146",
+    "resolved_label": "Portuguese",
+    "resolved_description": "Western Romance language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Italian",
+    "family": "Indo-European",
+    "qid": "Q652",
+    "resolved_label": "Italian",
+    "resolved_description": "Romance language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Romanian",
+    "family": "Indo-European",
+    "qid": "Q7913",
+    "resolved_label": "Romanian",
+    "resolved_description": "Romance language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Catalan",
+    "family": "Indo-European",
+    "qid": "Q7026",
+    "resolved_label": "Catalan",
+    "resolved_description": "Western Romance language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Sardinian",
+    "family": "Indo-European",
+    "qid": "Q33976",
+    "resolved_label": "Sardinian",
+    "resolved_description": "Romance language indigenous to the island of Sardinia",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Dalmatian language",
+    "family": "Indo-European",
+    "qid": "Q35527",
+    "resolved_label": "Dalmatian",
+    "resolved_description": "extinct Romance language",
+    "notes": "extinct, medieval Adriatic",
+    "ok": "✓"
+  },
+  {
+    "name": "Galician",
+    "family": "Indo-European",
+    "qid": "Q9307",
+    "resolved_label": "Galician",
+    "resolved_description": "Western Ibero-Romance language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Old English",
+    "family": "Indo-European",
+    "qid": "Q42365",
+    "resolved_label": "Old English",
+    "resolved_description": "earliest historical form of English",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Middle English",
+    "family": "Indo-European",
+    "qid": "Q36395",
+    "resolved_label": "Middle English",
+    "resolved_description": "stage of the English language from about the 12th through 15th centuries",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "English",
+    "family": "Indo-European",
+    "qid": "Q1860",
+    "resolved_label": "English",
+    "resolved_description": "West Germanic language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Old High German",
+    "family": "Indo-European",
+    "qid": "Q35218",
+    "resolved_label": "Old High German",
+    "resolved_description": "earliest stage of the German language, spoken from 500/750 to 1050 AD",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Middle High German",
+    "family": "Indo-European",
+    "qid": "Q837985",
+    "resolved_label": "Middle High German",
+    "resolved_description": "historical form of High German",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "German",
+    "family": "Indo-European",
+    "qid": "Q188",
+    "resolved_label": "German",
+    "resolved_description": "West Germanic language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Dutch",
+    "family": "Indo-European",
+    "qid": "Q7411",
+    "resolved_label": "Dutch",
+    "resolved_description": "West Germanic language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Old Norse",
+    "family": "Indo-European",
+    "qid": "Q35505",
+    "resolved_label": "Old Norse",
+    "resolved_description": "North Germanic language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Swedish",
+    "family": "Indo-European",
+    "qid": "Q9027",
+    "resolved_label": "Swedish",
+    "resolved_description": "North Germanic language spoken in Sweden and Finland",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Danish",
+    "family": "Indo-European",
+    "qid": "Q9035",
+    "resolved_label": "Danish",
+    "resolved_description": "North Germanic language spoken in Northern Europe",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Norwegian",
+    "family": "Indo-European",
+    "qid": "Q9043",
+    "resolved_label": "Norwegian",
+    "resolved_description": "North Germanic language spoken in Norway",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Icelandic",
+    "family": "Indo-European",
+    "qid": "Q294",
+    "resolved_label": "Icelandic",
+    "resolved_description": "North Germanic language mainly spoken in Iceland",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Gothic language",
+    "family": "Indo-European",
+    "qid": "Q35722",
+    "resolved_label": "Gothic",
+    "resolved_description": "extinct East Germanic language spoken by the Goths",
+    "notes": "extinct, Goths",
+    "ok": "✓"
+  },
+  {
+    "name": "Yiddish",
+    "family": "Indo-European",
+    "qid": "Q8641",
+    "resolved_label": "Yiddish",
+    "resolved_description": "High German-derived language used by Ashkenazi Jews",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Afrikaans",
+    "family": "Indo-European",
+    "qid": "Q14196",
+    "resolved_label": "Afrikaans",
+    "resolved_description": "West Germanic language, spoken in South Africa and Namibia",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Old Church Slavonic",
+    "family": "Indo-European",
+    "qid": "Q33251",
+    "resolved_label": "Church Slavonic",
+    "resolved_description": "old Slavic language used in the liturgy of some branches of the Orthodox Church",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Old East Slavic",
+    "family": "Indo-European",
+    "qid": "Q35228",
+    "resolved_label": "Old East Slavic",
+    "resolved_description": "language (or a group of dialects) used by the East Slavs from the 7th or 8th century to the 13th or 14th century",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Russian",
+    "family": "Indo-European",
+    "qid": "Q7737",
+    "resolved_label": "Russian",
+    "resolved_description": "East Slavic language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Ukrainian",
+    "family": "Indo-European",
+    "qid": "Q8798",
+    "resolved_label": "Ukrainian",
+    "resolved_description": "East Slavic language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Polish",
+    "family": "Indo-European",
+    "qid": "Q809",
+    "resolved_label": "Polish",
+    "resolved_description": "West Slavic language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Czech",
+    "family": "Indo-European",
+    "qid": "Q9056",
+    "resolved_label": "Czech",
+    "resolved_description": "West Slavic language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Slovak",
+    "family": "Indo-European",
+    "qid": "Q9058",
+    "resolved_label": "Slovak",
+    "resolved_description": "West Slavic language spoken in Slovakia",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Slovene",
+    "family": "Indo-European",
+    "qid": "Q9063",
+    "resolved_label": "Slovene",
+    "resolved_description": "South Slavic language spoken primarily in Slovenia",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Serbian",
+    "family": "Indo-European",
+    "qid": "Q9299",
+    "resolved_label": "Serbian",
+    "resolved_description": "standardized variety of Serbo-Croatian language used by Serbs",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Croatian",
+    "family": "Indo-European",
+    "qid": "Q6654",
+    "resolved_label": "Croatian",
+    "resolved_description": "South Slavic language spoken in Croatia",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Bulgarian",
+    "family": "Indo-European",
+    "qid": "Q7918",
+    "resolved_label": "Bulgarian",
+    "resolved_description": "South Slavic language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Macedonian language",
+    "family": "Indo-European",
+    "qid": "Q9296",
+    "resolved_label": "Macedonian",
+    "resolved_description": "South Slavic language mostly spoken in North Macedonia",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Ancient Greek",
+    "family": "Indo-European",
+    "qid": "Q35497",
+    "resolved_label": "Ancient Greek",
+    "resolved_description": "forms of Greek used from around the 9th century BCE to the 6th century CE",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Greek",
+    "family": "Indo-European",
+    "qid": "Q9129",
+    "resolved_label": "Greek",
+    "resolved_description": "Indo-European language",
+    "notes": "Modern Greek",
+    "ok": "✓"
+  },
+  {
+    "name": "Sanskrit",
+    "family": "Indo-European",
+    "qid": "Q11059",
+    "resolved_label": "Sanskrit",
+    "resolved_description": "ancient Indo-Aryan language of South Asia",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Hindi",
+    "family": "Indo-European",
+    "qid": "Q1568",
+    "resolved_label": "Hindi",
+    "resolved_description": "Indo-Aryan language spoken in India",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Urdu",
+    "family": "Indo-European",
+    "qid": "Q1617",
+    "resolved_label": "Urdu",
+    "resolved_description": "Indo-Aryan language spoken in South Asia",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Punjabi",
+    "family": "Indo-European",
+    "qid": "Q58635",
+    "resolved_label": "Punjabi",
+    "resolved_description": "Indo-Aryan language spoken in the Punjab region of Pakistan and India",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Bengali",
+    "family": "Indo-European",
+    "qid": "Q9610",
+    "resolved_label": "Bangla",
+    "resolved_description": "Indo-Aryan language mostly spoken in Bangladesh and India",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Old Persian",
+    "family": "Indo-European",
+    "qid": "Q35225",
+    "resolved_label": "Old Persian",
+    "resolved_description": "language of Achaemenid Empire and ancestor of Middle Persian",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Middle Persian",
+    "family": "Indo-European",
+    "qid": "Q32063",
+    "resolved_label": "Middle Persian",
+    "resolved_description": "southwestern Iranian language, predecessor to New Persian",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Persian",
+    "family": "Indo-European",
+    "qid": "Q9168",
+    "resolved_label": "Persian",
+    "resolved_description": "Western Iranian language",
+    "notes": "Modern Persian / Farsi",
+    "ok": "✓"
+  },
+  {
+    "name": "Avestan",
+    "family": "Indo-European",
+    "qid": "Q29572",
+    "resolved_label": "Avestan",
+    "resolved_description": "Eastern Iranian language used in Zoroastrian scripture",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Kurdish",
+    "family": "Indo-European",
+    "qid": "Q36368",
+    "resolved_label": "Kurdish",
+    "resolved_description": "language of Kurds",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Pashto",
+    "family": "Indo-European",
+    "qid": "Q58680",
+    "resolved_label": "Pashto",
+    "resolved_description": "Indo-Aryan language of Afghanistan and Pakistan",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Sogdian",
+    "family": "Indo-European",
+    "qid": "Q205979",
+    "resolved_label": "Sogdian",
+    "resolved_description": "extinct Eastern Iranian language of Central Asia",
+    "notes": "extinct, Silk Road lingua franca",
+    "ok": "✓"
+  },
+  {
+    "name": "Nepali",
+    "family": "Indo-European",
+    "qid": "Q33823",
+    "resolved_label": "Nepali",
+    "resolved_description": "official language of Nepal",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Old Irish",
+    "family": "Indo-European",
+    "qid": "Q35308",
+    "resolved_label": "Old Irish",
+    "resolved_description": "oldest widely attested Goidelic Celtic language (c. 600 – c. 900); extinct language with ISO 639-3 code sga",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Irish",
+    "family": "Indo-European",
+    "qid": "Q9142",
+    "resolved_label": "Irish",
+    "resolved_description": "Irish — language native to Ireland",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Welsh",
+    "family": "Indo-European",
+    "qid": "Q9309",
+    "resolved_label": "Welsh",
+    "resolved_description": "Brittonic language spoken natively in Wales",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Breton",
+    "family": "Indo-European",
+    "qid": "Q12107",
+    "resolved_label": "Breton",
+    "resolved_description": "Breton — Celtic language spoken in France",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Scottish Gaelic",
+    "family": "Indo-European",
+    "qid": "Q9314",
+    "resolved_label": "Scottish Gaelic",
+    "resolved_description": "Goidelic Celtic language of Scotland",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Lithuanian",
+    "family": "Indo-European",
+    "qid": "Q9083",
+    "resolved_label": "Lithuanian",
+    "resolved_description": "Baltic language spoken in Lithuania",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Latvian",
+    "family": "Indo-European",
+    "qid": "Q9078",
+    "resolved_label": "Latvian",
+    "resolved_description": "Baltic language, official in Latvia and the European Union",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Albanian",
+    "family": "Indo-European",
+    "qid": "Q8748",
+    "resolved_label": "Albanian",
+    "resolved_description": "Indo-European language, spoken primarily in Albania, Kosovo, North Macedonia, and Montenegro",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Armenian",
+    "family": "Indo-European",
+    "qid": "Q8785",
+    "resolved_label": "Armenian",
+    "resolved_description": "Indo-European language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Tocharian",
+    "family": "Indo-European",
+    "qid": "Q37029",
+    "resolved_label": "Tocharian",
+    "resolved_description": "extinct Indo-European languages in Asia",
+    "notes": "extinct, Silk Road",
+    "ok": "✓"
+  },
+  {
+    "name": "Hittite language",
+    "family": "Indo-European",
+    "qid": "Q35668",
+    "resolved_label": "Hittite",
+    "resolved_description": "extinct Bronze Age Indo-European language",
+    "notes": "oldest attested IE language",
+    "ok": "✓"
+  },
+  {
+    "name": "Phrygian language",
+    "family": "Indo-European",
+    "qid": "Q36751",
+    "resolved_label": "Phrygian",
+    "resolved_description": "dialect of Indo-European language spoken by the Phrygians",
+    "notes": "extinct, ancient Anatolia",
+    "ok": "✓"
+  },
+  {
+    "name": "Ladino",
+    "family": "Indo-European",
+    "qid": "Q36196",
+    "resolved_label": "Ladino",
+    "resolved_description": "Judaeo-Spanish — language derived from Medieval Spanish",
+    "notes": "Judeo-Spanish, Sephardic diaspora",
+    "ok": "✓"
+  },
+  {
+    "name": "Akkadian",
+    "family": "Semitic/Afro-Asiatic",
+    "qid": "Q35518",
+    "resolved_label": "Akkadian",
+    "resolved_description": "extinct Semitic language of Mesopotamia",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Aramaic",
+    "family": "Semitic/Afro-Asiatic",
+    "qid": "Q28602",
+    "resolved_label": "Aramaic",
+    "resolved_description": "Semitic language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Biblical Hebrew",
+    "family": "Semitic/Afro-Asiatic",
+    "qid": "Q1982248",
+    "resolved_label": "Biblical Hebrew",
+    "resolved_description": "archaic form of the Hebrew language",
+    "notes": "ancient/classical Hebrew",
+    "ok": "✓"
+  },
+  {
+    "name": "Hebrew",
+    "family": "Semitic/Afro-Asiatic",
+    "qid": "Q9288",
+    "resolved_label": "Hebrew",
+    "resolved_description": "Northwest Semitic language",
+    "notes": "Modern Hebrew",
+    "ok": "✓"
+  },
+  {
+    "name": "Arabic",
+    "family": "Semitic/Afro-Asiatic",
+    "qid": "Q13955",
+    "resolved_label": "Arabic",
+    "resolved_description": "Semitic language and lingua franca of the Arab world",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Phoenician language",
+    "family": "Semitic/Afro-Asiatic",
+    "qid": "Q36734",
+    "resolved_label": "Phoenician",
+    "resolved_description": "ancient Semitic language of the Mediterranean",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Ugaritic",
+    "family": "Semitic/Afro-Asiatic",
+    "qid": "Q36928",
+    "resolved_label": "Ugaritic",
+    "resolved_description": "extinct Northwest Semitic language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Ge'ez",
+    "family": "Semitic/Afro-Asiatic",
+    "qid": "Q35667",
+    "resolved_label": "Geʽez",
+    "resolved_description": "Ge'ez — ancient Semitic language of Ethiopia",
+    "notes": "Ethiopian ancient, liturgical",
+    "ok": "✓"
+  },
+  {
+    "name": "Amharic",
+    "family": "Semitic/Afro-Asiatic",
+    "qid": "Q28244",
+    "resolved_label": "Amharic",
+    "resolved_description": "Semitic language of Ethiopia",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Coptic language",
+    "family": "Semitic/Afro-Asiatic",
+    "qid": "Q36155",
+    "resolved_label": "Coptic",
+    "resolved_description": "latest stage of the Egyptian language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Egyptian language",
+    "family": "Semitic/Afro-Asiatic",
+    "qid": "Q50868",
+    "resolved_label": "Egyptian",
+    "resolved_description": "extinct language spoken in ancient Egypt",
+    "notes": "Ancient Egyptian",
+    "ok": "✓"
+  },
+  {
+    "name": "Maltese",
+    "family": "Semitic/Afro-Asiatic",
+    "qid": "Q9166",
+    "resolved_label": "Maltese",
+    "resolved_description": "Semitic language spoken mostly in Malta",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Elamite language",
+    "family": "Semitic/Afro-Asiatic",
+    "qid": "Q35470",
+    "resolved_label": "Elamite",
+    "resolved_description": "ancient language in Mesopotamia",
+    "notes": "extinct, ancient Persia — language isolate, placed here by geography",
+    "ok": "✓"
+  },
+  {
+    "name": "Hausa",
+    "family": "Semitic/Afro-Asiatic",
+    "qid": "Q56475",
+    "resolved_label": "Hausa",
+    "resolved_description": "Chadic language native to the Hausa people",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Classical Chinese",
+    "family": "Sino-Tibetan",
+    "qid": "Q37041",
+    "resolved_label": "Classical Chinese",
+    "resolved_description": "language of the Sino-Tibetan language family in written form (ISO 639-3: lzh) as opposed to the spoken, known as Old Chinese (ISO 639-3: och) or Middle Chinese (ISO 639-3: ltc)",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Mandarin",
+    "family": "Sino-Tibetan",
+    "qid": "Q727694",
+    "resolved_label": "Standard Chinese",
+    "resolved_description": "standard form of the Chinese language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Cantonese",
+    "family": "Sino-Tibetan",
+    "qid": "Q9186",
+    "resolved_label": "Cantonese",
+    "resolved_description": "variety of Yue Chinese spoken in Guangzhou, Hong Kong, and Macau",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Tibetan language",
+    "family": "Sino-Tibetan",
+    "qid": "Q34271",
+    "resolved_label": "Tibetan",
+    "resolved_description": "Tibeto-Burman language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Burmese",
+    "family": "Sino-Tibetan",
+    "qid": "Q9228",
+    "resolved_label": "Burmese",
+    "resolved_description": "Sino-Tibetan language of Myanmar",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Old Turkic",
+    "family": "Turkic",
+    "qid": "Q34988",
+    "resolved_label": "Old Turkic",
+    "resolved_description": "Old Turkic — earliest attested form of Turkic",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Turkish",
+    "family": "Turkic",
+    "qid": "Q256",
+    "resolved_label": "Turkish",
+    "resolved_description": "Oghuz Turkic language of the Turkish people",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Azerbaijani",
+    "family": "Turkic",
+    "qid": "Q9292",
+    "resolved_label": "Azerbaijani",
+    "resolved_description": "Oghuz Turkic language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Uzbek",
+    "family": "Turkic",
+    "qid": "Q9264",
+    "resolved_label": "Uzbek",
+    "resolved_description": "Uzbek — Turkic language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Kazakh",
+    "family": "Turkic",
+    "qid": "Q9252",
+    "resolved_label": "Kazakh",
+    "resolved_description": "Turkic language in Central Asia, state language of Kazakhstan",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Tatar",
+    "family": "Turkic",
+    "qid": "Q25285",
+    "resolved_label": "Tatar",
+    "resolved_description": "Turkic language spoken by Tatars",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Crimean Tatar",
+    "family": "Turkic",
+    "qid": "Q33357",
+    "resolved_label": "Crimean Tatar",
+    "resolved_description": "Turkic language spoken in Crimea",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Bashkir",
+    "family": "Turkic",
+    "qid": "Q13389",
+    "resolved_label": "Bashkir",
+    "resolved_description": "Turkic language spoken in Russia",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Chuvash",
+    "family": "Turkic",
+    "qid": "Q33348",
+    "resolved_label": "Chuvash",
+    "resolved_description": "Turkic language spoken in central Russia, primarily in the Chuvash Republic and adjacent areas",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Finnish",
+    "family": "Uralic",
+    "qid": "Q1412",
+    "resolved_label": "Finnish",
+    "resolved_description": "Finno-Ugric language mostly spoken in Finland",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Hungarian",
+    "family": "Uralic",
+    "qid": "Q9067",
+    "resolved_label": "Hungarian",
+    "resolved_description": "Ugric language mainly spoken in Hungary and surrounding countries",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Estonian",
+    "family": "Uralic",
+    "qid": "Q9072",
+    "resolved_label": "Estonian",
+    "resolved_description": "Finnic language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Malay",
+    "family": "Austronesian",
+    "qid": "Q9237",
+    "resolved_label": "Malay",
+    "resolved_description": "Austronesian macrolanguage, basis for Malaysian Malay and Indonesian",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Javanese",
+    "family": "Austronesian",
+    "qid": "Q33549",
+    "resolved_label": "Javanese",
+    "resolved_description": "Austronesian language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Tagalog",
+    "family": "Austronesian",
+    "qid": "Q34057",
+    "resolved_label": "Tagalog",
+    "resolved_description": "Austronesian language; native language of the Tagalog ethnic group",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Malagasy",
+    "family": "Austronesian",
+    "qid": "Q7930",
+    "resolved_label": "Malagasy",
+    "resolved_description": "language spoken in Madagascar",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Tamil",
+    "family": "Dravidian",
+    "qid": "Q5885",
+    "resolved_label": "Tamil",
+    "resolved_description": "Dravidian language native to South India and Sri Lanka",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Telugu",
+    "family": "Dravidian",
+    "qid": "Q8097",
+    "resolved_label": "Telugu",
+    "resolved_description": "Dravidian language native to South India",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Kannada",
+    "family": "Dravidian",
+    "qid": "Q33673",
+    "resolved_label": "Kannada",
+    "resolved_description": "Dravidian language native to South India",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Mongolian",
+    "family": "Mongolic",
+    "qid": "Q9246",
+    "resolved_label": "Mongolian",
+    "resolved_description": "official language of Mongolia",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Buryat",
+    "family": "Mongolic",
+    "qid": "Q33120",
+    "resolved_label": "Buryat",
+    "resolved_description": "variety of Mongolic spoken by the Buryats that is classified either as a language or as a major dialect group of Mongolian",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Kalmyk",
+    "family": "Mongolic",
+    "qid": "Q33634",
+    "resolved_label": "Kalmyk",
+    "resolved_description": "register of the Oirat language, natively spoken by the Kalmyk people of Kalmykia",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Thai",
+    "family": "Tai-Kadai",
+    "qid": "Q9217",
+    "resolved_label": "Thai",
+    "resolved_description": "Thai — Tai language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Vietnamese",
+    "family": "Austroasiatic",
+    "qid": "Q9199",
+    "resolved_label": "Vietnamese",
+    "resolved_description": "Austroasiatic language originating in Vietnam",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Khmer",
+    "family": "Austroasiatic",
+    "qid": "Q9205",
+    "resolved_label": "Khmer",
+    "resolved_description": "Austroasiatic language of Cambodia",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Korean",
+    "family": "Koreanic",
+    "qid": "Q9176",
+    "resolved_label": "Korean",
+    "resolved_description": "language spoken in Korean Peninsula and some parts of North-eastern China",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Japanese",
+    "family": "Japonic",
+    "qid": "Q5287",
+    "resolved_label": "Japanese",
+    "resolved_description": "language spoken in East Asia",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Georgian",
+    "family": "Kartvelian",
+    "qid": "Q8108",
+    "resolved_label": "Georgian",
+    "resolved_description": "Kartvelian language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Chechen",
+    "family": "Northeast Caucasian",
+    "qid": "Q33350",
+    "resolved_label": "Chechen",
+    "resolved_description": "Chechen — Northeast Caucasian language",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Sumerian",
+    "family": "Language isolate",
+    "qid": "Q36790",
+    "resolved_label": "Sumerian",
+    "resolved_description": "language of ancient Sumer",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Basque",
+    "family": "Language isolate",
+    "qid": "Q8752",
+    "resolved_label": "Basque",
+    "resolved_description": "language of the Basque people",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Etruscan language",
+    "family": "Language isolate",
+    "qid": "Q35726",
+    "resolved_label": "Etruscan",
+    "resolved_description": "ancient Mediterranean language",
+    "notes": "extinct, pre-Roman Italy",
+    "ok": "✓"
+  },
+  {
+    "name": "Swahili",
+    "family": "Niger-Congo",
+    "qid": "Q7838",
+    "resolved_label": "Swahili",
+    "resolved_description": "Bantu language spoken mainly in East Africa",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Yoruba",
+    "family": "Niger-Congo",
+    "qid": "Q34311",
+    "resolved_label": "Yoruba",
+    "resolved_description": "Niger-Congo language spoken in West Africa",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Zulu",
+    "family": "Niger-Congo",
+    "qid": "Q10179",
+    "resolved_label": "Zulu",
+    "resolved_description": "Zulu — Nguni language of eastern South Africa",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Inuktitut",
+    "family": "Eskimo-Aleut",
+    "qid": "Q29921",
+    "resolved_label": "Inuktitut",
+    "resolved_description": "name of several Inuit languages spoken in Canada",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Greenlandic",
+    "family": "Eskimo-Aleut",
+    "qid": "Q25355",
+    "resolved_label": "Greenlandic",
+    "resolved_description": "Eskimo-Aleut language spoken in Greenland",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Nahuatl",
+    "family": "Indigenous Americas",
+    "qid": "Q13300",
+    "resolved_label": "nahuatl",
+    "resolved_description": "language of the Nahuan branch of the Uto-Aztecan language family",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Quechua",
+    "family": "Indigenous Americas",
+    "qid": "Q5218",
+    "resolved_label": "Quechua",
+    "resolved_description": "language family spoken primarily in the Andes region of South America",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Guarani",
+    "family": "Indigenous Americas",
+    "qid": "Q35876",
+    "resolved_label": "Guarani",
+    "resolved_description": "Guarani — Tupian language of Paraguay",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Yucatec Maya",
+    "family": "Indigenous Americas",
+    "qid": "Q13354",
+    "resolved_label": "Yucatec Maya",
+    "resolved_description": "Mayan language spoken in the Yucatán Peninsula",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Aymara",
+    "family": "Indigenous Americas",
+    "qid": "Q4627",
+    "resolved_label": "Aymara",
+    "resolved_description": "native language in South America",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Mapudungun",
+    "family": "Indigenous Americas",
+    "qid": "Q33730",
+    "resolved_label": "Mapudungun",
+    "resolved_description": "language spoken in Chile and Argentina by the Mapuche people",
+    "notes": "",
+    "ok": "✓"
+  },
+  {
+    "name": "Australian Aboriginal languages",
+    "family": "Australian Aboriginal",
+    "qid": "Q205143",
+    "resolved_label": "Australian Aboriginal languages",
+    "resolved_description": "indigenous languages of Australia",
+    "notes": "generic umbrella entry",
+    "ok": "✓"
+  }
+]
