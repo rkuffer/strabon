@@ -89,11 +89,12 @@
 <!-- Pagination -->
 <% if (it.pages > 1) { %>
   <nav class="pagination">
-    <% for (let p = 1; p <= it.pages; p++) { %>
-      <a
-        href="/admin/curation?page=<%= p %>&level=<%= it.level || '' %>&q=<%= it.q || '' %>&country=<%= it.country || '' %>"
-        class="btn btn-sm <%= p === it.page ? 'btn-active' : 'btn-ghost' %>"
-      ><%= p %></a>
+    <% if (it.page > 1) { %>
+      <a href="?page=<%= it.page - 1 %>&level=<%= it.level || '' %>&q=<%= it.q || '' %>&country=<%= it.country || '' %>" class="btn btn-sm">← Préc.</a>
+    <% } %>
+    <span class="page-info">Page <%= it.page %> / <%= it.pages.toLocaleString() %></span>
+    <% if (it.page < it.pages) { %>
+      <a href="?page=<%= it.page + 1 %>&level=<%= it.level || '' %>&q=<%= it.q || '' %>&country=<%= it.country || '' %>" class="btn btn-sm">Suiv. →</a>
     <% } %>
   </nav>
 <% } %>
