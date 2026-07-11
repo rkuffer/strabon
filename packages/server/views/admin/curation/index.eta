@@ -29,7 +29,7 @@
   <select name="country" class="input-select">
     <option value="">All countries</option>
     <% for (const c of it.countries) { %>
-      <option value="<%= c %>" <%= it.country === c ? 'selected' : '' %>><%= c %></option>
+      <option value="<%= c.qid %>" <%= it.country === c.qid ? 'selected' : '' %>><%= c.name_en %></option>
     <% } %>
   </select>
   <button type="submit" class="btn btn-sm">Filter</button>
@@ -74,7 +74,7 @@
         </td>
         <td class="col-desc"><%= s.description || '' %></td>
         <td><%= s.site_type || '' %></td>
-        <td><%= s.country_qid || '' %></td>
+        <td><%= s.country_name || '' %></td>
         <td class="col-num"><%= s.sitelinks_count != null ? s.sitelinks_count : '' %></td>
         <td class="col-num"><%= s.population != null ? Number(s.population).toLocaleString() : '' %></td>
         <td>
@@ -146,7 +146,6 @@
       });
       if (!res.ok) throw new Error('Server error ' + res.status);
       const data = await res.json();
-      // Reload to show updated levels
       window.location.href = '/admin/curation?level=queued';
     } catch (err) {
       alert('Error: ' + err.message);

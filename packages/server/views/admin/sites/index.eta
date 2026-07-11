@@ -13,9 +13,9 @@
   </select>
   <select name="country" class="input-select">
     <option value="">Tous les pays</option>
-    <% it.countries.forEach(function(c) { %>
-    <option value="<%= c %>" <%= it.country === c ? 'selected' : '' %>><%= c %></option>
-    <% }) %>
+    <% for (const c of it.countries) { %>
+      <option value="<%= c.qid %>" <%= it.country === c.qid ? 'selected' : '' %>><%= c.name_en %></option>
+    <% } %>
   </select>
   <button type="submit" class="btn">Filtrer</button>
 </form>
@@ -37,7 +37,7 @@
     <% it.sites.forEach(function(site) { %>
     <tr>
       <td><strong><a href="/admin/sites/<%= site.id %>"><%= site.title_en %></a></strong></td>
-      <td class="text-muted"><%= site.country || '—' %></td>
+      <td class="text-muted"><%= site.country_name || '—' %></td>
       <td><span class="tag"><%= site.site_type || '—' %></span></td>
       <td><span class="importance-badge"><%= site.base_importance %></span></td>
       <td><span class="status-dot <%= site.has_coords ? 'green' : 'red' %>"></span></td>

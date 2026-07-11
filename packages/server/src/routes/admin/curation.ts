@@ -18,30 +18,33 @@ export const adminCurationRoutes: FastifyPluginAsync = async (app) => {
     const offset = (parseInt(page) - 1) * limit;
 
     const conditions: string[] = [];
-    if (q) conditions.push(`(title_en ILIKE '%${q.replace(/'/g, "''")}%' OR meta->>'wikidata_description' ILIKE '%${q.replace(/'/g, "''")}%')`);
-    if (level && level !== "all") conditions.push(`enrichment_level = '${level}'`);
-    if (country) conditions.push(`country_qid = '${country.replace(/'/g, "''")}'`);
+    if (q) conditions.push(`(s.title_en ILIKE '%${q.replace(/'/g, "''")}%' OR s.meta->>'wikidata_description' ILIKE '%${q.replace(/'/g, "''")}%')`);
+    if (level && level !== "all") conditions.push(`s.enrichment_level = '${level}'`);
+    if (country) conditions.push(`s.country_qid = '${country.replace(/'/g, "''")}'`);
 
     const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
 
     const [sites, totalRow, countries, levelCounts] = await Promise.all([
       sql.unsafe(`
-        SELECT id, title_en, country_qid,
-               enrichment_level,
-               sitelinks_count,
-               population,
-               meta->>'wikidata_description' AS description,
-               meta->>'wikidata_type' AS site_type,
-               ST_Y(location) AS lat,
-               ST_X(location) AS lon,
-               timeline IS NOT NULL AS has_timeline
-        FROM sites
+        SELECT s.id, s.title_en,
+               s.country_qid,
+               c.name_en AS country_name,
+               s.enrichment_level,
+               s.sitelinks_count,
+               s.population,
+               s.meta->>'wikidata_description' AS description,
+               s.meta->>'wikidata_type' AS site_type,
+               ST_Y(s.location) AS lat,
+               ST_X(s.location) AS lon,
+               s.timeline IS NOT NULL AS has_timeline
+        FROM sites s
+        LEFT JOIN countries c ON c.qid = s.country_qid
         ${where}
-        ORDER BY sitelinks_count DESC NULLS LAST, title_en
+        ORDER BY s.sitelinks_count DESC NULLS LAST, s.title_en
         LIMIT ${limit} OFFSET ${offset}
       `),
-      sql.unsafe(`SELECT COUNT(*)::int AS count FROM sites ${where}`),
-      sql`SELECT DISTINCT country_qid FROM sites WHERE country_qid IS NOT NULL ORDER BY country_qid`,
+      sql.unsafe(`SELECT COUNT(*)::int AS count FROM sites s ${where}`),
+      sql`SELECT c.qid, c.name_en FROM countries c ORDER BY c.name_en`,
       sql`SELECT enrichment_level, COUNT(*)::int AS count FROM sites GROUP BY enrichment_level ORDER BY enrichment_level`,
     ]);
 
@@ -54,7 +57,7 @@ export const adminCurationRoutes: FastifyPluginAsync = async (app) => {
       q,
       level,
       country,
-      countries: countries.map((r: any) => r.country_qid),
+      countries,
       levelCounts,
       limit,
     });

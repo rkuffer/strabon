@@ -19,29 +19,32 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
 
     // Construction dynamique du WHERE
     const conditions: string[] = [];
-    if (q) conditions.push(`title_en ILIKE '%${q.replace(/'/g, "''")}%'`);
-    if (status === "no_timeline") conditions.push(`timeline IS NULL`);
-    if (status === "no_coords") conditions.push(`location IS NULL`);
-    if (status === "no_enrich") conditions.push(`wikidata_enriched_at IS NULL`);
-    if (country) conditions.push(`country = '${country.replace(/'/g, "''")}'`);
+    if (q) conditions.push(`s.title_en ILIKE '%${q.replace(/'/g, "''")}%'`);
+    if (status === "no_timeline") conditions.push(`s.timeline IS NULL`);
+    if (status === "no_coords") conditions.push(`s.location IS NULL`);
+    if (status === "no_enrich") conditions.push(`s.wikidata_enriched_at IS NULL`);
+    if (country) conditions.push(`s.country_qid = '${country.replace(/'/g, "''")}'`);
 
     const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
 
     const [sites, totalRow, countries] = await Promise.all([
       sql.unsafe(`
-        SELECT id, title_en, country, site_type, base_importance,
-               inception_year, dissolution_year,
-               timeline IS NOT NULL         AS has_timeline,
-               location IS NOT NULL         AS has_coords,
-               wikidata_enriched_at IS NOT NULL AS has_enrich,
-               timeline_extracted_at
-        FROM sites
+        SELECT s.id, s.title_en,
+               c.name_en AS country_name,
+               s.site_type, s.base_importance,
+               s.inception_year, s.dissolution_year,
+               s.timeline IS NOT NULL         AS has_timeline,
+               s.location IS NOT NULL         AS has_coords,
+               s.wikidata_enriched_at IS NOT NULL AS has_enrich,
+               s.timeline_extracted_at
+        FROM sites s
+        LEFT JOIN countries c ON c.qid = s.country_qid
         ${where}
-        ORDER BY base_importance DESC, title_en
+        ORDER BY s.base_importance DESC, s.title_en
         LIMIT ${limit} OFFSET ${offset}
       `),
-      sql.unsafe(`SELECT COUNT(*)::int AS count FROM sites ${where}`),
-      sql`SELECT DISTINCT country FROM sites WHERE country IS NOT NULL ORDER BY country`,
+      sql.unsafe(`SELECT COUNT(*)::int AS count FROM sites s ${where}`),
+      sql`SELECT c.qid, c.name_en FROM countries c ORDER BY c.name_en`,
     ]);
 
     return reply.view("admin/sites/index", {
@@ -53,7 +56,7 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
       q,
       status,
       country,
-      countries: countries.map((r: any) => r.country),
+      countries,
       limit,
     });
   });
@@ -63,10 +66,6 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
     "/admin/sites/:id",
     async (req, reply) => {
       const site = await getSiteById(req.params.id);
-      console.log("site keys:", site ? Object.keys(site) : "null");
-      console.log("names type:", typeof site?.names);
-      console.log("meta type:", typeof site?.meta);
-      console.log("timeline type:", typeof site?.timeline);
       if (!site)
         return reply.status(404).view("errors/404", { title: "Not found" });
 
