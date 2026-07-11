@@ -1,0 +1,340 @@
+{
+  "site_type": {
+    "entries": [
+      {
+        "from": -20000000,
+        "to": -10000,
+        "value": "uninhabited volcanic island (forming)",
+        "from_precision": 6,
+        "from_circa": true,
+        "confidence": "high",
+        "notes": "Iceland began forming ~20 million years ago; covered by ice until ~10,000 years ago"
+      },
+      {
+        "from": 770,
+        "to": 880,
+        "value": "early monastic settlement (Irish monks/Papar)",
+        "from_precision": 8,
+        "from_circa": true,
+        "confidence": "medium",
+        "sources": [
+          "carbon dating of cabin in Hafnir, Reykjanes peninsula, abandoned 770–880"
+        ],
+        "notes": "Archaeological evidence of habitation before Norse settlement; monks may have left before Norse arrival"
+      },
+      {
+        "from": 870,
+        "value": "Norse farmstead / rural settlement",
+        "from_precision": 8,
+        "from_circa": true,
+        "confidence": "high",
+        "sources": [
+          "Book of Settlement (Landnámabók)",
+          "settlement by Ingólfr Arnarson c. AD 870"
+        ]
+      },
+      {
+        "from": 1750,
+        "value": "town / industrial settlement",
+        "from_precision": 8,
+        "from_circa": true,
+        "confidence": "high",
+        "sources": [
+          "wool industry houses built 1750s; Innréttingar corporation from 1752"
+        ]
+      },
+      {
+        "from": 1786,
+        "value": "chartered trading town / capital city",
+        "confidence": "high",
+        "sources": [
+          "1786 trading charter; 1845 Alþingi re-established here"
+        ]
+      }
+    ]
+  },
+  "polity": {
+    "entries": [
+      {
+        "from": 870,
+        "value": {
+          "name": "Icelandic Commonwealth",
+          "wikidata": "Q62389"
+        },
+        "from_circa": true,
+        "confidence": "high",
+        "notes": "Ingólfr Arnarson's settlement; Alþingi established 930 AD at Þingvellir"
+      },
+      {
+        "from": 1262,
+        "value": {
+          "name": "Kingdom of Norway",
+          "wikidata": "Q2196956"
+        },
+        "confidence": "high",
+        "notes": "Iceland submitted to Norwegian rule via the Old Covenant (Gamli sáttmáli) 1262–1264"
+      },
+      {
+        "from": 1380,
+        "value": {
+          "name": "Denmark–Norway",
+          "wikidata": "Q62651"
+        },
+        "confidence": "high",
+        "notes": "Norway (with Iceland) came under Danish rule through union"
+      },
+      {
+        "from": 1814,
+        "value": {
+          "name": "Kingdom of Denmark",
+          "wikidata": "Q28846511"
+        },
+        "confidence": "high",
+        "notes": "After dissolution of Denmark–Norway, Iceland remained with Denmark"
+      },
+      {
+        "from": 1918,
+        "value": {
+          "name": "Kingdom of Iceland",
+          "wikidata": "Q62567"
+        },
+        "confidence": "high",
+        "sources": [
+          "1 December 1918, sovereign country in personal union with Denmark"
+        ]
+      },
+      {
+        "from": 1944,
+        "value": {
+          "name": "Republic of Iceland",
+          "wikidata": "Q189"
+        },
+        "confidence": "high",
+        "sources": [
+          "Republic of Iceland founded 1944"
+        ]
+      }
+    ]
+  },
+  "culture": {
+    "entries": [
+      {
+        "from": 870,
+        "value": {
+          "name": "Norse/Viking culture",
+          "wikidata": "Q1122452"
+        },
+        "from_circa": true,
+        "confidence": "high",
+        "notes": "Settlement by Norsemen under Ingólfr Arnarson; Norse paganism and material culture"
+      }
+    ]
+  },
+  "religion": {
+    "entries": [
+      {
+        "from": 770,
+        "value": {
+          "name": "Christianity",
+          "wikidata": "Q5043"
+        },
+        "role": "minor",
+        "from_circa": true,
+        "confidence": "low",
+        "notes": "Irish monks (Papar) present before Norse settlement; no confirmed archaeological artifacts"
+      },
+      {
+        "from": 870,
+        "value": {
+          "name": "Germanic paganism",
+          "wikidata": "Q1122452"
+        },
+        "role": "major",
+        "from_circa": true,
+        "confidence": "high",
+        "notes": "Norse settlers brought Old Norse religion; Ingólfr cast high-seat pillars per traditional Norse practice"
+      },
+      {
+        "from": 1000,
+        "value": {
+          "name": "Christianity",
+          "wikidata": "Q5043"
+        },
+        "role": "state",
+        "confidence": "high",
+        "notes": "Iceland officially adopted Christianity c. 1000 AD at the Alþingi"
+      },
+      {
+        "from": 1550,
+        "value": {
+          "name": "Lutheranism",
+          "wikidata": "Q75809"
+        },
+        "role": "state",
+        "confidence": "high",
+        "notes": "Lutheran Reformation imposed on Iceland by Danish Crown c. 1550"
+      }
+    ]
+  },
+  "language": {
+    "entries": [
+      {
+        "from": 870,
+        "value": {
+          "name": "Old Norse",
+          "wikidata": "Q35505"
+        },
+        "role": "major",
+        "from_circa": true,
+        "confidence": "high",
+        "notes": "Language of the Norse settlers"
+      },
+      {
+        "from": 1200,
+        "value": {
+          "name": "Icelandic",
+          "wikidata": "Q294"
+        },
+        "role": "major",
+        "from_circa": true,
+        "confidence": "high",
+        "notes": "Old Norse evolved into Icelandic; name Reykjavík is Old Norse origin"
+      },
+      {
+        "from": 1380,
+        "value": {
+          "name": "Danish",
+          "wikidata": "Q9035"
+        },
+        "role": "minor",
+        "confidence": "high",
+        "notes": "Danish administrative language under Danish-Norwegian rule; Danish traders dominant after 1786 charter"
+      }
+    ]
+  },
+  "name": {
+    "entries": [
+      {
+        "from": 870,
+        "value": {
+          "text": "Reykjarvík",
+          "lang": "non"
+        },
+        "from_circa": true,
+        "notes": "Original Old Norse form with genitive singular 'r' suffix"
+      },
+      {
+        "from": 870,
+        "value": {
+          "text": "Vík á Seltjarnarnesi",
+          "lang": "non"
+        },
+        "from_circa": true,
+        "notes": "Name used for the estate after the original form fell out of use"
+      },
+      {
+        "from": 1786,
+        "value": {
+          "text": "Reykjavík",
+          "lang": "is"
+        },
+        "notes": "Modern Icelandic form revived with urban development; genitive plural 'reykja-'"
+      }
+    ]
+  },
+  "population": {
+    "entries": [
+      {
+        "from": 1786,
+        "value": 200,
+        "notes": "Approximate population at time of founding as chartered town; very small settlement"
+      },
+      {
+        "from": 1901,
+        "value": 6682,
+        "notes": "Early 20th century; Reykjavík growing as capital city"
+      },
+      {
+        "from": 1940,
+        "value": 38000,
+        "notes": "Approximate population at time of British occupation in WWII"
+      }
+    ]
+  },
+  "events": [
+    {
+      "year": 870,
+      "type": "settlement_founding"
+    },
+    {
+      "year": 930,
+      "type": "institution_founding",
+      "notes": "Alþingi established at Þingvellir"
+    },
+    {
+      "year": 1000,
+      "type": "religious_conversion"
+    },
+    {
+      "year": 1262,
+      "type": "political_annexation"
+    },
+    {
+      "year": 1752,
+      "type": "economic_development"
+    },
+    {
+      "year": 1786,
+      "type": "city_founding"
+    },
+    {
+      "year": 1845,
+      "type": "institution_reestablishment"
+    },
+    {
+      "year": 1874,
+      "type": "constitution_granted"
+    },
+    {
+      "year": 1904,
+      "type": "home_rule_granted"
+    },
+    {
+      "year": 1918,
+      "type": "independence"
+    },
+    {
+      "year": 1940,
+      "type": "military_occupation"
+    },
+    {
+      "year": 1944,
+      "type": "republic_founded"
+    },
+    {
+      "year": 1972,
+      "type": "international_event"
+    },
+    {
+      "year": 1986,
+      "type": "international_summit"
+    }
+  ],
+  "missing_entities": [
+    {
+      "kind": "polity",
+      "name": "Republic of Iceland",
+      "context": "Modern Icelandic republic founded 1944, capital Reykjavík; Q189 is the current state of Iceland but may not be in the polity referential"
+    },
+    {
+      "kind": "culture",
+      "name": "Norse/Viking settler culture in Iceland",
+      "context": "The distinct Norse settlement culture of Iceland from c. 870 AD, combining Old Norse paganism, language and material culture; distinct from continental Germanic paganism"
+    },
+    {
+      "kind": "polity",
+      "name": "Kingdom of Denmark",
+      "context": "Iceland remained under Danish sovereignty after 1814 dissolution of Denmark-Norway until 1918; Q28846511 used but may need verification"
+    }
+  ]
+}

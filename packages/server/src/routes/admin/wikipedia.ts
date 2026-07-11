@@ -323,6 +323,7 @@ export async function buildWikipediaContext(
   titleEn: string,
   client: Anthropic,
   routerModel: string,
+  langCode?: string,
 ): Promise<WikipediaContext> {
   // Phase 1 : Découverte — d'abord les sitelinks pour obtenir le titre EN canonique
   const sitelinks = await fetchSitelinks(wikidataId);
@@ -338,8 +339,11 @@ export async function buildWikipediaContext(
 
   const sectionsEn = await fetchSections("en", canonicalTitleEn);
 
-  // Langue locale : première disponible selon la priorité pays
-  const langPriority = COUNTRY_TO_LANG[country] ?? [];
+  // A langCode passed explicitly (from the `countries` table) wins over the
+  // internal country-name mapping, which is incomplete by construction.
+  const langPriority = langCode
+    ? [langCode, ...(COUNTRY_TO_LANG[country] ?? [])]
+    : (COUNTRY_TO_LANG[country] ?? []);
   let localLang = "";
   let localTitle = "";
 

@@ -8,6 +8,7 @@ import { adminExtractRoutes } from "./extract.js";
 import { adminPolitiesRoutes } from "./polities.js";
 import { adminCulturesRoutes } from "./cultures.js";
 import { adminCurationRoutes } from "./curation.js";
+import { adminGapsRoutes } from "./gaps.js";
 
 export const adminRoutes: FastifyPluginAsync = async (app) => {
   await app.register(adminDashboardRoutes);
@@ -18,4 +19,5 @@ export const adminRoutes: FastifyPluginAsync = async (app) => {
   await app.register(adminPolitiesRoutes);
   await app.register(adminCulturesRoutes);
   await app.register(adminCurationRoutes);
+  await app.register(adminGapsRoutes);
 };

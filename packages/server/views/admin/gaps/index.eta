@@ -1,0 +1,503 @@
+<%/* admin/gaps/index.eta */%>
+<div class="page-header">
+  <h1>Referential gaps</h1>
+  <p class="subtitle">
+    <span class="stat stat-pending"><%= it.pending %> pending</span>
+    <span class="stat"><%= it.resolved %> resolved</span>
+    <span class="stat"><%= it.rejected %> rejected</span>
+    <% if (it.pendingByKind.length) { %>
+      <span class="stat-sep">·</span>
+      <% for (const k of it.pendingByKind) { %>
+        <span class="stat-kind"><%= k.kind %>: <%= k.count %></span>
+      <% } %>
+    <% } %>
+  </p>
+</div>
+
+<div class="toolbar">
+  <form class="filter-bar" method="get" action="/admin/gaps">
+    <select name="status" class="input-select" onchange="this.form.submit()">
+      <option value="pending"  <%= it.status === 'pending'  ? 'selected' : '' %>>Pending</option>
+      <option value="resolved" <%= it.status === 'resolved' ? 'selected' : '' %>>Resolved</option>
+      <option value="rejected" <%= it.status === 'rejected' ? 'selected' : '' %>>Rejected</option>
+      <option value="all"      <%= it.status === 'all'      ? 'selected' : '' %>>All</option>
+    </select>
+    <select name="kind" class="input-select" onchange="this.form.submit()">
+      <option value="all"      <%= !it.kind || it.kind === 'all' ? 'selected' : '' %>>All kinds</option>
+      <option value="polity"   <%= it.kind === 'polity'   ? 'selected' : '' %>>Polity</option>
+      <option value="culture"  <%= it.kind === 'culture'  ? 'selected' : '' %>>Culture</option>
+      <option value="religion" <%= it.kind === 'religion' ? 'selected' : '' %>>Religion</option>
+      <option value="language" <%= it.kind === 'language' ? 'selected' : '' %>>Language</option>
+    </select>
+  </form>
+
+  <div class="toolbar-actions">
+    <button type="button" class="btn btn-sm" id="verify-all">
+      Verify proposed QIDs
+    </button>
+    <span class="toolbar-hint">checks each proposal against Wikidata — writes nothing</span>
+  </div>
+</div>
+
+<% if (!it.gaps.length) { %>
+  <p class="empty-state">No gaps with these filters.</p>
+<% } %>
+
+<div class="gap-list">
+  <% for (const g of it.gaps) { %>
+    <article class="gap gap-<%= g.status %>" data-gap-id="<%= g.id %>" data-kind="<%= g.kind %>">
+      <header class="gap-head">
+        <span class="kind-badge kind-<%= g.kind %>"><%= g.kind %></span>
+        <h2 class="gap-name"><%= g.name %></h2>
+        <span class="gap-count" title="sites that signalled this gap">
+          <%= g.site_count %> site<%= g.site_count > 1 ? 's' : '' %>
+        </span>
+        <% if (g.status !== 'pending') { %>
+          <span class="status-badge status-<%= g.status %>">
+            <%= g.status %>
+            <% if (g.resolved_qid) { %>
+              → <a href="https://www.wikidata.org/wiki/<%= g.resolved_qid %>"
+                   target="_blank" rel="noopener"><%= g.resolved_qid %></a>
+            <% } %>
+          </span>
+        <% } %>
+      </header>
+
+      <% if (g.context) { %>
+        <p class="gap-context"><%= g.context %></p>
+      <% } %>
+
+      <p class="gap-sites">
+        <% for (const s of g.sites) { %>
+          <a href="/admin/sites/<%= s.id %>" class="site-chip"><%= s.title %></a>
+        <% } %>
+      </p>
+
+      <% if (g.status === 'pending') { %>
+        <div class="gap-actions">
+          <div class="qid-field">
+            <input
+              type="text"
+              class="input-qid"
+              placeholder="Search Wikidata, or paste a QID…"
+              data-name="<%= g.name %>"
+              autocomplete="off"
+            />
+            <div class="qid-results" hidden></div>
+          </div>
+          <input type="text" class="input-family" placeholder="family (optional)" />
+          <button type="button" class="btn btn-sm btn-primary btn-resolve" disabled>Resolve</button>
+          <button type="button" class="btn btn-sm btn-ghost btn-reject">Reject</button>
+        </div>
+
+        <%/* The model's proposal — shown as a candidate to inspect, never auto-applied */%>
+        <% const proposed = (g.proposed_qid && g.proposed_qid !== 'null' && /^Q\d+$/.test(g.proposed_qid)) ? g.proposed_qid : null %>
+        <div class="candidate" data-qid="<%= proposed || '' %>" <%= proposed ? '' : 'hidden' %>>
+          <span class="candidate-tag">model proposes</span>
+          <span class="candidate-body">
+            <a href="https://www.wikidata.org/wiki/<%= proposed %>"
+               target="_blank" rel="noopener" class="qid-link"><%= proposed %></a>
+            <span class="candidate-label">loading…</span>
+          </span>
+          <button type="button" class="btn btn-xs btn-use">Use</button>
+        </div>
+
+        <div class="verify-slot" hidden></div>
+      <% } else if (g.resolution_note) { %>
+        <p class="gap-note"><%= g.resolution_note %></p>
+      <% } %>
+    </article>
+  <% } %>
+</div>
+
+<style>
+  .stat { margin-right: 1em; font-size: 0.9em; }
+  .stat-pending { font-weight: 600; }
+  .stat-sep { margin-right: 1em; color: var(--text-muted); }
+  .stat-kind { margin-right: 0.75em; font-size: 0.85em; color: var(--text-muted); }
+
+  .toolbar { display: flex; justify-content: space-between; align-items: center; gap: 1em; margin: 1em 0; flex-wrap: wrap; }
+  .toolbar-actions { display: flex; align-items: center; gap: 0.6em; }
+  .toolbar-hint { font-size: 0.75em; color: var(--text-muted); }
+
+  .empty-state { color: var(--text-muted); padding: 2em 0; text-align: center; }
+
+  .gap-list { display: flex; flex-direction: column; gap: 0.75em; }
+
+  .gap {
+    border: 1px solid var(--border, rgba(127,127,127,0.22));
+    border-radius: 8px; padding: 0.9em 1em;
+  }
+  .gap-resolved, .gap-rejected { opacity: 0.55; }
+
+  .gap-head { display: flex; align-items: baseline; gap: 0.75em; }
+  .gap-name { font-size: 1em; font-weight: 600; margin: 0; }
+  .gap-count { font-size: 0.8em; color: var(--text-muted); margin-left: auto; }
+
+  .kind-badge {
+    font-size: 0.7em; text-transform: uppercase; letter-spacing: 0.04em;
+    padding: 0.15em 0.5em; border-radius: 3px; font-weight: 600;
+    background: var(--bg-subtle, #eef0f3); color: var(--text-muted);
+  }
+  .kind-polity   { background: color-mix(in srgb, #3b82f6 20%, transparent); color: #93c5fd; }
+  .kind-culture  { background: color-mix(in srgb, #22c55e 20%, transparent); color: #86efac; }
+  .kind-religion { background: color-mix(in srgb, #a855f7 20%, transparent); color: #d8b4fe; }
+  .kind-language { background: color-mix(in srgb, #f97316 20%, transparent); color: #fdba74; }
+
+  .status-badge { font-size: 0.75em; padding: 0.15em 0.5em; border-radius: 3px; }
+  .status-resolved { background: color-mix(in srgb, #22c55e 18%, transparent); color: #86efac; }
+  .status-rejected { background: rgba(127,127,127,0.15); color: var(--text-muted); }
+
+  .gap-context { font-size: 0.85em; color: var(--text-muted); margin: 0.5em 0; }
+  .gap-note { font-size: 0.8em; color: var(--text-muted); font-style: italic; margin: 0.5em 0 0; }
+
+  .gap-sites { margin: 0.5em 0; display: flex; flex-wrap: wrap; gap: 0.35em; }
+  .site-chip {
+    font-size: 0.75em; padding: 0.15em 0.5em; border-radius: 3px;
+    background: var(--bg-subtle, rgba(127,127,127,0.12)); text-decoration: none;
+    color: var(--text, inherit);
+  }
+  .site-chip:hover { background: var(--bg-hover, rgba(127,127,127,0.22)); }
+
+  .gap-actions { display: flex; align-items: center; gap: 0.5em; margin-top: 0.75em; }
+  .qid-field { position: relative; flex: 1 1 340px; }
+  .input-qid, .input-family {
+    width: 100%; padding: 0.35em 0.6em; font-size: 0.85em;
+    border: 1px solid var(--border, rgba(127,127,127,0.3)); border-radius: 4px;
+    background: var(--bg-input, transparent); color: var(--text, inherit);
+  }
+  .input-family { flex: 0 0 150px; width: 150px; }
+
+  /* Candidate rows: the model's proposal, and verification results */
+  .candidate, .verify-row {
+    display: flex; align-items: center; gap: 0.6em;
+    margin-top: 0.5em; padding: 0.4em 0.6em;
+    background: var(--bg-subtle, rgba(127,127,127,0.08)); border-radius: 5px;
+    font-size: 0.82em;
+  }
+  .verify-row.verify-ok   { background: color-mix(in srgb, var(--color-success, #22c55e) 12%, transparent); }
+  .verify-row.verify-fail { background: color-mix(in srgb, var(--color-danger, #ef4444) 12%, transparent); }
+
+  .candidate-tag, .verify-tag {
+    font-size: 0.75em; text-transform: uppercase; letter-spacing: 0.03em;
+    color: var(--text-muted); white-space: nowrap;
+  }
+  .verify-ok .verify-tag   { color: var(--color-success, #4ade80); }
+  .verify-fail .verify-tag { color: var(--color-danger, #f87171); }
+
+  .candidate-body, .verify-body { flex: 1; display: flex; flex-wrap: wrap; gap: 0.5em; align-items: baseline; }
+  .candidate-label, .verify-desc { color: var(--text-muted); }
+  .verify-reason { color: var(--color-danger, #f87171); font-size: 0.95em; }
+
+  .qid-link, .wp-link {
+    font-family: ui-monospace, monospace; font-size: 0.95em;
+    text-decoration: none; padding: 0.05em 0.3em; border-radius: 3px;
+    background: var(--bg-subtle, rgba(127,127,127,0.10));
+    border: 1px solid var(--border, rgba(127,127,127,0.25));
+    color: var(--text, inherit);
+  }
+  .qid-link:hover, .wp-link:hover { background: var(--bg-hover, rgba(127,127,127,0.2)); }
+  .wp-link { font-family: inherit; }
+
+  .btn-xs { font-size: 0.75em; padding: 0.2em 0.6em; }
+
+  /* Search results dropdown */
+  .qid-results {
+    position: absolute; top: 100%; left: 0; right: 0; z-index: 20;
+    background: var(--bg-elevated, var(--bg, #1a1a1a));
+    border: 1px solid var(--border, rgba(127,127,127,0.3));
+    color: var(--text, inherit);
+    border-radius: 4px; margin-top: 2px; max-height: 300px; overflow-y: auto;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+  }
+  .qid-hit { padding: 0.5em 0.6em; font-size: 0.82em; border-bottom: 1px solid var(--border, rgba(127,127,127,0.15)); }
+  .qid-hit:last-child { border-bottom: none; }
+  .qid-hit-top { display: flex; align-items: baseline; gap: 0.5em; }
+  .qid-hit-label { font-weight: 600; }
+  .qid-hit-desc { color: var(--text-muted); display: block; margin: 0.15em 0 0.3em; }
+  .qid-hit-links { display: flex; gap: 0.4em; align-items: center; }
+  .qid-hit-pick { margin-left: auto; }
+</style>
+
+<script>
+  const WD = 'https://www.wikidata.org/w/api.php';
+
+  // ── Wikidata helpers (CORS-enabled, called straight from the browser) ────────
+
+  async function wdSearch(query) {
+    const url = WD + '?' + new URLSearchParams({
+      action: 'wbsearchentities', format: 'json',
+      language: 'en', uselang: 'en', type: 'item',
+      limit: '7', search: query, origin: '*',
+    });
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('Wikidata search failed');
+    return (await res.json()).search || [];
+  }
+
+  /**
+   * Fetch labels, descriptions and the English Wikipedia title for a batch of
+   * QIDs. One round-trip for up to 50 — wbsearchentities does not return
+   * sitelinks, so we need this second call to build Wikipedia links.
+   */
+  async function wdDetails(qids) {
+    if (!qids.length) return new Map();
+    const url = WD + '?' + new URLSearchParams({
+      action: 'wbgetentities', format: 'json',
+      props: 'labels|descriptions|sitelinks',
+      languages: 'en', sitefilter: 'enwiki',
+      ids: qids.join('|'), origin: '*',
+    });
+    const res = await fetch(url);
+    if (!res.ok) return new Map();
+    const data = await res.json();
+    const out = new Map();
+    for (const [qid, e] of Object.entries(data.entities || {})) {
+      if (e.missing !== undefined) { out.set(qid, null); continue; }
+      const wpTitle = e.sitelinks?.enwiki?.title || null;
+      out.set(qid, {
+        label: e.labels?.en?.value || '',
+        description: e.descriptions?.en?.value || '',
+        wpTitle,
+        wpUrl: wpTitle
+          ? 'https://en.wikipedia.org/wiki/' + encodeURIComponent(wpTitle.replace(/ /g, '_'))
+          : null,
+      });
+    }
+    return out;
+  }
+
+  function wdLink(qid) {
+    return `<a href="https://www.wikidata.org/wiki/${qid}" target="_blank" rel="noopener" class="qid-link">${qid}</a>`;
+  }
+  function wpLink(url, title) {
+    return url
+      ? `<a href="${url}" target="_blank" rel="noopener" class="wp-link">📄 ${title}</a>`
+      : '<span class="candidate-label">no Wikipedia article</span>';
+  }
+
+  function debounce(fn, ms) {
+    let t;
+    return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); };
+  }
+
+  // ── Hydrate the model's proposals with label + links ─────────────────────────
+  // The proposal is shown as a CANDIDATE to inspect, never applied on its own.
+
+  (async () => {
+    const rows = [...document.querySelectorAll('.candidate[data-qid]')]
+      .filter((r) => r.dataset.qid);
+    if (!rows.length) return;
+
+    const details = await wdDetails([...new Set(rows.map((r) => r.dataset.qid))]);
+
+    for (const row of rows) {
+      const d = details.get(row.dataset.qid);
+      const slot = row.querySelector('.candidate-label');
+      if (!d) {
+        slot.outerHTML = '<span class="verify-reason">does not exist on Wikidata</span>';
+        row.querySelector('.btn-use')?.remove();
+        continue;
+      }
+      slot.outerHTML =
+        `<strong>${d.label}</strong>` +
+        `<span class="candidate-label">${d.description}</span>` +
+        wpLink(d.wpUrl, d.wpTitle);
+    }
+  })();
+
+  // ── Per-gap wiring ──────────────────────────────────────────────────────────
+
+  document.querySelectorAll('.gap').forEach((gap) => {
+    const id = gap.dataset.gapId;
+    const input = gap.querySelector('.input-qid');
+    const results = gap.querySelector('.qid-results');
+    const resolveBtn = gap.querySelector('.btn-resolve');
+    if (!input) return;
+
+    const setQid = (qid) => {
+      input.value = qid;
+      resolveBtn.disabled = !/^Q\d+$/.test(qid);
+      results.hidden = true;
+    };
+
+    // "Use" on the model's proposal just fills the field — you still click Resolve.
+    gap.querySelector('.btn-use')?.addEventListener('click', () => {
+      setQid(gap.querySelector('.candidate').dataset.qid);
+    });
+
+    input.addEventListener('input', () => {
+      resolveBtn.disabled = !/^Q\d+$/.test(input.value.trim());
+    });
+
+    const run = debounce(async () => {
+      const q = input.value.trim();
+
+      // A QID needs no search — show its card so you can check it.
+      if (/^Q\d+$/.test(q)) {
+        const details = await wdDetails([q]);
+        const d = details.get(q);
+        results.innerHTML = d
+          ? `<div class="qid-hit">
+               <div class="qid-hit-top">
+                 <span class="qid-hit-label">${d.label}</span>
+                 ${wdLink(q)}
+               </div>
+               <span class="qid-hit-desc">${d.description}</span>
+               <div class="qid-hit-links">${wpLink(d.wpUrl, d.wpTitle)}</div>
+             </div>`
+          : `<div class="qid-hit"><span class="verify-reason">${q} does not exist on Wikidata</span></div>`;
+        results.hidden = false;
+        return;
+      }
+
+      if (q.length < 3) { results.hidden = true; return; }
+
+      try {
+        const hits = await wdSearch(q);
+        if (!hits.length) { results.hidden = true; return; }
+
+        // Second call: get the Wikipedia links for all candidates at once.
+        const details = await wdDetails(hits.map((h) => h.id));
+
+        results.innerHTML = hits.map((h) => {
+          const d = details.get(h.id);
+          return `
+            <div class="qid-hit">
+              <div class="qid-hit-top">
+                <span class="qid-hit-label">${h.label ?? ''}</span>
+                ${wdLink(h.id)}
+                <button type="button" class="btn btn-xs qid-hit-pick" data-qid="${h.id}">Pick</button>
+              </div>
+              <span class="qid-hit-desc">${h.description ?? ''}</span>
+              <div class="qid-hit-links">${d ? wpLink(d.wpUrl, d.wpTitle) : ''}</div>
+            </div>`;
+        }).join('');
+        results.hidden = false;
+      } catch {
+        results.hidden = true;
+      }
+    }, 280);
+
+    input.addEventListener('input', run);
+    input.addEventListener('focus', () => {
+      if (!input.value.trim()) { input.value = input.dataset.name; run(); }
+    });
+
+    results.addEventListener('click', (e) => {
+      const pick = e.target.closest('.qid-hit-pick');
+      if (pick) setQid(pick.dataset.qid);
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!gap.querySelector('.qid-field').contains(e.target)) results.hidden = true;
+    });
+
+    // ── Resolve ───────────────────────────────────────────────────────────────
+    resolveBtn?.addEventListener('click', async () => {
+      const qid = input.value.trim();
+      const family = gap.querySelector('.input-family').value.trim();
+      if (!/^Q\d+$/.test(qid)) return;
+
+      resolveBtn.disabled = true;
+      resolveBtn.textContent = 'Resolving…';
+      try {
+        const res = await fetch(`/admin/gaps/${id}/resolve`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ qid, family: family || undefined }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Server error');
+        window.location.reload();
+      } catch (err) {
+        alert('Error: ' + err.message);
+        resolveBtn.disabled = false;
+        resolveBtn.textContent = 'Resolve';
+      }
+    });
+
+    // ── Reject ────────────────────────────────────────────────────────────────
+    gap.querySelector('.btn-reject')?.addEventListener('click', async (e) => {
+      const btn = e.currentTarget;
+      const note = prompt('Reason for rejecting (optional):') ?? undefined;
+      btn.disabled = true;
+      try {
+        const res = await fetch(`/admin/gaps/${id}/reject`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ note }),
+        });
+        if (!res.ok) throw new Error('Server error');
+        window.location.reload();
+      } catch (err) {
+        alert('Error: ' + err.message);
+        btn.disabled = false;
+      }
+    });
+  });
+
+  // ── Verify all proposed QIDs (server-side checks — WRITES NOTHING) ───────────
+  // Runs the same verification the auto-resolver would, and reports the verdict
+  // in each gap. You then decide, gap by gap, whether to apply it.
+
+  document.getElementById('verify-all').addEventListener('click', async (e) => {
+    const btn = e.currentTarget;
+    btn.disabled = true;
+    btn.textContent = 'Verifying…';
+
+    try {
+      const res = await fetch('/admin/gaps/auto', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ dry_run: true }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Server error');
+
+      const verdicts = new Map();
+      for (const o of data.resolved)     verdicts.set(String(o.gapId), { ok: true, ...o });
+      for (const o of data.needs_review) verdicts.set(String(o.gapId), { ok: false, ...o });
+
+      for (const gap of document.querySelectorAll('.gap')) {
+        const v = verdicts.get(gap.dataset.gapId);
+        const slot = gap.querySelector('.verify-slot');
+        if (!slot || !v) continue;
+
+        if (v.ok) {
+          slot.innerHTML = `
+            <div class="verify-row verify-ok">
+              <span class="verify-tag">✓ verified</span>
+              <span class="verify-body">
+                ${wdLink(v.qid)}
+                <strong>${v.label ?? ''}</strong>
+                <span class="verify-desc">type and label check out — review, then Resolve</span>
+              </span>
+              <button type="button" class="btn btn-xs btn-verified-use" data-qid="${v.qid}">Use</button>
+            </div>`;
+          slot.querySelector('.btn-verified-use').addEventListener('click', () => {
+            const input = gap.querySelector('.input-qid');
+            input.value = v.qid;
+            gap.querySelector('.btn-resolve').disabled = false;
+            input.scrollIntoView({ block: 'nearest' });
+          });
+        } else {
+          slot.innerHTML = `
+            <div class="verify-row verify-fail">
+              <span class="verify-tag">✗ not verified</span>
+              <span class="verify-body">
+                ${v.qid ? wdLink(v.qid) : ''}
+                <span class="verify-reason">${v.reason ?? ''}</span>
+              </span>
+            </div>`;
+        }
+        slot.hidden = false;
+      }
+    } catch (err) {
+      alert('Error: ' + err.message);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Verify proposed QIDs';
+    }
+  });
+</script>

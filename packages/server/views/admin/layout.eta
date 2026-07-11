@@ -25,6 +25,7 @@
         <li><a href="/admin/index"        class="nav-item">Indexation</a></li>
         <li><a href="/admin/enrich"       class="nav-item">Enrichissement</a></li>
         <li><a href="/admin/extract"      class="nav-item">Extraction LLM</a></li>
+        <li><a href="/admin/gaps" class="nav-item">Gaps</a></li>
         <li class="nav-sep"></li>
         <li><a href="/admin/polities"     class="nav-item">Polities</a></li>
         <li><a href="/admin/cultures"     class="nav-item">Cultures</a></li>

@@ -11,12 +11,14 @@ import { buildWikipediaContext } from "./wikipedia.js";
 import {
   loadReferentials,
   buildPromptV2,
-  getCountryName,
   getFiliationContext,
   normalizeTimelineV2,
   isRejection,
   isEmptyTimeline,
+  getCountryInfo,
 } from "../../agent/extract-v2.js";
+import { validateTimelineQids } from "../../agent/validate-timeline.js";
+import { recordGaps } from "../../agent/referential-gaps.js";
 
 const MODEL = process.env.ANTHROPIC_MODEL ?? "claude-sonnet-4-6";
 const ROUTER_MODEL =
@@ -56,16 +58,99 @@ async function callClaude(
       .trim();
     parsed = JSON.parse(cleaned);
   } catch (parseErr) {
-    console.error(`[extract] JSON.parse failed`);
-    console.error(`[extract] error:`, (parseErr as Error).message);
     console.error(
-      `[extract] raw model response (${raw.length} chars):\n${raw}`,
+      `[extract] JSON.parse failed: ${(parseErr as Error).message}`,
     );
+    console.error(`[extract] raw response (${raw.length} chars):\n${raw}`);
     throw new SyntaxError("Invalid JSON from model");
   }
 
   const timeline = normalizeTimelineV2(parsed);
   return { raw, timeline };
+}
+
+// ── Extraction complète pour un site (partagée run + batch) ──────────────────
+
+type ExtractOutcome =
+  | {
+      kind: "ok";
+      timeline: any;
+      raw: string;
+      localLang: string | null;
+      violations: number;
+    }
+  | { kind: "rejected"; reason: string }
+  | { kind: "no_content" }
+  | { kind: "empty" };
+
+async function extractSite(
+  sql: any,
+  site: any,
+  client: Anthropic,
+  refs: Awaited<ReturnType<typeof loadReferentials>>,
+): Promise<ExtractOutcome> {
+  // 1. Wikipedia context (with resolved country name for local-language lookup)
+  const { name: countryName, langCode } = await getCountryInfo(
+    sql,
+    site.country_qid,
+  );
+  const wikiContext = await buildWikipediaContext(
+    site.wikidata_id,
+    countryName,
+    site.title_en,
+    client,
+    ROUTER_MODEL,
+    langCode,
+  );
+
+  if (!wikiContext.en && !wikiContext.local) {
+    return { kind: "no_content" };
+  }
+  if (!wikiContext.en) {
+    console.warn(
+      `[extract] ⚠ contenu EN vide — extraction basée uniquement sur ${wikiContext.localLang}`,
+    );
+  }
+
+  // 2. Prompt + LLM
+  const filiation = getFiliationContext(site);
+  const prompt = buildPromptV2(site.title_en, wikiContext, refs, filiation);
+  console.log(`[extract] prompt: ${prompt.length} chars → ${MODEL}`);
+
+  const t = Date.now();
+  const { raw, timeline } = await callClaude(prompt);
+  console.log(`[extract] ✓ LLM en ${Date.now() - t}ms`);
+
+  // 3. Rejection (non-site detected by the model)
+  const rejection = isRejection(timeline);
+  if (rejection.rejected) {
+    return { kind: "rejected", reason: rejection.reason ?? "non-site" };
+  }
+
+  // 4. Empty timeline (nothing extractable)
+  if (isEmptyTimeline(timeline)) {
+    return { kind: "empty" };
+  }
+
+  // 5. Deterministic QID validation (strips cross-track reuse + invented QIDs)
+  const { timeline: validated, violations } = await validateTimelineQids(
+    sql,
+    timeline,
+  );
+  if (violations.length) {
+    console.warn(`[extract] ${violations.length} QID violation(s) stripped:`);
+    for (const v of violations) {
+      console.warn(`  ✗ ${v.track} "${v.name}" (${v.qid}): ${v.reason}`);
+    }
+  }
+
+  return {
+    kind: "ok",
+    timeline: validated,
+    raw,
+    localLang: wikiContext.localLang || null,
+    violations: violations.length,
+  };
 }
 
 // ── Mise à jour des bornes temporelles ───────────────────────────────────────
@@ -142,7 +227,7 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
     },
   );
 
-  // POST /admin/extract/:id/run — déclenche l'extraction LLM (V2)
+  // POST /admin/extract/:id/run — déclenche l'extraction LLM (preview, pas d'écriture)
   app.post<{ Params: { id: string } }>(
     "/admin/extract/:id/run",
     async (req, reply) => {
@@ -153,57 +238,42 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
 
       try {
         const client = getClient();
+        console.log(`[extract] ▶ ${site.title_en} (${site.wikidata_id})`);
 
-        console.log(
-          `[extract] ▶ ${site.title_en} (${site.wikidata_id})`,
-        );
-        const t0 = Date.now();
-        const countryName = await getCountryName(sql, site.country_qid);
-        const wikiContext = await buildWikipediaContext(
-          site.wikidata_id,
-          countryName,
-          site.title_en,
-          client,
-          ROUTER_MODEL,
-        );
+        const refs = await loadReferentials(sql);
+        const outcome = await extractSite(sql, site, client, refs);
 
-        if (!wikiContext.en && !wikiContext.local) {
+        if (outcome.kind === "no_content") {
           return reply
             .status(400)
             .send({ error: "Could not fetch Wikipedia content" });
         }
-        if (!wikiContext.en) {
-          console.warn(
-            `[extract] ⚠ contenu EN vide pour ${site.title_en} — extraction basée uniquement sur la langue locale (${wikiContext.localLang})`,
-          );
+        if (outcome.kind === "rejected") {
+          return reply.status(200).send({
+            site_id: site.id,
+            title: site.title_en,
+            rejected: true,
+            reason: outcome.reason,
+          });
         }
-        console.log(`[extract] ✓ Wikipedia en ${Date.now() - t0}ms`);
-
-        const refs = await loadReferentials(sql);
-        const filiation = getFiliationContext(site);
-        const prompt = buildPromptV2(
-          site.title_en,
-          wikiContext,
-          refs,
-          filiation,
-        );
-        console.log(
-          `[extract] prompt: ${prompt.length} chars → appel ${MODEL}`,
-        );
-        const t1 = Date.now();
-        const { raw, timeline } = await callClaude(prompt);
-        console.log(
-          `[extract] ✓ LLM en ${Date.now() - t1}ms — ${raw.length} chars retournés`,
-        );
+        if (outcome.kind === "empty") {
+          return reply.status(200).send({
+            site_id: site.id,
+            title: site.title_en,
+            rejected: true,
+            reason: "empty timeline — no extractable content",
+          });
+        }
 
         return reply.send({
           site_id: site.id,
           title: site.title_en,
-          timeline,
-          raw,
+          timeline: outcome.timeline,
+          raw: outcome.raw,
           model: MODEL,
           router_model: ROUTER_MODEL,
-          local_lang: wikiContext.localLang || null,
+          local_lang: outcome.localLang,
+          qid_violations: outcome.violations,
           extracted_at: new Date().toISOString(),
         });
       } catch (err) {
@@ -240,9 +310,16 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
       return reply.status(400).send({ error: "timeline required" });
 
     const sql = getSql();
+
+    // Re-validate on confirm (defensive: the client could have altered it)
+    const { timeline: validated, violations } = await validateTimelineQids(
+      sql,
+      timeline,
+    );
+
     await sql`
       UPDATE sites SET
-        timeline                  = ${sql.json(timeline)},
+        timeline                  = ${sql.json(validated)},
         timeline_extracted_at     = ${extracted_at ?? new Date().toISOString()},
         timeline_extraction_model = ${model ?? MODEL},
         enrichment_level          = 'extracted',
@@ -250,17 +327,28 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
       WHERE id = ${id}
     `;
 
-    const { polities, cultures } = await syncReferentialsFromTimeline(timeline);
-    await updateTemporalBounds(sql, id, timeline);
+    const { polities, cultures } =
+      await syncReferentialsFromTimeline(validated);
+    await updateTemporalBounds(sql, id, validated);
+
+    // Record referential gaps signaled by this extraction
+    const gaps = await recordGaps(
+      sql,
+      id,
+      (validated as any).missing_entitiesvalidated,
+      validated,
+    );
 
     return reply.send({
       ok: true,
       polities_added: polities,
       cultures_added: cultures,
+      gaps_recorded: gaps,
+      qid_violations: violations.length,
     });
   });
 
-  // GET /admin/extract/stream?ids=... — SSE extraction batch (V2)
+  // GET /admin/extract/stream?ids=... — SSE extraction batch
   app.get<{ Querystring: { ids: string } }>(
     "/admin/extract/stream",
     async (req, reply) => {
@@ -284,9 +372,10 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
       const client = getClient();
       const sql = getSql();
       let done = 0,
-        errors = 0;
+        errors = 0,
+        excluded = 0;
 
-      // Load referentials ONCE before the loop (5400+ entries, expensive)
+      // Load referentials ONCE before the loop (5400+ entries — expensive)
       const refs = await loadReferentials(sql);
 
       send("start", { total: ids.length });
@@ -305,83 +394,47 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
           console.log(
             `[extract:batch] ▶ ${site.title_en} (${site.wikidata_id})`,
           );
-          const bt0 = Date.now();
-          const countryName = await getCountryName(sql, site.country_qid);
-          const wikiContext = await buildWikipediaContext(
-            site.wikidata_id,
-            countryName,
-            site.title_en,
-            client,
-            ROUTER_MODEL,
-          );
 
-          if (!wikiContext.en && !wikiContext.local) {
-            // No Wikipedia content → exclude
-            await sql`UPDATE sites SET enrichment_level = 'excluded' WHERE id = ${id}`;
-            send("done_one", {
-              id,
-              title: site.title_en,
-              ok: false,
-              reason: "no_content",
-            });
-            done++;
-            continue;
-          }
+          const outcome = await extractSite(sql, site, client, refs);
 
-          if (!wikiContext.en) {
-            console.warn(
-              `[extract:batch] ⚠ contenu EN vide — extraction basée uniquement sur ${wikiContext.localLang}`,
+          // Exclusion cases — mark and move on
+          if (
+            outcome.kind === "no_content" ||
+            outcome.kind === "rejected" ||
+            outcome.kind === "empty"
+          ) {
+            const reason =
+              outcome.kind === "rejected"
+                ? outcome.reason
+                : outcome.kind === "empty"
+                  ? "empty timeline — no extractable content"
+                  : "no Wikipedia content";
+
+            await sql`
+              UPDATE sites SET
+                enrichment_level = 'excluded',
+                last_updated = now()
+              WHERE id = ${id}
+            `;
+            excluded++;
+            console.log(
+              `[extract:batch] ⊘ ${site.title_en} excluded: ${reason}`,
             );
-          }
-          console.log(
-            `[extract:batch] ✓ Wikipedia en ${Date.now() - bt0}ms — local: ${wikiContext.localLang || "none"}`,
-          );
-
-          const filiation = getFiliationContext(site);
-          const prompt = buildPromptV2(
-            site.title_en,
-            wikiContext,
-            refs,
-            filiation,
-          );
-          console.log(
-            `[extract:batch] prompt: ${prompt.length} chars → appel ${MODEL}`,
-          );
-          const bt1 = Date.now();
-          const { timeline } = await callClaude(prompt);
-          console.log(`[extract:batch] ✓ LLM en ${Date.now() - bt1}ms`);
-
-          // Check for rejection (non-site detected by LLM)
-          const rejection = isRejection(timeline);
-          if (rejection.rejected) {
-            await sql`UPDATE sites SET enrichment_level = 'excluded' WHERE id = ${id}`;
             send("done_one", {
               id,
               title: site.title_en,
               ok: false,
-              reason: rejection.reason,
+              excluded: true,
+              reason,
             });
-            done++;
-            continue;
-          }
-
-          // Check for empty timeline (no extractable content)
-          if (isEmptyTimeline(timeline)) {
-            await sql`UPDATE sites SET enrichment_level = 'excluded' WHERE id = ${id}`;
-            send("done_one", {
-              id,
-              title: site.title_en,
-              ok: false,
-              reason: "empty_timeline",
-            });
-            done++;
+            await new Promise((r) => setTimeout(r, 500));
             continue;
           }
 
           // Success — write timeline
           await sql`
             UPDATE sites SET
-              timeline                  = ${sql.json(timeline)},
+              timeline                  = ${sql.json(outcome.timeline)},
               timeline_extracted_at     = now(),
               timeline_extraction_model = ${MODEL},
               enrichment_level          = 'extracted',
@@ -389,14 +442,24 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
             WHERE id = ${id}
           `;
 
-          await syncReferentialsFromTimeline(timeline);
-          await updateTemporalBounds(sql, id, timeline);
+          await syncReferentialsFromTimeline(outcome.timeline);
+          await updateTemporalBounds(sql, id, outcome.timeline);
+
+          const gaps = await recordGaps(
+            sql,
+            id,
+            outcome.timeline.missing_entities,
+            outcome.timeline,
+          );
+
           done++;
           send("done_one", {
             id,
             title: site.title_en,
             ok: true,
-            local_lang: wikiContext.localLang || null,
+            local_lang: outcome.localLang,
+            gaps_recorded: gaps,
+            qid_violations: outcome.violations,
           });
         } catch (err: any) {
           errors++;
@@ -417,7 +480,7 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
         await new Promise((r) => setTimeout(r, 2000));
       }
 
-      send("done", { done, errors, total: ids.length });
+      send("done", { done, errors, excluded, total: ids.length });
       reply.raw.end();
     },
   );

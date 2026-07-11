@@ -17,13 +17,14 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
     const limit = 50;
     const offset = (parseInt(page) - 1) * limit;
 
-    // Construction dynamique du WHERE
     const conditions: string[] = [];
     if (q) conditions.push(`s.title_en ILIKE '%${q.replace(/'/g, "''")}%'`);
     if (status === "no_timeline") conditions.push(`s.timeline IS NULL`);
     if (status === "no_coords") conditions.push(`s.location IS NULL`);
-    if (status === "no_enrich") conditions.push(`s.wikidata_enriched_at IS NULL`);
-    if (country) conditions.push(`s.country_qid = '${country.replace(/'/g, "''")}'`);
+    if (status === "no_enrich")
+      conditions.push(`s.wikidata_enriched_at IS NULL`);
+    if (country)
+      conditions.push(`s.country_qid = '${country.replace(/'/g, "''")}'`);
 
     const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
 
@@ -32,15 +33,16 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
         SELECT s.id, s.title_en,
                c.name_en AS country_name,
                s.site_type, s.base_importance,
+               s.sitelinks_count, s.enrichment_level,
                s.inception_year, s.dissolution_year,
-               s.timeline IS NOT NULL         AS has_timeline,
-               s.location IS NOT NULL         AS has_coords,
+               s.timeline IS NOT NULL             AS has_timeline,
+               s.location IS NOT NULL             AS has_coords,
                s.wikidata_enriched_at IS NOT NULL AS has_enrich,
                s.timeline_extracted_at
         FROM sites s
         LEFT JOIN countries c ON c.qid = s.country_qid
         ${where}
-        ORDER BY s.base_importance DESC, s.title_en
+        ORDER BY s.sitelinks_count DESC NULLS LAST, s.title_en
         LIMIT ${limit} OFFSET ${offset}
       `),
       sql.unsafe(`SELECT COUNT(*)::int AS count FROM sites s ${where}`),
@@ -65,13 +67,28 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
   app.get<{ Params: { id: string } }>(
     "/admin/sites/:id",
     async (req, reply) => {
-      const site = await getSiteById(req.params.id);
+      const site = (await getSiteById(req.params.id)) as any;
       if (!site)
         return reply.status(404).view("errors/404", { title: "Not found" });
 
+      // getSiteById does not join the countries table nor carry the enrichment
+      // columns the detail view now shows. Fetch them separately and merge.
+      const sql = getSql();
+      const rows = await sql`
+        SELECT c.name_en AS country_name,
+               s.sitelinks_count,
+               s.population,
+               s.enrichment_level
+        FROM sites s
+        LEFT JOIN countries c ON c.qid = s.country_qid
+        WHERE s.id = ${req.params.id}
+      `;
+
+      const extra = rows[0] ?? {};
+
       return reply.view("admin/sites/show", {
         title: `${site.title_en} — Admin`,
-        site,
+        site: { ...site, ...extra },
       });
     },
   );
