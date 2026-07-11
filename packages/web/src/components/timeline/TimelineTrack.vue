@@ -57,7 +57,6 @@
         </div>
       </div>
     </div>
-    <!-- end tl-axis-row -->
 
     <!-- ── Vue liste ──────────────────────────────────────────────────────── -->
     <div v-if="listView" class="tl-list-view">
@@ -70,12 +69,16 @@
       >
         <div class="tl-list-row">
           <span class="tl-list-from">{{ entry.fromLabel }}</span>
-          <span
-            class="tl-list-dim"
-            :class="`tl-dim-${entry.dimension.toLowerCase()}`"
-            >{{ entry.dimension }}</span
-          >
+          <span class="tl-list-dim" :class="`tl-dim-${entry.trackKey}`">{{
+            entry.dimension
+          }}</span>
           <span class="tl-list-value">{{ entry.value }}</span>
+          <span
+            v-if="entry.role"
+            class="tl-list-role"
+            :class="`tl-role-${entry.role}`"
+            >{{ entry.role }}</span
+          >
           <span
             v-if="entry.confidence"
             class="tl-list-conf"
@@ -96,14 +99,41 @@
           >
         </div>
       </div>
+
+      <!-- Lacunes du référentiel signalées par l'extraction -->
+      <div v-if="missingEntities.length" class="tl-missing">
+        <div class="tl-missing-title">
+          Referential gaps signalled by extraction
+        </div>
+        <div v-for="(m, i) in missingEntities" :key="i" class="tl-missing-row">
+          <span class="tl-list-dim" :class="`tl-dim-${m.kind}`">{{
+            m.kind.toUpperCase()
+          }}</span>
+          <span class="tl-missing-name">{{ m.name }}</span>
+          <span v-if="m.proposed_qid" class="tl-missing-qid">{{
+            m.proposed_qid
+          }}</span>
+          <span v-if="m.context" class="tl-missing-ctx">{{ m.context }}</span>
+        </div>
+      </div>
     </div>
 
     <!-- ── Vue timeline ────────────────────────────────────────────────────── -->
     <div v-else class="track-scroll" ref="scrollEl">
-      <!-- ── Rows : label sticky gauche + track scrollable ───────────────── -->
-      <div v-for="row in activeRows" :key="row.key" class="tl-row">
+      <div
+        v-for="row in rows"
+        :key="row.key"
+        class="tl-row"
+        :class="{ 'tl-row--lanes': row.kind === 'lanes' }"
+      >
         <span class="tl-row-label">{{ row.label }}</span>
-        <div class="tl-row-track" :style="{ width: innerWidth + 'px' }">
+
+        <!-- ── Piste ESCALIER : une seule ligne de blocs ─────────────────── -->
+        <div
+          v-if="row.kind === 'step'"
+          class="tl-row-track"
+          :style="{ width: innerWidth + 'px' }"
+        >
           <div class="tl-cursor" :style="{ left: cursorPct + '%' }" />
           <div
             v-for="(block, i) in row.blocks"
@@ -116,7 +146,6 @@
               background: block.bg,
               color: block.fg,
             }"
-            :data-row="row.key"
             @mouseenter="showTooltip($event, block)"
             @mouseleave="hideTooltip"
           >
@@ -130,6 +159,35 @@
             :style="{ left: gap.x + '%', width: gap.w + '%' }"
             :title="gap.title"
           />
+        </div>
+
+        <!-- ── Piste CO-OCCURRENTE : N couloirs empilés ──────────────────── -->
+        <div v-else class="tl-lanes" :style="{ width: innerWidth + 'px' }">
+          <div
+            class="tl-cursor tl-cursor--lanes"
+            :style="{ left: cursorPct + '%' }"
+          />
+          <div v-for="lane in row.lanes" :key="lane.key" class="tl-lane">
+            <div
+              v-for="(seg, si) in lane.segments"
+              :key="si"
+              class="tl-seg"
+              :class="[
+                `tl-seg--${seg.role ?? 'unknown'}`,
+                { active: seg.isActive, open: seg.open },
+              ]"
+              :style="{
+                left: seg.x + '%',
+                width: seg.w + '%',
+                background: seg.bg,
+                color: seg.fg,
+              }"
+              @mouseenter="showTooltip($event, seg)"
+              @mouseleave="hideTooltip"
+            >
+              <span class="tl-block-text">{{ seg.label }}</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -153,7 +211,6 @@
         </div>
       </div>
     </div>
-    <!-- end track-scroll -->
 
     <!-- Tooltip -->
     <Teleport to="body">
@@ -162,13 +219,21 @@
         class="tl-tooltip"
         :style="{ left: tooltip.x + 'px', top: tooltip.y + 'px' }"
       >
-        <div class="tl-tt-row" v-if="tooltip.from">
-          <span class="tl-tt-lbl">FROM</span>
-          <span class="tl-tt-val">{{ tooltip.from }}</span>
+        <div class="tl-tt-row" v-if="tooltip.period">
+          <span class="tl-tt-lbl">PERIOD</span>
+          <span class="tl-tt-val">{{ tooltip.period }}</span>
         </div>
         <div class="tl-tt-row" v-if="tooltip.value">
           <span class="tl-tt-lbl">{{ tooltip.rowLabel }}</span>
           <span class="tl-tt-val accent">{{ tooltip.value }}</span>
+        </div>
+        <div class="tl-tt-row" v-if="tooltip.role">
+          <span class="tl-tt-lbl">ROLE</span>
+          <span class="tl-tt-val">{{ tooltip.role }}</span>
+        </div>
+        <div class="tl-tt-row" v-if="tooltip.confidence">
+          <span class="tl-tt-lbl">CONF.</span>
+          <span class="tl-tt-val">{{ tooltip.confidence }}</span>
         </div>
         <div class="tl-tt-notes" v-if="tooltip.notes">{{ tooltip.notes }}</div>
       </div>
@@ -186,8 +251,28 @@ import {
   onMounted,
   onUnmounted,
 } from "vue";
-import { getEntryAt, formatYear, SCALE_LABELS } from "@strabon/shared";
-import type { SiteTimeline, EventType, ScaleMode } from "@strabon/shared";
+import {
+  getEntryAt,
+  getActiveEntriesAt,
+  buildLanes,
+  getTimelineBounds,
+  getTrack,
+  presentTrackKeys,
+  entityKey,
+  formatYear,
+  formatTrackEntry,
+  TRACK_META,
+  isCooccurrent,
+} from "@strabon/shared";
+import type {
+  SiteTimeline,
+  EventType,
+  ScaleMode,
+  TrackKey,
+  TrackEntry,
+  RoleQualifier,
+  MissingEntity,
+} from "@strabon/shared";
 import { useTimeScale } from "../../composables/useTimeScale";
 
 const props = defineProps<{
@@ -203,7 +288,6 @@ const timeScale = useTimeScale();
 const scaleWrap = ref<HTMLElement>();
 const scaleOpen = ref(false);
 
-// Ordre et libellés anglais pour le menu d'échelle
 const ORDERED_SCALES: Record<string, string> = {
   linear: "Linear",
   sqrt: "Square root",
@@ -220,166 +304,57 @@ function onScaleClickOutside(e: MouseEvent) {
     scaleOpen.value = false;
 }
 
-// ── Vue liste (contrôlée par TimelinePanel) ──────────────────────────────────
-
-type ListEntry = {
-  from: number;
-  fromLabel: string;
-  dimension: string;
-  value: string;
-  confidence?: string;
-  notes?: string;
-  sources?: string[];
-  isEvent?: boolean;
-  eventType?: string;
-};
-
-const listEntries = computed((): ListEntry[] => {
-  const tl: SiteTimeline = props.site?.timeline;
-  if (!tl) return [];
-  const result: ListEntry[] = [];
-
-  const DIMS = [
-    {
-      key: "site_type",
-      label: "TYPE",
-      track: tl.site_type,
-      fmt: (v: any) => String(v).replace(/_/g, " "),
-    },
-    {
-      key: "polity",
-      label: "POLITY",
-      track: tl.polity,
-      fmt: (v: any) => v?.name ?? String(v),
-    },
-    {
-      key: "culture",
-      label: "CULTURE",
-      track: tl.culture,
-      fmt: (v: any) => v?.name ?? String(v),
-    },
-    {
-      key: "name",
-      label: "NAME",
-      track: tl.name,
-      fmt: (v: any) =>
-        v?.text ? `${v.text}${v.lang ? ` (${v.lang})` : ""}` : String(v),
-    },
-    {
-      key: "population",
-      label: "POP.",
-      track: tl.population,
-      fmt: (v: any) => Number(v).toLocaleString(),
-    },
-  ];
-
-  for (const dim of DIMS) {
-    for (const e of dim.track?.entries ?? []) {
-      result.push({
-        from: e.from,
-        fromLabel:
-          formatYear({
-            year: e.from,
-            precision: e.from_precision ?? 9,
-            circa: e.from_circa,
-          }) ?? String(e.from),
-        dimension: dim.label,
-        value: dim.fmt(e.value),
-        confidence: (e as any).confidence,
-        notes: (e as any).notes,
-        sources: (e as any).sources,
-      });
-    }
-  }
-
-  // Événements
-  for (const ev of tl.events ?? []) {
-    result.push({
-      from: ev.year,
-      fromLabel:
-        formatYear({
-          year: ev.year,
-          precision: ev.year_precision ?? 9,
-          circa: ev.year_circa,
-        }) ?? String(ev.year),
-      dimension: "EVENT",
-      value: `${ev.type}${ev.perpetrator ? ` — ${ev.perpetrator}` : ""}`,
-      confidence: ev.confidence,
-      notes: ev.description,
-      sources: undefined,
-      isEvent: true,
-      eventType: ev.type,
-    });
-  }
-
-  return result.sort((a, b) => a.from - b.from);
-});
-
 onMounted(() => document.addEventListener("click", onScaleClickOutside));
 onUnmounted(() => document.removeEventListener("click", onScaleClickOutside));
 
+const timeline = computed<SiteTimeline | undefined>(
+  () => props.site?.timeline ?? undefined,
+);
+
 // ── Plage temporelle ──────────────────────────────────────────────────────────
-const tlRange = computed(() => {
-  const tl: SiteTimeline = props.site?.timeline;
-  if (!tl) return { min: -1000, max: 2000 };
-  const froms: number[] = [];
-  for (const track of [
-    tl.site_type,
-    tl.polity,
-    tl.culture,
-    tl.name,
-    tl.population,
-  ]) {
-    if (track?.entries) froms.push(...track.entries.map((e) => e.from));
-  }
-  if (tl.events) froms.push(...tl.events.map((e) => e.year));
-  if (!froms.length) return { min: -1000, max: 2000 };
-  const dataMin = Math.min(...froms);
-  // Les `to` (fins d'occupation, piste site_type) doivent étendre la plage,
-  // sinon un hiatus/dissolution déborde à droite en preview tant que
-  // dissolution_year n'est pas recalculé en base.
-  const tos = (tl.site_type?.entries ?? [])
-    .map((e) => e.to)
-    .filter((t): t is number => t != null);
-  const dataMax = Math.max(
-    props.site?.dissolution_year ?? -Infinity,
-    ...froms,
-    ...tos,
-  );
-  const span = Math.max(dataMax - dataMin, 100);
-  return { min: dataMin - span * 0.04, max: dataMax + span * 0.04 };
+// getTimelineBounds tient compte des `to` de TOUTES les pistes — une religion
+// éteinte en 1453 étend la frise même si aucune entrée `from` n'est plus récente.
+
+const dataBounds = computed(() => {
+  const b = getTimelineBounds(timeline.value);
+  if (!b) return { min: -1000, max: 2000 };
+  const max = Math.max(b.max, props.site?.dissolution_year ?? -Infinity);
+  return { min: b.min, max };
 });
 
-// xPct utilise l'échelle choisie (sqrt, log, linear).
-// Le void force la dépendance réactive pour que les computed appelant xPct
-// se recalculent quand le mode change.
+// Borne droite utilisée pour fermer les segments encore ouverts.
+const endYear = computed(() => dataBounds.value.max);
+
+const tlRange = computed(() => {
+  const { min, max } = dataBounds.value;
+  const span = Math.max(max - min, 100);
+  return { min: min - span * 0.04, max: max + span * 0.04 };
+});
+
+// xPct utilise l'échelle choisie (sqrt, log, linear). Le void force la dépendance
+// réactive pour que les computed appelant xPct se recalculent au changement de mode.
 function xPct(year: number): number {
   void timeScale.mode.value;
   return timeScale.xPct(year, tlRange.value.min, tlRange.value.max);
 }
 
 // ── Largeur du conteneur interne ─────────────────────────────────────────────
+const LABEL_W = 62;
+
 const innerWidth = computed(() => {
-  const tl: SiteTimeline = props.site?.timeline;
+  const tl = timeline.value;
   if (!tl) return 600;
-  const maxEntries = Math.max(
-    ...[tl.site_type, tl.polity, tl.culture, tl.name, tl.population]
-      .filter(Boolean)
-      .map((t) => t!.entries.length),
-    1,
+  const counts = presentTrackKeys(tl).map(
+    (k) => getTrack(tl, k)?.entries.length ?? 0,
   );
+  const maxEntries = Math.max(...counts, 1);
   const scrollW = scrollEl.value?.clientWidth ?? 600;
-  // On soustrait la largeur des labels pour le calcul
   return Math.max(scrollW - LABEL_W, maxEntries * 65);
 });
 
-// Largeur des labels (doit correspondre au CSS)
-const LABEL_W = 52;
-
-// ── Curseur ───────────────────────────────────────────────────────────────────
 const cursorPct = computed(() => xPct(props.year));
 
-// ── Couleurs utilitaires ──────────────────────────────────────────────────────
+// ── Couleurs ──────────────────────────────────────────────────────────────────
 const TYPE_COLORS: Record<string, string> = {
   capital: "#c9a84c",
   capital_city: "#c9a84c",
@@ -410,7 +385,18 @@ function strFg(s: string): string {
   return `hsl(${strHue(s)},60%,75%)`;
 }
 
+// Le RÔLE est rendu par l'opacité du fond : plus l'entité est dominante, plus le
+// bloc est franc. La bordure (CSS) complète la lecture.
+const ROLE_ALPHA: Record<RoleQualifier | "unknown", number> = {
+  state: 0.72,
+  major: 0.5,
+  minor: 0.32,
+  minority: 0.2,
+  unknown: 0.4,
+};
+
 // ── Construction des lignes ───────────────────────────────────────────────────
+
 type Block = {
   x: number;
   w: number;
@@ -418,7 +404,10 @@ type Block = {
   fg: string;
   label: string;
   isActive: boolean;
+  open?: boolean;
+  role?: RoleQualifier;
   from: number;
+  to?: number | null;
   fromPrecision: number;
   fromCirca?: boolean;
   notes?: string;
@@ -426,84 +415,120 @@ type Block = {
   rowLabel: string;
 };
 
-// Trou d'occupation (hiatus) rendu comme zone vide hachurée.
 type Gap = { x: number; w: number; title: string };
+
+type StepRow = {
+  kind: "step";
+  key: TrackKey;
+  label: string;
+  blocks: Block[];
+  gaps: Gap[];
+};
+
+type LaneRow = {
+  kind: "lanes";
+  key: TrackKey;
+  label: string;
+  lanes: { key: string; segments: Block[] }[];
+};
 
 function fmtY(year: number): string {
   return formatYear({ year, precision: 9 }) ?? String(year);
 }
 
-const ROWS = [
-  {
-    key: "site_type",
-    label: "TYPE",
-    trackFn: (tl: SiteTimeline) => tl.site_type,
-    colorFn: (v: any) => TYPE_COLORS[v] ?? "#6b6b5a",
-    fgFn: () => "rgba(255,255,255,.85)",
-    labelFn: (v: any) => String(v).replace("_", " "),
-    activeFn: (v: any, tl: SiteTimeline, year: number) =>
-      v === getEntryAt(tl.site_type, year)?.value,
-  },
-  {
-    key: "polity",
-    label: "POLITY",
-    trackFn: (tl: SiteTimeline) => tl.polity,
-    colorFn: (v: any) => strBg(v.name),
-    fgFn: (v: any) => strFg(v.name),
-    labelFn: (v: any) => v.name,
-    activeFn: (v: any, tl: SiteTimeline, year: number) =>
-      v.name === getEntryAt(tl.polity, year)?.value?.name,
-  },
-  {
-    key: "culture",
-    label: "CULTURE",
-    trackFn: (tl: SiteTimeline) => tl.culture,
-    colorFn: (v: any) => strBg(v.name),
-    fgFn: (v: any) => strFg(v.name),
-    labelFn: (v: any) => v.name,
-    activeFn: (v: any, tl: SiteTimeline, year: number) =>
-      v.name === getEntryAt(tl.culture, year)?.value?.name,
-  },
-  {
-    key: "name",
-    label: "NAME",
-    trackFn: (tl: SiteTimeline) => tl.name,
-    colorFn: (v: any) => strBg(v.text, 0.42),
-    fgFn: (v: any) => strFg(v.text),
-    labelFn: (v: any) => `${v.text}${v.lang ? ` (${v.lang})` : ""}`,
-    activeFn: (v: any, tl: SiteTimeline, year: number) =>
-      v.text === getEntryAt(tl.name, year)?.value?.text,
-  },
-  {
-    key: "population",
-    label: "POP.",
-    trackFn: (tl: SiteTimeline) => tl.population,
-    colorFn: () => strBg("population", 0.42),
-    fgFn: () => strFg("population"),
-    labelFn: (v: any) => Number(v).toLocaleString(),
-    activeFn: (v: any, tl: SiteTimeline, year: number) =>
-      v === getEntryAt(tl.population, year)?.value,
-  },
-];
+function periodLabel(
+  from: number,
+  to: number | null | undefined,
+  open?: boolean,
+): string {
+  if (open || to == null) return `${fmtY(from)} → …`;
+  return `${fmtY(from)} → ${fmtY(to)}`;
+}
 
-const activeRows = computed(() => {
-  const tl: SiteTimeline = props.site?.timeline;
+// Couleur/libellé selon la piste — les pistes escalier gardent leur rendu d'origine.
+function blockBg(key: TrackKey, v: any, role?: RoleQualifier): string {
+  if (key === "site_type") return TYPE_COLORS[v] ?? "#6b6b5a";
+  if (key === "population") return strBg("population", 0.42);
+  if (key === "name") return strBg(v.text, 0.42);
+  const seed = v?.name ?? String(v);
+  if (isCooccurrent(key)) return strBg(seed, ROLE_ALPHA[role ?? "unknown"]);
+  return strBg(seed);
+}
+
+function blockFg(key: TrackKey, v: any): string {
+  if (key === "site_type") return "rgba(255,255,255,.85)";
+  if (key === "population") return strFg("population");
+  if (key === "name") return strFg(v.text);
+  return strFg(v?.name ?? String(v));
+}
+
+const rows = computed<(StepRow | LaneRow)[]>(() => {
+  const tl = timeline.value;
   if (!tl) return [];
-  const dissolve = props.site?.dissolution_year ?? tlRange.value.max;
+  const end = endYear.value;
 
-  return ROWS.filter((row) => row.trackFn(tl)?.entries?.length).map((row) => {
-    const entries = [...(row.trackFn(tl)?.entries ?? [])].sort(
-      (a, b) => a.from - b.from,
-    );
+  return presentTrackKeys(tl).map((key) => {
+    const meta = TRACK_META[key];
+    const track = getTrack(tl, key)!;
+
+    // ── Pistes CO-OCCURRENTES : couloirs ─────────────────────────────────────
+    if (isCooccurrent(key)) {
+      // Entités vivantes à l'année courante — sert au surlignage.
+      const activeKeys = new Set(
+        getActiveEntriesAt(track, props.year).map((e) => entityKey(e.value)),
+      );
+
+      const lanes = buildLanes(track, end).map((lane) => ({
+        key: lane.key,
+        segments: lane.segments
+          .map((seg): Block | null => {
+            const x = xPct(seg.from);
+            const w = xPct(seg.to) - x;
+            if (w <= 0) return null;
+            const e = seg.entry as TrackEntry<any>;
+            return {
+              x,
+              w,
+              bg: blockBg(key, e.value, seg.role),
+              fg: blockFg(key, e.value),
+              label: lane.label,
+              isActive:
+                activeKeys.has(lane.key) &&
+                seg.from <= props.year &&
+                props.year <= seg.to,
+              open: seg.open,
+              role: seg.role,
+              from: seg.from,
+              to: seg.open ? null : seg.to,
+              fromPrecision: e.from_precision ?? 9,
+              fromCirca: e.from_circa,
+              notes: e.notes,
+              confidence: e.confidence,
+              rowLabel: meta.label,
+            };
+          })
+          .filter((b): b is Block => b !== null),
+      }));
+
+      return {
+        kind: "lanes",
+        key,
+        label: meta.label,
+        lanes: lanes.filter((l) => l.segments.length),
+      } satisfies LaneRow;
+    }
+
+    // ── Pistes ESCALIER (et site_type avec hiatus) ───────────────────────────
+    const entries = [...track.entries].sort((a, b) => a.from - b.from);
+    const activeEntry = getEntryAt(track, props.year);
     const blocks: Block[] = [];
     const gaps: Gap[] = [];
 
     for (let i = 0; i < entries.length; i++) {
       const e = entries[i];
-      const nextFrom = i < entries.length - 1 ? entries[i + 1].from : dissolve;
-      // `to` explicite (site_type uniquement) ⇒ fin d'occupation : le bloc
-      // s'arrête à `to` et un hiatus court jusqu'à l'entrée suivante.
-      // Sans `to`, l'entrée s'étend jusqu'à la suivante (comportement historique).
+      const nextFrom = i < entries.length - 1 ? entries[i + 1].from : end;
+      // `to` explicite (site_type) ⇒ fin d'occupation : le bloc s'arrête à `to`
+      // et un hiatus court jusqu'à l'entrée suivante.
       const closeAt = e.to != null ? e.to : nextFrom;
       const x = xPct(e.from);
       const w = xPct(closeAt) - x;
@@ -512,23 +537,21 @@ const activeRows = computed(() => {
         blocks.push({
           x,
           w,
-          bg: row.colorFn(e.value),
-          fg: row.fgFn(e.value),
-          label: row.labelFn(e.value),
+          bg: blockBg(key, e.value),
+          fg: blockFg(key, e.value),
+          label: formatTrackEntry(key, e),
           // Pendant un hiatus, le bloc qui a fermé ne doit pas rester surligné.
-          isActive:
-            row.activeFn(e.value, tl, props.year) &&
-            !(e.to != null && props.year > e.to),
+          isActive: activeEntry === e && !(e.to != null && props.year > e.to),
           from: e.from,
+          to: closeAt,
           fromPrecision: e.from_precision ?? 9,
           fromCirca: e.from_circa,
           notes: e.notes,
           confidence: e.confidence,
-          rowLabel: row.label,
+          rowLabel: meta.label,
         });
       }
 
-      // Hiatus : trou entre la fin d'occupation (to) et la reprise (next.from).
       if (e.to != null && e.to < nextFrom) {
         const gx = xPct(e.to);
         const gw = xPct(nextFrom) - gx;
@@ -541,9 +564,84 @@ const activeRows = computed(() => {
         }
       }
     }
-    return { key: row.key, label: row.label, blocks, gaps };
+
+    return {
+      kind: "step",
+      key,
+      label: meta.label,
+      blocks,
+      gaps,
+    } satisfies StepRow;
   });
 });
+
+// ── Vue liste ─────────────────────────────────────────────────────────────────
+
+type ListEntry = {
+  from: number;
+  fromLabel: string;
+  trackKey: string;
+  dimension: string;
+  value: string;
+  role?: RoleQualifier;
+  confidence?: string;
+  notes?: string;
+  sources?: string[];
+  isEvent?: boolean;
+};
+
+const listEntries = computed((): ListEntry[] => {
+  const tl = timeline.value;
+  if (!tl) return [];
+  const result: ListEntry[] = [];
+
+  for (const key of presentTrackKeys(tl)) {
+    const meta = TRACK_META[key];
+    for (const e of getTrack(tl, key)!.entries) {
+      result.push({
+        from: e.from,
+        fromLabel:
+          formatYear({
+            year: e.from,
+            precision: e.from_precision ?? 9,
+            circa: e.from_circa,
+          }) ?? String(e.from),
+        trackKey: key,
+        dimension: meta.label,
+        // On garde le rôle dans sa colonne dédiée, pas dans la valeur.
+        value: formatTrackEntry(key, { ...e, role: undefined }),
+        role: meta.hasRole ? e.role : undefined,
+        confidence: e.confidence,
+        notes: e.notes,
+        sources: e.sources,
+      });
+    }
+  }
+
+  for (const ev of tl.events ?? []) {
+    result.push({
+      from: ev.year,
+      fromLabel:
+        formatYear({
+          year: ev.year,
+          precision: ev.year_precision ?? 9,
+          circa: ev.year_circa,
+        }) ?? String(ev.year),
+      trackKey: "event",
+      dimension: "EVENT",
+      value: `${ev.type}${ev.perpetrator ? ` — ${ev.perpetrator}` : ""}`,
+      confidence: ev.confidence,
+      notes: ev.description,
+      isEvent: true,
+    });
+  }
+
+  return result.sort((a, b) => a.from - b.from);
+});
+
+const missingEntities = computed<MissingEntity[]>(
+  () => timeline.value?.missing_entities ?? [],
+);
 
 // ── Événements ponctuels ─────────────────────────────────────────────────────
 const EVENT_ICONS: Record<EventType, string> = {
@@ -562,7 +660,7 @@ const EVENT_ICONS: Record<EventType, string> = {
 };
 
 const events = computed(() => {
-  const tl: SiteTimeline = props.site?.timeline;
+  const tl = timeline.value;
   if (!tl?.events) return [];
   return tl.events
     .filter((e) => {
@@ -572,11 +670,13 @@ const events = computed(() => {
     .map((e) => ({
       year: e.year,
       from: e.year,
+      to: e.year,
       fromPrecision: e.year_precision ?? 9,
       fromCirca: e.year_circa,
       icon: EVENT_ICONS[e.type] ?? "●",
       label: `${e.type}${e.perpetrator ? " — " + e.perpetrator : ""}`,
       notes: e.description,
+      confidence: e.confidence,
       rowLabel: "EVENT",
     }));
 });
@@ -607,7 +707,6 @@ async function scrollToCursor() {
   await nextTick();
   if (!scrollEl.value) return;
 
-  // Attendre que le conteneur soit dimensionné
   if (scrollEl.value.clientWidth === 0) {
     await new Promise<void>((resolve) => {
       const ro = new ResizeObserver(() => {
@@ -624,8 +723,6 @@ async function scrollToCursor() {
 }
 
 watch(() => props.site, scrollToCursor);
-
-// Rescroller aussi quand l'échelle change (les positions px changent)
 watch(() => timeScale.mode.value, scrollToCursor);
 
 // ── Tooltip ───────────────────────────────────────────────────────────────────
@@ -633,21 +730,20 @@ const tooltip = reactive({
   visible: false,
   x: 0,
   y: 0,
-  from: "",
+  period: "",
   rowLabel: "",
   value: "",
+  role: "",
+  confidence: "",
   notes: "",
 });
 
 function showTooltip(event: MouseEvent, data: any) {
-  const fromStr = formatYear({
-    year: data.from,
-    precision: data.fromPrecision ?? data.year_precision ?? 9,
-    circa: data.fromCirca ?? data.year_circa,
-  });
-  tooltip.from = fromStr ?? "";
+  tooltip.period = periodLabel(data.from, data.to, data.open);
   tooltip.rowLabel = data.rowLabel ?? "";
   tooltip.value = data.label ?? "";
+  tooltip.role = data.role ?? "";
+  tooltip.confidence = data.confidence ?? "";
   tooltip.notes = data.notes ?? "";
   tooltip.visible = true;
   moveTooltip(event);
@@ -661,7 +757,7 @@ function moveTooltip(event: MouseEvent) {
   let x = event.clientX + 14;
   let y = event.clientY - 10;
   if (x + 250 > window.innerWidth) x = event.clientX - 260;
-  if (y + 150 > window.innerHeight) y = event.clientY - 150;
+  if (y + 170 > window.innerHeight) y = event.clientY - 170;
   tooltip.x = x;
   tooltip.y = y;
 }
@@ -673,7 +769,8 @@ document.addEventListener("mousemove", (e) => {
 
 <style lang="scss" scoped>
 // Largeur fixe des labels — doit correspondre à LABEL_W dans le script
-$label-w: 52px;
+$label-w: 62px;
+$lane-h: 17px;
 
 .track-container {
   flex: 1;
@@ -683,7 +780,6 @@ $label-w: 52px;
   overflow: hidden;
 }
 
-// Zone de scroll unique : horizontal + vertical
 .track-scroll {
   flex: 1;
   overflow: auto;
@@ -706,7 +802,6 @@ $label-w: 52px;
   &::-webkit-scrollbar-thumb:hover {
     background: #4a4e46;
   }
-  // Coin scrollbar (intersection H + V)
   &::-webkit-scrollbar-corner {
     background: var(--bg);
   }
@@ -724,7 +819,6 @@ $label-w: 52px;
   flex-shrink: 0;
 }
 
-// Coin en haut à gauche (sticky top + sticky left)
 .tl-axis-corner {
   width: $label-w;
   flex-shrink: 0;
@@ -823,14 +917,12 @@ $label-w: 52px;
   transform: translateY(-4px);
 }
 
-// Zone de l'axe (défile horizontalement avec les tracks)
 .tl-axis-wrap {
   position: relative;
   height: 100%;
   flex-shrink: 0;
 }
 
-// Curseur dans l'axe
 .tl-cursor-axis {
   position: absolute;
   top: 0;
@@ -846,12 +938,22 @@ $label-w: 52px;
 .tl-row {
   display: flex;
   align-items: center;
-  height: 32px;
+  min-height: 32px;
   margin-bottom: 4px;
   position: relative;
+
+  // Une piste co-occurrente empile N couloirs : le label s'aligne en haut.
+  &--lanes {
+    align-items: flex-start;
+    .tl-row-label {
+      padding-top: 2px;
+      align-items: flex-start;
+      height: auto;
+      align-self: stretch;
+    }
+  }
 }
 
-// Label sticky à gauche
 .tl-row-label {
   font-size: 10px;
   color: var(--muted);
@@ -869,7 +971,7 @@ $label-w: 52px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  // Petit dégradé pour masquer proprement les blocs qui passent dessous
+
   &::after {
     content: "";
     position: absolute;
@@ -882,7 +984,6 @@ $label-w: 52px;
   }
 }
 
-// Zone des blocs (largeur dynamique, défile)
 .tl-row-track {
   flex-shrink: 0;
   position: relative;
@@ -893,7 +994,75 @@ $label-w: 52px;
   }
 }
 
-// Curseur sur chaque row
+// ── Couloirs (pistes co-occurrentes) ─────────────────────────────────────────
+.tl-lanes {
+  flex-shrink: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 2px 0;
+}
+
+.tl-lane {
+  position: relative;
+  height: $lane-h;
+}
+
+.tl-seg {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-radius: 2px;
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  padding: 0 5px;
+  font-size: 10.5px;
+  box-sizing: border-box;
+  transition:
+    filter 0.15s,
+    opacity 0.15s;
+
+  &:hover {
+    filter: brightness(1.35);
+    z-index: 10;
+  }
+  &.active {
+    outline: 1.5px solid rgba(255, 255, 255, 0.5);
+    z-index: 5;
+  }
+
+  // Le RÔLE se lit à la bordure autant qu'à l'opacité du fond.
+  &--state {
+    border: 1px solid rgba(255, 255, 255, 0.42);
+  }
+  &--major {
+    border: 1px solid rgba(255, 255, 255, 0.22);
+  }
+  &--minor {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  &--minority {
+    border: 1px dashed rgba(255, 255, 255, 0.28);
+  }
+  &--unknown {
+    border: 1px dotted rgba(255, 255, 255, 0.15);
+  }
+
+  // Fermeture IMPLICITE (ni `to` explicite, ni entrée ultérieure de la même
+  // entité) : on ne sait pas quand ça s'arrête. Le segment s'estompe au lieu de
+  // s'arrêter net — l'ignorance doit se voir.
+  &.open {
+    border-right: none;
+    mask-image: linear-gradient(to right, #000 55%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, #000 55%, transparent 100%);
+  }
+}
+
+// ── Curseur ───────────────────────────────────────────────────────────────────
 .tl-cursor {
   position: absolute;
   top: -5px;
@@ -913,6 +1082,15 @@ $label-w: 52px;
     height: 9px;
     background: var(--accent);
     border-radius: 50%;
+  }
+
+  // Sur une pile de couloirs, le curseur traverse toute la hauteur sans pastille.
+  &--lanes {
+    top: 0;
+    bottom: 0;
+    &::before {
+      display: none;
+    }
   }
 }
 
@@ -1049,11 +1227,11 @@ $label-w: 52px;
 .tl-list-dim {
   font-size: 14px;
   letter-spacing: 0.07em;
-  min-width: 68px;
+  min-width: 78px;
   flex-shrink: 0;
   opacity: 0.7;
 }
-.tl-dim-type {
+.tl-dim-site_type {
   color: #c9a84c;
 }
 .tl-dim-polity {
@@ -1062,10 +1240,16 @@ $label-w: 52px;
 .tl-dim-culture {
   color: #a07eb8;
 }
+.tl-dim-religion {
+  color: #b8927e;
+}
+.tl-dim-language {
+  color: #7eb0b8;
+}
 .tl-dim-name {
   color: #7e9eb8;
 }
-.tl-dim-pop\. {
+.tl-dim-population {
   color: #b87e7e;
 }
 .tl-dim-event {
@@ -1076,6 +1260,33 @@ $label-w: 52px;
   flex: 1;
   color: var(--text);
   font-size: 18px;
+}
+
+// Rôle (religion / langue)
+.tl-list-role {
+  font-size: 13px;
+  padding: 2px 6px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.tl-role-state {
+  color: #d8c37a;
+  border: 1px solid rgba(216, 195, 122, 0.45);
+  background: rgba(216, 195, 122, 0.08);
+}
+.tl-role-major {
+  color: #a8bfa0;
+  border: 1px solid rgba(168, 191, 160, 0.35);
+}
+.tl-role-minor {
+  color: #8fa3b0;
+  border: 1px solid rgba(143, 163, 176, 0.28);
+}
+.tl-role-minority {
+  color: #a99ab0;
+  border: 1px dashed rgba(169, 154, 176, 0.4);
 }
 
 .tl-list-conf {
@@ -1125,5 +1336,52 @@ $label-w: 52px;
   &::after {
     content: '"';
   }
+}
+
+// ── Lacunes du référentiel ───────────────────────────────────────────────────
+.tl-missing {
+  margin-top: 14px;
+  padding: 10px 8px;
+  border: 1px dashed var(--border);
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.tl-missing-title {
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.tl-missing-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 3px 0;
+  font-size: 16px;
+}
+
+.tl-missing-name {
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.tl-missing-qid {
+  font-size: 13px;
+  color: var(--accent);
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  border-radius: 2px;
+  padding: 1px 5px;
+  flex-shrink: 0;
+}
+
+.tl-missing-ctx {
+  color: var(--muted);
+  font-style: italic;
+  font-size: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

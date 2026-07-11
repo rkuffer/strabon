@@ -9,11 +9,19 @@
 // and the V2 additions: religion/language tracks with role qualifiers,
 // referential-constrained QIDs, missing_entities safety net, filiation
 // handling, non-site rejection, and site_type evolution rules.
+//
+// THREE TRACK REGIMES (mirrors TRACK_META in @strabon/shared):
+//   - step        : polity, culture, name, population — an entry is closed by the
+//                   NEXT entry of the same track. `to` is meaningless here.
+//   - occupation  : site_type — same, plus `to` = occupation hiatus.
+//   - cooccurrent : religion, language — SEVERAL entries live at once. Nothing
+//                   closes an entry implicitly except a later entry of the SAME
+//                   entity, so `to` is REQUIRED to express disappearance.
 // =============================================================================
 
 import type { Sql } from "postgres";
 
-// ── Country resolution (replaces COUNTRY_SHORT patch) ─────────────────────────
+// ── Country resolution ────────────────────────────────────────────────────────
 
 export async function getCountryInfo(
   sql: Sql<any>,
@@ -129,8 +137,8 @@ Extract a SiteTimeline JSON object. The root object must have these keys directl
   "site_type":  { "entries": [ { "from": number, "to"?: number, "value": string, ... } ] },
   "polity":     { "entries": [ { "from": number, "value": { "name": string, "wikidata": string }, ... } ] },
   "culture":    { "entries": [ { "from": number, "value": { "name": string, "wikidata": string }, ... } ] },
-  "religion":   { "entries": [ { "from": number, "value": { "name": string, "wikidata": string }, "role": string, ... } ] },
-  "language":   { "entries": [ { "from": number, "value": { "name": string, "wikidata": string }, "role": string, ... } ] },
+  "religion":   { "entries": [ { "from": number, "to"?: number, "value": { "name": string, "wikidata": string }, "role": string, ... } ] },
+  "language":   { "entries": [ { "from": number, "to"?: number, "value": { "name": string, "wikidata": string }, "role": string, ... } ] },
   "name":       { "entries": [ { "from": number, "value": { "text": string, "lang": string }, ... } ] },
   "population": { "entries": [ { "from": number, "value": number, ... } ] },
   "events":     [ { "year": number, "type": string, ... } ],
@@ -151,15 +159,79 @@ Extract a SiteTimeline JSON object. The root object must have these keys directl
 
 Each track entry:
 - "from": integer year (negative = BC)
-- "to"?: integer year — OPTIONAL, **site_type track ONLY**. Marks the end of an
-  occupation period before a hiatus (see the dedicated section below). NEVER use
-  it on any other track, and NEVER use it for ordinary transitions.
+- "to"?: integer year — OPTIONAL. Its meaning depends on the track. Read the
+  section "The \`to\` field — three regimes" below BEFORE using it. Getting this
+  wrong corrupts the timeline.
 - "from_precision"?: 6=millennium 7=century 8=decade 9=year (default 9)
 - "from_circa"?: boolean
 - "confidence"?: "high" | "medium" | "low"
 - "sources"?: short verbatim phrases from the text
 - "notes"?: string
 - "role"?: string — religion and language tracks ONLY
+
+## The \`to\` field — three regimes. READ THIS CAREFULLY.
+
+Tracks do NOT all behave the same way, because they do not all answer the same
+kind of question. There are three regimes.
+
+### Regime 1 — STEP tracks: polity, culture, name, population
+At any moment there is exactly ONE value. Each entry is closed by the NEXT entry
+of the same track. A polity is always replaced by another polity, never by
+nothing.
+⇒ **NEVER set "to" on these tracks.** It is meaningless and will be discarded.
+A change of ruler, culture, name or population is expressed by a new entry — full
+stop.
+
+### Regime 2 — OCCUPATION track: site_type
+Same step behaviour, PLUS one special case: "to" marks an occupation HIATUS — the
+site is abandoned/deserted at one date, THEN reoccupied later after a gap. See the
+dedicated "Occupation hiatus" section below for the strict rules.
+
+### Regime 3 — CO-OCCURRENT tracks: religion, language
+Here SEVERAL entries are alive at the same time (Islam AND Christianity AND
+Judaism, all at once, with different roles). This changes everything:
+
+**A new entry does NOT close the previous one — it ADDS to it.**
+
+So nothing can close an entry implicitly, EXCEPT a later entry of the SAME entity
+(a role change: Christianity "minority" → Christianity "state"). Which means:
+
+⇒ **When a religion or a language DISAPPEARS from the site, you MUST set "to" on
+its last entry.** There is no other way to express it. If you omit it, the entity
+is understood to still be present today — which is usually FALSE for ancient
+religions and dead languages.
+
+Concretely, in Paris:
+- Roman religion is practiced from the 1st century, then dies out during
+  christianisation. Its entry NEEDS a "to" (roughly late 4th–6th c.). Without it,
+  the atlas states that Roman polytheism is still practiced in Paris today.
+- Gaulish, then Latin, cease to be spoken. Their entries NEED a "to".
+- Catholicism is still present today. Its entry takes NO "to".
+
+### Rules for "to" on religion / language
+
+- Set "to" when the entity CEASES to be present at the site: a religion dies out
+  or is suppressed, a language ceases to be spoken, a community is expelled.
+- **A role change is NOT a disappearance.** Christianity going from "minority" to
+  "state" is a NEW ENTRY of Christianity, not a "to" followed by a new one. Do not
+  close an entity that is still there.
+- **Another entity becoming dominant does NOT close this one.** Christianity
+  becoming the state religion does not delete paganism overnight — paganism keeps
+  running (with a lower role, if you can say so) until it actually dies out. That
+  is the whole point of a co-occurrent track. Do not close an entity just because
+  a rival rose.
+- **An entity that still exists today takes NO "to".** Catholicism in Paris, French
+  in Paris: no "to".
+- **An entity can disappear and COME BACK.** That is legitimate and expressive:
+  emit the first entry with a "to", then a NEW entry at the date of return. E.g.
+  Judaism in Paris: present in the Middle Ages, expelled in 1394, returning at the
+  end of the 18th century ⇒ two entries with a real gap between them.
+- Disappearance is usually GRADUAL and poorly dated. Give the best-supported date,
+  set "confidence": "low"/"medium", and say so in "notes" (e.g. "gradual decline
+  through the 5th–6th c.; date approximate"). An approximate, honestly-flagged "to"
+  is far better than no "to" at all.
+- Never set "to" before "from", and never set "to" on an entry that a later entry
+  of the SAME entity already supersedes.
 
 ## site_type — it MUST evolve over time
 
@@ -198,9 +270,10 @@ For any given period, list the 4-5 most significant religions/languages, each wi
 ### Rules for religion/language:
 - Maximum 4-5 entries per track per period. Focus on what is historically significant.
 - Entries overlap: if Islam (state) and Christianity (minority) coexist, both appear, each with its own "from".
-- When the religious/linguistic landscape CHANGES (e.g. a conquest introduces a new state religion, an emancipation shifts a role), emit new entries for the changed roles. Entries that continue unchanged need not be repeated.
-- Role changes matter: a religion moving from "state" to "major" (e.g. after secularisation) or from "minor" to "state" (e.g. after a conversion of rulers) warrants a new entry at the transition date.
+- When the religious/linguistic landscape CHANGES (a conquest introduces a new state religion, an emancipation shifts a role), emit new entries for the changed roles. Entries that continue unchanged need not be repeated.
+- Role changes matter: a religion moving from "state" to "major" (e.g. after secularisation) or from "minor" to "state" (e.g. after a conversion of rulers) warrants a NEW ENTRY of that same entity at the transition date. Do NOT use "to" for this.
 - Use ONLY the QIDs from the referential lists below for religion and language. If the religion/language is NOT in the list, DO NOT invent a QID — add it to "missing_entities" and include the timeline entry with "name" only.
+- **Close what dies.** Before you finish, re-read your religion and language tracks and ask, for EACH entity: "is it still present at this site today?" If the answer is no, its last entry MUST carry a "to". This is the single most commonly forgotten field.
 
 ### RELIGION referential — use ONLY these QIDs:
 ${refs.religions}
@@ -303,42 +376,35 @@ ${filiation}
 4. CRITICAL: Each track MUST be an object with an "entries" array. Do NOT use bare arrays. Do NOT use a "tracks" wrapper.
 5. Return ONLY valid JSON — no prose, no markdown fences, no comments.
 
-## Occupation hiatus — the optional "to" field (site_type track ONLY)
+## Occupation hiatus — the "to" field on the site_type track
 
-By DEFAULT, do NOT set "to". Each track is a step function: an entry stays in
-effect until the NEXT entry of the same track. A normal transition — a change of
-type, polity, culture, or name — is modelled by letting the next entry close the
-previous one, NEVER with "to". Setting "to" on an ordinary transition is WRONG
-and breaks the timeline.
-
-Set "to" ONLY on a site_type entry, and ONLY to mark an explicitly attested
-occupation HIATUS: the site is abandoned/deserted at one date, THEN reoccupied
-later after a gap. Model it as:
+On site_type, "to" has ONE meaning and one only: an explicitly attested occupation
+HIATUS. The site is abandoned/deserted at one date, THEN reoccupied later after a
+gap. Model it as:
   - the site_type entry covering the occupation, with "to" = year occupation ends
   - a NEW site_type entry with "from" = year of reoccupation
 The interval between "to" and the next "from" is a gap during which the site is
 considered UNOCCUPIED — it disappears from the map and stops contributing to its
 polity's and culture's spatial extent.
 
-Hard rules for "to":
+Hard rules for "to" on site_type:
+- By DEFAULT, do NOT set it. A normal transition — a change of type — is modelled by
+  letting the next entry close the previous one. Setting "to" on an ordinary
+  transition is WRONG and breaks the timeline.
 - A hiatus means the site was UNOCCUPIED / DESERTED / EMPTY for a period — NOT
   merely "sparsely populated", "declined", "reduced" or "in decline". A thinly
-  populated site is still occupied: do NOT use "to" for it. Use "to" only when the
-  source states or strongly implies the site was abandoned/deserted before being
-  reoccupied later.
+  populated site is still occupied: do NOT use "to" for it.
 - NEVER set "to" equal to (or greater than) the next entry's "from". If the next
   period begins immediately — i.e. occupation is continuous even though its
-  character changes — OMIT "to" entirely and let the next entry close this one.
-  "to" is valid ONLY when it is strictly BEFORE the next "from", leaving a real
-  unoccupied gap between them.
+  character changes — OMIT "to" entirely. "to" is valid ONLY when it is strictly
+  BEFORE the next "from", leaving a real unoccupied gap.
 - Emit "to" ONLY if a later reoccupation entry exists. A site abandoned and never
   reoccupied has NO "to" — that is a dissolution, expressed by a final
   "abandoned"/"ruins" entry or an abandonment event, not by "to".
 - NEVER emit "to" for mere uncertainty of attestation. "occupied/attested until X"
   with no mention of abandonment ⇒ NO "to".
-- NEVER set "to" on polity, culture, religion, language, name or population.
 - When you set "to", add a "notes" field citing the source for BOTH the
-  abandonment and the reoccupation (same protocol as chronological corrections).
+  abandonment and the reoccupation.
 
 Example — a tell occupied, destroyed and deserted, then reoccupied centuries later:
   "site_type": { "entries": [
@@ -349,8 +415,10 @@ Example — a tell occupied, destroyed and deserted, then reoccupied centuries l
       "confidence": "medium",
       "notes": "Reoccupied in the Neo-Assyrian period (source: ...)." }
   ] }
-Here the site is unoccupied between 1600 BC and 900 BC. The continuous case (no
-abandonment) would simply omit "to" and let the -900 entry follow the -3000 one.
+
+Remember: this hiatus meaning of "to" is SPECIFIC to site_type. On religion and
+language, "to" means something else entirely (the entity's disappearance) — see
+"The \`to\` field — three regimes" above.
 
 ## Historical names vs modern city names
 
@@ -484,6 +552,12 @@ town: Catholic Church "state", Old French/Occitan "major"), marked
 the presence of a specific minority at a specific site (a Jewish community, an
 Armenian quarter...) is site-specific DETAIL requiring attestation.
 
+Structural inference also covers DISAPPEARANCE. The extinction of Roman religion,
+of Gaulish, of Latin as a spoken vernacular are well-established regional facts:
+you may close those entries with an approximate "to" and a low-confidence note,
+even if the article says nothing about this specific site. Leaving a dead religion
+running to the present day is a worse error than an approximate closing date.
+
 SCOPE — read carefully. This is the single, scoped exception to Rule 2 ("only what
 is attested"), and it is tightly bounded:
 - It applies ONLY to the structural continuity of the **polity**, **culture**,
@@ -497,8 +571,6 @@ is attested"), and it is tightly bounded:
   general knowledge. Those remain strictly attestation-governed.
 - It does NOT override the "Epistemological caution for ancient polities" above: do
   not infer ancient or contested polities (pre-800 BC, religiously-derived, etc.).
-  Structural inference is mainly about filling FORWARD to the present for
-  well-documented regions, not inventing deep-antiquity structure.
 - If the region/period is itself poorly understood, so that even general knowledge
   cannot give a reliable framework, do NOT fabricate a trame: leave the track at its
   last attested entry and note the uncertainty. Honest gaps beat invented continuity.
@@ -540,8 +612,34 @@ ${localSection}
 Return ONLY valid JSON — no prose, no markdown fences.`;
 }
 
-// ── Timeline normalization (V2: handles religion/language tracks) ─────────────
+// ── Timeline normalization ────────────────────────────────────────────────────
 
+/**
+ * Identity key of a track value — mirrors entityKey() in @strabon/shared.
+ * QID first (the reliable key), normalised name as fallback.
+ */
+function entityKeyOf(value: any): string {
+  if (value == null) return "";
+  if (typeof value !== "object") return normName(String(value));
+  if (value.wikidata) return `qid:${value.wikidata}`;
+  if (value.name) return `name:${normName(value.name)}`;
+  if (value.text) return `name:${normName(value.text)}`;
+  return "";
+}
+
+function normName(s: string): string {
+  return s
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/**
+ * site_type: drop a `to` that is redundant (>= the next entry's `from`), i.e. the
+ * occupation is continuous and the next entry closes this one anyway.
+ */
 function normalizeSiteTypeTo(entries: any[]): any[] {
   const sorted = [...entries].sort((a, b) => (a.from ?? 0) - (b.from ?? 0));
   return sorted.map((e, i) => {
@@ -554,6 +652,47 @@ function normalizeSiteTypeTo(entries: any[]): any[] {
   });
 }
 
+/**
+ * Co-occurrent tracks (religion, language): the `to` is MEANINGFUL — it marks the
+ * disappearance of an entity. We keep it, but drop it when it is incoherent:
+ *
+ *   - to < from                        ⇒ nonsense, drop.
+ *   - a later entry of the SAME entity ⇒ that entry supersedes this one anyway
+ *     (role change), so a `to` at or beyond its `from` is redundant. Drop it.
+ *     A `to` STRICTLY BEFORE it is kept: it is a real intra-entity gap
+ *     (e.g. Judaism in Paris — expelled 1394, back in 1791).
+ *
+ * Note we deliberately do NOT drop a `to` merely because another entity has an
+ * entry afterwards: on a co-occurrent track, other entities never close this one.
+ */
+function normalizeCooccurrentTo(entries: any[]): any[] {
+  const sorted = [...entries].sort((a, b) => (a.from ?? 0) - (b.from ?? 0));
+
+  return sorted.map((e, i) => {
+    if (e.to == null) return e;
+
+    const strip = () => {
+      const { to, ...rest } = e;
+      return rest;
+    };
+
+    if (e.to < e.from) return strip();
+
+    const key = entityKeyOf(e.value);
+    let nextSame: any;
+    for (let j = i + 1; j < sorted.length; j++) {
+      if (entityKeyOf(sorted[j].value) === key) {
+        nextSame = sorted[j];
+        break;
+      }
+    }
+    if (nextSame && e.to >= nextSame.from) return strip();
+
+    return e;
+  });
+}
+
+/** Step tracks: `to` is meaningless. Remove it. */
 function stripTo(entries: any[]): any[] {
   return entries.map((e: any) => {
     if (e.to == null) return e;
@@ -561,6 +700,19 @@ function stripTo(entries: any[]): any[] {
     return rest;
   });
 }
+
+const TRACK_KEYS = [
+  "site_type",
+  "polity",
+  "culture",
+  "religion",
+  "language",
+  "name",
+  "population",
+] as const;
+
+const STEP_TRACKS = ["polity", "culture", "name", "population"] as const;
+const COOCCURRENT_TRACKS = ["religion", "language"] as const;
 
 export function normalizeTimelineV2(raw: any): any {
   if (!raw || typeof raw !== "object") return raw;
@@ -573,16 +725,6 @@ export function normalizeTimelineV2(raw: any): any {
     tl = { ...raw.tracks };
   }
 
-  const TRACK_KEYS = [
-    "site_type",
-    "polity",
-    "culture",
-    "religion",
-    "language",
-    "name",
-    "population",
-  ] as const;
-
   for (const key of TRACK_KEYS) {
     if (Array.isArray(tl[key])) {
       tl[key] = { entries: tl[key] };
@@ -594,21 +736,21 @@ export function normalizeTimelineV2(raw: any): any {
     if (tl[key] !== undefined) result[key] = tl[key];
   }
 
-  // Strip `to` from all tracks except site_type
-  for (const key of [
-    "polity",
-    "culture",
-    "religion",
-    "language",
-    "name",
-    "population",
-  ] as const) {
+  // Step tracks: `to` has no meaning — strip it.
+  for (const key of STEP_TRACKS) {
     if (result[key]?.entries) {
       result[key].entries = stripTo(result[key].entries);
     }
   }
 
-  // Normalize site_type `to` (remove redundant contiguous ones)
+  // Co-occurrent tracks: `to` marks disappearance — KEEP it, sanity-check only.
+  for (const key of COOCCURRENT_TRACKS) {
+    if (result[key]?.entries) {
+      result[key].entries = normalizeCooccurrentTo(result[key].entries);
+    }
+  }
+
+  // site_type: `to` marks an occupation hiatus — drop redundant contiguous ones.
   if (result.site_type?.entries) {
     result.site_type.entries = normalizeSiteTypeTo(result.site_type.entries);
   }
@@ -634,14 +776,5 @@ export function isRejection(parsed: any): {
 }
 
 export function isEmptyTimeline(timeline: any): boolean {
-  const tracks = [
-    "site_type",
-    "polity",
-    "culture",
-    "religion",
-    "language",
-    "name",
-    "population",
-  ];
-  return tracks.every((t) => !timeline[t]?.entries?.length);
+  return TRACK_KEYS.every((t) => !timeline[t]?.entries?.length);
 }
