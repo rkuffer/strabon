@@ -569,3 +569,39 @@ export function formatYear(
   if (wd.precision === 8) return `${pfx}${Math.floor(abs / 10) * 10}s${era}`;
   return `${pfx}${abs}${era}`;
 }
+
+/**
+ * Année de fin d'occupation du site, ou null s'il est encore habité.
+ *
+ * Un site abandonné n'a plus ni polity, ni culture, ni langue, ni religion — parce
+ * qu'il n'y a plus personne. C'est le symétrique de la règle d'attestation locale :
+ * pas d'habitants, pas de dimension humaine.
+ *
+ * Sans cette borne, les pistes ESCALIER étirent leur dernière entrée jusqu'à la fin
+ * des DONNÉES — et les données d'un site mort contiennent des entrées modernes qui
+ * ne parlent pas de son occupation : un nom archéologique (Uruk redécouverte par
+ * Loftus, "Warka", 1849), une fouille, un classement patrimonial. Résultat observé :
+ * la culture "Sumer" courait jusqu'en 1849.
+ *
+ * On lit UNIQUEMENT site_type, qui est la seule piste qui parle d'occupation. Un `to`
+ * final ou un état terminal (abandoned/ruins) ferme le site ; une entrée ultérieure
+ * de site_type le rouvre (réoccupation).
+ */
+export function getOccupationEnd(
+  timeline: SiteTimeline | undefined,
+): number | null {
+  const entries = timeline?.site_type?.entries;
+  if (!entries?.length) return null;
+
+  const sorted = [...entries].sort((a, b) => a.from - b.from);
+  const last = sorted[sorted.length - 1];
+
+  // Fin d'occupation explicite sur la dernière entrée.
+  if (last.to != null) return last.to;
+
+  // Dernier état terminal : le site est en ruines ou abandonné, et le reste.
+  const TERMINAL = ["abandoned", "ruins"];
+  if (TERMINAL.includes(String(last.value))) return last.from;
+
+  return null; // encore habité
+}

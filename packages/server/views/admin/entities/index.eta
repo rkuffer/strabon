@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title><%= it.title %></title>
+  <style>
+    :root {
+      --bg: #17181a; --surface: #1e2022; --border: #2f3336;
+      --text: #d9d5cc; --muted: #8b8f93; --accent: #c9a84c;
+      --polity: #7eb8a0; --culture: #a07eb8;
+      --religion: #b8927e; --language: #7eb0b8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font: 14px/1.5 -apple-system, "Segoe UI", system-ui, sans-serif;
+    }
+    header {
+      padding: 16px 24px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: baseline; gap: 16px;
+    }
+    h1 { margin: 0; font-size: 18px; letter-spacing: .1em; color: var(--accent);
+         text-transform: uppercase; font-weight: 500; }
+    .back { color: var(--muted); text-decoration: none; font-size: 13px; }
+    .back:hover { color: var(--text); }
+    main { padding: 20px 24px 60px; }
+
+    /* Kind tabs */
+    .tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+    .tab {
+      padding: 6px 14px; border: 1px solid var(--border); border-radius: 3px;
+      color: var(--muted); text-decoration: none; font-size: 13px;
+      letter-spacing: .05em; text-transform: uppercase;
+      display: flex; align-items: center; gap: 7px;
+    }
+    .tab:hover { border-color: var(--text); color: var(--text); }
+    .tab.on { border-color: currentColor; background: rgba(255,255,255,.04); }
+    .tab.on.polity   { color: var(--polity); }
+    .tab.on.culture  { color: var(--culture); }
+    .tab.on.religion { color: var(--religion); }
+    .tab.on.language { color: var(--language); }
+    .tab .n { font-size: 11px; opacity: .6; letter-spacing: 0; }
+
+    /* Filters */
+    form.filters {
+      display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    input[type=search], select {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 3px;
+      color: var(--text); padding: 6px 9px; font-size: 13px; font-family: inherit;
+    }
+    input[type=search] { min-width: 240px; }
+    input[type=search]:focus, select:focus { outline: none; border-color: var(--accent); }
+    button {
+      background: rgba(201,168,76,.1); border: 1px solid rgba(201,168,76,.35);
+      color: var(--accent); border-radius: 3px; padding: 6px 12px;
+      font-size: 13px; cursor: pointer; font-family: inherit;
+    }
+    button:hover { background: rgba(201,168,76,.18); }
+    .chk { display: flex; align-items: center; gap: 5px; color: var(--muted); font-size: 13px; }
+
+    .stats { color: var(--muted); font-size: 13px; margin-bottom: 10px; }
+    .stats b { color: var(--text); font-weight: 500; }
+    .stats .warn { color: #b8926a; }
+
+    /* Table */
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      text-align: left; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--muted); font-weight: 500; padding: 8px 10px;
+      border-bottom: 1px solid var(--border); position: sticky; top: 0;
+      background: var(--bg);
+    }
+    th a { color: inherit; text-decoration: none; }
+    th a:hover { color: var(--text); }
+    td { padding: 7px 10px; border-bottom: 1px solid rgba(47,51,54,.5); vertical-align: top; }
+    tr:hover td { background: rgba(255,255,255,.02); }
+
+    .qid { font-family: ui-monospace, monospace; font-size: 12px; }
+    .qid a { color: var(--accent); text-decoration: none; }
+    .qid a:hover { text-decoration: underline; }
+    .label { color: var(--text); }
+    .desc { color: var(--muted); font-size: 13px; font-style: italic; }
+    .fam {
+      font-size: 11px; padding: 1px 6px; border-radius: 2px; white-space: nowrap;
+      border: 1px solid var(--border); color: var(--muted);
+    }
+    .usage { text-align: right; font-variant-numeric: tabular-nums; }
+    .usage b { color: var(--accent); font-weight: 500; }
+    .usage.zero { color: #55595c; }
+    .empty { padding: 30px; text-align: center; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Referential</h1>
+    <a class="back" href="/admin">← Admin</a>
+  </header>
+
+  <main>
+    <!-- Kind selector -->
+    <div class="tabs">
+      <% it.kinds.forEach(function(k){ %>
+        <a class="tab <%= k %> <%= k === it.kind ? 'on' : '' %>"
+           href="/admin/entities?kind=<%= k %>">
+          <%= k %><span class="n"><%= it.kindCounts[k] || 0 %></span>
+        </a>
+      <% }) %>
+    </div>
+
+    <!-- Filters -->
+    <form class="filters" method="get" action="/admin/entities">
+      <input type="hidden" name="kind" value="<%= it.kind %>" />
+
+      <input type="search" name="q" value="<%= it.q %>"
+             placeholder="Search label, description or QID…" />
+
+      <% if (it.families.length) { %>
+        <select name="family">
+          <option value="">All families</option>
+          <% it.families.forEach(function(f){ %>
+            <option value="<%= f.family_label %>"
+              <%= f.family_label === it.family ? 'selected' : '' %>>
+              <%= f.family_label %> (<%= f.n %>)
+            </option>
+          <% }) %>
+        </select>
+      <% } %>
+
+      <select name="sort">
+        <option value="usage" <%= it.sort === 'usage' ? 'selected' : '' %>>Sort by usage</option>
+        <option value="label" <%= it.sort === 'label' ? 'selected' : '' %>>Sort by label</option>
+      </select>
+
+      <label class="chk">
+        <input type="checkbox" name="unused" value="1" <%= it.unusedOnly ? 'checked' : '' %> />
+        Unused only
+      </label>
+
+      <button type="submit">Filter</button>
+    </form>
+
+    <div class="stats">
+      <b><%= it.stats.total %></b> entities ·
+      <b><%= it.stats.used %></b> used by at least one site ·
+      <span class="<%= it.stats.unused > 0 ? 'warn' : '' %>"><b><%= it.stats.unused %></b> never used</span>
+    </div>
+
+    <% if (!it.entities.length) { %>
+      <div class="empty">No entity matches these filters.</div>
+    <% } else { %>
+      <table>
+        <thead>
+          <tr>
+            <th style="width:90px">QID</th>
+            <th>Label</th>
+            <th>Description</th>
+            <th style="width:130px">Family</th>
+            <th style="width:70px" class="usage">Sites</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% it.entities.forEach(function(e){ %>
+            <tr>
+              <td class="qid">
+                <a href="https://www.wikidata.org/wiki/<%= e.qid %>"
+                   target="_blank" rel="noopener"><%= e.qid %></a>
+              </td>
+              <td class="label"><%= e.label_en %></td>
+              <td class="desc"><%= e.description_en || '' %></td>
+              <td>
+                <% if (e.family_label) { %>
+                  <span class="fam"><%= e.family_label %></span>
+                <% } %>
+              </td>
+              <td class="usage <%= e.usage === 0 ? 'zero' : '' %>">
+                <% if (e.usage > 0) { %><b><%= e.usage %></b><% } else { %>—<% } %>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </main>
+</body>
+</html>

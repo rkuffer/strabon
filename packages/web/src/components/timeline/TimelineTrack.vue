@@ -290,6 +290,7 @@ import {
   TRACK_META,
   isCooccurrent,
   SCALE_LABELS,
+  getOccupationEnd,
 } from "@strabon/shared";
 import type {
   SiteTimeline,
@@ -351,8 +352,29 @@ const dataBounds = computed(() => {
   return { min: b.min, max };
 });
 
-// Borne droite utilisée pour fermer les segments encore ouverts.
+// Borne droite des pistes. Deux notions distinctes, à ne pas confondre :
+//
+//  - dataBounds.max : la fin des DONNÉES. Inclut les entrées modernes qui ne parlent
+//    pas d'occupation (nom archéologique, fouille, classement). C'est ce qu'il faut
+//    pour dimensionner l'AXE.
+//  - occupationEnd  : la fin de l'OCCUPATION. C'est ce qu'il faut pour FERMER les
+//    pistes humaines (polity, culture, religion, language) : un site mort n'a plus
+//    de polity. Sans ça, Sumer courait jusqu'en 1849 à Uruk, étirée par le nom
+//    « Warka » donné au site archéologique.
+const occupationEnd = computed(() => getOccupationEnd(timeline.value));
+
 const endYear = computed(() => dataBounds.value.max);
+
+// Pistes humaines : elles s'arrêtent avec les habitants.
+const HUMAN_TRACKS: TrackKey[] = ["polity", "culture", "religion", "language"];
+
+function trackEnd(key: TrackKey): number {
+  const occ = occupationEnd.value;
+  if (occ != null && HUMAN_TRACKS.includes(key)) {
+    return Math.min(occ, endYear.value);
+  }
+  return endYear.value;
+}
 
 const tlRange = computed(() => {
   const { min, max } = dataBounds.value;
@@ -562,11 +584,11 @@ function blockFg(key: TrackKey, v: any, role?: RoleQualifier): string {
 const rows = computed<(StepRow | LaneRow)[]>(() => {
   const tl = timeline.value;
   if (!tl) return [];
-  const end = endYear.value;
 
   return presentTrackKeys(tl).map((key) => {
     const meta = TRACK_META[key];
     const track = getTrack(tl, key)!;
+    const end = trackEnd(key);
 
     // ── Pistes CO-OCCURRENTES : couloirs ─────────────────────────────────────
     if (isCooccurrent(key)) {
@@ -791,6 +813,7 @@ const EVENT_ICONS: Record<EventType, string> = {
   earthquake: "🌊",
   flood: "🌊",
   plague: "☠",
+  massacre: "☠",
   siege: "⚔",
   conquest: "⚔",
   founding: "✦",
