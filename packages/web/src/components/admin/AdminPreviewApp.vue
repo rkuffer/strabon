@@ -98,10 +98,11 @@ const props = defineProps<{
 
 // ── État ──────────────────────────────────────────────────────────────────────
 const state = ref<{
-  timeline: SiteTimeline | null;
+  timeline: any;
   model: string;
   extractedAt: string;
-}>({ timeline: null, model: "", extractedAt: "" });
+  runId: number | null;
+}>({ timeline: null, model: "", extractedAt: "", runId: null });
 
 const showRaw = ref(false);
 const rawJson = ref("");
@@ -169,11 +170,12 @@ const trackSummary = computed(() => {
 
 // ── Écoute l'événement depuis la page Eta ────────────────────────────────────
 function onTimelineExtracted(e: Event) {
-  const { timeline, model, extracted_at } = (e as CustomEvent).detail;
+  const { timeline, model, extracted_at, run_id } = (e as CustomEvent).detail;
   state.value = {
     timeline,
     model: model ?? "",
     extractedAt: extracted_at ?? "",
+    runId: run_id ?? null,
   };
   rawJson.value = JSON.stringify(timeline, null, 2);
   parseError.value = "";
@@ -216,8 +218,10 @@ async function confirm() {
       timeline: state.value.timeline,
       model: state.value.model,
       extracted_at: state.value.extractedAt,
+      run_id: state.value.runId,
     }),
   });
+
   const data = await res.json();
   confirmResult.value = res.ok ? data : { ok: false, error: data.error };
   confirming.value = false;

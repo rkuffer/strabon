@@ -1,0 +1,35 @@
+
+Q125434  Gqeberha  (4 runs, 99 sitelinks)
+  # 20 11:57 08b9b1bc site:4 poli:4 cult:1 reli:3 lang:4 name:4 popu:4 ev:2 miss:2 v:0
+  # 21 11:58 08b9b1bc site:4 poli:4 cult:1 reli:3 lang:5 name:4 popu:4 ev:2 miss:2 v:0
+  # 22 11:59 08b9b1bc site:4 poli:5 cult:1 reli:4 lang:4 name:3 popu:4 ev:1 miss:3 v:2
+  # 23 12:00 08b9b1bc site:4 poli:5 cult:2 reli:3 lang:5 name:4 popu:4 ev:2 miss:4 v:2
+
+Q1365138  Sơn Tây  (6 runs, 16 sitelinks)
+  #  1 11:28 08b9b1bc site:5 poli:5 cult:1 reli:3 lang:3 name:2 popu:1 ev:0 miss:2 v:1
+  #  2 11:33 08b9b1bc site:5 poli:4 cult:0 reli:3 lang:2 name:4 popu:1 ev:1 miss:1 v:1
+  #  3 11:35 08b9b1bc site:4 poli:5 cult:0 reli:3 lang:2 name:1 popu:1 ev:1 miss:2 v:0
+  #  4 11:36 08b9b1bc site:3 poli:2 cult:0 reli:3 lang:2 name:1 popu:1 ev:0 miss:0 v:0
+  #  5 11:38 08b9b1bc site:5 poli:5 cult:0 reli:2 lang:2 name:2 popu:1 ev:1 miss:1 v:1
+  #  6 11:39 08b9b1bc site:5 poli:5 cult:0 reli:3 lang:3 name:2 popu:1 ev:1 miss:2 v:1
+
+Q5863103  Jushatuy-e Sofla  (3 runs, 13 sitelinks)
+  # 14 11:51 08b9b1bc REJECTED site:0 poli:0 cult:0 reli:0 lang:0 name:0 popu:0 ev:0 miss:0 v:0
+  # 15 11:52 08b9b1bc REJECTED site:0 poli:0 cult:0 reli:0 lang:0 name:0 popu:0 ev:0 miss:0 v:0
+  # 16 11:53 08b9b1bc REJECTED site:0 poli:0 cult:0 reli:0 lang:0 name:0 popu:0 ev:0 miss:0 v:0
+
+Q68579  Putian  (3 runs, 52 sitelinks)
+  # 17 11:54 08b9b1bc site:2 poli:11 cult:1 reli:3 lang:3 name:2 popu:0 ev:1 miss:0 v:0
+  # 18 11:55 08b9b1bc site:3 poli:11 cult:1 reli:3 lang:3 name:7 popu:0 ev:2 miss:2 v:1
+  # 19 11:56 08b9b1bc site:3 poli:11 cult:1 reli:3 lang:3 name:7 popu:1 ev:2 miss:0 v:0
+
+Q84  London  (4 runs, 353 sitelinks)
+  #  7 11:40 08b9b1bc site:7 poli:7 cult:4 reli:8 lang:6 name:6 popu:9 ev:6 miss:1 v:0
+  #  8 11:42 08b9b1bc site:8 poli:6 cult:4 reli:9 lang:6 name:7 popu:10 ev:14 miss:1 v:0
+  #  9 11:43 08b9b1bc site:7 poli:7 cult:3 reli:8 lang:6 name:7 popu:10 ev:6 miss:1 v:0
+  # 10 11:45 08b9b1bc site:7 poli:7 cult:4 reli:8 lang:6 name:8 popu:11 ev:6 miss:1 v:0
+
+Q90  Paris  (3 runs, 361 sitelinks)
+  # 11 11:47 08b9b1bc site:3 poli:19 cult:3 reli:10 lang:7 name:5 popu:5 ev:5 miss:2 v:2
+  # 12 11:49 08b9b1bc site:5 poli:20 cult:3 reli:8 lang:6 name:5 popu:5 ev:7 miss:2 v:2
+  # 13 11:51 08b9b1bc site:3 poli:19 cult:3 reli:6 lang:5 name:7 popu:9 ev:9 miss:2 v:0

@@ -19,6 +19,13 @@ import {
 } from "../../agent/extract-v2.js";
 import { validateTimelineQids } from "../../agent/validate-timeline.js";
 import { recordGaps } from "../../agent/referential-gaps.js";
+import {
+  recordPromptVersion,
+  recordRun,
+  confirmRun,
+  referentialHash,
+} from "../../agent/run-history.js";
+import { EXTRACTION_PROMPT_TEMPLATE } from "../../agent/extract-v2.js";
 
 const MODEL = process.env.ANTHROPIC_MODEL ?? "claude-sonnet-4-6";
 const ROUTER_MODEL =
@@ -78,10 +85,12 @@ type ExtractOutcome =
       raw: string;
       localLang: string | null;
       violations: number;
+      /** Row id in site_extractions — lets /confirm flag the human's verdict. */
+      runId: number | null;
     }
-  | { kind: "rejected"; reason: string }
+  | { kind: "rejected"; reason: string; runId: number | null }
   | { kind: "no_content" }
-  | { kind: "empty" };
+  | { kind: "empty"; runId: number | null };
 
 async function extractSite(
   sql: any,
@@ -117,6 +126,16 @@ async function extractSite(
   const prompt = buildPromptV2(site.title_en, wikiContext, refs, filiation);
   console.log(`[extract] prompt: ${prompt.length} chars → ${MODEL}`);
 
+  // Archive the prompt TEMPLATE (markers unsubstituted) if we have not seen this
+  // version before. The repo stays the source of truth; this is a log of what
+  // actually ran — the way a deployment log records what was shipped.
+  const promptHash = await recordPromptVersion(
+    sql,
+    "extraction",
+    EXTRACTION_PROMPT_TEMPLATE,
+  );
+  const refHash = referentialHash(refs);
+
   const t = Date.now();
   const { raw, timeline } = await callClaude(prompt);
   console.log(`[extract] ✓ LLM en ${Date.now() - t}ms`);
@@ -124,12 +143,33 @@ async function extractSite(
   // 3. Rejection (non-site detected by the model)
   const rejection = isRejection(timeline);
   if (rejection.rejected) {
-    return { kind: "rejected", reason: rejection.reason ?? "non-site" };
+    // Recorded too: a rejection is a run, and a sample of the model's behaviour.
+    const runId = await recordRun(sql, {
+      siteId: site.id,
+      timeline,
+      model: MODEL,
+      promptHash,
+      referentialHash: refHash,
+      localLang: wikiContext.localLang || null,
+      rejected: true,
+      rejectionReason: rejection.reason ?? "non-site",
+    });
+    return { kind: "rejected", reason: rejection.reason ?? "non-site", runId };
   }
 
   // 4. Empty timeline (nothing extractable)
   if (isEmptyTimeline(timeline)) {
-    return { kind: "empty" };
+    const runId = await recordRun(sql, {
+      siteId: site.id,
+      timeline,
+      model: MODEL,
+      promptHash,
+      referentialHash: refHash,
+      localLang: wikiContext.localLang || null,
+      rejected: true,
+      rejectionReason: "empty timeline",
+    });
+    return { kind: "empty", runId };
   }
 
   // 5. Deterministic QID validation (strips cross-track reuse + invented QIDs)
@@ -144,12 +184,29 @@ async function extractSite(
     }
   }
 
+  // 6. Record the run — the WHOLE point of doing it here, in the one place where
+  //    the prompt is built: /run and /stream are both covered, with no duplicated
+  //    logic and no path that can silently forget to record.
+  //
+  //    Previews are recorded too. Today's three London runs were all previews, and
+  //    they are exactly the corpus we need. Only /confirm sets `confirmed`.
+  const runId = await recordRun(sql, {
+    siteId: site.id,
+    timeline: validated,
+    model: MODEL,
+    promptHash,
+    referentialHash: refHash,
+    localLang: wikiContext.localLang || null,
+    qidViolations: violations.length,
+  });
+
   return {
     kind: "ok",
     timeline: validated,
     raw,
     localLang: wikiContext.localLang || null,
     violations: violations.length,
+    runId,
   };
 }
 
@@ -283,6 +340,10 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
           router_model: ROUTER_MODEL,
           local_lang: outcome.localLang,
           qid_violations: outcome.violations,
+          // The client echoes this back on /confirm so we can flag the run as
+          // human-validated. Optional: without it the run is still recorded, only
+          // the verdict is lost.
+          run_id: outcome.runId,
           extracted_at: new Date().toISOString(),
         });
       } catch (err) {
@@ -310,9 +371,15 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
   // POST /admin/extract/:id/confirm — valide et écrit en base
   app.post<{
     Params: { id: string };
-    Body: { timeline: SiteTimeline; model?: string; extracted_at?: string };
+    Body: {
+      timeline: SiteTimeline;
+      model?: string;
+      extracted_at?: string;
+      /** Row id returned by /run — flags that run as human-validated. */
+      run_id?: number | null;
+    };
   }>("/admin/extract/:id/confirm", async (req, reply) => {
-    const { timeline, model, extracted_at } = req.body;
+    const { timeline, model, extracted_at, run_id } = req.body;
     const { id } = req.params;
 
     if (!timeline)
@@ -347,6 +414,9 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
       (validated as any).missing_entities,
       validated,
     );
+
+    // The run itself was already recorded by /run — we only stamp the verdict.
+    if (run_id) await confirmRun(sql, run_id);
 
     return reply.send({
       ok: true,
@@ -460,6 +530,10 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
             outcome.timeline.missing_entities,
             outcome.timeline,
           );
+
+          // A batch run IS written to sites.timeline, so it is confirmed de facto —
+          // no human ever looked at it, but it is the timeline in production.
+          if (outcome.runId) await confirmRun(sql, outcome.runId);
 
           done++;
           send("done_one", {

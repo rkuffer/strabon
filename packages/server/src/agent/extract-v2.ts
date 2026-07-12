@@ -20,6 +20,7 @@
 // =============================================================================
 
 import type { Sql } from "postgres";
+import { hashText } from "./run-history.js";
 
 // ── Country resolution ────────────────────────────────────────────────────────
 
@@ -98,26 +99,13 @@ export function getFiliationContext(site: any): string {
   return parts.length ? `\n## Filiation\n${parts.join("\n")}\n` : "";
 }
 
-// ── V2 Prompt builder — merged V1 foundation + V2 additions ──────────────────
+// ── Prompt builder ──────────────────
 
-export function buildPromptV2(
-  title: string,
-  context: { en: string; local: string; localLang: string },
-  refs: {
-    religions: string;
-    languages: string;
-    polities: string;
-    cultures: string;
-  },
-  filiation: string,
-): string {
-  const localSection = context.local
-    ? `\n## Local language source (${context.localLang})\nThe following is extracted from the ${context.localLang} Wikipedia article. It may contain additional names, dates or details not present in the English version. Use it to complement the English source.\n---\n${context.local}\n---`
-    : "";
+// Le template EST l'artefact archivé. Il porte ses trous — pas d'instanciation,
+// donc pas de paramètre à neutraliser, donc rien à oublier quand on en ajoutera un.
+export const EXTRACTION_PROMPT_TEMPLATE = `You are extracting structured historical timeline data from Wikipedia articles about an inhabited place or historical site.
 
-  return `You are extracting structured historical timeline data from Wikipedia articles about an inhabited place or historical site.
-
-Site: "${title}"
+Site: "{{title}}"
 
 ## Non-site detection — check FIRST
 
@@ -423,17 +411,17 @@ Two things this rule does NOT mean:
 The same applies to language: if you record "Chinese" and then "Puxian Min", or "Kurdish" and then "Sorani Kurdish", close the broader one when the narrower one begins. Do not stack a language on top of its own dialect.
 
 ### RELIGION referential — use ONLY these QIDs:
-${refs.religions}
+{{religions}}
 
 ### LANGUAGE referential — use ONLY these QIDs:
-${refs.languages}
+{{languages}}
 
 ## Wikidata QID rules — CRITICAL
 
 The "wikidata" field for polity and culture entries MUST be the QID of the ENTITY ITSELF.
 
 ### POLITY QIDs — use these exact QIDs when applicable:
-${refs.polities}
+{{polities}}
 
 If the polity is not in this list, look up its actual Wikidata QID from your knowledge and use it.
 If you cannot find a Wikidata QID, omit the "wikidata" field entirely (the entry will still appear in the timeline).
@@ -441,7 +429,7 @@ NEVER invent a QID. NEVER use a "local_" identifier.
 NEVER use the QID of a city, a region, or a person as a polity QID.
 
 ### CULTURE QIDs — use these exact QIDs when applicable:
-${refs.cultures}
+{{cultures}}
 
 If the culture is not in this list, look up its actual Wikidata QID from your knowledge and use it.
 If you cannot find a Wikidata QID, omit the "wikidata" field entirely (the entry will still appear in the timeline).
@@ -516,7 +504,8 @@ Rules:
 
 The division of labour is: the timeline carries only QIDs you are SURE of;
 "proposed_qid" carries the ones you merely SUSPECT, for machine verification.
-${filiation}
+{{filiation}}
+
 ## Rules
 
 1. Each track entry signals a CHANGE for that dimension only. Other tracks are independent.
@@ -877,15 +866,55 @@ If you catch yourself writing "not from the article", "standard historical estim
 An empty population track is a correct and honest output. An invented figure is a data point on a demographic curve, forever, and nothing distinguishes it from a real one.
 
 ## Wikipedia sources
-${context.local ? `Two sources are provided: the English article (primary) and a local language article (${context.localLang}, supplementary). Prefer the English source for dates and political entities; use the local source primarily for vernacular names and any additional historical details it provides.` : ""}
+
+{{two_sources_note}}
 
 ### English article (pre-filtered to historical sections)
 ---
-${context.en}
+{{context_en}}
 ---
-${localSection}
+{{local_section}}
 
 Return ONLY valid JSON — no prose, no markdown fences.`;
+
+export const EXTRACTION_PROMPT_HASH = hashText(EXTRACTION_PROMPT_TEMPLATE);
+
+export function buildPromptV2(
+  title: string,
+  context: { en: string; local: string; localLang: string },
+  refs: {
+    religions: string;
+    languages: string;
+    polities: string;
+    cultures: string;
+  },
+  filiation: string,
+): string {
+  const localSection = context.local
+    ? `\n## Local language source (${context.localLang})\nThe following is extracted from the ${context.localLang} Wikipedia article. It may contain additional names, dates or details not present in the English version. Use it to complement the English source.\n---\n${context.local}\n---`
+    : "";
+  const twoSources = context.local
+    ? `Two sources are provided: the English article (primary) and a local language article (${context.localLang}, supplementary). Prefer the English source for dates and political entities; use the local source primarily for vernacular names and any additional historical details it provides.`
+    : "";
+
+  const out = EXTRACTION_PROMPT_TEMPLATE.replaceAll("{{title}}", title)
+    .replaceAll("{{religions}}", refs.religions)
+    .replaceAll("{{languages}}", refs.languages)
+    .replaceAll("{{polities}}", refs.polities)
+    .replaceAll("{{cultures}}", refs.cultures)
+    .replaceAll("{{filiation}}", filiation)
+    .replaceAll("{{two_sources_note}}", twoSources)
+    .replaceAll("{{context_en}}", context.en)
+    .replaceAll("{{local_section}}", localSection);
+
+  // Un marqueur résiduel = un câblage oublié. Mieux vaut échouer ici que d'envoyer
+  // « {{cultures}} » à Claude. (On perd le typecheck sur les interpolations ; ce
+  // garde-fou attrape la même classe d'erreur, en plus large.)
+  const leftover = out.match(/\{\{(\w+)\}\}/);
+  if (leftover) {
+    throw new Error(`Prompt template: unsubstituted marker ${leftover[0]}`);
+  }
+  return out;
 }
 
 // ── Timeline normalization ────────────────────────────────────────────────────
