@@ -61,42 +61,63 @@
     <!-- ── Vue liste ──────────────────────────────────────────────────────── -->
     <div v-if="listView" class="tl-list-view">
       <div v-if="!listEntries.length" class="tl-list-empty">No data</div>
+
       <div
-        v-for="(entry, i) in listEntries"
-        :key="i"
-        class="tl-list-entry"
-        :class="{ 'tl-list-entry--event': entry.isEvent }"
+        v-for="section in listSections"
+        :key="section.key"
+        class="tl-list-section"
       >
-        <div class="tl-list-row">
-          <span class="tl-list-from">{{ entry.fromLabel }}</span>
-          <span class="tl-list-dim" :class="`tl-dim-${entry.trackKey}`">{{
-            entry.dimension
-          }}</span>
-          <span class="tl-list-value">{{ entry.value }}</span>
-          <span
-            v-if="entry.role"
-            class="tl-list-role"
-            :class="`tl-role-${entry.role}`"
-            >{{ entry.role }}</span
-          >
-          <span
-            v-if="entry.confidence"
-            class="tl-list-conf"
-            :class="`tl-conf-${entry.confidence}`"
-            >{{ entry.confidence }}</span
-          >
+        <div
+          v-if="section.label"
+          class="tl-section-head"
+          :class="`tl-dim-${section.key}`"
+        >
+          {{ section.label }}
+          <span class="tl-section-count">{{ section.entries.length }}</span>
         </div>
-        <div v-if="entry.notes" class="tl-list-meta">
-          <span class="tl-list-meta-lbl">Notes</span> {{ entry.notes }}
-        </div>
-        <div v-if="entry.sources?.length" class="tl-list-meta">
-          <span class="tl-list-meta-lbl">Sources</span>
-          <span
-            v-for="(src, si) in entry.sources"
-            :key="si"
-            class="tl-list-src"
-            >{{ src }}</span
-          >
+
+        <div
+          v-for="(entry, i) in section.entries"
+          :key="i"
+          class="tl-list-entry"
+          :class="{ 'tl-list-entry--event': entry.isEvent }"
+        >
+          <div class="tl-list-row">
+            <span class="tl-list-from">{{ entry.fromLabel }}</span>
+            <!-- Groupé par dimension, le libellé de piste est redondant : le titre
+                 de section le porte déjà. -->
+            <span
+              v-if="listGrouping !== 'track'"
+              class="tl-list-dim"
+              :class="`tl-dim-${entry.trackKey}`"
+              >{{ entry.dimension }}</span
+            >
+            <span class="tl-list-value">{{ entry.value }}</span>
+            <span
+              v-if="entry.role"
+              class="tl-list-role"
+              :class="`tl-role-${entry.role}`"
+              >{{ entry.role }}</span
+            >
+            <span
+              v-if="entry.confidence"
+              class="tl-list-conf"
+              :class="`tl-conf-${entry.confidence}`"
+              >{{ entry.confidence }}</span
+            >
+          </div>
+          <div v-if="entry.notes" class="tl-list-meta">
+            <span class="tl-list-meta-lbl">Notes</span> {{ entry.notes }}
+          </div>
+          <div v-if="entry.sources?.length" class="tl-list-meta">
+            <span class="tl-list-meta-lbl">Sources</span>
+            <span
+              v-for="(src, si) in entry.sources"
+              :key="si"
+              class="tl-list-src"
+              >{{ src }}</span
+            >
+          </div>
         </div>
       </div>
 
@@ -167,7 +188,12 @@
             class="tl-cursor tl-cursor--lanes"
             :style="{ left: cursorPct + '%' }"
           />
-          <div v-for="lane in row.lanes" :key="lane.key" class="tl-lane">
+          <div
+            v-for="lane in row.lanes"
+            :key="lane.key"
+            class="tl-lane"
+            :style="{ height: lane.h + 'px' }"
+          >
             <div
               v-for="(seg, si) in lane.segments"
               :key="si"
@@ -280,6 +306,8 @@ const props = defineProps<{
   site: any;
   year: number;
   listView?: boolean;
+  /** Vue liste : groupée par dimension (défaut) ou chronologique pure. */
+  listGrouping?: "track" | "chrono";
 }>();
 
 const emit = defineEmits<{ "update:listView": [value: boolean] }>();
@@ -383,16 +411,31 @@ const TRACK_HUE: Record<string, number> = {
 const HUE_SPREAD = 0;
 
 // Le RÔLE se lit à l'intensité. fg = luminosité du texte (%).
+// `h` = hauteur du couloir en px. Le rôle se lit donc DEUX fois : à l'intensité de
+// la couleur et à l'épaisseur du couloir. Redondance voulue sur un signal qu'on lit
+// d'un coup d'œil — et gain de place réel : à Shamakhi, 8 couloirs passent de 136px
+// à ~90px sans rien perdre.
 const ROLE_STYLE: Record<
   RoleQualifier | "unknown",
-  { s: number; l: number; a: number; fg: number }
+  { s: number; l: number; a: number; fg: number; h: number }
 > = {
-  state: { s: 58, l: 50, a: 0.95, fg: 96 },
-  major: { s: 44, l: 40, a: 0.88, fg: 88 },
-  minor: { s: 30, l: 30, a: 0.8, fg: 76 },
-  minority: { s: 20, l: 24, a: 0.72, fg: 66 },
-  unknown: { s: 25, l: 32, a: 0.78, fg: 72 },
+  state: { s: 58, l: 50, a: 0.95, fg: 96, h: 18 },
+  major: { s: 44, l: 40, a: 0.88, fg: 88, h: 15 },
+  minor: { s: 30, l: 30, a: 0.8, fg: 76, h: 12 },
+  minority: { s: 20, l: 24, a: 0.72, fg: 66, h: 10 },
+  unknown: { s: 25, l: 32, a: 0.78, fg: 72, h: 12 },
 };
+
+/**
+ * Hauteur d'un couloir, dictée par le rôle DOMINANT atteint par l'entité sur toute
+ * sa durée — pas segment par segment, sinon le couloir changerait d'épaisseur en
+ * cours de route et deviendrait illisible. Le catholicisme parisien (state → minor →
+ * major) garde donc l'épaisseur de `state` : le couloir dit « cette entité a compté
+ * ici », les segments disent « voici comment son statut a varié ».
+ */
+function laneHeight(topRole?: RoleQualifier): number {
+  return ROLE_STYLE[topRole ?? "unknown"].h;
+}
 
 // site_type : rang de « puissance » du lieu (0 → 1). Pilote saturation+luminosité.
 const SITE_TYPE_RANK: Record<string, number> = {
@@ -466,7 +509,7 @@ type LaneRow = {
   kind: "lanes";
   key: TrackKey;
   label: string;
-  lanes: { key: string; segments: Block[] }[];
+  lanes: { key: string; h: number; segments: Block[] }[];
 };
 
 function fmtY(year: number): string {
@@ -534,6 +577,7 @@ const rows = computed<(StepRow | LaneRow)[]>(() => {
 
       const lanes = buildLanes(track, end).map((lane) => ({
         key: lane.key,
+        h: laneHeight(lane.topRole),
         segments: lane.segments
           .map((seg): Block | null => {
             const x = xPct(seg.from);
@@ -644,6 +688,10 @@ type ListEntry = {
   isEvent?: boolean;
 };
 
+/**
+ * Entrées de la vue liste, à plat, triées chronologiquement.
+ * C'est la source des DEUX modes de groupement.
+ */
 const listEntries = computed((): ListEntry[] => {
   const tl = timeline.value;
   if (!tl) return [];
@@ -693,6 +741,45 @@ const listEntries = computed((): ListEntry[] => {
   return result.sort((a, b) => a.from - b.from);
 });
 
+/**
+ * La liste en SECTIONS, selon le mode de groupement.
+ *
+ * - "track" (défaut) : une section par dimension, chacune chronologique. Chaque piste
+ *   se lit alors comme un récit continu — toute l'histoire politique d'un trait, puis
+ *   toute l'histoire religieuse. C'est la lecture d'un atlas, et c'est aussi celle qui
+ *   rend les LACUNES visibles (une culture vide pendant 5 000 ans se voit).
+ * - "chrono" : une seule section, tout entrelacé. Répond à « que se passait-il en
+ *   1453 ? ».
+ *
+ * Deux questions, deux vues. Aucune ne remplace l'autre.
+ */
+type ListSection = { key: string; label: string | null; entries: ListEntry[] };
+
+const listSections = computed((): ListSection[] => {
+  const entries = listEntries.value;
+  if (!entries.length) return [];
+
+  if (props.listGrouping === "chrono") {
+    return [{ key: "all", label: null, entries }];
+  }
+
+  // Ordre narratif des pistes (TRACK_KEYS), les événements en dernier.
+  const order = [...presentTrackKeys(timeline.value), "event"] as string[];
+  const sections: ListSection[] = [];
+
+  for (const key of order) {
+    const rows = entries.filter((e) => e.trackKey === key);
+    if (!rows.length) continue;
+    sections.push({
+      key,
+      label: rows[0].dimension,
+      entries: rows,
+    });
+  }
+
+  return sections;
+});
+
 const missingEntities = computed<MissingEntity[]>(
   () => timeline.value?.missing_entities ?? [],
 );
@@ -706,7 +793,6 @@ const EVENT_ICONS: Record<EventType, string> = {
   plague: "☠",
   siege: "⚔",
   conquest: "⚔",
-  massacre: "☠",
   founding: "✦",
   refounding: "✦",
   abandonment: "→",
@@ -1061,7 +1147,7 @@ $lane-h: 17px;
 
 .tl-lane {
   position: relative;
-  height: $lane-h;
+  // La hauteur est portée inline : elle dépend du rôle dominant de l'entité.
 }
 
 .tl-seg {
@@ -1246,6 +1332,37 @@ $lane-h: 17px;
   font-size: 18px;
 }
 
+// ── Sections (vue liste groupée par dimension) ───────────────────────────────
+.tl-list-section {
+  margin-bottom: 14px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.tl-section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 14px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  padding: 4px 0 5px;
+  margin-bottom: 2px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: -6px;
+  background: var(--surface);
+  z-index: 2;
+}
+
+.tl-section-count {
+  font-size: 12px;
+  opacity: 0.5;
+  letter-spacing: 0;
+}
+
 .tl-list-entry {
   padding: 5px 0;
   border-bottom: 1px solid var(--border);
@@ -1376,7 +1493,7 @@ $lane-h: 17px;
 }
 
 .tl-list-src {
-  display: block;
+  display: inline-block;
   padding-left: 8px;
   &::before {
     content: '"';

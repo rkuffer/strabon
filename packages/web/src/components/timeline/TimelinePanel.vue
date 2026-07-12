@@ -1,8 +1,20 @@
 <template>
   <div
     class="timeline-panel"
-    :class="{ open: ui.panelOpen, expanded: expanded }"
+    :class="{ open: ui.panelOpen, expanded: expanded, resizing: resizing }"
+    :style="{ '--panel-h': panelHeight + 'px' }"
   >
+    <!-- Poignée de redimensionnement — masquée en mode liste (pleine hauteur) -->
+    <div
+      v-if="!expanded"
+      class="panel-resize"
+      @mousedown="startResize"
+      @dblclick="resetHeight"
+      title="Drag to resize — double-click to reset"
+    >
+      <span class="panel-resize-grip" />
+    </div>
+
     <button class="panel-close" @click="ui.closePanel()">✕</button>
 
     <div class="panel-meta" v-if="site" :class="{ hidden: expanded }">
@@ -48,6 +60,38 @@
             <span class="pm-val">{{ currentState.name }}</span>
           </div>
         </template>
+
+        <!-- Pistes CO-OCCURRENTES : plusieurs entités vivantes à la fois. -->
+        <template v-if="activeReligions.length">
+          <div class="pm-divider" />
+          <div class="pm-row pm-row--stack">
+            <span class="pm-lbl">RELIGION</span>
+            <div class="pm-multi">
+              <span
+                v-for="r in activeReligions"
+                :key="r.key"
+                class="pm-chip"
+                :class="`pm-role-${r.role ?? 'unknown'}`"
+                >{{ r.name }}</span
+              >
+            </div>
+          </div>
+        </template>
+
+        <template v-if="activeLanguages.length">
+          <div class="pm-row pm-row--stack">
+            <span class="pm-lbl">LANGUAGE</span>
+            <div class="pm-multi">
+              <span
+                v-for="l in activeLanguages"
+                :key="l.key"
+                class="pm-chip"
+                :class="`pm-role-${l.role ?? 'unknown'}`"
+                >{{ l.name }}</span
+              >
+            </div>
+          </div>
+        </template>
       </div>
 
       <div class="panel-tags">
@@ -73,9 +117,7 @@
       <div class="timeline-header">
         <span class="timeline-title">HISTORICAL PERIODS</span>
 
-        <!-- Contrôles de vue -->
         <div class="timeline-controls">
-          <!-- Toggle vue liste -->
           <button
             class="tl-header-btn"
             :class="{ active: listView }"
@@ -96,6 +138,24 @@
             </svg>
             <span>List</span>
           </button>
+
+          <!-- Groupement de la vue liste : par dimension (défaut) ou chronologique pur.
+               Par dimension, chaque piste se lit comme un récit continu ; en
+               chronologique, on répond à « que se passait-il en 1453 ? ». -->
+          <button
+            v-if="listView"
+            class="tl-header-btn"
+            @click="
+              listGrouping = listGrouping === 'track' ? 'chrono' : 'track'
+            "
+            :title="
+              listGrouping === 'track'
+                ? 'Grouped by dimension — click for pure chronological order'
+                : 'Chronological order — click to group by dimension'
+            "
+          >
+            <span>{{ listGrouping === "track" ? "By track" : "Chrono" }}</span>
+          </button>
         </div>
 
         <span class="timeline-range">{{ timelineRange }}</span>
@@ -105,6 +165,7 @@
         :site="site"
         :year="temporal.year"
         :listView="listView"
+        :listGrouping="listGrouping"
         @update:listView="listView = $event"
       />
     </div>
@@ -112,12 +173,20 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, onUnmounted } from "vue";
 import { useUIStore } from "../../stores/ui";
 import { useMapStore } from "../../stores/map";
 import { useTemporalStore } from "../../stores/temporal";
 import { useSiteDetailQuery } from "../../api/client";
-import { getValueAt, getEntryAt, formatYear, toStr } from "@strabon/shared";
+import {
+  getEntryAt,
+  getActiveEntriesAt,
+  getTimelineBounds,
+  entityKey,
+  formatYear,
+  toStr,
+} from "@strabon/shared";
+import type { RoleQualifier } from "@strabon/shared";
 import TimelineTrack from "./TimelineTrack.vue";
 
 const ui = useUIStore();
@@ -125,8 +194,68 @@ const mapStore = useMapStore();
 const temporal = useTemporalStore();
 
 const listView = ref(false);
+const listGrouping = ref<"track" | "chrono">("track");
+
 // Le panel s'étend automatiquement en vue liste
 const expanded = computed(() => listView.value);
+
+// ── Hauteur du panneau, redimensionnable ─────────────────────────────────────
+// Une hauteur fixe ne peut convenir à la fois à un site à 2 pistes et à un site
+// dont la piste religion compte 8 couloirs. L'utilisateur arbitre.
+
+const DEFAULT_H = 260;
+const MIN_H = 140;
+const STORAGE_KEY = "strabon.panelHeight";
+
+function maxH(): number {
+  return Math.max(MIN_H, window.innerHeight - 140);
+}
+
+function loadHeight(): number {
+  const raw = Number(localStorage.getItem(STORAGE_KEY));
+  if (!Number.isFinite(raw) || raw < MIN_H) return DEFAULT_H;
+  return Math.min(raw, maxH());
+}
+
+const panelHeight = ref(loadHeight());
+const resizing = ref(false);
+
+let startY = 0;
+let startH = 0;
+
+function startResize(e: MouseEvent) {
+  resizing.value = true;
+  startY = e.clientY;
+  startH = panelHeight.value;
+  // Le panneau est ancré en bas : tirer vers le HAUT l'agrandit.
+  window.addEventListener("mousemove", onResize);
+  window.addEventListener("mouseup", stopResize);
+  e.preventDefault();
+}
+
+function onResize(e: MouseEvent) {
+  const next = startH + (startY - e.clientY);
+  panelHeight.value = Math.min(Math.max(next, MIN_H), maxH());
+}
+
+function stopResize() {
+  resizing.value = false;
+  localStorage.setItem(STORAGE_KEY, String(panelHeight.value));
+  window.removeEventListener("mousemove", onResize);
+  window.removeEventListener("mouseup", stopResize);
+}
+
+function resetHeight() {
+  panelHeight.value = DEFAULT_H;
+  localStorage.setItem(STORAGE_KEY, String(DEFAULT_H));
+}
+
+onUnmounted(() => {
+  window.removeEventListener("mousemove", onResize);
+  window.removeEventListener("mouseup", stopResize);
+});
+
+// ── Site ─────────────────────────────────────────────────────────────────────
 
 const siteId = computed(() => mapStore.selectedSiteId);
 const { data: site } = useSiteDetailQuery(siteId);
@@ -170,25 +299,37 @@ const currentState = computed(() => {
   };
 });
 
+// Religion et langue CO-OCCURRENT : à une année donnée, plusieurs entités sont
+// vivantes. getActiveEntriesAt les rend toutes, triées state → minority.
+type ActiveEntity = { key: string; name: string; role?: RoleQualifier };
+
+function activeOn(track: any): ActiveEntity[] {
+  return getActiveEntriesAt(track, temporal.year).map((e: any) => ({
+    key: entityKey(e.value),
+    name: toStr(e.value),
+    role: e.role,
+  }));
+}
+
+const activeReligions = computed<ActiveEntity[]>(() =>
+  site.value?.timeline ? activeOn(site.value.timeline.religion) : [],
+);
+const activeLanguages = computed<ActiveEntity[]>(() =>
+  site.value?.timeline ? activeOn(site.value.timeline.language) : [],
+);
+
+// getTimelineBounds parcourt TOUTES les pistes (via TRACK_KEYS) et tient compte
+// des `to` — une religion éteinte en 1453 étend la plage même si aucune entrée
+// `from` n'est plus récente. L'ancienne version itérait sur cinq pistes en dur et
+// ignorait religion et language.
 const timelineRange = computed(() => {
   const s = site.value;
   if (!s?.timeline) return "";
-  const tl = s.timeline;
-  const allFroms: number[] = [];
-  for (const track of [
-    tl.site_type,
-    tl.polity,
-    tl.culture,
-    tl.name,
-    tl.population,
-  ]) {
-    if (track?.entries) allFroms.push(...track.entries.map((e: any) => e.from));
-  }
-  if (!allFroms.length) return "";
-  const min = Math.min(...allFroms);
+  const b = getTimelineBounds(s.timeline);
+  if (!b) return "";
   const max = s.dissolution_year ?? new Date().getFullYear();
   const fmt = (y: number) => (y < 0 ? `${Math.abs(y)} BC` : `${y} AD`);
-  return `${fmt(min)} → ${fmt(max)}`;
+  return `${fmt(b.min)} → ${fmt(max)}`;
 });
 </script>
 
@@ -211,11 +352,50 @@ const timelineRange = computed(() => {
     border-top-width: 2px;
   }
 
-  // Mode expanded : prend toute la hauteur dispo sous le header
+  // Mode expanded (vue liste) : prend toute la hauteur dispo sous le header
   &.open.expanded {
     max-height: calc(100vh - var(--header-h));
     flex-basis: calc(100vh - var(--header-h));
   }
+
+  // Pendant le drag, aucune transition : le panneau doit suivre la souris.
+  &.resizing {
+    transition: none;
+  }
+}
+
+// ── Poignée de redimensionnement ─────────────────────────────────────────────
+.panel-resize {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  cursor: ns-resize;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover .panel-resize-grip,
+  .timeline-panel.resizing & .panel-resize-grip {
+    background: var(--accent);
+    opacity: 0.9;
+    width: 60px;
+  }
+}
+
+.panel-resize-grip {
+  width: 34px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--border);
+  opacity: 0.7;
+  transition:
+    background 0.15s,
+    width 0.15s,
+    opacity 0.15s;
+  pointer-events: none;
 }
 
 .panel-close {
@@ -227,7 +407,7 @@ const timelineRange = computed(() => {
   color: var(--muted);
   font-size: 16px;
   cursor: pointer;
-  z-index: 10;
+  z-index: 30;
   padding: 2px 6px;
   &:hover {
     color: var(--text);
@@ -237,7 +417,7 @@ const timelineRange = computed(() => {
 .panel-meta {
   flex: 0 0 230px;
   border-right: 1px solid var(--border);
-  padding: 12px 14px;
+  padding: 14px 14px 12px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -290,6 +470,13 @@ const timelineRange = computed(() => {
   font-size: 13px;
   gap: 8px;
   align-items: baseline;
+
+  // Les pistes co-occurrentes ont N valeurs : on empile sous le label.
+  &--stack {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 3px;
+  }
 }
 
 .pm-lbl {
@@ -302,6 +489,41 @@ const timelineRange = computed(() => {
 .pm-val {
   color: var(--text);
   text-align: right;
+}
+
+.pm-multi {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  justify-content: flex-end;
+}
+
+// Le rôle se lit à l'intensité, comme sur la frise.
+.pm-chip {
+  font-size: 11px;
+  padding: 1px 5px;
+  border-radius: 2px;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+.pm-role-state {
+  background: hsla(280, 40%, 40%, 0.5);
+  color: hsla(0, 0%, 100%, 0.95);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+.pm-role-major {
+  background: hsla(280, 32%, 32%, 0.42);
+  color: hsla(0, 0%, 100%, 0.85);
+}
+.pm-role-minor {
+  background: hsla(280, 22%, 26%, 0.35);
+  color: hsla(0, 0%, 100%, 0.72);
+}
+.pm-role-minority,
+.pm-role-unknown {
+  background: hsla(280, 14%, 22%, 0.3);
+  color: hsla(0, 0%, 100%, 0.6);
+  border: 1px dashed rgba(255, 255, 255, 0.18);
 }
 
 .pm-divider {
@@ -344,7 +566,7 @@ const timelineRange = computed(() => {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 10px 14px 8px;
+  padding: 12px 14px 8px;
   overflow: hidden;
   min-width: 0;
 }

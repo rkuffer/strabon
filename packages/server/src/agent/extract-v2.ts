@@ -349,18 +349,33 @@ corruption of the atlas.
 
 ## Never substitute a related entity for the one you mean
 
-If the entity you need has no QID you are sure of, the answer is ALWAYS: keep the correct
-NAME, omit the "wikidata" field, and signal it in "missing_entities".
+If the entity you need has no QID you are sure of, the answer is ALWAYS: keep the correct NAME, omit the "wikidata" field, and signal it in "missing_entities".
 
 It is NEVER: replace the entity with a similar one that does have a QID.
 
-Writing "Zulu" because the language is Xhosa and Xhosa is not in the referential is not a
-compromise — it is a FALSIFICATION. You have changed the FACT, not merely the identifier.
-The atlas will then state that Zulu was spoken at a place where it was not. The same goes
-for a neighbouring polity, a cousin culture, a related religion.
+Writing "Zulu" because the language is Xhosa and Xhosa is not in the referential is not a compromise — it is a FALSIFICATION. You have changed the FACT, not merely the identifier.
+The atlas will then state that Zulu was spoken at a place where it was not. The same goes for a neighbouring polity, a cousin culture, a related religion.
 
-The name is the fact. The QID is only its address. Never corrupt the fact to obtain an
-address.
+The name is the fact. The QID is only its address. Never corrupt the fact to obtain an address.
+
+**The referential being the only authorised QID source does NOT mean you must find something in it.** If the entity you need is not there, the referential simply does not cover it — that is a fact about the referential, not an instruction to pick its nearest neighbour.
+
+Watch for this exact reasoning in yourself: "X is in the referential but is not precisely the same as Y." If you can write that sentence, you have PROVEN X is the wrong entity. Gaulish is not Common Brythonic. Zulu is not Xhosa. Cantonese is not Puxian Min. A neighbouring language is a DIFFERENT language.
+
+The correct output is always the same three moves:
+  1. Write the TRUE name in the track ("Common Brythonic").
+  2. Omit "wikidata" entirely.
+  3. Signal the TRUE name in "missing_entities" — never the substitute.
+
+And never signal an entity that IS in the referential. A gap on "Gaulish" when Gaulish has a QID is meaningless: it asks us to add something we already have, while the entity actually missing — Common Brythonic — goes unrecorded.
+
+Two different substitutions, both forbidden:
+
+**A SIBLING is not the entity.** Gaulish is not Common Brythonic; Zulu is not Xhosa; Cantonese is not Puxian Min. These are distinct entities at the same level. Using one for the other is simply FALSE — the atlas will state that a language was spoken where it was not.
+
+**A PARENT is not the entity either.** "Germanic peoples" for Anglo-Saxon culture, "Chinese civilization" for a specific dynasty's culture, "Islam" when you know it was Sunni. This one is not false — Anglo-Saxons ARE Germanic — which is exactly why it is tempting, and why it is worse: it looks defensible. But it is USELESS. A hull covering "Germanic peoples" would span London, Scandinavia and the Rhineland at once, and say nothing. Precision is the point of the track.
+
+(The exception, already stated above: staying at the generic level is CORRECT when you genuinely do not know the specific one. "Islam" is right when the sources do not say which branch. The error is knowing the precise entity and writing the vague one anyway because only the vague one has a QID.)
 
 ## Religion and Language tracks — co-occurrence with roles
 
