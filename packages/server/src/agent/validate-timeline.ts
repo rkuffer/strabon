@@ -86,6 +86,58 @@ function normName(s: unknown): string {
     .trim();
 }
 
+/** Mots-outils ignorés dans la comparaison nom ↔ label du référentiel. */
+const STOPWORDS = new Set([
+  "the",
+  "of",
+  "de",
+  "la",
+  "le",
+  "and",
+  "et",
+  "a",
+  "an",
+  "kingdom",
+  "empire",
+  "republic",
+  "state",
+  "dynasty",
+  "period",
+  "era",
+]);
+
+/**
+ * Le nom écrit par le modèle et le label du référentiel désignent-ils PLAUSIBLEMENT
+ * la même entité ?
+ *
+ * Volontairement TOLÉRANT. Le modèle écrit souvent une variante légitime du label
+ * ("Republic of South Africa (1961–1994)" pour un label "South Africa"), et stripper
+ * cela serait un faux positif coûteux. On ne détecte donc que le cas FRANC : aucun mot
+ * significatif en commun.
+ *
+ * Observé sur Londres : { name: "Germanic peoples", wikidata: "Q273854" } — or Q273854
+ * est "Gauls". Aucun mot commun ⇒ le QID ne désigne pas l'entité nommée. Le modèle
+ * l'avoue d'ailleurs dans ses notes ("Using Gauls/Germanic entry is imprecise").
+ */
+function namesPlausiblyMatch(written: string, refLabel: string): boolean {
+  const tokens = (s: string) =>
+    new Set(
+      normName(s)
+        .replace(/[()[\],.;:'"–—-]/g, " ")
+        .split(/\s+/)
+        .filter((w) => w.length > 2 && !STOPWORDS.has(w)),
+    );
+
+  const a = tokens(written);
+  const b = tokens(refLabel);
+
+  // Pas assez de matière pour juger ⇒ on ne strippe pas.
+  if (!a.size || !b.size) return true;
+
+  for (const w of a) if (b.has(w)) return true;
+  return false;
+}
+
 export type QidViolation = {
   track: EntityTrack;
   name: string;
@@ -189,7 +241,7 @@ export async function validateTimelineQids(
     const tracks = new Set(usages.map((u) => u.track));
     const names = new Set(usages.map((u) => normName(u.name)).filter(Boolean));
 
-    // Case 1: the QID is in the referential — it may only be used on its own track.
+    // Case 1: the QID is in the referential — it may only be used on its own track…
     if (ref) {
       for (const u of usages) {
         if (u.track !== ref.kind) {
@@ -198,10 +250,24 @@ export async function validateTimelineQids(
             qid,
             `QID belongs to kind '${ref.kind}' ("${ref.label}"), used on '${u.track}' track`,
           );
+          continue;
+        }
+        // …and it must denote the entity the model actually NAMED. A QID whose
+        // referential label bears no relation to the written name is an attribution
+        // error, whatever the track.
+        if (u.name && !namesPlausiblyMatch(u.name, ref.label)) {
+          strip(
+            u,
+            qid,
+            `QID "${qid}" is "${ref.label}" in the referential, but the entry names "${u.name}" — these are not the same entity`,
+          );
         }
       }
+
       // Even on the right track, one QID cannot denote two different entities.
-      const onRightTrack = usages.filter((u) => u.track === ref.kind);
+      const onRightTrack = usages.filter(
+        (u) => u.track === ref.kind && u.entry?.value?.wikidata,
+      );
       const rightTrackNames = new Set(
         onRightTrack.map((u) => normName(u.name)).filter(Boolean),
       );
