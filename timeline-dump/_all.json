@@ -1,0 +1,1134 @@
+[
+  {
+    "id": "Q90",
+    "title_en": "Paris",
+    "country_qid": "Q142",
+    "coordinates": {
+      "lat": 48.8566,
+      "lon": 2.3522
+    },
+    "enrichment_level": "extracted",
+    "sitelinks_count": 361,
+    "inception_year": -250,
+    "dissolution_year": null,
+    "extracted_at": "2026-07-12T08:14:07.838Z",
+    "model": "claude-sonnet-4-6",
+    "meta": {
+      "inception": {
+        "year": -300,
+        "precision": 7
+      },
+      "description": "capital of France",
+      "native_label": "Paris"
+    },
+    "timeline": {
+      "name": {
+        "entries": [
+          {
+            "from": -250,
+            "notes": "Latin name used by Julius Caesar and Roman sources for the settlement of the Parisii.",
+            "value": {
+              "lang": "la",
+              "text": "Lutetia Parisiorum"
+            },
+            "confidence": "high",
+            "from_circa": true,
+            "from_precision": 8
+          },
+          {
+            "from": -250,
+            "notes": "Modern French vernacular exonym of the Latin name Lutetia Parisiorum.",
+            "value": {
+              "lang": "fr",
+              "text": "Lutèce"
+            },
+            "confidence": "high",
+            "from_circa": true,
+            "from_precision": 8
+          },
+          {
+            "from": 300,
+            "notes": "Later Latin name used in the late Roman Empire period, transitional form toward 'Paris'.",
+            "value": {
+              "lang": "la",
+              "text": "Parisius"
+            },
+            "confidence": "medium",
+            "from_circa": true
+          },
+          {
+            "from": 508,
+            "notes": "The French name Paris, derived from Parisius, in continuous use from the early medieval period to the present.",
+            "value": {
+              "lang": "fr",
+              "text": "Paris"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 508,
+            "notes": "English name for the city, identical to the French form.",
+            "value": {
+              "lang": "en",
+              "text": "Paris"
+            },
+            "confidence": "high"
+          }
+        ]
+      },
+      "events": [
+        {
+          "type": "conquest",
+          "year": -52,
+          "confidence": "high",
+          "description": "Julius Caesar conquered the Paris Basin and established the Roman settlement of Lutetia on the Left Bank.",
+          "perpetrator": "Roman Republic",
+          "perpetrator_wikidata": "Q17167"
+        },
+        {
+          "type": "destruction",
+          "year": 845,
+          "confidence": "high",
+          "description": "Vikings sacked Paris despite the fortification of the Île de la Cité.",
+          "perpetrator": "Vikings"
+        },
+        {
+          "type": "siege",
+          "year": 885,
+          "confidence": "high",
+          "description": "Siege of Paris (885–886); successfully defended under Odo of France, Count of Paris.",
+          "perpetrator": "Vikings"
+        },
+        {
+          "type": "conquest",
+          "year": 1418,
+          "confidence": "high",
+          "description": "Paris occupied by England-friendly Burgundian forces during the Hundred Years' War; Henry V of England entered in 1420, establishing outright English occupation until 1436.",
+          "perpetrator": "Dual monarchy of England and France"
+        },
+        {
+          "type": "massacre",
+          "year": 1572,
+          "confidence": "high",
+          "description": "St. Bartholomew's Day massacre (24 August 1572): thousands of French Protestants (Huguenots) were killed in Paris, organised by the Catholic League during the French Wars of Religion.",
+          "perpetrator": "Catholic League"
+        }
+      ],
+      "polity": {
+        "entries": [
+          {
+            "from": -250,
+            "notes": "Parisii tribe inhabited the area from at least the mid-3rd century BC.",
+            "value": {
+              "name": "Parisii (Gaulish tribe)",
+              "wikidata": "Q333647"
+            },
+            "confidence": "medium",
+            "from_circa": true,
+            "from_precision": 8
+          },
+          {
+            "from": -52,
+            "notes": "Julius Caesar conquered the Paris Basin for Rome in 52 BC.",
+            "value": {
+              "name": "Roman Republic",
+              "wikidata": "Q17167"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": -27,
+            "notes": "Transition from Republic to Empire under Augustus.",
+            "value": {
+              "name": "Roman Empire",
+              "wikidata": "Q2277"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 476,
+            "notes": "Frankish domination of Gaul following the fall of the Western Roman Empire; Clovis made Paris his capital in 508.",
+            "value": {
+              "name": "Merovingian Francia",
+              "wikidata": "Q146246"
+            },
+            "confidence": "medium"
+          },
+          {
+            "from": 751,
+            "notes": "Carolingian dynasty replaced the Merovingians.",
+            "value": {
+              "name": "Carolingian Empire",
+              "wikidata": "Q31929"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 843,
+            "notes": "Treaty of Verdun divided the Carolingian Empire; Paris fell within West Francia.",
+            "value": {
+              "name": "West Francia",
+              "wikidata": "Q46370"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 987,
+            "notes": "Hugh Capet elected king, founding the Capetian dynasty and the Kingdom of France.",
+            "value": {
+              "name": "Kingdom of France",
+              "wikidata": "Q70972"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1418,
+            "notes": "Paris occupied by Burgundian forces 1418, then outright English occupation from 1420 under Henry V; ended 1436.",
+            "value": {
+              "name": "Dual monarchy of England and France",
+              "wikidata": "Q3738649"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1436,
+            "notes": "English occupation of Paris ended in 1436; France restored.",
+            "value": {
+              "name": "Kingdom of France",
+              "wikidata": "Q70972"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1792,
+            "notes": "French Revolution; First Republic declared 1792.",
+            "value": {
+              "name": "French First Republic",
+              "wikidata": "Q58296"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1799,
+            "notes": "Napoleon Bonaparte seized power as First Consul on 18 Brumaire (9 November 1799).",
+            "value": {
+              "name": "French Consulate",
+              "wikidata": "Q877619"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1804,
+            "notes": "Napoleon proclaimed Emperor.",
+            "value": {
+              "name": "First French Empire",
+              "wikidata": "Q71084"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1814,
+            "notes": "Bourbon restoration after Napoleon's abdication.",
+            "value": {
+              "name": "Bourbon Restoration in France",
+              "wikidata": "Q207162"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1830,
+            "notes": "July Revolution brought Louis-Philippe I to power.",
+            "value": {
+              "name": "July Monarchy",
+              "wikidata": "Q58202"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1848,
+            "notes": "Louis-Philippe overthrown; Second Republic established.",
+            "value": {
+              "name": "French Second Republic",
+              "wikidata": "Q58326"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1852,
+            "notes": "Napoleon III proclaimed Emperor.",
+            "value": {
+              "name": "Second French Empire",
+              "wikidata": "Q71092"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1870,
+            "notes": "Third Republic proclaimed during the Franco-Prussian War.",
+            "value": {
+              "name": "French Third Republic",
+              "wikidata": "Q70802"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1940,
+            "notes": "German occupation of France; Vichy regime. Paris under German military administration.",
+            "value": {
+              "name": "Vichy France",
+              "wikidata": "Q69808"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1944,
+            "notes": "Liberation of Paris 1944; Provisional Government.",
+            "value": {
+              "name": "Provisional Government of the French Republic",
+              "wikidata": "Q783684"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1946,
+            "notes": "Fourth Republic established.",
+            "value": {
+              "name": "French Fourth Republic",
+              "wikidata": "Q69829"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1958,
+            "notes": "Fifth Republic established under de Gaulle; France continues to the present day.",
+            "value": {
+              "name": "France",
+              "wikidata": "Q142"
+            },
+            "confidence": "high"
+          }
+        ]
+      },
+      "culture": {
+        "entries": [
+          {
+            "from": -250,
+            "notes": "The Parisii were a Gaulish (Celtic) tribe inhabiting the Paris area from at least the mid-3rd century BC.",
+            "value": {
+              "name": "Gauls",
+              "wikidata": "Q273854"
+            },
+            "confidence": "medium",
+            "from_circa": true,
+            "from_precision": 8
+          },
+          {
+            "from": -52,
+            "notes": "Roman conquest introduced Roman urban culture to Lutetia.",
+            "value": {
+              "name": "Ancient Rome",
+              "wikidata": "Q1747689"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 476,
+            "notes": "Frankish Merovingian culture dominant following the fall of the Western Roman Empire and Clovis's establishment of Paris as his capital.",
+            "value": {
+              "name": "Merovingian",
+              "wikidata": "Q66084488"
+            },
+            "confidence": "medium"
+          }
+        ]
+      },
+      "language": {
+        "entries": [
+          {
+            "to": 500,
+            "from": -250,
+            "role": "major",
+            "notes": "Gaulish spoken by the Parisii; gradually displaced by Latin after the Roman conquest and eventually dying out by around the 5th–6th century.",
+            "value": {
+              "name": "Gaulish",
+              "wikidata": "Q29977"
+            },
+            "confidence": "medium",
+            "from_circa": true,
+            "from_precision": 8
+          },
+          {
+            "to": 800,
+            "from": -52,
+            "role": "state",
+            "notes": "Latin introduced as the administrative and cultural language of Lutetia following Roman conquest; remained the written and ecclesiastical language well into the medieval period; spoken vernacular Latin gradually evolved into Old French.",
+            "value": {
+              "name": "Latin",
+              "wikidata": "Q397"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 508,
+            "role": "major",
+            "notes": "Frankish immigration and the mixing of Gaulish Romance with Frankish gave rise to the Francien/Old French dialects in Paris from the Merovingian period onward.",
+            "value": {
+              "name": "Old French",
+              "wikidata": "Q35222"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1400,
+            "role": "state",
+            "notes": "Middle and then Modern French developed from Old French; French has been the primary language of Paris and the state language of France from the late medieval period to the present.",
+            "value": {
+              "name": "French",
+              "wikidata": "Q150"
+            },
+            "confidence": "high"
+          }
+        ]
+      },
+      "religion": {
+        "entries": [
+          {
+            "to": 400,
+            "from": -250,
+            "role": "major",
+            "notes": "Gaulish/Celtic religion practiced by the Parisii before and during the early Roman period; gradually displaced by Roman religion and then Christianity.",
+            "value": {
+              "name": "Celtic polytheism",
+              "wikidata": "Q263031"
+            },
+            "confidence": "medium",
+            "from_circa": true,
+            "from_precision": 8
+          },
+          {
+            "to": 400,
+            "from": -52,
+            "role": "state",
+            "notes": "Roman religion became dominant following the conquest of 52 BC; remained state religion until the Christianisation of the Empire.",
+            "value": {
+              "name": "religion in ancient Rome",
+              "wikidata": "Q107013169"
+            },
+            "confidence": "high"
+          },
+          {
+            "to": 380,
+            "from": 250,
+            "role": "minority",
+            "notes": "Christianity introduced mid-3rd century AD by Saint Denis, first Bishop of Paris. Minority religion until official recognition.",
+            "value": {
+              "name": "Christianity",
+              "wikidata": "Q5043"
+            },
+            "confidence": "medium"
+          },
+          {
+            "from": 380,
+            "role": "state",
+            "notes": "Christianity became the state religion of the Roman Empire under Theodosius I (380 AD). The Catholic Church has remained the dominant institution in Paris ever since, though secularisation reduced its state role after the Revolution.",
+            "value": {
+              "name": "Catholic Church",
+              "wikidata": "Q9592"
+            },
+            "confidence": "high"
+          },
+          {
+            "to": 1394,
+            "from": 1200,
+            "role": "minority",
+            "notes": "A significant Jewish community existed in medieval Paris. Jews were repeatedly expelled and readmitted; finally expelled from France in 1394.",
+            "value": {
+              "name": "Judaism",
+              "wikidata": "Q9268"
+            },
+            "confidence": "medium"
+          },
+          {
+            "to": 1598,
+            "from": 1517,
+            "role": "minor",
+            "notes": "Protestant (Huguenot) community grew during the Reformation. Paris was a stronghold of the Catholic League; the St. Bartholomew's Day massacre of 1572 targeted Protestants. Edict of Nantes 1598 granted some tolerance.",
+            "value": {
+              "name": "Protestantism",
+              "wikidata": "Q23540"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1791,
+            "role": "minority",
+            "notes": "Jews were emancipated by the French Revolution in 1791, returning as a recognized community in Paris.",
+            "value": {
+              "name": "Judaism",
+              "wikidata": "Q9268"
+            },
+            "confidence": "high"
+          }
+        ]
+      },
+      "site_type": {
+        "entries": [
+          {
+            "from": -250,
+            "notes": "Parisii settlement on the Île de la Cité, mid-3rd century BC.",
+            "value": "settlement",
+            "confidence": "medium",
+            "from_circa": true,
+            "from_precision": 8
+          },
+          {
+            "from": -52,
+            "notes": "Roman conquest 52 BC; Lutetia Parisiorum established as a Roman town with forum, baths, temples, theatres, and amphitheatre.",
+            "value": "town",
+            "confidence": "high"
+          },
+          {
+            "from": 508,
+            "notes": "Clovis I made Paris the capital of the Frankish kingdom in 508.",
+            "value": "capital",
+            "confidence": "high"
+          },
+          {
+            "from": 987,
+            "notes": "Hugh Capet elected king; Paris becomes firmly established as capital of France and grows into the largest and most prosperous city in France.",
+            "value": "capital_city",
+            "confidence": "high"
+          }
+        ]
+      },
+      "population": {
+        "entries": [
+          {
+            "from": 1300,
+            "notes": "The article states London had 80,000 inhabitants by 1300, used for comparison; Paris was already larger at this date.",
+            "value": 80000,
+            "confidence": "medium"
+          },
+          {
+            "from": 1328,
+            "value": 200000,
+            "sources": [
+              "Paris had 200,000 inhabitants and was already the capital of France, making it the most populous city of Europe."
+            ],
+            "confidence": "medium"
+          },
+          {
+            "from": 1340,
+            "notes": "Article states between 250,000 and 300,000; midpoint used.",
+            "value": 275000,
+            "sources": [
+              "c. 1340: Paris had between 250,000 and 300,000 inhabitants"
+            ],
+            "confidence": "low",
+            "from_circa": true
+          },
+          {
+            "from": 1640,
+            "value": 400000,
+            "sources": [
+              "1640: Paris had a population of about 400,000"
+            ],
+            "confidence": "medium"
+          },
+          {
+            "from": 1780,
+            "value": 650000,
+            "sources": [
+              "1780: Paris's population had grown to 650,000"
+            ],
+            "confidence": "medium"
+          },
+          {
+            "from": 1815,
+            "value": 660000,
+            "sources": [
+              "1815: Paris's population reached 660,000"
+            ],
+            "confidence": "medium"
+          },
+          {
+            "from": 1901,
+            "value": 2715000,
+            "sources": [
+              "1901: Paris's population had grown to about 2,715,000"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "missing_entities": [
+        {
+          "kind": "polity",
+          "name": "Parisii (Gaulish tribe)",
+          "context": "The Parisii were the Gaulish tribe inhabiting the Paris area before the Roman conquest, minting coins and trading widely.",
+          "proposed_qid": "Q333647"
+        }
+      ]
+    }
+  },
+  {
+    "id": "Q388224",
+    "title_en": "Shamakhi",
+    "country_qid": "Q227",
+    "coordinates": {
+      "lat": 40.633888888,
+      "lon": 48.639166666
+    },
+    "enrichment_level": "extracted",
+    "sitelinks_count": 60,
+    "inception_year": 100,
+    "dissolution_year": null,
+    "extracted_at": "2026-07-12T08:07:33.729Z",
+    "model": "claude-sonnet-4-6",
+    "meta": "{\"wikidata_description\":\"city in Azerbaijan\",\"wikidata_type\":\"city or town\",\"indexed_from_tile\":\"48,40\"}",
+    "timeline": {
+      "name": {
+        "entries": [
+          {
+            "from": 100,
+            "notes": "Name as recorded by Claudius Ptolemy (1st–2nd century AD); identified by Azerbaijani historians with early Shamakhi.",
+            "value": {
+              "lang": "la",
+              "text": "Kamachia"
+            },
+            "confidence": "medium",
+            "from_circa": true
+          },
+          {
+            "from": 757,
+            "notes": "Arabic name attested on coins minted at al-Yazidiyya from 757/8 onwards; named after Arab governor Yazid ibn Usayd.",
+            "value": {
+              "lang": "ar",
+              "text": "Yazidiyya"
+            },
+            "confidence": "medium"
+          },
+          {
+            "from": 800,
+            "notes": "The name Shamakhiyya appears in 9th–11th century Arabic sources alongside Yazidiyya; the older name eventually displaced the latter.",
+            "value": {
+              "lang": "az",
+              "text": "Şəmaxiyyə"
+            },
+            "confidence": "high",
+            "from_circa": true
+          },
+          {
+            "from": 800,
+            "notes": "Arabic form of the city name as used in medieval Arab geographical sources.",
+            "value": {
+              "lang": "ar",
+              "text": "Shamakhiyya"
+            },
+            "confidence": "high",
+            "from_circa": true
+          },
+          {
+            "from": 1300,
+            "notes": "English form of the city name, widely used in European travel accounts from the medieval period onward.",
+            "value": {
+              "lang": "en",
+              "text": "Shamakhi"
+            },
+            "confidence": "high",
+            "from_circa": true
+          },
+          {
+            "from": 1991,
+            "notes": "Modern Azerbaijani name of the city.",
+            "value": {
+              "lang": "az",
+              "text": "Şamaxı"
+            },
+            "confidence": "high"
+          }
+        ]
+      },
+      "events": [
+        {
+          "type": "earthquake",
+          "year": 1191,
+          "sources": [
+            "1191 earthquake so strong that Shirvan capital was moved to Baku"
+          ],
+          "confidence": "high",
+          "description": "Powerful earthquake struck Shamakhi; Shirvan capital temporarily transferred to Baku."
+        },
+        {
+          "type": "conquest",
+          "year": 1221,
+          "sources": [
+            "Ibn al-Athir 1221 capture and destruction by Mongol invaders"
+          ],
+          "confidence": "high",
+          "description": "Shamakhi captured and destroyed by Mongol forces. Ibn al-Athir describes heroic resistance by the inhabitants. Archaeological fire layers confirm the destruction.",
+          "perpetrator": "Mongol Empire",
+          "perpetrator_wikidata": "Q12557"
+        },
+        {
+          "type": "conquest",
+          "year": 1500,
+          "sources": [
+            "In 1500–1501, it was taken by the Safavid dynasty"
+          ],
+          "confidence": "high",
+          "description": "Shamakhi taken by the Safavid dynasty under Shah Ismail I in 1500–1501.",
+          "perpetrator": "Safavid Iran",
+          "perpetrator_wikidata": "Q18234383"
+        },
+        {
+          "type": "earthquake",
+          "year": 1667,
+          "sources": [
+            "1667 earthquake worst with death toll of 80,000, one-third of city collapsed"
+          ],
+          "confidence": "medium",
+          "description": "The worst recorded earthquake at Shamakhi; death toll of 80,000 according to Persian merchants' reports; one-third of the city collapsed."
+        },
+        {
+          "type": "massacre",
+          "year": 1721,
+          "sources": [
+            "In 1721, the Lezgins sacked the city. They massacred thousands of its Shia inhabitants"
+          ],
+          "confidence": "high",
+          "description": "Lezgins of Shirvan and Dagestan, aided by Sunni inhabitants, sacked the city and massacred thousands of its Shia inhabitants, also looting property of Christian inhabitants and foreign (mostly Russian) merchants."
+        },
+        {
+          "type": "destruction",
+          "year": 1742,
+          "sources": [
+            "In 1742 Shamakhi was taken and destroyed by Nader Shah of Persia"
+          ],
+          "confidence": "high",
+          "description": "Shamakhi taken and destroyed by Nader Shah of Persia to punish inhabitants for their Sunni creed; a new town of the same name was built ~26km to the west.",
+          "perpetrator": "Afsharid Iran",
+          "perpetrator_wikidata": "Q63149558"
+        },
+        {
+          "type": "earthquake",
+          "year": 1859,
+          "sources": [
+            "devastating earthquake of 1859, when the capital of the province was transferred to Baku"
+          ],
+          "confidence": "high",
+          "description": "Devastating earthquake of 1859 led to transfer of the provincial capital from Shamakhi to Baku; the city declined sharply thereafter."
+        },
+        {
+          "type": "earthquake",
+          "year": 1902,
+          "sources": [
+            "last catastrophic earthquake recorded in 1902, which destroyed the 10th-century Juma Mosque"
+          ],
+          "confidence": "high",
+          "description": "Last catastrophic earthquake recorded in Shamakhi; destroyed the 10th-century Juma Mosque."
+        }
+      ],
+      "polity": {
+        "entries": [
+          {
+            "from": 100,
+            "notes": "Ptolemy lists Kamachia among Albanian cities. The region was part of Caucasian Albania in the early centuries CE.",
+            "value": {
+              "name": "Caucasian Albania",
+              "wikidata": "Q177076"
+            },
+            "confidence": "medium",
+            "from_circa": true
+          },
+          {
+            "from": 252,
+            "notes": "The Azerbaijani source mentions the city was founded or developed under Sasanian Shah Khosrow I Anushirvan (6th century). Sasanian suzerainty over Shirvan from mid-3rd century; inferred from regional history.",
+            "value": {
+              "name": "Sasanian Empire",
+              "wikidata": "Q83891"
+            },
+            "confidence": "medium",
+            "from_circa": true
+          },
+          {
+            "from": 642,
+            "notes": "Arab conquest of the Caucasus region in mid-7th century. Numismatic evidence from Shamakhi (Yazidiyya) coins from 757/8–767/8 confirm Arab administration. Inferred from regional history bridging to attested 8th-century coins.",
+            "value": {
+              "name": "Arab Caliphate",
+              "wikidata": "Q3181749"
+            },
+            "confidence": "medium",
+            "from_circa": true
+          },
+          {
+            "from": 800,
+            "notes": "Shamakhi served as a capital of the Shirvanshah realm from the 8th to 15th centuries. The Shirvanshah dynasty ruled the city throughout the medieval period.",
+            "value": {
+              "name": "Kingdom of Shirvan",
+              "wikidata": "Q17526620"
+            },
+            "confidence": "high",
+            "from_circa": true
+          },
+          {
+            "from": 1220,
+            "notes": "Ibn al-Athir describes the Mongol capture and destruction of Shamakhi in 1221. Archaeological fire layers confirm this. City came under Mongol rule.",
+            "value": {
+              "name": "Mongol Empire",
+              "wikidata": "Q12557"
+            },
+            "confidence": "high",
+            "from_circa": true
+          },
+          {
+            "from": 1360,
+            "notes": "Shirvanshah rule reasserted after Mongol/Ilkhanid period; Shamakhi continued as Shirvanshah capital through the 14th–15th centuries.",
+            "value": {
+              "name": "Kingdom of Shirvan",
+              "wikidata": "Q17526620"
+            },
+            "confidence": "medium",
+            "from_circa": true
+          },
+          {
+            "from": 1500,
+            "notes": "Taken by the Safavid dynasty in 1500–1501 under Shah Ismail I. Initially Farrukh Yassar's descendants ruled under Safavid suzerainty, then fully incorporated as a Safavid province in 1538.",
+            "value": {
+              "name": "Safavid Iran",
+              "wikidata": "Q18234383"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1723,
+            "notes": "Russians entered Shirvan in 1723 during the Russo-Persian War but soon retired, leaving the city to the Ottomans who controlled it 1723–1735.",
+            "value": {
+              "name": "Ottoman Empire",
+              "wikidata": "Q12560"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1735,
+            "notes": "After Nader Shah's rise, Safavids/Afsharids recaptured the region. In 1742 Nader Shah took and destroyed Shamakhi, rebuilding it 26km west. The Afsharid state controlled the region.",
+            "value": {
+              "name": "Afsharid Iran",
+              "wikidata": "Q63149558"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1750,
+            "notes": "After Nader Shah's death, the Shirvan Khanate emerged as a semi-independent entity ruling Shamakhi under nominal Iranian suzerainty.",
+            "value": {
+              "name": "Shirvan Khanate",
+              "wikidata": "Q965466"
+            },
+            "confidence": "medium",
+            "from_circa": true
+          },
+          {
+            "from": 1805,
+            "notes": "The Shirvan Khanate was incorporated into the Russian Empire during the Russo-Persian War; confirmed by the Treaty of Gulistan (1813).",
+            "value": {
+              "name": "Russian Empire",
+              "wikidata": "Q34266"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1918,
+            "notes": "Following the fall of the Russian Empire, Shamakhi came under the Azerbaijan Democratic Republic (1918–1920).",
+            "value": {
+              "name": "Azerbaijan Democratic Republic",
+              "wikidata": "Q206411"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1920,
+            "notes": "Soviet takeover of Azerbaijan in 1920.",
+            "value": {
+              "name": "Azerbaijan Soviet Socialist Republic",
+              "wikidata": "Q131337"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1991,
+            "notes": "Azerbaijan declared independence from the Soviet Union in 1991.",
+            "value": {
+              "name": "Azerbaijan",
+              "wikidata": "Q227"
+            },
+            "confidence": "high"
+          }
+        ]
+      },
+      "culture": {
+        "entries": [
+          {
+            "from": 100,
+            "notes": "The site is identified with Ptolemy's Kamachia, located within the cultural sphere of Caucasian Albania.",
+            "value": {
+              "name": "Caucasian Albania"
+            },
+            "confidence": "medium",
+            "from_circa": true
+          }
+        ]
+      },
+      "language": {
+        "entries": [
+          {
+            "from": 100,
+            "role": "minor",
+            "notes": "Armenian communities are attested historically in Shamakhi. Armenian presence in the broader Caucasian Albania region predates the medieval period.",
+            "value": {
+              "name": "Armenian",
+              "wikidata": "Q8785"
+            },
+            "confidence": "low",
+            "from_circa": true
+          },
+          {
+            "from": 642,
+            "role": "minor",
+            "notes": "Arabic became an administrative and religious language with the Arab conquest. Coins were minted with Arabic inscriptions. Administrative language until Shirvanshah reassertion.",
+            "value": {
+              "name": "Arabic",
+              "wikidata": "Q13955"
+            },
+            "confidence": "medium",
+            "from_circa": true
+          },
+          {
+            "from": 800,
+            "role": "major",
+            "notes": "Persian was the language of culture and administration throughout the Shirvanshah and Safavid periods. John Bell (1715) noted city elites spoke Persian.",
+            "value": {
+              "name": "Persian",
+              "wikidata": "Q9168"
+            },
+            "confidence": "medium",
+            "from_circa": true
+          },
+          {
+            "from": 1200,
+            "role": "major",
+            "notes": "Adam Olearius (1637) described Turkish (Azerbaijani) as the common language of all inhabitants regardless of ethnicity, used across Shirvan and Persia. John Bell (1715) confirmed Turkish was the common language.",
+            "value": {
+              "name": "Azerbaijani",
+              "wikidata": "Q9292"
+            },
+            "confidence": "high",
+            "from_circa": true
+          },
+          {
+            "from": 1500,
+            "role": "minor",
+            "notes": "Armenians were extensively documented in Shamakhi by multiple sources from the 16th century: Jenkinson (1562), Carmelite monks (1607), Olearius (1637), Pedro Cobro (1670s). In 1873 they were 5,177 out of ~25,000 inhabitants.",
+            "value": {
+              "name": "Armenian",
+              "wikidata": "Q8785"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1500,
+            "role": "minority",
+            "notes": "Georgians are mentioned by Olearius (1637), Pedro Cobro (1670s), and John Bell (1715) as a notable community in Shamakhi.",
+            "value": {
+              "name": "Georgian",
+              "wikidata": "Q8108"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1805,
+            "role": "minor",
+            "notes": "Russian became an administrative language after incorporation into the Russian Empire in 1805. By 1903, 3% of population was Russian.",
+            "value": {
+              "name": "Russian",
+              "wikidata": "Q7737"
+            },
+            "confidence": "high"
+          }
+        ]
+      },
+      "religion": {
+        "entries": [
+          {
+            "from": 642,
+            "role": "major",
+            "notes": "Islam spread to the Caucasus with the Arab conquest in the 7th century. The Friday Mosque is attested archaeologically from the 8th–9th centuries.",
+            "value": {
+              "name": "Islam",
+              "wikidata": "Q432"
+            },
+            "confidence": "medium",
+            "from_circa": true
+          },
+          {
+            "from": 642,
+            "role": "minor",
+            "notes": "Christian communities (Armenians, Georgians) are attested in Shamakhi from the medieval period onward. Likely present from earlier given Caucasian Albanian Christianity.",
+            "value": {
+              "name": "Christianity",
+              "wikidata": "Q5043"
+            },
+            "confidence": "medium",
+            "from_circa": true
+          },
+          {
+            "from": 800,
+            "role": "major",
+            "notes": "Shirvanshah realm was predominantly Sunni Muslim. By the 8th–10th century the Islamic character of the city is well established.",
+            "value": {
+              "name": "Sunni Islam",
+              "wikidata": "Q483654"
+            },
+            "confidence": "medium",
+            "from_circa": true
+          },
+          {
+            "to": 800,
+            "from": 800,
+            "role": "major",
+            "notes": "Generic Islam entry closed when Sunni/Shia distinction becomes apparent from the 8th century onward.",
+            "value": {
+              "name": "Islam",
+              "wikidata": "Q432"
+            },
+            "confidence": "low"
+          },
+          {
+            "from": 1500,
+            "role": "state",
+            "notes": "The Safavid dynasty imposed Shia Islam as the state religion after 1500. The 1721 massacre targeted the Shia population specifically.",
+            "value": {
+              "name": "Shia Islam",
+              "wikidata": "Q9585"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1500,
+            "role": "minor",
+            "notes": "Sunni population remained, noted in sources including the 1721 Lezgin attack supported by Sunni inhabitants. In 1903, 22% of the Muslim population was Sunni.",
+            "value": {
+              "name": "Sunni Islam",
+              "wikidata": "Q483654"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1500,
+            "role": "minority",
+            "notes": "Armenians were a significant community in Shamakhi throughout the Safavid and later periods, documented by multiple sources from 1562 onward. In 1873 they numbered 5,177 out of ~25,000.",
+            "value": {
+              "name": "Armenian Apostolic Church",
+              "wikidata": "Q683724"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1805,
+            "role": "minority",
+            "notes": "Russian presence from 1805 brought Eastern Orthodox Christians. By 1903, about 3% of population was Russian.",
+            "value": {
+              "name": "Eastern Orthodox Church",
+              "wikidata": "Q35032"
+            },
+            "confidence": "high"
+          }
+        ]
+      },
+      "site_type": {
+        "entries": [
+          {
+            "from": 100,
+            "notes": "First mentioned as 'Kamachia' by Ptolemy (1st–2nd century AD); Khinisli archaeological site 2km west suggests ancient settlement. Treating as a town by the early centuries CE based on Ptolemy's mention among Albanian cities.",
+            "value": "town",
+            "confidence": "medium",
+            "from_circa": true
+          },
+          {
+            "from": 800,
+            "notes": "Served as capital of the Shirvanshah realm from around the 8th to 15th centuries. Archaeological layers confirm 8th–9th century urban occupation.",
+            "value": "capital",
+            "confidence": "high"
+          },
+          {
+            "from": 1500,
+            "notes": "Capital of Shirvan province under the Safavid Empire from 1538 onward.",
+            "value": "capital",
+            "confidence": "high"
+          },
+          {
+            "from": 1742,
+            "notes": "Destroyed by Nader Shah in 1742; new town built 26km west; old town later rebuilt and continued as a regional centre under the Shirvan Khanate and later Russian Empire.",
+            "value": "town",
+            "confidence": "medium"
+          },
+          {
+            "from": 1859,
+            "notes": "After the 1859 earthquake, the provincial capital was moved to Baku; Shamakhi declined in importance but remained an inhabited town.",
+            "value": "town",
+            "confidence": "high"
+          }
+        ]
+      },
+      "population": {
+        "entries": [
+          {
+            "from": 1476,
+            "notes": "Venetian diplomat Giosafat Barbaro (1476) described the city as having 'four to five thousand houses'. Using the figure as a rough indicator only; actual population not given. NOT converting houses to people — figure omitted as a strict count. Recorded only as a qualitative indicator of size.",
+            "value": 25000,
+            "confidence": "low",
+            "from_circa": true
+          },
+          {
+            "from": 1750,
+            "notes": "Sources state the population of Shamakhi in the mid-1700s was about 60,000, described as one of the best and most populous cities of Persia. Majority were Armenians according to the source.",
+            "value": 60000,
+            "confidence": "low",
+            "from_circa": true
+          },
+          {
+            "from": 1873,
+            "notes": "Encyclopædia Britannica stated 25,087 inhabitants in 1873: 18,680 Tartars and Shachsevans, 5,177 Armenians, 1,230 Russians.",
+            "value": 25087,
+            "confidence": "high"
+          },
+          {
+            "from": 1903,
+            "notes": "Brockhaus and Efron Encyclopedic Dictionary (1903): 20,008 inhabitants (10,450 males, 9,558 females); 3% Russians, 18% Armenians, 79% Azerbaijani Tatars.",
+            "value": 20008,
+            "confidence": "high"
+          }
+        ]
+      },
+      "missing_entities": [
+        {
+          "kind": "polity",
+          "name": "Kingdom of Shirvan",
+          "context": "The Shirvanshah realm that ruled Shamakhi as its capital from the 8th to 15th centuries",
+          "proposed_qid": "Q17526620"
+        },
+        {
+          "kind": "polity",
+          "name": "Shirvan Khanate",
+          "context": "Semi-independent khanate that ruled Shamakhi in the mid-to-late 18th century before Russian annexation",
+          "proposed_qid": "Q965466"
+        },
+        {
+          "kind": "culture",
+          "name": "Caucasian Albania",
+          "context": "QID stripped by validation: QID belongs to kind 'polity' (\"Caucasian Albania\"), used on 'culture' track"
+        }
+      ]
+    }
+  }
+]

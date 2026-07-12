@@ -155,7 +155,26 @@ Extract a SiteTimeline JSON object. The root object must have these keys directl
 - **name**: { "text": string, "lang": string } — vernacular name in original script (ISO 639 lang code)
 - **population**: integer
 - **events**: { year, year_precision?, type, cause?, perpetrator?, perpetrator_wikidata?, description?, confidence? }
-  Types: destruction, fire, earthquake, flood, plague, siege, conquest, founding, refounding, abandonment, expulsion, depopulation
+  Types: destruction, fire, earthquake, flood, plague, siege, conquest, massacre, founding, refounding, abandonment, expulsion, depopulation
+
+### Event types — never force a fit
+
+The list above is CLOSED. If an event you consider notable matches NONE of these
+types, **do not emit it at all**. Do not stretch the nearest type to accommodate it.
+
+A mis-typed event is worse than a missing one: it enters the atlas as a fact of the
+wrong kind, and it is invisible as an error. A political detention is not a
+"conquest". A modern criminal shooting is not a "destruction". A religious massacre
+is not an "expulsion" — it is a "massacre".
+
+Use "massacre" for the deliberate killing of a substantial number of people at the
+site (a pogrom, a sack with slaughter, a colonial or religious massacre, state
+repression with mass killing). Use "expulsion" only when a population is DRIVEN OUT,
+not killed.
+
+If in doubt between two types, prefer the one the sources actually support; if none
+support it, omit the event and, if it matters, mention it in the "notes" of the
+relevant track entry instead.
 
 Each track entry:
 - "from": integer year (negative = BC)
@@ -256,13 +275,103 @@ function of entries. It is NOT a single static label:
   mark "confidence": "low" with an explanatory note. NEVER use placeholder values
   like -99999 or "unknown".
 
+## Deep prehistory — the SITE, not the region
+
+**THE RULE: if the remains are NEARBY but not AT the site, the entry does not exist.
+Do not extract it.**
+
+Not with a note. Not with low confidence. Not at all.
+
+### The test — apply it to EVERY EARLY ENTRY, ON EVERY TRACK
+
+This is not a rule about site_type. It governs **every track**: site_type, polity,
+culture, religion, language, name, population. For each entry before 5000 BC, answer
+this question literally:
+
+> "Does the source state that THIS EXACT LOCATION — this hill, this cave, this river
+> mouth, this urban core — was occupied at that date?"
+
+If you cannot answer YES, **the entry does not exist, on ANY track**. Delete it.
+
+"Archaeological sites in the area", "caves in the region", "the surrounding district",
+"nearby rock shelters", "the site is near the city", "this part of the country" — none
+of these answer YES. They are the history of OTHER sites, which have their own entries
+in this atlas. Attributing them here is a falsification: it invents a 60,000-year
+antiquity for a place that does not have one.
+
+### The culture track is the usual leak
+
+You may correctly refrain from putting a Palaeolithic occupation on site_type, and then
+put the very same Palaeolithic ARCHAEOLOGICAL CULTURE on the culture track anyway. That
+is the same error, one column to the right, and it is just as false.
+
+An archaeological culture attested at a rock shelter 30 km away is the culture OF THAT
+SHELTER. A city founded in 1820 has no Palaeolithic culture. If the site was not
+inhabited at that date, it had NO culture, NO polity, NO religion and NO language at
+that date — because there was nobody there.
+
+Concretely: if a named prehistoric culture (a Howiesons Poort, a Mousterian, an
+Aurignacian…) comes from finds in the region and not from the site's own strata, it does
+not belong in this timeline. Whatever the track.
+
+### A note does NOT redeem a wrong entry
+
+This is the trap. You will be tempted to extract the entry anyway and disclose the
+problem in "notes". That is not honesty — it is a false entry with a footnote. The entry
+is what enters the database and appears on the map; the note is not.
+
+If you find yourself writing anything like:
+  - "these are nearby cave/rock shelter sites, not the urban core"
+  - "the site itself is near the city area"
+  - "found in caves surrounding the city"
+  - "treated as regional occupation"
+  - "inferred from finds in the surrounding area"
+…you have just PROVEN the entry must not exist. **Delete it.** The very fact that you
+needed to write that sentence is the answer.
+
+### The scope, so this is not misunderstood
+
+This atlas covers inhabited places **from the Palaeolithic to the present**. There is NO
+lower date limit. A genuinely Palaeolithic site — an occupied cave, a rock shelter, a
+repeatedly-used camp — is fully in scope, with its cultures, and must be extracted with
+the same care as a Bronze Age city. When deep occupation IS attested AT the site itself
+(a tell with Neolithic strata, a cave with continuous occupation layers, a settlement
+mound), extract it in full, as early as the evidence goes. That is the whole point of
+the atlas.
+
+The rule above removes what belongs to OTHER places. It does not truncate what belongs
+to THIS one.
+
+If the source is genuinely ambiguous about whether the finds are AT the site or merely
+near it, prefer the LATER, safer start date, mark "confidence": "low", and say so in
+"notes". A start date that is too cautious is a small loss. An invented antiquity is a
+corruption of the atlas.
+
+## Never substitute a related entity for the one you mean
+
+If the entity you need has no QID you are sure of, the answer is ALWAYS: keep the correct
+NAME, omit the "wikidata" field, and signal it in "missing_entities".
+
+It is NEVER: replace the entity with a similar one that does have a QID.
+
+Writing "Zulu" because the language is Xhosa and Xhosa is not in the referential is not a
+compromise — it is a FALSIFICATION. You have changed the FACT, not merely the identifier.
+The atlas will then state that Zulu was spoken at a place where it was not. The same goes
+for a neighbouring polity, a cousin culture, a related religion.
+
+The name is the fact. The QID is only its address. Never corrupt the fact to obtain an
+address.
+
 ## Religion and Language tracks — co-occurrence with roles
 
 These two tracks support CO-OCCURRENCE: multiple entries can overlap temporally.
 For any given period, list the 4-5 most significant religions/languages, each with a ROLE qualifier.
 
 ### Role qualifiers (required on every religion and language entry):
-- "state": official/state religion or language (legally established or de facto official)
+- "state": official/state religion or language (legally established or de facto official) 
+  **"state" is EXCLUSIVE: at most ONE entity can hold it at any given moment.** A state has one official religion, not two. If a new religion becomes the state religion, the previous one must STOP being "state" at that date — either it ends entirely (a "to"), or it continues with a lower role (a NEW entry at the transition date, with "major", "minor" or "minority").
+  Concretely: if Roman religion is "state" from -60 and Christianity becomes "state" in 300, then Roman religion CANNOT still be "state" between 300 and 400. Give it a new entry at 300 with a reduced role, then close it with a "to" when it dies out. Overlapping "state" entries are always an error.
+  The same holds for language: one official language at a time (a genuinely co-official pair — e.g. two languages of a bilingual state — is the rare exception, and must be stated by the sources, not assumed).
 - "major": widely practiced/spoken by a large portion of the population
 - "minor": present and notable but not dominant
 - "minority": small but historically significant community
@@ -274,6 +383,29 @@ For any given period, list the 4-5 most significant religions/languages, each wi
 - Role changes matter: a religion moving from "state" to "major" (e.g. after secularisation) or from "minor" to "state" (e.g. after a conversion of rulers) warrants a NEW ENTRY of that same entity at the transition date. Do NOT use "to" for this.
 - Use ONLY the QIDs from the referential lists below for religion and language. If the religion/language is NOT in the list, DO NOT invent a QID — add it to "missing_entities" and include the timeline entry with "name" only.
 - **Close what dies.** Before you finish, re-read your religion and language tracks and ask, for EACH entity: "is it still present at this site today?" If the answer is no, its last entry MUST carry a "to". This is the single most commonly forgotten field.
+
+### Precision level: when you name a BRANCH, close the TRUNK
+
+A religion or language may be known at different levels of precision depending on the period, and that is normal. "Islam" is the honest answer when the sources do not say which branch dominated; "Shia Islam" is the honest answer when they do.
+
+But the two must not run in parallel. Once you name the branch, the generic parent has been SUPERSEDED — not joined.
+
+**Rule: when a more precise entity takes over from a broader one, close the broader one with a "to" at that exact date.**
+
+Concretely:
+  - Islam "major" from 643, then Shia Islam "major" from 900 and Sunni Islam "minor" from 900 ⇒ the "Islam" entry MUST carry "to": 900. It says "from 643 to 900 we know only that the site was Muslim; after 900 we can say which branches."
+  - Christianity "minor" from 250, then Catholic Church "state" from 400 ⇒ Christianity MUST carry "to": 400.
+
+Without the "to", the atlas shows Islam AND Shia Islam AND Sunni Islam as three
+co-existing religions at the same site in 1500 — which is not a fact about the world, it is an artefact of your having described the same reality twice at two levels of detail.
+
+Co-occurrence is for religions that GENUINELY COEXIST — Islam and Christianity and Judaism in one city. It is NOT for a religion and its own sub-branch. A branch does not coexist with its trunk; it IS the trunk, described more precisely.
+
+Two things this rule does NOT mean:
+  - It does not mean you should always reach for the branch. If the sources do not say which branch, stay generic and leave the entry open. Vagueness is honest; invented precision is not.
+  - It does not mean two branches cannot coexist. Shia and Sunni side by side, Catholic and Protestant side by side — that is real co-occurrence, and both stay open.
+
+The same applies to language: if you record "Chinese" and then "Puxian Min", or "Kurdish" and then "Sorani Kurdish", close the broader one when the narrower one begins. Do not stack a language on top of its own dialect.
 
 ### RELIGION referential — use ONLY these QIDs:
 ${refs.religions}
@@ -327,6 +459,8 @@ and merges distinct historical entities. Therefore:
 - For religion and language: the referential lists above are the ONLY authorised
   QID source. An entity absent from them goes to "missing_entities" — never to an
   improvised QID, even one you believe you know.
+- And NEVER swap the entity itself to obtain a QID — see "Never substitute a related
+  entity" above. Omitting a QID is honest; renaming the entity is falsification.
 
 ## Missing entities — safety net for referential gaps
 
@@ -375,6 +509,11 @@ ${filiation}
 3. Sort each track's entries by "from" ascending.
 4. CRITICAL: Each track MUST be an object with an "entries" array. Do NOT use bare arrays. Do NOT use a "tracks" wrapper.
 5. Return ONLY valid JSON — no prose, no markdown fences, no comments.
+6. **BC years are NEGATIVE.** Before writing any year, ask whether it is BC. The
+   Achaemenid Empire begins at -550, NOT 550. Alexander dies at -323. A dropped minus
+   sign silently moves an entity by a millennium and reorders the whole timeline. After
+   drafting each track, re-read every year of every entry earlier than the common era
+   and confirm the sign.
 
 ## Occupation hiatus — the "to" field on the site_type track
 
@@ -487,10 +626,37 @@ attest), and mark low confidence.
 
 ## Cross-check with your training knowledge
 
-Wikipedia is your primary source, but it can contain errors, oversimplifications,
-or anachronisms. After extracting from the text, validate each entry against your
-historical and archaeological knowledge. Apply the following corrections silently
-when the evidence is unambiguous, and record your reasoning in the "notes" field:
+### THE GENERAL RULE: an entity cannot begin before it existed
+
+Before writing any "from", ask: **did this entity exist at that date?**
+
+Not "does it govern/prevail there today", not "is it the natural label for this place" —
+did it EXIST, as such, in that year? If not, the "from" is wrong. Move it to the entity's
+actual date of appearance, or drop the entry.
+
+This sounds obvious and is the single most common anachronism. Examples of the error:
+  - Standard Chinese (Putonghua) as the state language of a 6th-century county. It did
+    not exist. Its "from" is 1949, not 568.
+  - The People's Republic of China as the polity of a Ming-era city.
+  - Islam anywhere before 610 AD.
+  - "Modern French culture" in the 12th century.
+  - A modern nation-state QID used for a medieval kingdom.
+
+And a specific trap: **there is no such thing as "retroactive" attribution.** If you
+catch yourself writing "retroactively applied", "projected back", "used here to
+represent the modern period", or any equivalent — you are writing an anachronism and you
+know it. The track is a chronology, not a label. Give the entity its true start date, or
+omit it.
+
+The corollary also holds: an entity cannot continue after it ceased to exist. The Roman
+Empire is not the polity of a 9th-century town.
+
+### Correcting the source
+
+Wikipedia is your primary source, but it can contain errors, oversimplifications, or
+anachronisms. After extracting from the text, validate each entry against your historical
+and archaeological knowledge. Apply the following corrections when the evidence is
+unambiguous, and record your reasoning in the "notes" field.
 
 ### Chronological hard limits — never extract dates outside these bounds:
 
@@ -531,56 +697,143 @@ When Wikipedia implies a date or entity that violates these limits:
 
 Wikipedia under-documents recent and "obvious" periods. Two consequences to fix:
 
-1. For a site that is STILL INHABITED today, the "polity" and "culture" tracks must
-   not stop at some medieval or early-modern entry and then implicitly run
-   unchanged to the present. A living site always has a governing polity and a
-   cultural context up to today. Continue both tracks forward to the present using
-   the well-established political and cultural history of its country/region — e.g.
-   a French town's polity continues Kingdom of France → the Revolutionary and
-   Napoleonic states → modern France, and its culture continues medieval →
-   early-modern → modern French culture. The same applies to site_type: bring it
-   to the site's current status.
+1. For a site that is STILL INHABITED today, the "polity" track must not stop at some medieval or early-modern entry and then implicitly run unchanged to the present. A living site always has a governing polity up to today. Continue track forward to the present using the well-established political history of its country/region — e.g. a French town's polity continues Kingdom of France → the Revolutionary and Napoleonic states → modern France. The same applies to site_type: bring it to the site's current status.
 
-2. You MAY infer this forward (and backward) continuity from the general history of
-   the region even when the article does not state it for THIS specific site.
+2. You MAY infer this forward (and backward) continuity from the general history of the region even when the article does not state it for THIS specific site.
 
-The religion and language tracks may use the same structural inference, with the
-same constraints: the dominant religion/language of a well-documented region and
-period may be attributed to a site of that region (e.g. a 12th-century French
-town: Catholic Church "state", Old French/Occitan "major"), marked
-"confidence": "low"/"medium" with a note. But NEVER infer minority communities:
-the presence of a specific minority at a specific site (a Jewish community, an
-Armenian quarter...) is site-specific DETAIL requiring attestation.
+### The CULTURE track stops when documented history begins
 
-Structural inference also covers DISAPPEARANCE. The extinction of Roman religion,
-of Gaulish, of Latin as a spoken vernacular are well-established regional facts:
-you may close those entries with an approximate "to" and a low-confidence note,
-even if the article says nothing about this specific site. Leaving a dead religion
-running to the present day is a worse error than an approximate closing date.
+The culture track holds ARCHAEOLOGICAL CULTURES and NAMED HISTORICAL CIVILISATIONS — Halaf, Yamnaya, Gauls, Ancient Rome, Merovingian, Ancient Egypt. It does NOT hold modern national or colonial cultures.
 
-SCOPE — read carefully. This is the single, scoped exception to Rule 2 ("only what
-is attested"), and it is tightly bounded:
+**Never emit entries like:** "modern French culture", "South African culture", "British colonial culture", "Post-apartheid South African culture", "Early modern French culture", "medieval French culture", "Chinese civilization" (as a catch-all for two millennia). These are not entities. They are the name of a country with the word "culture" attached, and they say nothing the polity, language and religion tracks do not already say better.
+
+The rule: once a site enters the documented history of an identifiable state — once the polity track carries real, named regimes — the culture track has done its work and should **stop**. Its purpose is to describe peoples we know through their material remains, not to relabel modern nations.
+
+So: unlike polity, culture must NOT be continued forward to the present. An empty culture track for the modern period is CORRECT. A French town's culture track may legitimately end with "Merovingian" and say nothing after — France's polity, French the language, and Catholicism the religion carry the rest.
+
+### THE HARD LIMIT: inference BRIDGES between anchors. It never fills a VOID.
+
+This is the boundary, and it is the one most often crossed. Read it twice.
+
+Structural inference is legitimate ONLY to bridge a gap BETWEEN TWO ATTESTED POINTS — the site is documented before, and documented after, so it obviously existed in between, and we may say which state governed it. Paris is attested in 1436 and in 1789; inferring that it remained French in 1600 is sound.
+
+Structural inference is FORBIDDEN when the site itself is absent from the record. If the sources say nothing about the place for a long stretch — no mention, no ruins, no continuity of occupation — then **you do not know whether anybody lived there at all**.
+Deriving its polity, culture, religion and language from the general history of the country is not inference: it is FABRICATION. You would be asserting that a place existed, and was ruled, when the only honest statement is that we have no idea.
+
+**The decisive question is not "who ruled this region then?" — it is "was this place inhabited then, and do the sources show it?"**
+
+Worked example of the error. A town whose sources attest Chalcolithic artefacts (4400 BC) and then nothing at all until a 14th-century principality. The tempting move is to fill the 5,700-year gap with the standard sequence: Achaemenid → Seleucid → Parthian → Sasanian → Umayyad → Abbasid, each marked "not attested specifically for this site". **Do not do this.** Those notes are your own admission that you are inventing. Nothing tells you the place was even occupied under the Sasanians. The evidential silence IS the finding — leave the gap empty and let the timeline show it.
+
+If you catch yourself writing "inferred from regional control", "not attested
+specifically for this site", "based on the general history of the region" on a series of entries with no attested anchor after them — delete the whole series.
+
+### The scope of inference, restated precisely
+
 - It applies ONLY to the structural continuity of the **polity**, **culture**,
-  **religion** and **language** tracks: which broad political entity, cultural
-  sphere, dominant religion and dominant language a place belonged to.
-- Every inferred entry MUST be marked "confidence": "low" (or "medium" at best, when
-  the regional framework is very firm) and carry a "notes" field saying it is
-  inferred from regional context, not attested for this site specifically.
-- It must NOT be used to invent any site-SPECIFIC detail: never infer a founding
-  date, a population figure, an event, a minority community, or a precise name from
-  general knowledge. Those remain strictly attestation-governed.
-- It does NOT override the "Epistemological caution for ancient polities" above: do
-  not infer ancient or contested polities (pre-800 BC, religiously-derived, etc.).
-- If the region/period is itself poorly understood, so that even general knowledge
-  cannot give a reliable framework, do NOT fabricate a trame: leave the track at its
-  last attested entry and note the uncertainty. Honest gaps beat invented continuity.
+  **religion** and **language** tracks, BETWEEN attested anchors, or FORWARD to the present from the last attested anchor for a site that is demonstrably still inhabited.
+- Every inferred entry MUST be marked "confidence": "low" (or "medium" at best, when the regional framework is very firm) and carry a "notes" field saying it is inferred from regional context.
+- It must NOT be used to invent any site-SPECIFIC detail: never infer a founding date, a population figure, an event, a minority community, or a precise name from general knowledge. Those remain strictly attestation-governed.
+- It does NOT override the "Epistemological caution for ancient polities" above: do not infer ancient or contested polities (pre-800 BC, religiously-derived, etc.).
+- If the region/period is itself poorly understood, so that even general knowledge cannot give a reliable framework, do NOT fabricate a trame: leave the track at its last attested entry and note the uncertainty. Honest gaps beat invented continuity.
 
-Rule of thumb: infer the STRUCTURE, never the DETAIL.
+The religion and language tracks may use the same bridging inference, with the same limits: the dominant religion/language of a well-documented region and period may be attributed to a site of that region (e.g. a 12th-century French town: Catholic Church "state", Old French "major"), marked "confidence": "low"/"medium" with a note. But NEVER infer minority communities: the presence of a specific minority at a specific site (a Jewish community, an Armenian quarter...) is site-specific DETAIL requiring attestation.
+
+Structural inference also covers DISAPPEARANCE. The extinction of Roman religion, of Gaulish, of Latin as a spoken vernacular are well-established regional facts: you may close those entries with an approximate "to" and a low-confidence note, even if the article says nothing about this specific site. Leaving a dead religion running to the present day is a worse error than an approximate closing date.
+
+Rule of thumb: infer the STRUCTURE between what is known. Never infer the EXISTENCE of what is unknown.
+
+## No placeholder entities — an absence is not an entity
+
+If you do not know the polity, the culture, the religion or the language, **emit no
+entry**. Do not invent a descriptive stand-in.
+
+These are NOT entities, and must never appear in a "name" field:
+  - "unknown prehistoric language"
+  - "prehistoric settlement (Iranian Plateau)"
+  - "Chalcolithic culture of the Iranian Plateau"
+  - "the local tribe", "indigenous population", "pre-Roman inhabitants"
+  - any phrase containing "unknown", "unnamed", "unidentified", "no specific X"
+
+They are descriptions of OUR IGNORANCE dressed up as historical facts. Written into a
+track, they become a coloured band on the map and a candidate for the shared referential
+— an absence promoted to an entity.
+
+The correct handling of ignorance is the EMPTY TRACK. A timeline whose culture track
+starts in 1380 says truthfully: "before that, we don't know." A timeline that says
+"Chalcolithic culture of the Iranian Plateau" says something false, because no such
+named culture is being claimed by any source.
+
+Exception: a genuinely named, source-attested archaeological culture (Howiesons Poort,
+Halaf, Yamnaya, Linear Pottery) is a real entity — use it, if it is attested AT THE SITE.
+The test is whether the source names it, not whether you can construct a plausible label
+for the period.
+
+### CRITICAL — do not over-correct: the tracks are INDEPENDENT
+
+Dropping a placeholder CULTURE must NEVER make you drop the attested OCCUPATION.
+
+These are two different tracks answering two different questions:
+  - site_type: **was this place inhabited, and as what?**
+  - culture:   **which NAMED culture did its inhabitants belong to?**
+
+You can know the first and not the second. In deep prehistory that is the NORMAL case,
+and it is expressed as: **site_type FILLED, culture EMPTY.**
+
+Worked example. A town whose sources report artefacts found AT the site, dated 4400–4100
+BC, described as one of the earliest settlements of the region. Correct output:
+  - site_type: an entry at -4400, "settlement", "confidence": "medium", with the source.
+    This occupation is ATTESTED AT THE SITE and is one of the most valuable facts in the
+    entire timeline. **KEEP IT.**
+  - culture: NO entry — no source names a culture. Not "Chalcolithic culture of the
+    plateau". Nothing at all.
+  - polity, religion, language: NO entries. We know people were there; we know nothing
+    else about them.
+
+Deleting the -4400 occupation because you could not name its culture would destroy the
+site's deepest attested fact in order to tidy up a DIFFERENT track. Never do that. Rule 1
+holds: each track is independent.
+
+## A historical PERIOD is not a POLITY
+
+The polity track holds the entity that GOVERNED the site — an empire, a kingdom, a
+republic, a caliphate, a city-state, a principality. It does not hold the name of an era.
+
+These are periods, not polities, and must NEVER appear on the polity track:
+  - "Five Dynasties and Ten Kingdoms Period", "Warring States period", "Spring and Autumn"
+  - "Hellenistic period", "Late Antiquity", "the Middle Ages"
+  - "Bronze Age", "Iron Age", "Chalcolithic"
+  - "the Interregnum", "the Time of Troubles", "the colonial period"
+
+A period is a slice of time. It governs nobody. Writing it on the polity track is a
+category error that puts an era where a state should be.
+
+**When a period covers a fragmented era, name the REGIME THAT ACTUALLY HELD THE SITE.**
+That is the useful fact, and it is usually available. During the Five Dynasties and Ten
+Kingdoms era, the region around Fuzhou and Putian was ruled by the **Min Kingdom** (闽) —
+that is the polity, not the era. During the Warring States, a site belonged to Qi, or Chu,
+or Qin — name it.
+
+If you genuinely do not know which regime held the site during a fragmented period, leave
+the track EMPTY for that stretch. An honest gap is correct; an era-as-polity is false.
+
+The same applies to the culture track: an ARCHAEOLOGICAL culture (Halaf, Yamnaya) is an
+entity; a chronological period (Bronze Age, Neolithic) is not. If all you can say is
+"Bronze Age", you have named a date range, not a culture — say nothing.
 
 ## Population — sampling and historical depth
 
-The population track shows a broad demographic trajectory on a deep-time atlas; it
-is NOT for reproducing census tables. Apply deliberate sampling:
+**A population figure counts PEOPLE. Nothing else.**
+
+Never convert, and never substitute, another unit: houses, dwellings, hearths, households, families, taxpayers, adult males, communicants, registered voters. If the source says "the town contained four houses", the population is NOT 4. It is unknown — omit the entry.
+
+**Never invent a multiplier.** "12 families × ~5 persons = 60" is a fabricated number dressed as a source. The source said twelve families; it did not say sixty people. If the source itself supplies the household size, you may use it and must say so in "notes" with "confidence": "low". Otherwise: OMIT.
+
+And if you find yourself writing a note like "omitting this entry would be safer, but…" — **that IS the answer. Omit it.** The hesitation you just wrote down is the finding.
+There is no version of this where the invented number survives because you flagged it.
+
+An entry of "4 inhabitants" or "60 inhabitants" for a founded town is not a small error; it is a nonsense that will be plotted as a data point on a demographic curve, indefinitely.
+
+The population track shows a broad demographic trajectory on a deep-time atlas; it is NOT for reproducing census tables. Apply deliberate sampling:
 
 - Do NOT transcribe dense modern census series (annual or 5-yearly figures). They
   add volume without value here. Collapse them to a few representative anchors —
@@ -599,6 +852,14 @@ is NOT for reproducing census tables. Apply deliberate sampling:
   figures actually present in the sources. NEVER infer or fabricate a population
   number from general knowledge — the structural-inference exception above does NOT
   apply to population.
+
+**A population figure must come from the SOURCES. Never from your own knowledge.**
+
+Population is site-specific DETAIL. The structural-inference exception does NOT apply to it — not ever. "A typical Roman provincial city held about 20,000 people" is a fact about Roman cities in general; it is NOT a fact about THIS city, and writing it as one is fabrication.
+
+If you catch yourself writing "not from the article", "standard historical estimate", "rough estimate for a city of this type", "typical for the period" — **that is the answer. Omit the entry.** Those phrases are your own admission that the number is not a finding about this place.
+
+An empty population track is a correct and honest output. An invented figure is a data point on a demographic curve, forever, and nothing distinguishes it from a real one.
 
 ## Wikipedia sources
 ${context.local ? `Two sources are provided: the English article (primary) and a local language article (${context.localLang}, supplementary). Prefer the English source for dates and political entities; use the local source primarily for vernacular names and any additional historical details it provides.` : ""}
@@ -654,20 +915,59 @@ function normalizeSiteTypeTo(entries: any[]): any[] {
 
 /**
  * Co-occurrent tracks (religion, language): the `to` is MEANINGFUL — it marks the
- * disappearance of an entity. We keep it, but drop it when it is incoherent:
+ * disappearance of an entity, or the moment a generic trunk is superseded by a named
+ * branch (Islam closed at 800, when Sunni Islam appears).
  *
- *   - to < from                        ⇒ nonsense, drop.
- *   - a later entry of the SAME entity ⇒ that entry supersedes this one anyway
- *     (role change), so a `to` at or beyond its `from` is redundant. Drop it.
- *     A `to` STRICTLY BEFORE it is kept: it is a real intra-entity gap
- *     (e.g. Judaism in Paris — expelled 1394, back in 1791).
+ * The model, told to close a trunk, does NOT edit the original entry — it emits a
+ * SECOND one. Two shapes observed:
  *
- * Note we deliberately do NOT drop a `to` merely because another entity has an
- * entry afterwards: on a co-occurrent track, other entities never close this one.
+ *   A) Same `from`, one closed and one open:
+ *        Paris: "Christianity" 250→null  AND  "Christianity" 250→380
+ *      ⇒ the closed one is the corrected version. Keep it, drop the open one.
+ *
+ *   B) A ZERO-LENGTH entry carrying the closing date:
+ *        Shamakhi: "Islam" 642→null  AND  "Islam" 800→800
+ *      ⇒ the "800→800" entry is not an entity present for zero years; it is an ORDER to
+ *        close Islam at 800. Carry its `to` back onto the open entry, then drop it.
+ *
+ * Both are the same intent expressed differently, and both must end as ONE entry with a
+ * `to`. Order matters below: fold the zero-length entries FIRST (they are instructions),
+ * then resolve same-`from` duplicates, then sanity-check what is left.
  */
 function normalizeCooccurrentTo(entries: any[]): any[] {
-  const sorted = [...entries].sort((a, b) => (a.from ?? 0) - (b.from ?? 0));
+  let sorted = [...entries].sort((a, b) => (a.from ?? 0) - (b.from ?? 0));
 
+  // ── 1. Zero-length entries are CLOSING INSTRUCTIONS, not entries. ───────────
+  //    Push their date onto the latest still-open entry of the same entity that
+  //    starts before them, then discard them.
+  const zeroLength = sorted.filter((e) => e.to != null && e.to <= e.from);
+
+  for (const z of zeroLength) {
+    const key = entityKeyOf(z.value);
+    let target: any;
+    for (const e of sorted) {
+      if (e === z) continue;
+      if (entityKeyOf(e.value) !== key) continue;
+      if (e.from >= z.from) continue;
+      if (e.to != null) continue; // already closed
+      // Latest open entry of this entity starting before the closing date.
+      if (!target || e.from > target.from) target = e;
+    }
+    if (target) target.to = z.from;
+  }
+
+  sorted = sorted.filter((e) => !zeroLength.includes(e));
+
+  // ── 2. Same entity, same `from`: one closed, one open ⇒ keep the closed one. ─
+  const closedKeys = new Set<string>();
+  for (const e of sorted) {
+    if (e.to != null) closedKeys.add(`${entityKeyOf(e.value)}@${e.from}`);
+  }
+  sorted = sorted.filter(
+    (e) => e.to != null || !closedKeys.has(`${entityKeyOf(e.value)}@${e.from}`),
+  );
+
+  // ── 3. Sanity-check the surviving `to` values. ──────────────────────────────
   return sorted.map((e, i) => {
     if (e.to == null) return e;
 
@@ -676,8 +976,12 @@ function normalizeCooccurrentTo(entries: any[]): any[] {
       return rest;
     };
 
-    if (e.to < e.from) return strip();
+    // Anything still non-positive in length is junk (step 1 consumed the meaningful ones).
+    if (e.to <= e.from) return strip();
 
+    // A later entry of the SAME entity supersedes this one anyway (role change), so a
+    // `to` at or beyond its `from` is redundant. A `to` STRICTLY BEFORE it is KEPT — it
+    // is a real intra-entity gap (Judaism in Paris: expelled 1394, back in 1791).
     const key = entityKeyOf(e.value);
     let nextSame: any;
     for (let j = i + 1; j < sorted.length; j++) {
@@ -699,6 +1003,51 @@ function stripTo(entries: any[]): any[] {
     const { to, ...rest } = e;
     return rest;
   });
+}
+
+// Closed enum — mirrors EventType in @strabon/shared. An event whose type is not in
+// this set is DROPPED, not coerced: the prompt tells the model to omit rather than
+// force a fit, and a mis-typed event is worse than a missing one (it enters the
+// atlas as a fact of the wrong kind, invisibly).
+const EVENT_TYPES = new Set([
+  "destruction",
+  "fire",
+  "earthquake",
+  "flood",
+  "plague",
+  "siege",
+  "conquest",
+  "massacre",
+  "founding",
+  "refounding",
+  "abandonment",
+  "expulsion",
+  "depopulation",
+]);
+
+function normalizeEvents(events: any): any[] {
+  if (!Array.isArray(events)) return [];
+  return events.filter(
+    (e: any) => typeof e?.type === "string" && EVENT_TYPES.has(e.type),
+  );
+}
+
+/**
+ * missing_entities: drop empty `proposed_qid` strings. The model writes "" rather
+ * than omitting the field — same dodge as `wikidata: ""`. An empty string is not a
+ * hypothesis; it would just noise up the verification pass.
+ */
+function normalizeMissingEntities(missing: any): any[] {
+  if (!Array.isArray(missing)) return [];
+  return missing
+    .filter((m: any) => m && typeof m.name === "string" && m.name.trim())
+    .map((m: any) => {
+      const qid =
+        typeof m.proposed_qid === "string" ? m.proposed_qid.trim() : "";
+      if (qid) return { ...m, proposed_qid: qid };
+      const { proposed_qid, ...rest } = m;
+      return rest;
+    });
 }
 
 const TRACK_KEYS = [
@@ -753,6 +1102,16 @@ export function normalizeTimelineV2(raw: any): any {
   // site_type: `to` marks an occupation hiatus — drop redundant contiguous ones.
   if (result.site_type?.entries) {
     result.site_type.entries = normalizeSiteTypeTo(result.site_type.entries);
+  }
+
+  // Events: drop any whose type is outside the closed enum.
+  if (result.events !== undefined) {
+    result.events = normalizeEvents(result.events);
+  }
+
+  // missing_entities: drop empty proposed_qid strings and nameless entries.
+  if (result.missing_entities !== undefined) {
+    result.missing_entities = normalizeMissingEntities(result.missing_entities);
   }
 
   return result;

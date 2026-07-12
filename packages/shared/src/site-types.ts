@@ -161,6 +161,7 @@ export type EventType =
   | "plague"
   | "siege"
   | "conquest"
+  | "massacre"
   | "founding"
   | "refounding"
   | "abandonment"

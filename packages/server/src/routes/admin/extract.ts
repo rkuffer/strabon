@@ -153,8 +153,17 @@ async function extractSite(
   };
 }
 
-// ── Mise à jour des bornes temporelles ───────────────────────────────────────
-
+/**
+ * Recompute inception/dissolution from the timeline, which is AUTHORITATIVE.
+ *
+ * A null result is a RESULT, not an absence of opinion: it means "the timeline shows
+ * no dissolution", i.e. the site is still alive. It MUST overwrite any stale value
+ * inherited from Wikidata (P571/P576).
+ *
+ * The previous COALESCE-based version preserved the old value on null, which left
+ * Bordeaux with dissolution_year = 1804 (a Wikidata artefact) — making a living city
+ * invisible on the map after 1804. Never COALESCE here.
+ */
 async function updateTemporalBounds(
   sql: any,
   siteId: string,
@@ -162,11 +171,11 @@ async function updateTemporalBounds(
 ) {
   const inception = computeInceptionFromTimeline(timeline);
   const dissolution = computeDissolutionFromTimeline(timeline);
-  if (inception === null && dissolution === null) return;
+
   await sql`
     UPDATE sites SET
-      inception_year   = COALESCE(${inception},   inception_year),
-      dissolution_year = COALESCE(${dissolution}, dissolution_year)
+      inception_year   = ${inception},
+      dissolution_year = ${dissolution}
     WHERE id = ${siteId}
   `;
 }
@@ -335,7 +344,7 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
     const gaps = await recordGaps(
       sql,
       id,
-      (validated as any).missing_entitiesvalidated,
+      (validated as any).missing_entities,
       validated,
     );
 

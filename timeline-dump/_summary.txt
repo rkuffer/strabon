@@ -1,0 +1,2 @@
+Q90        Paris                    2026-07-12 08:14  site_type:4 polity:21 culture:3 religion:7 language:4 name:5 population:7 events:5 missing:1
+Q388224    Shamakhi                 2026-07-12 08:07  site_type:5 polity:14 culture:1 religion:8 language:7 name:6 population:4 events:8 missing:3

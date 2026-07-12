@@ -263,6 +263,7 @@ import {
   formatTrackEntry,
   TRACK_META,
   isCooccurrent,
+  SCALE_LABELS,
 } from "@strabon/shared";
 import type {
   SiteTimeline,
@@ -355,23 +356,63 @@ const innerWidth = computed(() => {
 const cursorPct = computed(() => xPct(props.year));
 
 // ── Couleurs ──────────────────────────────────────────────────────────────────
-const TYPE_COLORS: Record<string, string> = {
-  capital: "#c9a84c",
-  capital_city: "#c9a84c",
-  metropolis: "#3a4aaa",
-  city: "#4a6aaa",
-  town: "#4a7a8a",
-  village: "#5c7a5a",
-  settlement: "#7a6e52",
-  campsite: "#6b5e7a",
-  ruins: "#5a5a5a",
-  abandoned: "#3a3a3a",
-  fortress: "#7a4a3a",
-  port: "#3a8aaa",
-  religious_site: "#aa6a4a",
-  colony: "#6a8a4a",
-  administrative: "#8a7a5a",
+//
+// Deux logiques distinctes, selon ce que la piste demande de LIRE :
+//
+//  - polity / culture / name : la teinte IDENTIFIE l'entité (hash du nom). Ce qui
+//    compte est de reconnaître « Roman Empire » d'un coup d'œil, et de le
+//    retrouver ailleurs sur la frise.
+//  - religion / language : la teinte identifie la PISTE (une teinte par piste), et
+//    l'INTENSITÉ (saturation + luminosité + opacité) code le RÔLE. Ce qui compte
+//    est de lire la hiérarchie state → minority ; distinguer les entités est le
+//    travail du couloir et du label, pas de la couleur.
+//  - site_type : une teinte unique, dont la luminosité suit la « montée en
+//    puissance » du lieu (campsite → capital_city). La frise raconte alors
+//    visuellement la trajectoire du site.
+
+// Teinte de base des pistes à intensité (co-occurrentes).
+const TRACK_HUE: Record<string, number> = {
+  religion: 280, // violet
+  language: 195, // cyan
 };
+
+// Étalement de teinte par entité, AUTOUR de la teinte de piste.
+// 0  = teinte strictement uniforme (rôle maximalement lisible).
+// ~18 = chaque entité garde une nuance propre sans perdre l'identité de piste.
+// Un seul chiffre à régler à l'œil.
+const HUE_SPREAD = 0;
+
+// Le RÔLE se lit à l'intensité. fg = luminosité du texte (%).
+const ROLE_STYLE: Record<
+  RoleQualifier | "unknown",
+  { s: number; l: number; a: number; fg: number }
+> = {
+  state: { s: 58, l: 50, a: 0.95, fg: 96 },
+  major: { s: 44, l: 40, a: 0.88, fg: 88 },
+  minor: { s: 30, l: 30, a: 0.8, fg: 76 },
+  minority: { s: 20, l: 24, a: 0.72, fg: 66 },
+  unknown: { s: 25, l: 32, a: 0.78, fg: 72 },
+};
+
+// site_type : rang de « puissance » du lieu (0 → 1). Pilote saturation+luminosité.
+const SITE_TYPE_RANK: Record<string, number> = {
+  abandoned: 0.0,
+  ruins: 0.08,
+  campsite: 0.16,
+  settlement: 0.28,
+  village: 0.38,
+  colony: 0.46,
+  administrative: 0.5,
+  religious_site: 0.54,
+  fortress: 0.56,
+  port: 0.58,
+  town: 0.62,
+  city: 0.76,
+  metropolis: 0.88,
+  capital: 0.94,
+  capital_city: 1.0,
+};
+const SITE_TYPE_HUE = 44; // or
 
 function strHue(s: string): number {
   let h = 0;
@@ -385,15 +426,11 @@ function strFg(s: string): string {
   return `hsl(${strHue(s)},60%,75%)`;
 }
 
-// Le RÔLE est rendu par l'opacité du fond : plus l'entité est dominante, plus le
-// bloc est franc. La bordure (CSS) complète la lecture.
-const ROLE_ALPHA: Record<RoleQualifier | "unknown", number> = {
-  state: 0.72,
-  major: 0.5,
-  minor: 0.32,
-  minority: 0.2,
-  unknown: 0.4,
-};
+/** Décalage déterministe (−HUE_SPREAD … +HUE_SPREAD) autour de la teinte de piste. */
+function hueJitter(seed: string): number {
+  if (!HUE_SPREAD) return 0;
+  return (strHue(seed) % (HUE_SPREAD * 2 + 1)) - HUE_SPREAD;
+}
 
 // ── Construction des lignes ───────────────────────────────────────────────────
 
@@ -445,20 +482,37 @@ function periodLabel(
   return `${fmtY(from)} → ${fmtY(to)}`;
 }
 
-// Couleur/libellé selon la piste — les pistes escalier gardent leur rendu d'origine.
 function blockBg(key: TrackKey, v: any, role?: RoleQualifier): string {
-  if (key === "site_type") return TYPE_COLORS[v] ?? "#6b6b5a";
+  if (key === "site_type") {
+    const r = SITE_TYPE_RANK[String(v)] ?? 0.3;
+    // Un lieu puissant est clair et saturé ; un lieu éteint est sombre et gris.
+    return `hsla(${SITE_TYPE_HUE},${12 + r * 46}%,${16 + r * 40}%,0.85)`;
+  }
   if (key === "population") return strBg("population", 0.42);
   if (key === "name") return strBg(v.text, 0.42);
-  const seed = v?.name ?? String(v);
-  if (isCooccurrent(key)) return strBg(seed, ROLE_ALPHA[role ?? "unknown"]);
-  return strBg(seed);
+
+  if (isCooccurrent(key)) {
+    const st = ROLE_STYLE[role ?? "unknown"];
+    const h = (TRACK_HUE[key] ?? 260) + hueJitter(v?.name ?? String(v));
+    return `hsla(${h},${st.s}%,${st.l}%,${st.a})`;
+  }
+
+  return strBg(v?.name ?? String(v));
 }
 
-function blockFg(key: TrackKey, v: any): string {
-  if (key === "site_type") return "rgba(255,255,255,.85)";
+function blockFg(key: TrackKey, v: any, role?: RoleQualifier): string {
+  if (key === "site_type") {
+    const r = SITE_TYPE_RANK[String(v)] ?? 0.3;
+    // Fond clair (capitale) ⇒ texte sombre ; fond sombre ⇒ texte clair.
+    return r > 0.8 ? "rgba(20,18,10,.92)" : "rgba(255,255,255,.88)";
+  }
   if (key === "population") return strFg("population");
   if (key === "name") return strFg(v.text);
+
+  if (isCooccurrent(key)) {
+    return `hsla(0,0%,100%,${ROLE_STYLE[role ?? "unknown"].fg / 100})`;
+  }
+
   return strFg(v?.name ?? String(v));
 }
 
@@ -490,7 +544,7 @@ const rows = computed<(StepRow | LaneRow)[]>(() => {
               x,
               w,
               bg: blockBg(key, e.value, seg.role),
-              fg: blockFg(key, e.value),
+              fg: blockFg(key, e.value, seg.role),
               label: lane.label,
               isActive:
                 activeKeys.has(lane.key) &&
@@ -652,6 +706,7 @@ const EVENT_ICONS: Record<EventType, string> = {
   plague: "☠",
   siege: "⚔",
   conquest: "⚔",
+  massacre: "☠",
   founding: "✦",
   refounding: "✦",
   abandonment: "→",
@@ -1035,21 +1090,14 @@ $lane-h: 17px;
     z-index: 5;
   }
 
-  // Le RÔLE se lit à la bordure autant qu'à l'opacité du fond.
+  // L'INTENSITÉ du fond porte désormais le rôle (voir ROLE_STYLE). La bordure ne
+  // fait plus que souligner les deux extrêmes : le statut officiel, et le
+  // caractère précaire d'une minorité.
   &--state {
-    border: 1px solid rgba(255, 255, 255, 0.42);
-  }
-  &--major {
-    border: 1px solid rgba(255, 255, 255, 0.22);
-  }
-  &--minor {
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.5);
   }
   &--minority {
-    border: 1px dashed rgba(255, 255, 255, 0.28);
-  }
-  &--unknown {
-    border: 1px dotted rgba(255, 255, 255, 0.15);
+    border: 1px dashed rgba(255, 255, 255, 0.22);
   }
 
   // Fermeture IMPLICITE (ni `to` explicite, ni entrée ultérieure de la même

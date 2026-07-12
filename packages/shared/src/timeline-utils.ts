@@ -84,7 +84,11 @@ export function entityKey(value: unknown): string {
   if (typeof value === "string" || typeof value === "number")
     return normalizeName(String(value));
   const v = value as Partial<EntityRef> & { text?: string };
-  if (v.wikidata) return `qid:${v.wikidata}`;
+  // Un `wikidata` vide ou blanc n'est PAS un QID. Le modèle contourne parfois
+  // l'instruction « omit the field » en écrivant "" — traiter cela comme absent,
+  // sinon toutes les entités sans QID partagent la clé `qid:` et fusionnent.
+  const qid = typeof v.wikidata === "string" ? v.wikidata.trim() : "";
+  if (qid) return `qid:${qid}`;
   if (v.name) return `name:${normalizeName(v.name)}`;
   if (v.text) return `name:${normalizeName(v.text)}`;
   return "";

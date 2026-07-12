@@ -1,0 +1,560 @@
+{
+  "id": "Q388224",
+  "title_en": "Shamakhi",
+  "country_qid": "Q227",
+  "coordinates": {
+    "lat": 40.633888888,
+    "lon": 48.639166666
+  },
+  "enrichment_level": "extracted",
+  "sitelinks_count": 60,
+  "inception_year": 100,
+  "dissolution_year": null,
+  "extracted_at": "2026-07-12T08:07:33.729Z",
+  "model": "claude-sonnet-4-6",
+  "meta": "{\"wikidata_description\":\"city in Azerbaijan\",\"wikidata_type\":\"city or town\",\"indexed_from_tile\":\"48,40\"}",
+  "timeline": {
+    "name": {
+      "entries": [
+        {
+          "from": 100,
+          "notes": "Name as recorded by Claudius Ptolemy (1st–2nd century AD); identified by Azerbaijani historians with early Shamakhi.",
+          "value": {
+            "lang": "la",
+            "text": "Kamachia"
+          },
+          "confidence": "medium",
+          "from_circa": true
+        },
+        {
+          "from": 757,
+          "notes": "Arabic name attested on coins minted at al-Yazidiyya from 757/8 onwards; named after Arab governor Yazid ibn Usayd.",
+          "value": {
+            "lang": "ar",
+            "text": "Yazidiyya"
+          },
+          "confidence": "medium"
+        },
+        {
+          "from": 800,
+          "notes": "The name Shamakhiyya appears in 9th–11th century Arabic sources alongside Yazidiyya; the older name eventually displaced the latter.",
+          "value": {
+            "lang": "az",
+            "text": "Şəmaxiyyə"
+          },
+          "confidence": "high",
+          "from_circa": true
+        },
+        {
+          "from": 800,
+          "notes": "Arabic form of the city name as used in medieval Arab geographical sources.",
+          "value": {
+            "lang": "ar",
+            "text": "Shamakhiyya"
+          },
+          "confidence": "high",
+          "from_circa": true
+        },
+        {
+          "from": 1300,
+          "notes": "English form of the city name, widely used in European travel accounts from the medieval period onward.",
+          "value": {
+            "lang": "en",
+            "text": "Shamakhi"
+          },
+          "confidence": "high",
+          "from_circa": true
+        },
+        {
+          "from": 1991,
+          "notes": "Modern Azerbaijani name of the city.",
+          "value": {
+            "lang": "az",
+            "text": "Şamaxı"
+          },
+          "confidence": "high"
+        }
+      ]
+    },
+    "events": [
+      {
+        "type": "earthquake",
+        "year": 1191,
+        "sources": [
+          "1191 earthquake so strong that Shirvan capital was moved to Baku"
+        ],
+        "confidence": "high",
+        "description": "Powerful earthquake struck Shamakhi; Shirvan capital temporarily transferred to Baku."
+      },
+      {
+        "type": "conquest",
+        "year": 1221,
+        "sources": [
+          "Ibn al-Athir 1221 capture and destruction by Mongol invaders"
+        ],
+        "confidence": "high",
+        "description": "Shamakhi captured and destroyed by Mongol forces. Ibn al-Athir describes heroic resistance by the inhabitants. Archaeological fire layers confirm the destruction.",
+        "perpetrator": "Mongol Empire",
+        "perpetrator_wikidata": "Q12557"
+      },
+      {
+        "type": "conquest",
+        "year": 1500,
+        "sources": [
+          "In 1500–1501, it was taken by the Safavid dynasty"
+        ],
+        "confidence": "high",
+        "description": "Shamakhi taken by the Safavid dynasty under Shah Ismail I in 1500–1501.",
+        "perpetrator": "Safavid Iran",
+        "perpetrator_wikidata": "Q18234383"
+      },
+      {
+        "type": "earthquake",
+        "year": 1667,
+        "sources": [
+          "1667 earthquake worst with death toll of 80,000, one-third of city collapsed"
+        ],
+        "confidence": "medium",
+        "description": "The worst recorded earthquake at Shamakhi; death toll of 80,000 according to Persian merchants' reports; one-third of the city collapsed."
+      },
+      {
+        "type": "massacre",
+        "year": 1721,
+        "sources": [
+          "In 1721, the Lezgins sacked the city. They massacred thousands of its Shia inhabitants"
+        ],
+        "confidence": "high",
+        "description": "Lezgins of Shirvan and Dagestan, aided by Sunni inhabitants, sacked the city and massacred thousands of its Shia inhabitants, also looting property of Christian inhabitants and foreign (mostly Russian) merchants."
+      },
+      {
+        "type": "destruction",
+        "year": 1742,
+        "sources": [
+          "In 1742 Shamakhi was taken and destroyed by Nader Shah of Persia"
+        ],
+        "confidence": "high",
+        "description": "Shamakhi taken and destroyed by Nader Shah of Persia to punish inhabitants for their Sunni creed; a new town of the same name was built ~26km to the west.",
+        "perpetrator": "Afsharid Iran",
+        "perpetrator_wikidata": "Q63149558"
+      },
+      {
+        "type": "earthquake",
+        "year": 1859,
+        "sources": [
+          "devastating earthquake of 1859, when the capital of the province was transferred to Baku"
+        ],
+        "confidence": "high",
+        "description": "Devastating earthquake of 1859 led to transfer of the provincial capital from Shamakhi to Baku; the city declined sharply thereafter."
+      },
+      {
+        "type": "earthquake",
+        "year": 1902,
+        "sources": [
+          "last catastrophic earthquake recorded in 1902, which destroyed the 10th-century Juma Mosque"
+        ],
+        "confidence": "high",
+        "description": "Last catastrophic earthquake recorded in Shamakhi; destroyed the 10th-century Juma Mosque."
+      }
+    ],
+    "polity": {
+      "entries": [
+        {
+          "from": 100,
+          "notes": "Ptolemy lists Kamachia among Albanian cities. The region was part of Caucasian Albania in the early centuries CE.",
+          "value": {
+            "name": "Caucasian Albania",
+            "wikidata": "Q177076"
+          },
+          "confidence": "medium",
+          "from_circa": true
+        },
+        {
+          "from": 252,
+          "notes": "The Azerbaijani source mentions the city was founded or developed under Sasanian Shah Khosrow I Anushirvan (6th century). Sasanian suzerainty over Shirvan from mid-3rd century; inferred from regional history.",
+          "value": {
+            "name": "Sasanian Empire",
+            "wikidata": "Q83891"
+          },
+          "confidence": "medium",
+          "from_circa": true
+        },
+        {
+          "from": 642,
+          "notes": "Arab conquest of the Caucasus region in mid-7th century. Numismatic evidence from Shamakhi (Yazidiyya) coins from 757/8–767/8 confirm Arab administration. Inferred from regional history bridging to attested 8th-century coins.",
+          "value": {
+            "name": "Arab Caliphate",
+            "wikidata": "Q3181749"
+          },
+          "confidence": "medium",
+          "from_circa": true
+        },
+        {
+          "from": 800,
+          "notes": "Shamakhi served as a capital of the Shirvanshah realm from the 8th to 15th centuries. The Shirvanshah dynasty ruled the city throughout the medieval period.",
+          "value": {
+            "name": "Kingdom of Shirvan",
+            "wikidata": "Q17526620"
+          },
+          "confidence": "high",
+          "from_circa": true
+        },
+        {
+          "from": 1220,
+          "notes": "Ibn al-Athir describes the Mongol capture and destruction of Shamakhi in 1221. Archaeological fire layers confirm this. City came under Mongol rule.",
+          "value": {
+            "name": "Mongol Empire",
+            "wikidata": "Q12557"
+          },
+          "confidence": "high",
+          "from_circa": true
+        },
+        {
+          "from": 1360,
+          "notes": "Shirvanshah rule reasserted after Mongol/Ilkhanid period; Shamakhi continued as Shirvanshah capital through the 14th–15th centuries.",
+          "value": {
+            "name": "Kingdom of Shirvan",
+            "wikidata": "Q17526620"
+          },
+          "confidence": "medium",
+          "from_circa": true
+        },
+        {
+          "from": 1500,
+          "notes": "Taken by the Safavid dynasty in 1500–1501 under Shah Ismail I. Initially Farrukh Yassar's descendants ruled under Safavid suzerainty, then fully incorporated as a Safavid province in 1538.",
+          "value": {
+            "name": "Safavid Iran",
+            "wikidata": "Q18234383"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1723,
+          "notes": "Russians entered Shirvan in 1723 during the Russo-Persian War but soon retired, leaving the city to the Ottomans who controlled it 1723–1735.",
+          "value": {
+            "name": "Ottoman Empire",
+            "wikidata": "Q12560"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1735,
+          "notes": "After Nader Shah's rise, Safavids/Afsharids recaptured the region. In 1742 Nader Shah took and destroyed Shamakhi, rebuilding it 26km west. The Afsharid state controlled the region.",
+          "value": {
+            "name": "Afsharid Iran",
+            "wikidata": "Q63149558"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1750,
+          "notes": "After Nader Shah's death, the Shirvan Khanate emerged as a semi-independent entity ruling Shamakhi under nominal Iranian suzerainty.",
+          "value": {
+            "name": "Shirvan Khanate",
+            "wikidata": "Q965466"
+          },
+          "confidence": "medium",
+          "from_circa": true
+        },
+        {
+          "from": 1805,
+          "notes": "The Shirvan Khanate was incorporated into the Russian Empire during the Russo-Persian War; confirmed by the Treaty of Gulistan (1813).",
+          "value": {
+            "name": "Russian Empire",
+            "wikidata": "Q34266"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1918,
+          "notes": "Following the fall of the Russian Empire, Shamakhi came under the Azerbaijan Democratic Republic (1918–1920).",
+          "value": {
+            "name": "Azerbaijan Democratic Republic",
+            "wikidata": "Q206411"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1920,
+          "notes": "Soviet takeover of Azerbaijan in 1920.",
+          "value": {
+            "name": "Azerbaijan Soviet Socialist Republic",
+            "wikidata": "Q131337"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1991,
+          "notes": "Azerbaijan declared independence from the Soviet Union in 1991.",
+          "value": {
+            "name": "Azerbaijan",
+            "wikidata": "Q227"
+          },
+          "confidence": "high"
+        }
+      ]
+    },
+    "culture": {
+      "entries": [
+        {
+          "from": 100,
+          "notes": "The site is identified with Ptolemy's Kamachia, located within the cultural sphere of Caucasian Albania.",
+          "value": {
+            "name": "Caucasian Albania"
+          },
+          "confidence": "medium",
+          "from_circa": true
+        }
+      ]
+    },
+    "language": {
+      "entries": [
+        {
+          "from": 100,
+          "role": "minor",
+          "notes": "Armenian communities are attested historically in Shamakhi. Armenian presence in the broader Caucasian Albania region predates the medieval period.",
+          "value": {
+            "name": "Armenian",
+            "wikidata": "Q8785"
+          },
+          "confidence": "low",
+          "from_circa": true
+        },
+        {
+          "from": 642,
+          "role": "minor",
+          "notes": "Arabic became an administrative and religious language with the Arab conquest. Coins were minted with Arabic inscriptions. Administrative language until Shirvanshah reassertion.",
+          "value": {
+            "name": "Arabic",
+            "wikidata": "Q13955"
+          },
+          "confidence": "medium",
+          "from_circa": true
+        },
+        {
+          "from": 800,
+          "role": "major",
+          "notes": "Persian was the language of culture and administration throughout the Shirvanshah and Safavid periods. John Bell (1715) noted city elites spoke Persian.",
+          "value": {
+            "name": "Persian",
+            "wikidata": "Q9168"
+          },
+          "confidence": "medium",
+          "from_circa": true
+        },
+        {
+          "from": 1200,
+          "role": "major",
+          "notes": "Adam Olearius (1637) described Turkish (Azerbaijani) as the common language of all inhabitants regardless of ethnicity, used across Shirvan and Persia. John Bell (1715) confirmed Turkish was the common language.",
+          "value": {
+            "name": "Azerbaijani",
+            "wikidata": "Q9292"
+          },
+          "confidence": "high",
+          "from_circa": true
+        },
+        {
+          "from": 1500,
+          "role": "minor",
+          "notes": "Armenians were extensively documented in Shamakhi by multiple sources from the 16th century: Jenkinson (1562), Carmelite monks (1607), Olearius (1637), Pedro Cobro (1670s). In 1873 they were 5,177 out of ~25,000 inhabitants.",
+          "value": {
+            "name": "Armenian",
+            "wikidata": "Q8785"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1500,
+          "role": "minority",
+          "notes": "Georgians are mentioned by Olearius (1637), Pedro Cobro (1670s), and John Bell (1715) as a notable community in Shamakhi.",
+          "value": {
+            "name": "Georgian",
+            "wikidata": "Q8108"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1805,
+          "role": "minor",
+          "notes": "Russian became an administrative language after incorporation into the Russian Empire in 1805. By 1903, 3% of population was Russian.",
+          "value": {
+            "name": "Russian",
+            "wikidata": "Q7737"
+          },
+          "confidence": "high"
+        }
+      ]
+    },
+    "religion": {
+      "entries": [
+        {
+          "from": 642,
+          "role": "major",
+          "notes": "Islam spread to the Caucasus with the Arab conquest in the 7th century. The Friday Mosque is attested archaeologically from the 8th–9th centuries.",
+          "value": {
+            "name": "Islam",
+            "wikidata": "Q432"
+          },
+          "confidence": "medium",
+          "from_circa": true
+        },
+        {
+          "from": 642,
+          "role": "minor",
+          "notes": "Christian communities (Armenians, Georgians) are attested in Shamakhi from the medieval period onward. Likely present from earlier given Caucasian Albanian Christianity.",
+          "value": {
+            "name": "Christianity",
+            "wikidata": "Q5043"
+          },
+          "confidence": "medium",
+          "from_circa": true
+        },
+        {
+          "from": 800,
+          "role": "major",
+          "notes": "Shirvanshah realm was predominantly Sunni Muslim. By the 8th–10th century the Islamic character of the city is well established.",
+          "value": {
+            "name": "Sunni Islam",
+            "wikidata": "Q483654"
+          },
+          "confidence": "medium",
+          "from_circa": true
+        },
+        {
+          "to": 800,
+          "from": 800,
+          "role": "major",
+          "notes": "Generic Islam entry closed when Sunni/Shia distinction becomes apparent from the 8th century onward.",
+          "value": {
+            "name": "Islam",
+            "wikidata": "Q432"
+          },
+          "confidence": "low"
+        },
+        {
+          "from": 1500,
+          "role": "state",
+          "notes": "The Safavid dynasty imposed Shia Islam as the state religion after 1500. The 1721 massacre targeted the Shia population specifically.",
+          "value": {
+            "name": "Shia Islam",
+            "wikidata": "Q9585"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1500,
+          "role": "minor",
+          "notes": "Sunni population remained, noted in sources including the 1721 Lezgin attack supported by Sunni inhabitants. In 1903, 22% of the Muslim population was Sunni.",
+          "value": {
+            "name": "Sunni Islam",
+            "wikidata": "Q483654"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1500,
+          "role": "minority",
+          "notes": "Armenians were a significant community in Shamakhi throughout the Safavid and later periods, documented by multiple sources from 1562 onward. In 1873 they numbered 5,177 out of ~25,000.",
+          "value": {
+            "name": "Armenian Apostolic Church",
+            "wikidata": "Q683724"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1805,
+          "role": "minority",
+          "notes": "Russian presence from 1805 brought Eastern Orthodox Christians. By 1903, about 3% of population was Russian.",
+          "value": {
+            "name": "Eastern Orthodox Church",
+            "wikidata": "Q35032"
+          },
+          "confidence": "high"
+        }
+      ]
+    },
+    "site_type": {
+      "entries": [
+        {
+          "from": 100,
+          "notes": "First mentioned as 'Kamachia' by Ptolemy (1st–2nd century AD); Khinisli archaeological site 2km west suggests ancient settlement. Treating as a town by the early centuries CE based on Ptolemy's mention among Albanian cities.",
+          "value": "town",
+          "confidence": "medium",
+          "from_circa": true
+        },
+        {
+          "from": 800,
+          "notes": "Served as capital of the Shirvanshah realm from around the 8th to 15th centuries. Archaeological layers confirm 8th–9th century urban occupation.",
+          "value": "capital",
+          "confidence": "high"
+        },
+        {
+          "from": 1500,
+          "notes": "Capital of Shirvan province under the Safavid Empire from 1538 onward.",
+          "value": "capital",
+          "confidence": "high"
+        },
+        {
+          "from": 1742,
+          "notes": "Destroyed by Nader Shah in 1742; new town built 26km west; old town later rebuilt and continued as a regional centre under the Shirvan Khanate and later Russian Empire.",
+          "value": "town",
+          "confidence": "medium"
+        },
+        {
+          "from": 1859,
+          "notes": "After the 1859 earthquake, the provincial capital was moved to Baku; Shamakhi declined in importance but remained an inhabited town.",
+          "value": "town",
+          "confidence": "high"
+        }
+      ]
+    },
+    "population": {
+      "entries": [
+        {
+          "from": 1476,
+          "notes": "Venetian diplomat Giosafat Barbaro (1476) described the city as having 'four to five thousand houses'. Using the figure as a rough indicator only; actual population not given. NOT converting houses to people — figure omitted as a strict count. Recorded only as a qualitative indicator of size.",
+          "value": 25000,
+          "confidence": "low",
+          "from_circa": true
+        },
+        {
+          "from": 1750,
+          "notes": "Sources state the population of Shamakhi in the mid-1700s was about 60,000, described as one of the best and most populous cities of Persia. Majority were Armenians according to the source.",
+          "value": 60000,
+          "confidence": "low",
+          "from_circa": true
+        },
+        {
+          "from": 1873,
+          "notes": "Encyclopædia Britannica stated 25,087 inhabitants in 1873: 18,680 Tartars and Shachsevans, 5,177 Armenians, 1,230 Russians.",
+          "value": 25087,
+          "confidence": "high"
+        },
+        {
+          "from": 1903,
+          "notes": "Brockhaus and Efron Encyclopedic Dictionary (1903): 20,008 inhabitants (10,450 males, 9,558 females); 3% Russians, 18% Armenians, 79% Azerbaijani Tatars.",
+          "value": 20008,
+          "confidence": "high"
+        }
+      ]
+    },
+    "missing_entities": [
+      {
+        "kind": "polity",
+        "name": "Kingdom of Shirvan",
+        "context": "The Shirvanshah realm that ruled Shamakhi as its capital from the 8th to 15th centuries",
+        "proposed_qid": "Q17526620"
+      },
+      {
+        "kind": "polity",
+        "name": "Shirvan Khanate",
+        "context": "Semi-independent khanate that ruled Shamakhi in the mid-to-late 18th century before Russian annexation",
+        "proposed_qid": "Q965466"
+      },
+      {
+        "kind": "culture",
+        "name": "Caucasian Albania",
+        "context": "QID stripped by validation: QID belongs to kind 'polity' (\"Caucasian Albania\"), used on 'culture' track"
+      }
+    ]
+  }
+}
