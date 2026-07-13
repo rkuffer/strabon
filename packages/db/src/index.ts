@@ -1,6 +1,6 @@
 export { getSql, closeSql } from "./client.js";
 export { querySites, getSiteById, upsertSite, searchSites } from "./sites.js";
-export { queryPolityHulls, queryCultureHulls } from "./hulls.js";
+export { queryHulls, type HullQueryOptions } from "./hulls.js";
 export {
   getAllPolities,
   upsertPolity,

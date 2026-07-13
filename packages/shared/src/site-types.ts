@@ -424,9 +424,20 @@ export type HullFeature = {
   properties: {
     id: string; // wikidata_id de l'entité
     name: string;
-    color: string;
     kind: HullKind;
     site_count: number;
+
+    // Couleurs dérivées (voir hull-color.ts) — jamais stockées en base.
+    color: string;
+    stroke: string;
+
+    // Famille de l'entité (religion/langue). Null pour polity/culture.
+    family_qid: string | null;
+    family_label: string | null;
+
+    // Rôle le plus dominant parmi les sites qui composent ce hull.
+    // Null sur les pistes step (le rôle n'y a pas de sens).
+    top_role: RoleQualifier | null;
   };
 };
 

@@ -3,6 +3,7 @@
   <div ref="mapEl" class="map-container">
     <SiteMarkers v-if="mapStore.leafletMap" />
     <HullLayer v-if="mapStore.leafletMap" />
+    <HullControl v-if="mapStore.leafletMap" />
   </div>
 </template>
 
@@ -14,6 +15,7 @@ import { useMapStore } from "../../stores/map";
 import { useTemporalStore } from "../../stores/temporal";
 import SiteMarkers from "./SiteMarkers.vue";
 import HullLayer from "./HullLayer.vue";
+import HullControl from "./HullControl.vue";
 
 const mapEl = ref<HTMLDivElement>();
 const mapStore = useMapStore();

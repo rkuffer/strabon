@@ -2,6 +2,7 @@
 import { defineStore } from "pinia";
 import { ref, shallowRef } from "vue";
 import type { Map as LeafletMap } from "leaflet";
+import type { HullKind, RoleQualifier } from "@strabon/shared";
 
 export const useMapStore = defineStore("map", () => {
   const zoom = ref(3);
@@ -11,6 +12,23 @@ export const useMapStore = defineStore("map", () => {
   const north = ref(90);
   const leafletMap = shallowRef<LeafletMap | null>(null);
   const selectedSiteId = ref<string | null>(null);
+
+  /**
+   * Which dimension is drawn as hulls. ONE at a time, or none — stacking
+   * polity and culture simultaneously was unreadable, and four dimensions
+   * would be hopeless. Null means no hull layer at all, and no query.
+   */
+  const hullKind = ref<HullKind | null>("polity");
+
+  /**
+   * Least dominant role that contributes to a hull. Only meaningful on the
+   * co-occurrent tracks (religion, language).
+   *
+   * "major" is the default: the hull of the dominant faith or tongue. Opening
+   * it down to "minority" is a deliberate view, and a valuable one — the hull
+   * of medieval European Jewish communities is worth drawing.
+   */
+  const hullMinRole = ref<RoleQualifier>("major");
 
   function setMap(map: LeafletMap) {
     leafletMap.value = map;
@@ -50,6 +68,8 @@ export const useMapStore = defineStore("map", () => {
     north,
     leafletMap,
     selectedSiteId,
+    hullKind,
+    hullMinRole,
     setMap,
     updateFromMap,
     focusSite,

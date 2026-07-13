@@ -1,6 +1,12 @@
 import { useQuery } from "@tanstack/vue-query";
 import { computed, ref, watch, type Ref } from "vue";
-import type { SiteState, HullFeature, SiteSearchResult } from "@strabon/shared";
+import type {
+  SiteState,
+  HullFeature,
+  SiteSearchResult,
+  HullKind,
+  RoleQualifier,
+} from "@strabon/shared";
 import { useTemporalStore } from "../stores/temporal";
 
 // ── Fetch helpers ─────────────────────────────────────────────────────────────
@@ -94,18 +100,27 @@ export function useSitesQuery(params: SiteQueryParams) {
 
 // ── Hulls query ───────────────────────────────────────────────────────────────
 
+/**
+ * One hull kind at a time. When no kind is selected the query is disabled and
+ * the route is never called.
+ */
 export function useHullsQuery(
   year: Ref<number>,
-  type: Ref<string> = { value: "both" } as Ref<string>,
+  kind: Ref<HullKind | null>,
+  minRole: Ref<RoleQualifier>,
 ) {
   const dYear = useDebounced(year, YEAR_DEBOUNCE);
+  const enabled = computed(() => kind.value != null);
 
   return useQuery({
-    queryKey: computed(() => ["hulls", dYear.value, type.value]),
+    queryKey: computed(() => ["hulls", dYear.value, kind.value, minRole.value]),
     queryFn: () =>
       fetchJson<{ type: "FeatureCollection"; features: HullFeature[] }>(
-        `/api/hulls?year=${dYear.value}&type=${type.value}`,
+        `/api/hulls?year=${dYear.value}` +
+          `&kind=${kind.value}` +
+          `&minRole=${minRole.value}`,
       ),
+    enabled,
     staleTime: 30_000,
     placeholderData: (prev) => prev,
   });
