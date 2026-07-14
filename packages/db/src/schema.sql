@@ -598,12 +598,20 @@ CREATE OR REPLACE FUNCTION track_active_entries(
 )
 RETURNS SETOF JSONB AS $$
   (
-    SELECT e
-    FROM jsonb_array_elements(COALESCE(track->'entries', '[]'::JSONB)) AS e
-    WHERE regime = 'step'
-      AND (e->>'from')::INTEGER <= year_val
-    ORDER BY (e->>'from')::INTEGER DESC
-    LIMIT 1
+    -- Une entrée step est fermée par la suivante — ou par un `to` explicite, qui
+    -- dit « et après, plus rien ». Sans ce filtre, la dernière entrée court
+    -- jusqu'à la fin de l'occupation et les bornes d'entités ne servent à rien.
+    SELECT latest.e
+    FROM (
+      SELECT e
+      FROM jsonb_array_elements(COALESCE(track->'entries', '[]'::JSONB)) AS e
+      WHERE regime = 'step'
+        AND (e->>'from')::INTEGER <= year_val
+      ORDER BY (e->>'from')::INTEGER DESC
+      LIMIT 1
+    ) AS latest
+    WHERE latest.e->>'to' IS NULL
+       OR year_val <= (latest.e->>'to')::INTEGER
   )
   UNION ALL
   (

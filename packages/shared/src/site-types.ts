@@ -252,6 +252,20 @@ export type TrackMeta = {
   regime: TrackRegime;
   /** La piste porte-t-elle un qualificatif de rôle ? */
   hasRole: boolean;
+  /**
+   * Une entrée de cette piste peut-elle être fermée EXPLICITEMENT par un `to` ?
+   *
+   * Le régime reste `step` — une nouvelle entrée ferme toujours implicitement la
+   * précédente. On ajoute la fermeture explicite : celle qui dit « et après, plus
+   * rien ». Sans elle, la dernière entrée d'une piste escalier court jusqu'à la
+   * fin de l'occupation, et le silence CORRECT du modèle (« l'histoire documentée
+   * commence, je m'arrête ») devient une affirmation FAUSSE au rendu : la culture
+   * mérovingienne règne sur la France en 1990, le Royaume d'Italie sur Milan.
+   *
+   * `name` et `population` ne sont PAS closables : un nom n'est pas *fermé*, il
+   * est *remplacé*. Une population non plus.
+   */
+  closable: boolean;
 };
 
 /** Ordre narratif des pistes — utilisé tel quel pour le rendu. */
@@ -271,29 +285,62 @@ export const TRACK_META: Record<TrackKey, TrackMeta> = {
     label: "TYPE",
     regime: "occupation",
     hasRole: false,
+    // `to` = hiatus d'occupation. Lu par isInOccupationGap, PAS par la lecture
+    // de valeur — les deux préoccupations restent orthogonales.
+    closable: false,
   },
-  polity: { key: "polity", label: "POLITY", regime: "step", hasRole: false },
-  culture: { key: "culture", label: "CULTURE", regime: "step", hasRole: false },
+  polity: {
+    key: "polity",
+    label: "POLITY",
+    regime: "step",
+    hasRole: false,
+    closable: true,
+  },
+  culture: {
+    key: "culture",
+    label: "CULTURE",
+    regime: "step",
+    hasRole: false,
+    closable: true,
+  },
   religion: {
     key: "religion",
     label: "RELIGION",
     regime: "cooccurrent",
     hasRole: true,
+    closable: true,
   },
   language: {
     key: "language",
     label: "LANGUAGE",
     regime: "cooccurrent",
     hasRole: true,
+    closable: true,
   },
-  name: { key: "name", label: "NAME", regime: "step", hasRole: false },
+  name: {
+    key: "name",
+    label: "NAME",
+    regime: "step",
+    hasRole: false,
+    closable: false,
+  },
   population: {
     key: "population",
     label: "POP.",
     regime: "step",
     hasRole: false,
+    closable: false,
   },
 };
+
+/** Pistes dont une entrée peut être fermée explicitement par un `to`. */
+export const CLOSABLE_TRACK_KEYS: readonly TrackKey[] = TRACK_KEYS.filter(
+  (k) => TRACK_META[k].closable,
+);
+
+export function isClosable(key: TrackKey): boolean {
+  return TRACK_META[key].closable;
+}
 
 /** Pistes admettant plusieurs valeurs actives simultanément. */
 export const COOCCURRENT_TRACK_KEYS: readonly TrackKey[] = TRACK_KEYS.filter(

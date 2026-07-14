@@ -640,7 +640,7 @@ const rows = computed<(StepRow | LaneRow)[]>(() => {
 
     // ── Pistes ESCALIER (et site_type avec hiatus) ───────────────────────────
     const entries = [...track.entries].sort((a, b) => a.from - b.from);
-    const activeEntry = getEntryAt(track, props.year);
+    const activeEntry = getEntryAt(track, props.year, { honorTo: true });
     const blocks: Block[] = [];
     const gaps: Gap[] = [];
 

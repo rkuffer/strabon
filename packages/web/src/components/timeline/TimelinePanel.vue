@@ -273,10 +273,10 @@ const currentState = computed(() => {
   const tl = s.timeline;
   const y = temporal.year;
 
-  const stEntry = getEntryAt(tl.site_type, y);
-  const polEntry = getEntryAt(tl.polity, y);
-  const culEntry = getEntryAt(tl.culture, y);
-  const nameEntry = getEntryAt(tl.name, y);
+  const stEntry = getEntryAt(tl.site_type, y, { honorTo: true });
+  const polEntry = getEntryAt(tl.polity, y, { honorTo: true });
+  const culEntry = getEntryAt(tl.culture, y, { honorTo: true });
+  const nameEntry = getEntryAt(tl.name, y, { honorTo: true });
 
   const activeTracks = [stEntry, polEntry, culEntry, nameEntry].filter(Boolean);
   if (!activeTracks.length) return null;

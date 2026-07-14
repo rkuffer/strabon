@@ -119,14 +119,26 @@ function normalizeName(s: string): string {
 export function getValueAt<T>(
   track: Track<T> | undefined,
   year: number,
+  opts: { honorTo?: boolean } = {},
 ): T | null {
-  return getEntryAt(track, year)?.value ?? null;
+  return getEntryAt(track, year, opts)?.value ?? null;
 }
 
-/** Entrée complète (from, confidence, notes…) active à l'année donnée. */
+/** Entrée complète (from, confidence, notes…) active à l'année donnée.
+ *
+ * `honorTo` — par défaut FAUX, et ce n'est pas une négligence.
+ * `isInOccupationGap()` s'appuie sur cette fonction pour lire le `to` de
+ * site_type elle-même : si getEntryAt honorait le `to` globalement, elle
+ * renverrait null pendant un hiatus et la détection des trous s'effondrerait.
+ * Les deux préoccupations restent orthogonales (cf. en-tête du fichier).
+ *
+ * Sur une piste CLOSABLE (polity, culture), passer `honorTo: true` — sinon la
+ * dernière entrée court jusqu'à la fin de l'occupation.
+ */
 export function getEntryAt<T>(
   track: Track<T> | undefined,
   year: number,
+  opts: { honorTo?: boolean } = {},
 ): TrackEntry<T> | null {
   if (!track?.entries?.length) return null;
   const sorted = [...track.entries].sort((a, b) => a.from - b.from);
@@ -135,7 +147,23 @@ export function getEntryAt<T>(
     if (e.from <= year) active = e;
     else break;
   }
+  if (opts.honorTo && active?.to != null && year > active.to) return null;
   return active;
+}
+
+/**
+ * Lecture d'une piste par sa CLÉ — honore automatiquement le `to` si la piste est
+ * closable. C'est le point d'entrée à préférer : il ne demande pas à l'appelant de
+ * savoir quel régime porte quelle piste, et TRACK_META reste la source unique.
+ */
+export function getTrackEntryAt<T>(
+  timeline: SiteTimeline | undefined,
+  key: TrackKey,
+  year: number,
+): TrackEntry<T> | null {
+  return getEntryAt<T>(getTrack(timeline, key) as Track<T>, year, {
+    honorTo: TRACK_META[key].closable,
+  });
 }
 
 /** Toutes les entrées d'une piste jusqu'à `yearTo`. */

@@ -1104,8 +1104,14 @@ const TRACK_KEYS = [
   "population",
 ] as const;
 
-const STEP_TRACKS = ["polity", "culture", "name", "population"] as const;
+// Les pistes escalier CLOSABLES gardent leur `to` : il marque la fin de l'entité,
+// sans successeur (la culture mérovingienne s'éteint en 751 et rien ne la
+// remplace — l'histoire documentée prend le relais). Sans lui, la dernière entrée
+// court jusqu'à la fin de l'occupation.
+const CLOSABLE_STEP_TRACKS = ["polity", "culture"] as const;
+const PLAIN_STEP_TRACKS = ["name", "population"] as const;
 const COOCCURRENT_TRACKS = ["religion", "language"] as const;
+const STEP_TRACKS = ["polity", "culture", "name", "population"] as const;
 
 export function normalizeTimelineV2(raw: any): any {
   if (!raw || typeof raw !== "object") return raw;
@@ -1129,10 +1135,19 @@ export function normalizeTimelineV2(raw: any): any {
     if (tl[key] !== undefined) result[key] = tl[key];
   }
 
-  // Step tracks: `to` has no meaning — strip it.
-  for (const key of STEP_TRACKS) {
+  // Pistes escalier NON closables : `to` n'a aucun sens — un nom n'est pas fermé,
+  // il est remplacé. On le retire.
+  for (const key of PLAIN_STEP_TRACKS) {
     if (result[key]?.entries) {
       result[key].entries = stripTo(result[key].entries);
+    }
+  }
+
+  // Pistes escalier CLOSABLES : `to` = fin de l'entité. On le garde, en le
+  // contrôlant comme sur les co-occurrentes (to >= from, pas de to redondant).
+  for (const key of CLOSABLE_STEP_TRACKS) {
+    if (result[key]?.entries) {
+      result[key].entries = normalizeCooccurrentTo(result[key].entries);
     }
   }
 
