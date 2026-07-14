@@ -640,7 +640,12 @@ const rows = computed<(StepRow | LaneRow)[]>(() => {
 
     // ── Pistes ESCALIER (et site_type avec hiatus) ───────────────────────────
     const entries = [...track.entries].sort((a, b) => a.from - b.from);
-    const activeEntry = getEntryAt(track, props.year, { honorTo: true });
+    // `honorTo` suit le régime de la piste, jamais une décision locale :
+    // sur site_type, un `to` est un HIATUS d'occupation, pas une fermeture — le
+    // gating du trou est porté séparément (isInOccupationGap / siteVisible).
+    const activeEntry = getEntryAt(track, props.year, {
+      honorTo: meta.closable,
+    });
     const blocks: Block[] = [];
     const gaps: Gap[] = [];
 
@@ -679,7 +684,15 @@ const rows = computed<(StepRow | LaneRow)[]>(() => {
           gaps.push({
             x: gx,
             w: gw,
-            title: `Hiatus — ${fmtY(e.to)} → ${fmtY(nextFrom)}`,
+            // Un trou n'a pas le même sens selon la piste : sur site_type c'est
+            // un HIATUS D'OCCUPATION (le site est vide) ; sur polity/culture
+            // c'est une ABSENCE DE DONNÉE (personne n'a documenté ce qui s'y
+            // passait). Confondre les deux ferait dire à la frise que Paris
+            // était déserte entre 1791 et 1814.
+            title:
+              meta.regime === "occupation"
+                ? `Hiatus — ${fmtY(e.to)} → ${fmtY(nextFrom)}`
+                : `${meta.label} — not attested · ${fmtY(e.to)} → ${fmtY(nextFrom)}`,
           });
         }
       }

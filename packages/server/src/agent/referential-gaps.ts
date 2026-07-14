@@ -18,6 +18,7 @@
 
 import type { Sql } from "postgres";
 import { wikiFetchJson } from "./wiki-fetch.js";
+import { syncBoundsForNewEntity } from "./entity-bounds-sync.js";
 
 const WIKIDATA_API = "https://www.wikidata.org/w/api.php";
 
@@ -439,6 +440,16 @@ export async function autoResolveGaps(
       (site_ids as string[]) ?? [],
     );
 
+    // Enrichir le référentiel CRÉE du travail de bornes :
+    //  - l'entité vient d'entrer, elle n'a pas de bornes ;
+    //  - backfillSites vient d'injecter son QID dans des entrées qui n'avaient
+    //    qu'un nom — elles deviennent bornables pour la première fois.
+    const boundsSync = await syncBoundsForNewEntity(
+      sql,
+      verified.qid,
+      (site_ids as string[]) ?? [],
+    );
+
     await sql`
       UPDATE referential_gaps SET
         status = 'resolved',
@@ -509,6 +520,16 @@ export async function resolveGapManually(
     sql,
     kind,
     name,
+    qid,
+    (site_ids as string[]) ?? [],
+  );
+
+  // Enrichir le référentiel CRÉE du travail de bornes :
+  //  - l'entité vient d'entrer, elle n'a pas de bornes ;
+  //  - backfillSites vient d'injecter son QID dans des entrées qui n'avaient
+  //    qu'un nom — elles deviennent bornables pour la première fois.
+  const boundsSync = await syncBoundsForNewEntity(
+    sql,
     qid,
     (site_ids as string[]) ?? [],
   );

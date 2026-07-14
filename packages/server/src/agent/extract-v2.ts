@@ -1111,7 +1111,6 @@ const TRACK_KEYS = [
 const CLOSABLE_STEP_TRACKS = ["polity", "culture"] as const;
 const PLAIN_STEP_TRACKS = ["name", "population"] as const;
 const COOCCURRENT_TRACKS = ["religion", "language"] as const;
-const STEP_TRACKS = ["polity", "culture", "name", "population"] as const;
 
 export function normalizeTimelineV2(raw: any): any {
   if (!raw || typeof raw !== "object") return raw;

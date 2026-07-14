@@ -9,3 +9,4 @@ export {
   syncReferentialsFromTimeline,
 } from "./reference.js";
 export { searchEntities, type EntityCandidate } from "./entities.js";
+export { loadEntityBounds, recordBoundsConflicts } from "./bounds.js";

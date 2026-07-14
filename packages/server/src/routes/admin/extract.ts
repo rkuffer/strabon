@@ -1,12 +1,19 @@
 // packages/server/src/routes/admin/extract.ts
 import type { FastifyPluginAsync } from "fastify";
 import Anthropic from "@anthropic-ai/sdk";
-import { getSql, getSiteById, syncReferentialsFromTimeline } from "@strabon/db";
+import {
+  getSql,
+  getSiteById,
+  syncReferentialsFromTimeline,
+  loadEntityBounds,
+  recordBoundsConflicts,
+} from "@strabon/db";
 import {
   computeInceptionFromTimeline,
   computeDissolutionFromTimeline,
+  applyEntityBounds,
 } from "@strabon/shared";
-import type { SiteTimeline } from "@strabon/shared";
+import type { SiteTimeline, BoundsConflict } from "@strabon/shared";
 import { buildWikipediaContext } from "./wikipedia.js";
 import {
   loadReferentials,
@@ -85,6 +92,15 @@ type ExtractOutcome =
       raw: string;
       localLang: string | null;
       violations: number;
+      /**
+       * Entity-bound conflicts — RETURNED, never recorded here.
+       *
+       * extractSite() is called by /run, which is a PREVIEW and must not touch the
+       * database. recordBoundsConflicts() deletes the site's existing conflicts
+       * before inserting, so calling it from a preview would wipe the real ones on
+       * behalf of a timeline nobody ever confirmed. Only the WRITE paths persist.
+       */
+      conflicts: BoundsConflict[];
       /** Row id in site_extractions — lets /confirm flag the human's verdict. */
       runId: number | null;
     }
@@ -177,6 +193,7 @@ async function extractSite(
     sql,
     timeline,
   );
+
   if (violations.length) {
     console.warn(`[extract] ${violations.length} QID violation(s) stripped:`);
     for (const v of violations) {
@@ -184,15 +201,44 @@ async function extractSite(
     }
   }
 
-  // 6. Record the run — the WHOLE point of doing it here, in the one place where
+  // 6. Entity chronological bounds — the only DETERMINISTIC guard against the
+  //    infinite tails of step tracks.
+  //
+  //    Runs AFTER QID validation, and the order matters: validation strips the
+  //    invented and cross-track-reused QIDs, and an entry without a QID has no
+  //    entity to look up. Bounding first would bind entries to QIDs that
+  //    validation is about to tear off.
+  //
+  //    A bound is a CEILING, never a truth: applyEntityBounds closes and shortens,
+  //    but NEVER deletes. Irreconcilable entries are returned as conflicts and left
+  //    untouched — a wrong entry that is VISIBLE can be curated, a deleted one is a
+  //    silent hole.
+  const bounds = await loadEntityBounds();
+  const { timeline: bounded, conflicts } = applyEntityBounds(validated, bounds);
+
+  const hardConflicts = conflicts.filter((c) => c.action === "incompatible");
+  if (hardConflicts.length) {
+    console.warn(
+      `[extract] ${hardConflicts.length} bound conflict(s) — left untouched, for review:`,
+    );
+    for (const c of hardConflicts) {
+      console.warn(`  ⚠ ${c.track} "${c.entity_label}": ${c.detail}`);
+    }
+  }
+
+  // 7. Record the run — the WHOLE point of doing it here, in the one place where
   //    the prompt is built: /run and /stream are both covered, with no duplicated
   //    logic and no path that can silently forget to record.
   //
   //    Previews are recorded too. Today's three London runs were all previews, and
   //    they are exactly the corpus we need. Only /confirm sets `confirmed`.
+  //
+  //    We archive the BOUNDED timeline: it is what the pipeline actually produces,
+  //    and it is what would go to production. The pre-bound version survives
+  //    nowhere else — but nothing is lost, because bounds only close and shorten.
   const runId = await recordRun(sql, {
     siteId: site.id,
-    timeline: validated,
+    timeline: bounded,
     model: MODEL,
     promptHash,
     referentialHash: refHash,
@@ -202,10 +248,11 @@ async function extractSite(
 
   return {
     kind: "ok",
-    timeline: validated,
+    timeline: bounded,
     raw,
     localLang: wikiContext.localLang || null,
     violations: violations.length,
+    conflicts,
     runId,
   };
 }
@@ -340,6 +387,11 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
           router_model: ROUTER_MODEL,
           local_lang: outcome.localLang,
           qid_violations: outcome.violations,
+          // Shown, not stored: /run is a preview. The human sees which entries the
+          // bounds could not reconcile BEFORE deciding to confirm.
+          bounds_conflicts: outcome.conflicts.filter(
+            (c) => c.action === "incompatible",
+          ),
           // The client echoes this back on /confirm so we can flag the run as
           // human-validated. Optional: without it the run is still recorded, only
           // the verdict is lost.
@@ -387,15 +439,27 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
 
     const sql = getSql();
 
-    // Re-validate on confirm (defensive: the client could have altered it)
+    // /confirm is a WRITE path, and the client can have edited the JSON by hand.
+    // It must therefore apply EVERY rule /run applies — normalisation included.
+    // Until now it only re-validated QIDs, so a hand-edited timeline entered
+    // production unnormalised: `to` on a name track, mis-typed events, unbounded
+    // step tracks. Same pipeline, same order, no exceptions.
+    const normalized = normalizeTimelineV2(timeline);
+
     const { timeline: validated, violations } = await validateTimelineQids(
       sql,
-      timeline,
+      normalized,
+    );
+
+    const bounds = await loadEntityBounds();
+    const { timeline: bounded, conflicts } = applyEntityBounds(
+      validated,
+      bounds,
     );
 
     await sql`
       UPDATE sites SET
-        timeline                  = ${sql.json(validated)},
+        timeline                  = ${sql.json(bounded)},
         timeline_extracted_at     = ${extracted_at ?? new Date().toISOString()},
         timeline_extraction_model = ${model ?? MODEL},
         enrichment_level          = 'extracted',
@@ -403,17 +467,20 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
       WHERE id = ${id}
     `;
 
-    const { polities, cultures } =
-      await syncReferentialsFromTimeline(validated);
-    await updateTemporalBounds(sql, id, validated);
+    const { polities, cultures } = await syncReferentialsFromTimeline(bounded);
+    await updateTemporalBounds(sql, id, bounded);
 
     // Record referential gaps signaled by this extraction
     const gaps = await recordGaps(
       sql,
       id,
-      (validated as any).missing_entities,
-      validated,
+      (bounded as any).missing_entities,
+      bounded,
     );
+
+    // Irreconcilable entries — the ONLY ones a human must arbitrate. This is a
+    // WRITE path, so here they are persisted.
+    const boundsConflicts = await recordBoundsConflicts(id, conflicts);
 
     // The run itself was already recorded by /run — we only stamp the verdict.
     if (run_id) await confirmRun(sql, run_id);
@@ -424,6 +491,7 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
       cultures_added: cultures,
       gaps_recorded: gaps,
       qid_violations: violations.length,
+      bounds_conflicts: boundsConflicts,
     });
   });
 
@@ -510,7 +578,7 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
             continue;
           }
 
-          // Success — write timeline
+          // Success — write timeline (already bounded by extractSite)
           await sql`
             UPDATE sites SET
               timeline                  = ${sql.json(outcome.timeline)},
@@ -531,6 +599,13 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
             outcome.timeline,
           );
 
+          // A batch run IS written to sites.timeline — a write path, so the bound
+          // conflicts are persisted here too.
+          const boundsConflicts = await recordBoundsConflicts(
+            id,
+            outcome.conflicts,
+          );
+
           // A batch run IS written to sites.timeline, so it is confirmed de facto —
           // no human ever looked at it, but it is the timeline in production.
           if (outcome.runId) await confirmRun(sql, outcome.runId);
@@ -543,6 +618,7 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
             local_lang: outcome.localLang,
             gaps_recorded: gaps,
             qid_violations: outcome.violations,
+            bounds_conflicts: boundsConflicts,
           });
         } catch (err: any) {
           errors++;
