@@ -821,19 +821,35 @@ const missingEntities = computed<MissingEntity[]>(
 
 // ── Événements ponctuels ─────────────────────────────────────────────────────
 const EVENT_ICONS: Record<EventType, string> = {
+  // Destruction — la cause distingue, pas l'effet
   destruction: "💥",
   fire: "🔥",
-  earthquake: "🌊",
+  earthquake: "🗻", // était 🌊 — un séisme n'est pas une inondation
   flood: "🌊",
-  plague: "☠",
-  massacre: "☠",
-  siege: "⚔",
-  conquest: "⚔",
+
+  // Mort de masse — l'intention distingue
+  plague: "☣", // était ☠ — le fléau vient de la maladie, pas d'une main
+  massacre: "☠", // ☠ garde son sens fort : des gens en tuent d'autres
+
+  // Violence militaire — le résultat distingue
+  siege: "⚔", // le site résiste, ou pas
+  conquest: "🏴", // le site change de maître par la force
+  annexation: "⇥", // il change de maître SANS combat
+
+  // Soulèvement — vient de l'intérieur, pas de l'extérieur
+  revolution: "✊",
+
+  // Naissance
   founding: "✦",
-  refounding: "✦",
-  abandonment: "→",
-  expulsion: "→",
-  depopulation: "↓",
+  refounding: "✧", // était ✦ — une refondation n'est pas une fondation
+
+  // Vidage — le mécanisme distingue
+  abandonment: "🕸", // était → : personne ne chasse, on part
+  expulsion: "→", // on est chassé
+  depopulation: "↓", // on s'éteint
+
+  // Ce qui arrive à NOTRE CONNAISSANCE du site, pas au site
+  discovery: "◎",
 };
 
 const events = computed(() => {

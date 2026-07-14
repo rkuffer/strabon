@@ -41,24 +41,54 @@ export async function getCountryInfo(
 // ── Load referentials from wikidata_entities ──────────────────────────────────
 
 export async function loadReferentials(sql: Sql<any>) {
+  // Les bornes sont récupérées pour TOUS les kinds : elles sont exactement ce que
+  // le garde déterministe vérifie après l'extraction. Juger le modèle sur un
+  // critère qu'on ne lui montre jamais est injuste — et surtout inutile.
   const [religions, languages, polities, cultures] = await Promise.all([
-    sql`SELECT qid, label_en, family_label
+    sql`SELECT qid, label_en, family_label, inception, dissolution
         FROM wikidata_entities WHERE kind = 'religion' ORDER BY label_en`,
-    sql`SELECT qid, label_en, family_label
+    sql`SELECT qid, label_en, family_label, inception, dissolution
         FROM wikidata_entities WHERE kind = 'language' ORDER BY label_en`,
-    sql`SELECT qid, label_en, description_en
+    sql`SELECT qid, label_en, description_en, inception, dissolution
         FROM wikidata_entities WHERE kind = 'polity' ORDER BY label_en`,
-    sql`SELECT qid, label_en, description_en
+    sql`SELECT qid, label_en, description_en, inception, dissolution
         FROM wikidata_entities WHERE kind = 'culture' ORDER BY label_en`,
   ]);
 
-  const fmt = (rows: any[], withFamily = false) =>
+  /**
+   * L'espérance de vie de l'entité : "987→1791", "-250→", "→476".
+   * Une droite ouverte = l'entité existe encore. Chaîne vide si Wikidata ne
+   * connaît aucune des deux bornes — ce qui est le cas normal des religions et
+   * des langues, et c'est correct : elles ne meurent pas à une date.
+   */
+  const formatLife = (
+    inception: number | null,
+    dissolution: number | null,
+  ): string => {
+    if (inception == null && dissolution == null) return "";
+    return ` (${inception ?? "?"}→${dissolution ?? ""})`;
+  };
+
+  /**
+   * Format : `QID | Label [family] (from→to) — description`
+   *
+   * Le séparateur compte. L'ancien format `QID = Label (description)` faisait
+   * recopier la description DANS le nom : le modèle lisait
+   * `Q656902 = Parisii (Gallic tribe)` et écrivait `"name": "Parisii (Gallic
+   * tribe)"` — les parenthèses désambiguïsent un nom, partout ailleurs. Le tiret
+   * cadratin sépare sans ambiguïté, et les parenthèses sont désormais réservées
+   * à la seule espérance de vie.
+   */
+  const fmt = (rows: any[], withFamily: boolean = false) =>
     rows
-      .map(
-        (r: any) =>
-          `  ${r.qid} | ${r.label_en}${withFamily && r.family_label ? ` [${r.family_label}]` : ""}${r.description_en ? ` — ${r.description_en}` : ""}`,
-      )
-      .join("\n") || "  (none)";
+      .map((r) => {
+        const family =
+          withFamily && r.family_label ? ` [${r.family_label}]` : "";
+        const life = formatLife(r.inception, r.dissolution);
+        const desc = r.description_en ? ` — ${r.description_en}` : "";
+        return `  ${r.qid} | ${r.label_en}${family}${life}${desc}`;
+      })
+      .join("\n");
 
   return {
     religions: fmt(religions, true),
@@ -143,7 +173,7 @@ Extract a SiteTimeline JSON object. The root object must have these keys directl
 - **name**: { "text": string, "lang": string } — vernacular name in original script (ISO 639 lang code)
 - **population**: integer
 - **events**: { year, year_precision?, type, cause?, perpetrator?, perpetrator_wikidata?, description?, confidence? }
-  Types: destruction, fire, earthquake, flood, plague, siege, conquest, massacre, founding, refounding, abandonment, expulsion, depopulation
+  Types: destruction, fire, earthquake, flood, plague, siege, conquest, massacre, founding, refounding, abandonment, expulsion, depopulation, revolution, annexation, discovery
 
 ### Event types — never force a fit
 
@@ -159,6 +189,15 @@ Use "massacre" for the deliberate killing of a substantial number of people at t
 site (a pogrom, a sack with slaughter, a colonial or religious massacre, state
 repression with mass killing). Use "expulsion" only when a population is DRIVEN OUT,
 not killed.
+
+Three types exist precisely because you were forcing them into "founding":
+- "revolution": an uprising or revolutionary episode AT the site (the storming of the
+  Bastille, a commune, a coup that happened here). It is not a "founding".
+- "annexation": the site passes to another polity by treaty, cession or purchase,
+  WITHOUT a siege or a battle. A "conquest" is taken by force; an annexation is not.
+- "discovery": a site unknown to the modern world is found again (Lascaux in 1940,
+  Machu Picchu in 1911). The discovery of a 17,000-year-old cave is NOT its
+  "founding". The place was there all along; only our knowledge of it began.
 
 If in doubt between two types, prefer the one the sources actually support; if none
 support it, omit the event and, if it matters, mention it in the "notes" of the
@@ -181,13 +220,40 @@ Each track entry:
 Tracks do NOT all behave the same way, because they do not all answer the same
 kind of question. There are three regimes.
 
-### Regime 1 — STEP tracks: polity, culture, name, population
-At any moment there is exactly ONE value. Each entry is closed by the NEXT entry
-of the same track. A polity is always replaced by another polity, never by
-nothing.
-⇒ **NEVER set "to" on these tracks.** It is meaningless and will be discarded.
-A change of ruler, culture, name or population is expressed by a new entry — full
-stop.
+### Regime 1a — STEP tracks that CANNOT be closed: name, population
+At any moment there is exactly ONE value, and each entry is closed by the NEXT
+entry of the same track.
+⇒ **NEVER set "to" on these two tracks.** It is meaningless and will be discarded.
+A name is not *ended* — it is *replaced*. Same for a population figure.
+
+### Regime 1b — STEP tracks that CAN be closed: polity, culture
+Same step behaviour: one value at a time, and a new entry closes the previous one.
+So in the ordinary case — one regime replaced by the next — you still emit NO "to".
+
+BUT these two tracks have an ending, and only you can say when.
+
+⇒ **Set "to" when the entity ends and NOTHING takes its place.**
+
+This is not a nicety. Without it, your LAST entry runs to the end of the site's
+occupation. And you have been instructed (see "The CULTURE track stops when
+documented history begins") to STOP the culture track once real named regimes
+appear — so your correct silence becomes a false assertion: the atlas states that
+Merovingian culture prevails over France in 1990, because that was your last
+entry and nothing closed it.
+
+**Culture — the case that matters most.** When you stop the culture track, CLOSE
+its last entry with a "to". The Merovingian culture of a French town does not run
+to the present; it ends around 751, and after that the culture track is EMPTY.
+An empty stretch is CORRECT and is displayed as such. An unclosed entry is a lie.
+
+**Polity — narrower.** A site almost always has some polity, so the next entry
+normally does the closing. Use "to" ONLY when there is a genuine gap: the polity
+ceased to exist and you cannot name its successor for this site, or the site is
+abandoned. Do not close a polity merely because the next one begins.
+
+Never set "to" before "from", and never set a "to" that reaches or passes the
+"from" of the next entry on the same track — that is not a closure, it is an
+overlap.
 
 ### Regime 2 — OCCUPATION track: site_type
 Same step behaviour, PLUS one special case: "to" marks an occupation HIATUS — the
@@ -410,6 +476,64 @@ Two things this rule does NOT mean:
 
 The same applies to language: if you record "Chinese" and then "Puxian Min", or "Kurdish" and then "Sorani Kurdish", close the broader one when the narrower one begins. Do not stack a language on top of its own dialect.
 
+## Naming an entity from the referential — READ THIS, IT IS SHORT AND IT MATTERS
+
+The referential lists below are formatted:
+
+  QID | Label — description
+
+**When you take a QID from the referential, write its "name" EXACTLY as the
+referential's Label gives it. Character for character.**
+
+- The NAME is the Label — the text between the "|" and the "—".
+- What follows the "—" is a DESCRIPTION. It is there to help you choose the right
+  entity. It is NEVER part of the name.
+
+So \`Q656902 | Parisii — Gallic tribe\` gives \`"name": "Parisii"\`.
+NOT "Parisii (Gallic tribe)". NOT "Parisii (Gaul)". Just "Parisii".
+
+And do not RENAME an entity you have matched. If you use \`Q146246 | Francia\`,
+the name is "Francia" — not "Kingdom of the Franks", even if that is the phrase
+the article uses and even though they denote the same thing. Say it in "notes" if
+you like; the "name" field belongs to the referential.
+
+The reason is mechanical, not aesthetic: a deterministic check compares your name
+against the referential's label for that QID. If they disagree, it concludes you
+have attached the wrong QID to the entity — and it STRIPS THE QID. You lose a
+correct identification by renaming a correct match.
+
+(This applies only to entities you take FROM the referential. For an entity that
+is NOT there, the name is yours to write — and it must be the TRUE name, see
+"Never substitute a related entity" below.)
+
+### The (from→to) is the entity's LIFETIME. It is checked.
+
+Referential entries may carry the entity's own lifetime in parentheses:
+
+  Q70972  | Kingdom of France (987→1791)
+  Q207162 | Bourbon Restoration in France (1815→1830)
+  Q142    | France (1958→)
+
+An open right side means the entity still exists today.
+
+**An entry whose "from" falls outside its entity's lifetime is an ERROR, and it is
+detected deterministically after you finish.** You cannot place a site under the
+Kingdom of France in 1814: that state ended in 1791. Check every polity and culture
+"from" against the parentheses before you emit it.
+
+This is also the fastest way to apply the granularity rule above. If your period sits
+outside the entity's lifetime, the entity is the wrong one — and the right one is
+usually a few lines away in the same list, with a lifetime that fits.
+
+Two things this does NOT authorise:
+- The lifetimes come from Wikidata and are sometimes wrong or over-precise. If the
+  sources clearly attest an entity at a date its lifetime excludes, trust the sources,
+  keep the entry, and say so in "notes". The check will flag it for a human — which is
+  exactly what should happen.
+- An absent lifetime means Wikidata does not record one. It does NOT mean the entity
+  is eternal. Religions and languages rarely carry one, and that is correct: they do
+  not die on a date.
+
 ### RELIGION referential — use ONLY these QIDs:
 {{religions}}
 
@@ -464,6 +588,58 @@ and merges distinct historical entities. Therefore:
   improvised QID, even one you believe you know.
 - And NEVER swap the entity itself to obtain a QID — see "Never substitute a related
   entity" above. Omitting a QID is honest; renaming the entity is falsification.
+
+## Granularity — name the regime, not its container
+
+This is the single most frequent error measured across this atlas, and it is not
+hallucination: it is an UNSTABLE GRANULARITY POLICY. On the best-documented sites
+you name the precise regime; on thinner ones you fall back on its container. Same
+prompt, same fact, two different answers.
+
+**THE RULE: name the most precise entity the sources attest, never its aggregate.**
+
+The measured case, on twenty-two French towns: the polity for 1814–1830 was written
+as "Kingdom of France" (Q70972). But the Kingdom of France ENDED in 1791. The regime
+of 1814 is the **Bourbon Restoration** (Q207162), and 1830–1848 is the **July
+Monarchy** (Q58202) — both are distinct entities with their own QIDs, and both are in
+the referential. On Paris and Bordeaux you used them correctly. On the twenty others
+you did not.
+
+### The test — apply it to EVERY polity and culture entry
+
+Look at the entry you are about to write, and at the period it is meant to cover.
+
+> **"Does this entity's own lifetime extend far beyond the period I am describing?"**
+
+If YES, you are almost certainly naming a container instead of its content. Ask
+whether a distinct entity exists FOR THIS PERIOD. It usually does, and it usually
+has a QID.
+
+  - 1814 in France → not "Kingdom of France" (987–1791), but "Bourbon Restoration".
+  - 1852 in France → not "France", but "Second French Empire".
+  - 1940 in France → not "France", but "Vichy France" or "Nazi Germany" as applicable.
+  - A Chinese city in 1200 → not "China", but the Song, or the Jin, or the Xia.
+  - A German town in 1750 → not "Germany" (which did not exist), but its actual
+    principality, or the Holy Roman Empire.
+
+### Where the line is
+
+This is NOT an instruction to invent precision. Two guards:
+
+- If the sources do not tell you which regime held the site, and you cannot infer it
+  safely, **leave the gap empty**. An honest hole beats a container. Everything in
+  "Track continuity and structural inference" still applies.
+- Do not descend below the level of a POLITY. A dynasty is not a state, a ruler is
+  not a regime, a province is not a polity. Precision means the right ENTITY, not the
+  smallest one.
+
+### A country's QID is the sharpest trap
+
+\`France = Q142\` denotes the polity France — the Fifth Republic and its continuity,
+from 1958. It is NOT a label you may hang over two thousand years of French history.
+The same holds for every modern country QID. If you find yourself using a modern
+country's QID for anything before the twentieth century, stop: you have named a
+container.
 
 ## Missing entities — safety net for referential gaps
 
@@ -715,6 +891,11 @@ The rule: once a site enters the documented history of an identifiable state —
 
 So: unlike polity, culture must NOT be continued forward to the present. An empty culture track for the modern period is CORRECT. A French town's culture track may legitimately end with "Merovingian" and say nothing after — France's polity, French the language, and Catholicism the religion carry the rest.
 
+**And when you stop, CLOSE THE LAST ENTRY WITH A "to".** See "Regime 1b" above. This
+is the other half of the rule and it is not optional: an unclosed last entry does not
+stop — it runs to the end of the site's occupation. Stopping in silence is what puts
+Merovingian culture over France in 1990. Merovingian ends around 751. Say so.
+
 ### THE HARD LIMIT: inference BRIDGES between anchors. It never fills a VOID.
 
 This is the boundary, and it is the one most often crossed. Read it twice.
@@ -864,6 +1045,91 @@ Population is site-specific DETAIL. The structural-inference exception does NOT 
 If you catch yourself writing "not from the article", "standard historical estimate", "rough estimate for a city of this type", "typical for the period" — **that is the answer. Omit the entry.** Those phrases are your own admission that the number is not a finding about this place.
 
 An empty population track is a correct and honest output. An invented figure is a data point on a demographic curve, forever, and nothing distinguishes it from a real one.
+
+## When the sources say nothing, the timeline is EMPTY
+
+A site can be perfectly valid — a real inhabited place, correctly identified — and
+still have an article that contains NO history. References, external links,
+coordinates, a category. Nothing else.
+
+**A valid site is not a source.** That the place deserves a timeline does not mean
+you have the material to write one. These are two entirely different statements, and
+you have confused them before.
+
+The measured case: a settlement in the Bahamas whose article yielded 162 characters —
+two sections, "References" and "External links". You wrote, correctly:
+
+> "the pre-filtered historical sections contain essentially no historical content"
+> "I must be very careful not to fabricate site-specific details"
+
+…and then produced a complete timeline: a founding date, a colonial polity, a state
+religion, a language — every single entry carrying, in its own "notes", the confession
+that it came from regional context and not from the site. Six entries, six admissions.
+
+### The test
+
+If you find yourself writing, in a "notes" field, any of:
+  - "inferred from regional context only"
+  - "no specific information is given in the article for this site"
+  - "not attested in the article"
+  - "the [country] were colonized by…, so this site presumably…"
+  - "[X] is the dominant religion/language of [country]"
+
+…on an entry that has NO attested anchor at this site, **you have just proven the
+entry must not exist. Delete it.** The sentence you needed to write is the answer.
+
+The correct output for a site with no historical content is a timeline that is nearly
+empty — perhaps a single site_type entry, perhaps nothing at all. That is not a
+failure. It is the truth, and it is far more valuable than a plausible fiction: the
+empty timeline can be curated later; the fiction is indistinguishable from a fact.
+
+## Uninhabited sites — a monument has no polity, no language, no religion
+
+Some sites in this atlas are not inhabited places. They are caves, tombs, sanctuaries,
+ruins, megaliths — places built or used by people who are long gone, and where nobody
+lives.
+
+For such a site, the tracks that describe a LIVING COMMUNITY have no referent:
+
+  - **polity, language, religion** describe the people who live at the site. If nobody
+    lives there, these tracks describe NOBODY. Leave them EMPTY for the period of
+    abandonment, and do NOT resume them for the modern era.
+  - **culture** remains valid — it is the culture of those who made the place
+    (Magdalenian, for a decorated Palaeolithic cave). Give it a "to" when their
+    occupation ends.
+  - **site_type** remains valid throughout, including "abandoned" or "ruins".
+
+The measured case: Lascaux. The cave was occupied around 17,000 BC and abandoned;
+it was found again in 1940 and is a heritage site. The correct polity track is EMPTY.
+The correct language track is EMPTY. Writing "polity: France, from 1940" and
+"language: French, major, from 1940" describes the country in which the hole in the
+ground is located. **Nobody speaks French at Lascaux. Nobody lives at Lascaux.**
+
+The test: **is there a community living at this site, whose polity / language /
+religion these entries describe?** If not, the entries do not exist.
+
+(The modern administrative tutelage of a monument — its state, its heritage listing —
+is not a fact about the site's inhabitants. It belongs in "notes", if anywhere.)
+
+## Names — a name has a birth date
+
+A name entry's "from" is the date THE NAME came into use — not the date the PLACE
+came into existence. These are different, and confusing them retro-projects a modern
+word onto a prehistoric people.
+
+The measured case: Lascaux again. The cave was painted around 17,000 BC. The name
+"Lascaux" is an Occitan place-name, attested from the early 14th century, and your own
+notes said so — and you still wrote it as a French-language name entry with
+"from": -17000. The Magdalenians did not call it Lascaux. They did not speak French.
+
+So:
+- A modern or medieval toponym takes the "from" of ITS OWN attestation, not the site's.
+- If you do not know when a name appeared, use the earliest date it is attested and
+  set "confidence" accordingly. Do not reach back to the site's origin.
+- A site can perfectly well have NO known name for its earliest periods. That is normal
+  and correct: an empty stretch at the start of the name track.
+- The "lang" field must be the language of the NAME, not the language of the country.
+  "Lutetia" is Latin. "Lutèce" is French. They are two entries.
 
 ## Wikipedia sources
 
@@ -1067,6 +1333,9 @@ const EVENT_TYPES = new Set([
   "abandonment",
   "expulsion",
   "depopulation",
+  "revolution",
+  "annexation",
+  "discovery",
 ]);
 
 function normalizeEvents(events: any): any[] {

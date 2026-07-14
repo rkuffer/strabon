@@ -166,7 +166,10 @@ export type EventType =
   | "refounding"
   | "abandonment"
   | "expulsion"
-  | "depopulation";
+  | "depopulation"
+  | "revolution"
+  | "annexation"
+  | "discovery";
 
 export type PointEvent = {
   year: number;
