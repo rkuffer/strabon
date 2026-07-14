@@ -13,7 +13,7 @@ import Anthropic from "@anthropic-ai/sdk";
 const WIKIDATA_API = "https://www.wikidata.org/w/api.php";
 const WIKI_API = (lang: string) => `https://${lang}.wikipedia.org/w/api.php`;
 const UA = "Strabon/1.0";
-const FETCH_TIMEOUT = 10_000;
+const FETCH_TIMEOUT = 20_000;
 
 // ── Mapping pays → langue locale prioritaire ──────────────────────────────────
 // Inspiré de COUNTRY_LABELS dans enrich.ts, étendu avec les codes langue

@@ -40,19 +40,71 @@ export async function getCountryInfo(
 
 // ── Load referentials from wikidata_entities ──────────────────────────────────
 
+/**
+ * Sitelinks floor for referential injection.
+ *
+ * This does NOT prune wikidata_entities — the table stays whole. It only decides
+ * what goes into the PROMPT. The distinction matters: an entity dropped from the
+ * table is gone; an entity dropped from the prompt comes back the day we know how
+ * to select it properly.
+ *
+ * At 10, half the referential leaves the prompt (2,694 of 5,414 polities+cultures).
+ * Used polities average 91 sitelinks against 29 for unused ones — the signal is
+ * real. But 23 currently-used entities fall below the line, which is why the guards
+ * below are not optional.
+ *
+ * THE BIAS, WHICH WILL NOT GO AWAY: sitelinks measure notability ON WIKIPEDIA, not
+ * historical importance. A significant Swahili kingdom carries fewer sitelinks than
+ * a minuscule Swabian principality. This threshold thins the referential exactly
+ * where it is already thinnest — Africa, Oceania, South Asia. An atlas that knows
+ * Swabia better than the Sahel is a defect you do not see, and see in ten years.
+ *
+ * That is precisely why we filter the INJECTION and not the TABLE: the day the
+ * router can say "this site is East African, Swahili period", it will inject the
+ * right entities whatever their sitelink count. Cut the table and there would be
+ * nothing left to inject.
+ */
+const MIN_SITELINKS = 10;
+
 export async function loadReferentials(sql: Sql<any>) {
+  // Entities already carried by a timeline. These NEVER leave the prompt: drop one
+  // and the next re-extraction of that site loses the fact.
+  const usedRows = await sql`
+    SELECT DISTINCT e->'value'->>'wikidata' AS qid
+    FROM sites s,
+         LATERAL jsonb_each(s.timeline) AS t(track, tdata),
+         LATERAL jsonb_array_elements(COALESCE(tdata->'entries', '[]'::JSONB)) e
+    WHERE s.enrichment_level = 'extracted'
+      AND e->'value'->>'wikidata' IS NOT NULL
+  `;
+  const used = usedRows.map((r: any) => r.qid).filter(Boolean);
+
+  // An entity added BECAUSE it was missing must not be removed by the very
+  // threshold that had excluded it. Guard against that loop.
+  const keep = sql`(
+    w.sitelinks_count >= ${MIN_SITELINKS}
+    OR w.sitelinks_count IS NULL
+    OR w.qid = ANY(${used}::TEXT[])
+    OR w.source_class IN ('human-resolved', 'auto-discovered')
+  )`;
+
   // Les bornes sont récupérées pour TOUS les kinds : elles sont exactement ce que
   // le garde déterministe vérifie après l'extraction. Juger le modèle sur un
   // critère qu'on ne lui montre jamais est injuste — et surtout inutile.
   const [religions, languages, polities, cultures] = await Promise.all([
+    // Religions (78) and languages (144) weigh 4% of the referential — never filtered.
     sql`SELECT qid, label_en, family_label, inception, dissolution
         FROM wikidata_entities WHERE kind = 'religion' ORDER BY label_en`,
     sql`SELECT qid, label_en, family_label, inception, dissolution
         FROM wikidata_entities WHERE kind = 'language' ORDER BY label_en`,
-    sql`SELECT qid, label_en, description_en, inception, dissolution
-        FROM wikidata_entities WHERE kind = 'polity' ORDER BY label_en`,
-    sql`SELECT qid, label_en, description_en, inception, dissolution
-        FROM wikidata_entities WHERE kind = 'culture' ORDER BY label_en`,
+    sql`SELECT w.qid, w.label_en, w.description_en, w.inception, w.dissolution
+        FROM wikidata_entities w
+        WHERE w.kind = 'polity' AND ${keep}
+        ORDER BY w.label_en`,
+    sql`SELECT w.qid, w.label_en, w.description_en, w.inception, w.dissolution
+        FROM wikidata_entities w
+        WHERE w.kind = 'culture' AND ${keep}
+        ORDER BY w.label_en`,
   ]);
 
   /**
@@ -85,7 +137,7 @@ export async function loadReferentials(sql: Sql<any>) {
         const family =
           withFamily && r.family_label ? ` [${r.family_label}]` : "";
         const life = formatLife(r.inception, r.dissolution);
-        const desc = r.description_en ? ` — ${r.description_en}` : "";
+        const desc = !life && r.description_en ? ` — ${r.description_en}` : "";
         return `  ${r.qid} | ${r.label_en}${family}${life}${desc}`;
       })
       .join("\n");
