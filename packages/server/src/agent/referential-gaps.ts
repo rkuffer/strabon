@@ -455,7 +455,7 @@ export async function autoResolveGaps(
         status = 'resolved',
         resolved_qid = ${verified.qid},
         resolved_at = now(),
-        resolution_note = ${`auto-verified; ${patched} site(s) backfilled`}
+        resolution_note = ${`auto-verified; ${patched} site(s) backfilled; ${boundsSync.bounded ? "bounded" : "no bounds on Wikidata"}, ${boundsSync.sitesChanged} site(s) re-bounded`}
       WHERE id = ${id}
     `;
 
@@ -539,7 +539,7 @@ export async function resolveGapManually(
       status = 'resolved',
       resolved_qid = ${qid},
       resolved_at = now(),
-      resolution_note = ${`human-resolved; ${patched} site(s) backfilled`}
+      resolution_note = ${`auto-verified; ${patched} site(s) backfilled; ${boundsSync.bounded ? "bounded" : "no bounds on Wikidata"}, ${boundsSync.sitesChanged} site(s) re-bounded`}
     WHERE id = ${gapId}
   `;
 

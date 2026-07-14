@@ -1,0 +1,189 @@
+<%/* admin/bounds/index.eta */%>
+<div class="page-header">
+  <h1>Bound conflicts</h1>
+  <p class="subtitle">
+    <span class="stat stat-pending"><%= it.total %> conflict<%= it.total > 1 ? 's' : '' %></span>
+    <span class="stat"><%= it.entities %> distinct entit<%= it.entities > 1 ? 'ies' : 'y' %></span>
+    <% if (it.byTrack.length) { %>
+      <span class="stat-sep">·</span>
+      <% for (const t of it.byTrack) { %>
+        <span class="stat-kind"><%= t.track %>: <%= t.count %></span>
+      <% } %>
+    <% } %>
+  </p>
+  <p class="explainer">
+    An entry that lies entirely outside its entity's life. The pipeline changed
+    <strong>nothing</strong> — it cannot know which of the two is wrong, and a
+    deleted entry is a silent hole where a visible wrong one can still be cured.
+    Grouped by entity: fifteen sites making the same mistake is one mistake, not
+    fifteen.
+  </p>
+</div>
+
+<div class="toolbar">
+  <form class="filter-bar" method="get" action="/admin/bounds">
+    <select name="track" class="input-select" onchange="this.form.submit()">
+      <option value="all"      <%= it.track === 'all'      ? 'selected' : '' %>>All tracks</option>
+      <option value="polity"   <%= it.track === 'polity'   ? 'selected' : '' %>>Polity</option>
+      <option value="culture"  <%= it.track === 'culture'  ? 'selected' : '' %>>Culture</option>
+      <option value="religion" <%= it.track === 'religion' ? 'selected' : '' %>>Religion</option>
+      <option value="language" <%= it.track === 'language' ? 'selected' : '' %>>Language</option>
+    </select>
+  </form>
+</div>
+
+<% if (!it.groups.length) { %>
+  <p class="empty-state">No pending conflicts.</p>
+<% } %>
+
+<div class="conflict-list">
+  <% for (const g of it.groups) { %>
+    <article class="conflict">
+      <header class="conflict-head">
+        <span class="kind-badge kind-<%= g.track %>"><%= g.track %></span>
+        <h2 class="conflict-name"><%= g.entity_label %></h2>
+        <a href="https://www.wikidata.org/wiki/<%= g.entity_qid %>"
+           target="_blank" rel="noopener" class="qid-link"><%= g.entity_qid %></a>
+        <span class="conflict-count">
+          <%= g.occurrences %> site<%= g.occurrences > 1 ? 's' : '' %>
+        </span>
+      </header>
+
+      <% if (g.description_en) { %>
+        <p class="conflict-desc"><%= g.description_en %></p>
+      <% } %>
+
+      <%/* The entity's life, as Wikidata has it. This is one half of the
+           contradiction — and NOT necessarily the true half. Wikidata encodes
+           medieval legend at year-level precision: the Kingdom of Munster
+           "begins" in 100 BC because Irish chroniclers needed royal lines to
+           reach that far back. `precision` describes the FORMAT of the value
+           entered, not the confidence in it. */%>
+      <div class="bounds-bar">
+        <span class="bounds-tag">entity lives</span>
+        <span class="bounds-life">
+          <%= g.entity_inception ?? '—' %> → <%= g.entity_dissolution ?? 'still alive' %>
+        </span>
+        <span class="bounds-src">
+          source: <%= g.bounds_source ?? 'none' %><%= g.bounds_confirmed ? ' · human-confirmed' : '' %>
+        </span>
+      </div>
+
+      <%/* The other half: what the model wrote, on each site. */%>
+      <table class="entries">
+        <thead>
+          <tr><th>Site</th><th>Entry</th><th>Contradiction</th></tr>
+        </thead>
+        <tbody>
+          <% for (const e of g.entries) { %>
+            <tr>
+              <td><a href="/admin/sites/<%= e.site_id %>" class="site-chip"><%= e.site_title %></a></td>
+              <td class="entry-span">
+                <%= e.entry_from %> → <%= e.entry_to ?? '…' %>
+              </td>
+              <td class="entry-detail"><%= e.detail %></td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+
+      <p class="verdict-hint">
+        Who is wrong — the <strong>entry</strong> (the model picked the wrong
+        entity, or the wrong granularity) or the <strong>bound</strong> (Wikidata
+        is wrong or over-precise)? Nothing here decides for you.
+      </p>
+    </article>
+  <% } %>
+</div>
+
+<style>
+  .stat { margin-right: 1em; font-size: 0.9em; }
+  .stat-pending { font-weight: 600; }
+  .stat-sep { margin-right: 1em; color: var(--text-muted); }
+  .stat-kind { margin-right: 0.75em; font-size: 0.85em; color: var(--text-muted); }
+
+  .explainer {
+    font-size: 0.85em; color: var(--text-muted); max-width: 62ch;
+    margin: 0.5em 0 0; line-height: 1.5;
+  }
+
+  .toolbar { display: flex; gap: 1em; margin: 1em 0; }
+  .empty-state { color: var(--text-muted); padding: 2em 0; text-align: center; }
+
+  .conflict-list { display: flex; flex-direction: column; gap: 0.9em; }
+
+  .conflict {
+    border: 1px solid var(--border, rgba(127,127,127,0.22));
+    border-radius: 8px; padding: 0.9em 1em;
+  }
+
+  .conflict-head { display: flex; align-items: baseline; gap: 0.7em; }
+  .conflict-name { font-size: 1em; font-weight: 600; margin: 0; }
+  .conflict-count {
+    margin-left: auto; font-size: 0.8em; color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  .kind-badge {
+    font-size: 0.7em; text-transform: uppercase; letter-spacing: 0.04em;
+    padding: 0.15em 0.5em; border-radius: 3px; font-weight: 600;
+    background: var(--bg-subtle, #eef0f3); color: var(--text-muted);
+  }
+  .kind-polity   { background: color-mix(in srgb, #3b82f6 20%, transparent); color: #93c5fd; }
+  .kind-culture  { background: color-mix(in srgb, #22c55e 20%, transparent); color: #86efac; }
+  .kind-religion { background: color-mix(in srgb, #a855f7 20%, transparent); color: #d8b4fe; }
+  .kind-language { background: color-mix(in srgb, #f97316 20%, transparent); color: #fdba74; }
+
+  .qid-link {
+    font-family: ui-monospace, monospace; font-size: 0.8em;
+    text-decoration: none; padding: 0.05em 0.3em; border-radius: 3px;
+    background: var(--bg-subtle, rgba(127,127,127,0.10));
+    border: 1px solid var(--border, rgba(127,127,127,0.25));
+    color: var(--text, inherit);
+  }
+  .qid-link:hover { background: var(--bg-hover, rgba(127,127,127,0.2)); }
+
+  .conflict-desc { font-size: 0.85em; color: var(--text-muted); margin: 0.5em 0; }
+
+  .bounds-bar {
+    display: flex; align-items: baseline; gap: 0.7em; flex-wrap: wrap;
+    margin: 0.6em 0; padding: 0.4em 0.6em; border-radius: 5px;
+    background: var(--bg-subtle, rgba(127,127,127,0.08));
+    font-size: 0.82em;
+  }
+  .bounds-tag {
+    font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.03em;
+    color: var(--text-muted);
+  }
+  .bounds-life { font-family: ui-monospace, monospace; font-weight: 600; }
+  .bounds-src { margin-left: auto; color: var(--text-muted); font-size: 0.9em; }
+
+  .entries { width: 100%; border-collapse: collapse; font-size: 0.82em; margin-top: 0.4em; }
+  .entries th {
+    text-align: left; font-weight: 500; font-size: 0.85em;
+    text-transform: uppercase; letter-spacing: 0.04em;
+    color: var(--text-muted); padding: 0.3em 0.5em 0.3em 0;
+    border-bottom: 1px solid var(--border, rgba(127,127,127,0.18));
+  }
+  .entries td {
+    padding: 0.35em 0.5em 0.35em 0;
+    border-bottom: 1px solid var(--border, rgba(127,127,127,0.10));
+    vertical-align: baseline;
+  }
+  .entries tr:last-child td { border-bottom: none; }
+
+  .entry-span { font-family: ui-monospace, monospace; white-space: nowrap; }
+  .entry-detail { color: var(--text-muted); }
+
+  .site-chip {
+    font-size: 0.95em; padding: 0.1em 0.45em; border-radius: 3px;
+    background: var(--bg-subtle, rgba(127,127,127,0.12));
+    text-decoration: none; color: var(--text, inherit);
+  }
+  .site-chip:hover { background: var(--bg-hover, rgba(127,127,127,0.22)); }
+
+  .verdict-hint {
+    font-size: 0.78em; color: var(--text-muted); font-style: italic;
+    margin: 0.7em 0 0; line-height: 1.5;
+  }
+</style>
