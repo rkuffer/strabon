@@ -56,7 +56,7 @@ export async function loadReferentials(sql: Sql<any>) {
     rows
       .map(
         (r: any) =>
-          `  ${r.qid} = ${r.label_en}${withFamily && r.family_label ? ` [${r.family_label}]` : ""}${r.description_en ? ` (${r.description_en})` : ""}`,
+          `  ${r.qid} | ${r.label_en}${withFamily && r.family_label ? ` [${r.family_label}]` : ""}${r.description_en ? ` — ${r.description_en}` : ""}`,
       )
       .join("\n") || "  (none)";
 
