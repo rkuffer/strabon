@@ -4,6 +4,7 @@
 // Flow :
 //   Phase 1 — Découverte  : Wikidata sitelinks → titres EN + langue locale
 //   Phase 2 — Routing     : Haiku sélectionne les sections pertinentes
+//                           (fallback déterministe par mots-clés si échec)
 //   Phase 3 — Fetch ciblé : contenu des sections sélectionnées + détection {{main}}
 //
 // Exporté : buildWikipediaContext()
@@ -61,6 +62,7 @@ export type WikipediaContext = {
   en: string; // contenu EN filtré (sections hist. + article dédié si trouvé)
   local: string; // contenu langue locale filtré
   localLang: string; // code ISO langue locale (ex: "ar", "fr") ou "" si non trouvé
+  routerSource: RouterSource; // "router" | "keyword-fallback" — traçabilité
 };
 
 // ── Fetch avec timeout ────────────────────────────────────────────────────────
@@ -132,58 +134,273 @@ async function fetchSections(
   }));
 }
 
-// ── Phase 2 : Routing Haiku — sélection des sections pertinentes ──────────────
+// ── Phase 2a : Fallback déterministe — sélection par mots-clés ────────────────
+// Utilisé quand le routeur Haiku échoue (parse error, troncature, sélection vide).
+// NE JAMAIS retomber sur "les N premières sections" : sur un article de ville ce
+// sont toujours Géographie/Climat/Hydrographie, soit le pire contenu possible
+// pour une timeline historique. C'était le bug d'origine.
+
+const HISTORY_TITLE_PATTERNS: RegExp[] = [
+  // English
+  /\bhistor/i,
+  /\borigin/i,
+  /\bfound(ing|ation)/i,
+  /\bantiquit/i,
+  /\bprehistor/i,
+  /\bmiddle ages\b/i,
+  /\bmedieval\b/i,
+  /\btoponym/i,
+  /\betymolog/i,
+  /\bname\b/i,
+  /\barchaeolog/i,
+  /\bancient\b/i,
+  /\bmodern (era|period)\b/i,
+  /\bcentury\b/i,
+  /\bconquest\b/i,
+  /\bempire\b/i,
+  /\bdynast/i,
+  /\bperiod\b/i,
+  /\bera\b/i,
+  // French
+  /\bhistoire\b/i,
+  /\borigines?\b/i,
+  /\bfondation\b/i,
+  /\bantiquité\b/i,
+  /\bmoyen[- ]âge\b/i,
+  /\btoponymie\b/i,
+  /\bétymologie\b/i,
+  /\bpréhistoire\b/i,
+  /\bépoque\b/i,
+  /\bsiècle\b/i,
+  // Spanish / Italian / Portuguese
+  /\bhistoria\b/i,
+  /\bstoria\b/i,
+  /\bhistória\b/i,
+  /\borígenes?\b/i,
+  /\bedad media\b/i,
+  /\bmedioevo\b/i,
+  /\bfundación\b/i,
+  // German
+  /\bgeschichte\b/i,
+  /\bmittelalter\b/i,
+  /\bantike\b/i,
+  /\bnamensherkunft\b/i,
+  // Arabic / Hebrew / Persian
+  /تاريخ/,
+  /التسمية/,
+  /العصر/,
+  /היסטוריה/,
+  /تاریخ/,
+  // Russian / Ukrainian / Greek
+  /истори/i,
+  /істор/i,
+  /ιστορία/i,
+  // CJK
+  /歴史/,
+  /历史/,
+  /歷史/,
+  /역사/,
+];
+
+// Titres explicitement non voulus, même si un pattern large ci-dessus matche.
+const EXCLUDE_TITLE_PATTERNS: RegExp[] = [
+  /\bclimat/i,
+  /\bgeograph/i,
+  /\bgéographie\b/i,
+  /\bhydrograph/i,
+  /\bdemograph/i,
+  /\bdémographie\b/i,
+  /\bpopulation\b/i,
+  /\beconom/i,
+  /\béconomie\b/i,
+  /\btransport/i,
+  /\bsport/i,
+  /\beducation\b/i,
+  /\benseignement\b/i,
+  /\binfrastructure/i,
+  /\btwin towns\b/i,
+  /\bjumelage/i,
+  /\bsee also\b/i,
+  /\bvoir aussi\b/i,
+  /\breferences?\b/i,
+  /\bbibliograph/i,
+  /\bexternal links\b/i,
+  /\bnotes\b/i,
+  /\bgallery\b/i,
+  /\bmedia\b/i,
+  /\bnotable people\b/i,
+  /\bpersonnalités\b/i,
+  /\bhéraldique\b/i,
+  /\bpolitics\b/i,
+  /\bpolitique\b/i,
+];
+
+function selectSectionsByKeyword(sections: WikiSection[]): number[] {
+  if (!sections.length) return [];
+
+  const isHistorical = (title: string) =>
+    !EXCLUDE_TITLE_PATTERNS.some((re) => re.test(title)) &&
+    HISTORY_TITLE_PATTERNS.some((re) => re.test(title));
+
+  const selected = new Set<number>();
+
+  for (let i = 0; i < sections.length; i++) {
+    const s = sections[i];
+    if (!isHistorical(s.title)) continue;
+
+    selected.add(s.index);
+
+    // Inclure les descendants : toute section suivante plus profonde que
+    // celle-ci, jusqu'à retomber sur un niveau égal ou supérieur.
+    // (ex: "History" > "Antiquity", "Middle Ages", "Modern era")
+    for (let j = i + 1; j < sections.length; j++) {
+      if (sections[j].level <= s.level) break;
+      selected.add(sections[j].index);
+    }
+  }
+
+  return [...selected].sort((a, b) => a - b);
+}
+
+// ── Phase 2b : Extraction JSON robuste ───────────────────────────────────────
+// Le modèle peut entourer l'objet de prose ou d'une fence ```json. On prend le
+// DERNIER bloc {...} équilibré : c'est le corrigé si le modèle s'est auto-révisé.
+function extractJsonObject(text: string): any | null {
+  const trimmed = text.trim();
+
+  try {
+    return JSON.parse(trimmed);
+  } catch {
+    /* on continue */
+  }
+
+  const fenced = [...trimmed.matchAll(/```(?:json)?\s*([\s\S]*?)```/gi)];
+  if (fenced.length) {
+    try {
+      return JSON.parse(fenced[fenced.length - 1][1].trim());
+    } catch {
+      /* on continue */
+    }
+  }
+
+  const first = trimmed.indexOf("{");
+  const last = trimmed.lastIndexOf("}");
+  if (first !== -1 && last > first) {
+    try {
+      return JSON.parse(trimmed.slice(first, last + 1));
+    } catch {
+      /* on continue */
+    }
+  }
+
+  return null;
+}
+
+// ── Phase 2c : Routing Haiku — sélection des sections pertinentes ─────────────
+type RouterSource = "router" | "keyword-fallback";
+
+type SectionSelection = {
+  enIndices: number[];
+  localIndices: number[];
+  source: RouterSource;
+};
+
 async function selectRelevantSections(
   sectionsEn: WikiSection[],
   sectionsLocal: WikiSection[],
   localLang: string,
   client: Anthropic,
   routerModel: string,
-): Promise<{ enIndices: number[]; localIndices: number[] }> {
+): Promise<SectionSelection> {
   if (!sectionsEn.length && !sectionsLocal.length) {
-    return { enIndices: [], localIndices: [] };
+    return { enIndices: [], localIndices: [], source: "router" };
   }
+
+  const keywordFallback = (reason: string): SectionSelection => {
+    const enIndices = selectSectionsByKeyword(sectionsEn);
+    const localIndices = selectSectionsByKeyword(sectionsLocal);
+    console.warn(
+      `[wiki] ⚠ router FAILED (${reason}) — deterministic keyword fallback: ` +
+        `EN [${enIndices.join(", ")}], ${localLang || "local"} [${localIndices.join(", ")}]`,
+    );
+    return { enIndices, localIndices, source: "keyword-fallback" };
+  };
 
   const formatList = (sections: WikiSection[], label: string) =>
     sections.length
-      ? `${label}:\n${sections.map((s) => `  [${s.index}] ${"#".repeat(s.level)} ${s.title}`).join("\n")}`
+      ? `${label}:\n${sections
+          .map((s) => `  [${s.index}] ${"#".repeat(s.level)} ${s.title}`)
+          .join("\n")}`
       : "";
 
   const prompt = `You are selecting Wikipedia sections relevant to the historical timeline of an archaeological site or historical city.
 
-Return ONLY a JSON object with this exact structure, no prose:
+Return ONLY a JSON object with this exact structure, no prose, no markdown fence:
 {"en": [list of integer section indices], "local": [list of integer section indices]}
 
 Select sections that contain: history, archaeology, founding, ancient/medieval/modern periods, etymology, names, notable events, rulers, conquests, cultural periods.
-Exclude: demographics, economy, infrastructure, sports, transport, education, contemporary politics, climate, notable people (unless historical rulers).
+Include the subsections of any selected section.
+Exclude: demographics, economy, infrastructure, sports, transport, education, contemporary politics, geography, climate, hydrography, notable people (unless historical rulers).
+
+You MUST select at least one section per list when a plausible candidate exists.
 
 ${formatList(sectionsEn, "English sections")}
 ${localLang ? formatList(sectionsLocal, `Local sections (${localLang})`) : ""}`;
 
-  const response = await client.messages.create({
-    model: routerModel,
-    max_tokens: 256,
-    messages: [{ role: "user", content: prompt }],
-  });
-
-  const text = response.content
-    .filter((b) => b.type === "text")
-    .map((b) => (b as any).text)
-    .join("");
-
+  let text = "";
   try {
-    const parsed = JSON.parse(text.trim());
-    return {
-      enIndices: Array.isArray(parsed.en) ? parsed.en : [],
-      localIndices: Array.isArray(parsed.local) ? parsed.local : [],
-    };
-  } catch {
-    // Fallback : prendre les 5 premières sections de chaque
-    return {
-      enIndices: sectionsEn.slice(0, 5).map((s) => s.index),
-      localIndices: sectionsLocal.slice(0, 5).map((s) => s.index),
-    };
+    const response = await client.messages.create({
+      model: routerModel,
+      max_tokens: 1024, // était 256 — la troncature produisait du JSON invalide
+      messages: [{ role: "user", content: prompt }],
+    });
+
+    text = response.content
+      .filter((b): b is Anthropic.TextBlock => b.type === "text")
+      .map((b) => b.text)
+      .join("");
+
+    if (response.stop_reason === "max_tokens") {
+      console.warn(
+        `[wiki] ⚠ router response hit max_tokens — likely truncated JSON`,
+      );
+    }
+  } catch (err) {
+    return keywordFallback(`API error: ${(err as Error).message}`);
   }
+
+  const parsed = extractJsonObject(text);
+
+  if (!parsed) {
+    console.warn(
+      `[wiki] ⚠ router raw response (unparseable, ${text.length} chars):\n${text.slice(0, 800)}`,
+    );
+    return keywordFallback("JSON parse failed");
+  }
+
+  // Valider les indices contre les sections réellement existantes : élimine les
+  // indices hallucinés ou hors bornes.
+  const validIndices = (raw: unknown, sections: WikiSection[]): number[] => {
+    if (!Array.isArray(raw)) return [];
+    const known = new Set(sections.map((s) => s.index));
+    return raw
+      .map((v) => (typeof v === "number" ? v : parseInt(String(v), 10)))
+      .filter((n) => Number.isFinite(n) && known.has(n))
+      .sort((a, b) => a - b);
+  };
+
+  const enIndices = validIndices(parsed.en, sectionsEn);
+  const localIndices = validIndices(parsed.local, sectionsLocal);
+
+  // Une sélection valide mais vide est aussi mauvaise qu'un échec de parse.
+  if (!enIndices.length && sectionsEn.length > 0) {
+    console.warn(
+      `[wiki] ⚠ router returned 0 EN sections out of ${sectionsEn.length}`,
+    );
+    return keywordFallback("empty EN selection");
+  }
+
+  return { enIndices, localIndices, source: "router" };
 }
 
 // ── Phase 3a : Fetch du contenu d'une section ────────────────────────────────
@@ -221,11 +438,10 @@ async function fetchMainArticle(
 
   const mainTitle = match[1].trim();
 
-  // Récupérer et filtrer les sections de l'article dédié
   const sections = await fetchSections(lang, mainTitle);
   if (!sections.length) return "";
 
-  // Réutiliser Haiku pour filtrer les sections de l'article dédié
+  // Réutiliser le routeur pour filtrer les sections de l'article dédié
   const { enIndices } = await selectRelevantSections(
     sections,
     [],
@@ -234,9 +450,13 @@ async function fetchMainArticle(
     routerModel,
   );
 
-  const indices = enIndices.length
-    ? enIndices
-    : sections.slice(0, 8).map((s) => s.index);
+  // L'article dédié est historique par nature : si le routeur ET le fallback
+  // mots-clés reviennent vides, on prend tout plutôt qu'un préfixe arbitraire.
+  const indices = enIndices.length ? enIndices : sections.map((s) => s.index);
+
+  console.log(
+    `[wiki] article dédié "${mainTitle}" — ${indices.length}/${sections.length} sections retenues`,
+  );
 
   const contents = await Promise.all(
     indices.map((i) => fetchSectionContent(lang, mainTitle, i)),
@@ -369,13 +589,28 @@ export async function buildWikipediaContext(
     );
   }
 
-  // Sections locales en parallèle si disponibles
+  // Sections locales si disponibles
   const sectionsLocal = localLang
     ? await fetchSections(localLang, localTitle)
     : [];
 
-  // Phase 2 : Routing Haiku
-  const { enIndices, localIndices } = await selectRelevantSections(
+  // Log complet des sections disponibles (plus de troncature à 8 : c'est elle
+  // qui masquait le fait que History/Toponymy/Origins étaient bien présentes)
+  console.log(
+    `[wiki] sections EN trouvées: ${sectionsEn.length} — titres: [${sectionsEn
+      .map((s) => s.title)
+      .join(", ")}]`,
+  );
+  if (localLang) {
+    console.log(
+      `[wiki] sections ${localLang} trouvées: ${sectionsLocal.length} — titres: [${sectionsLocal
+        .map((s) => s.title)
+        .join(", ")}]`,
+    );
+  }
+
+  // Phase 2 : Routing Haiku (avec fallback déterministe intégré)
+  const { enIndices, localIndices, source } = await selectRelevantSections(
     sectionsEn,
     sectionsLocal,
     localLang,
@@ -383,34 +618,36 @@ export async function buildWikipediaContext(
     routerModel,
   );
 
+  const titleOf = (sections: WikiSection[], i: number) =>
+    sections.find((s) => s.index === i)?.title ?? "?";
+
   console.log(
-    `[wiki] sections EN trouvées: ${sectionsEn.length} — titres: [${sectionsEn
-      .slice(0, 8)
-      .map((s) => s.title)
-      .join(", ")}]`,
-  );
-  console.log(
-    `[wiki] sections EN sélectionnées par Haiku: [${enIndices.join(", ")}]`,
+    `[wiki] sections EN retenues (${source}): ` +
+      enIndices.map((i) => `[${i}] ${titleOf(sectionsEn, i)}`).join(" | "),
   );
   if (localLang) {
     console.log(
-      `[wiki] sections ${localLang} sélectionnées par Haiku: [${localIndices.join(", ")}]`,
+      `[wiki] sections ${localLang} retenues (${source}): ` +
+        localIndices
+          .map((i) => `[${i}] ${titleOf(sectionsLocal, i)}`)
+          .join(" | "),
     );
   }
 
-  if (!enIndices.length && sectionsEn.length > 0) {
-    console.warn(
-      `[wiki] ⚠ Haiku n'a sélectionné aucune section EN parmi ${sectionsEn.length} disponibles — fallback sur les 5 premières`,
+  if (!enIndices.length && !localIndices.length) {
+    console.error(
+      `[wiki] ✖ AUCUNE section historique trouvée pour ${wikidataId} ` +
+        `(${sectionsEn.length} EN / ${sectionsLocal.length} ${localLang || "local"}) — ` +
+        `contexte vide, extraction non fiable`,
     );
   }
 
-  // Phase 3 : Fetch ciblé en parallèle
+  // Phase 3 : Fetch ciblé — plus aucun fallback silencieux ici.
+  // Si les indices sont vides, on assume le contexte vide plutôt que d'injecter
+  // de la géographie (ancien `slice(0, 6)`).
   const [enContents, localContents] = await Promise.all([
     Promise.all(
-      (enIndices.length
-        ? enIndices
-        : sectionsEn.slice(0, 6).map((s) => s.index)
-      ).map((i) => fetchSectionContent("en", canonicalTitleEn, i)),
+      enIndices.map((i) => fetchSectionContent("en", canonicalTitleEn, i)),
     ),
     localLang && localIndices.length
       ? Promise.all(
@@ -425,17 +662,12 @@ export async function buildWikipediaContext(
   const localRaw = localContents.filter(Boolean).join("\n\n");
 
   // Détection article dédié dans le contenu EN
-  const mainMatch = enRaw.match(MAIN_ARTICLE_RE);
-  if (mainMatch) {
-    console.log(`[wiki] article dédié détecté: "${mainMatch[1].trim()}"`);
-  }
   const mainArticleContent = await fetchMainArticle(
     "en",
     enRaw,
     client,
     routerModel,
   );
-  // (fetchMainArticle utilise le contenu pour détecter {{main}}, pas le titre)
 
   // Assemblage final avec nettoyage
   const enCleaned = cleanWikitext(enRaw);
@@ -486,5 +718,6 @@ export async function buildWikipediaContext(
     en: enFinal,
     local: localFinal,
     localLang,
+    routerSource: source,
   };
 }

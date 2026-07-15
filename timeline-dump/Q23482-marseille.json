@@ -1,0 +1,500 @@
+{
+  "id": "Q23482",
+  "title_en": "Marseille",
+  "country_qid": "Q142",
+  "coordinates": {
+    "lat": 43.2964,
+    "lon": 5.37
+  },
+  "enrichment_level": "extracted",
+  "sitelinks_count": 191,
+  "inception_year": -600,
+  "dissolution_year": null,
+  "extracted_at": "2026-07-14T12:35:52.979Z",
+  "model": "claude-sonnet-4-6",
+  "meta": {
+    "description": "French commune in Bouches-du-Rhône, Provence-Alpes-Côte d'Azur; the second largest city of France",
+    "native_label": "Marseille",
+    "historical_title": null
+  },
+  "timeline": {
+    "name": {
+      "entries": [
+        {
+          "from": -600,
+          "notes": "Ancient Greek name of the colony.",
+          "value": {
+            "lang": "grc",
+            "text": "Μασσαλία"
+          },
+          "sources": [
+            "the oldest attestation of the name, since the city was founded by Greek settlers around 600 BC"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": -600,
+          "notes": "Latin form of the Greek name, used throughout the Roman period.",
+          "value": {
+            "lang": "la",
+            "text": "Massalia"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": -600,
+          "notes": "Modern English form of the ancient name.",
+          "value": {
+            "lang": "en",
+            "text": "Massalia"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1100,
+          "notes": "Medieval Occitan form of the name.",
+          "value": {
+            "lang": "oc",
+            "text": "Marselha"
+          },
+          "sources": [
+            "from the Medieval Occitan"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "from": 1200,
+          "notes": "French name, standard modern form.",
+          "value": {
+            "lang": "fr",
+            "text": "Marseille"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1200,
+          "notes": "Former English name, now largely replaced by 'Marseille'.",
+          "value": {
+            "lang": "en",
+            "text": "Marseilles"
+          },
+          "sources": [
+            "In English 'Marseille', or formerly 'Marseilles'"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1200,
+          "notes": "Current English name.",
+          "value": {
+            "lang": "en",
+            "text": "Marseille"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1200,
+          "notes": "Occitan (Mistralian norm) form of the name.",
+          "value": {
+            "lang": "oc",
+            "text": "Marsiho"
+          },
+          "sources": [
+            "In Occitan (Provençal) according to the Mistralian norm"
+          ],
+          "confidence": "high"
+        }
+      ]
+    },
+    "events": [
+      {
+        "type": "founding",
+        "year": -600,
+        "confidence": "high",
+        "description": "Founding of Massalia by Phocaean Greek settlers around 600 BC."
+      },
+      {
+        "type": "conquest",
+        "year": -49,
+        "confidence": "high",
+        "description": "Caesar's siege and conquest of Massalia in 49 BC; the city lost its independence and came under Roman rule."
+      }
+    ],
+    "polity": {
+      "entries": [
+        {
+          "from": -600,
+          "notes": "Independent Greek city-state of Massalia, founded by Phocaean Greeks c. 600 BC.",
+          "value": {
+            "name": "Massalia",
+            "wikidata": "Q170537"
+          },
+          "sources": [
+            "city was founded by Greek settlers around 600 BC"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": -49,
+          "notes": "Caesar conquered Massalia in 49 BC; it became subject to Rome.",
+          "value": {
+            "name": "Roman Republic",
+            "wikidata": "Q17167"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": -27,
+          "notes": "Massalia under the Roman Empire.",
+          "value": {
+            "name": "Roman Empire",
+            "wikidata": "Q2277"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 476,
+          "notes": "After the fall of the Western Roman Empire, Marseille passed to Visigothic control.",
+          "value": {
+            "name": "Visigothic Kingdom",
+            "wikidata": "Q126936"
+          },
+          "confidence": "medium"
+        },
+        {
+          "from": 536,
+          "notes": "Marseille came under Frankish control in 536 when the Ostrogoths ceded Provence to the Franks.",
+          "value": {
+            "name": "Francia",
+            "wikidata": "Q146246"
+          },
+          "confidence": "medium"
+        },
+        {
+          "from": 987,
+          "notes": "After the Treaty of Verdun, Marseille was part of the emerging West Frankish realm, eventually under the Kingdom of France. Passed through County of Provence before formal French annexation.",
+          "value": {
+            "name": "Kingdom of France",
+            "wikidata": "Q70972"
+          },
+          "confidence": "medium"
+        },
+        {
+          "to": 1791,
+          "from": 1481,
+          "notes": "County of Provence (and Marseille) formally annexed to France in 1481.",
+          "value": {
+            "name": "Kingdom of France",
+            "wikidata": "Q70972"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1792,
+          "notes": "France became a republic in 1792.",
+          "value": {
+            "name": "French First Republic",
+            "wikidata": "Q58296"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1804,
+          "notes": "Napoleon's First Empire.",
+          "value": {
+            "name": "First French Empire",
+            "wikidata": "Q71084"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1815,
+          "notes": "Bourbon Restoration after Napoleon's defeat.",
+          "value": {
+            "name": "Bourbon Restoration in France",
+            "wikidata": "Q207162"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1830,
+          "notes": "July Monarchy under Louis-Philippe.",
+          "value": {
+            "name": "July Monarchy",
+            "wikidata": "Q58202"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1848,
+          "notes": "Second Republic, 1848–1852.",
+          "value": {
+            "name": "French Second Republic",
+            "wikidata": "Q58326"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1852,
+          "notes": "Second Empire under Napoleon III.",
+          "value": {
+            "name": "Second French Empire",
+            "wikidata": "Q71092"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1870,
+          "notes": "Third Republic.",
+          "value": {
+            "name": "French Third Republic",
+            "wikidata": "Q70802"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1940,
+          "notes": "Marseille under Vichy France during World War II.",
+          "value": {
+            "name": "Vichy France",
+            "wikidata": "Q69808"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1946,
+          "notes": "Liberation of Marseille in August 1944; France under the provisional government and then the Fourth Republic.",
+          "value": {
+            "name": "French Fourth Republic",
+            "wikidata": "Q69829"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1958,
+          "notes": "Fifth Republic of France, established 1958.",
+          "value": {
+            "name": "France",
+            "wikidata": "Q142"
+          },
+          "confidence": "high"
+        }
+      ]
+    },
+    "culture": {
+      "entries": [
+        {
+          "to": -323,
+          "from": -490,
+          "notes": "Greek colonial culture at Massalia.",
+          "value": {
+            "name": "Classical Greece",
+            "wikidata": "Q843745"
+          },
+          "sources": [
+            "city was founded by Greek settlers around 600 BC",
+            "remained for a long time a Greek-speaking place"
+          ],
+          "confidence": "high"
+        },
+        {
+          "to": 476,
+          "from": -49,
+          "notes": "Roman culture prevailed after conquest in 49 BC.",
+          "value": {
+            "name": "Ancient Rome",
+            "wikidata": "Q1747689"
+          },
+          "confidence": "high"
+        },
+        {
+          "to": 751,
+          "from": 481,
+          "notes": "Frankish/Merovingian culture after the fall of the Western Roman Empire and Frankish takeover.",
+          "value": {
+            "name": "Merovingian",
+            "wikidata": "Q66084488"
+          },
+          "confidence": "medium"
+        }
+      ]
+    },
+    "language": {
+      "entries": [
+        {
+          "to": 400,
+          "from": -600,
+          "role": "major",
+          "notes": "Ancient Greek was the dominant language of Massalia from its founding, and persisted well into the Roman period.",
+          "value": {
+            "name": "Ancient Greek",
+            "wikidata": "Q35497"
+          },
+          "sources": [
+            "remained for a long time a Greek-speaking place even after it fell under Roman rule"
+          ],
+          "confidence": "high"
+        },
+        {
+          "to": 600,
+          "from": -49,
+          "role": "major",
+          "notes": "Latin spread following Roman conquest in 49 BC and gradually became dominant, eventually evolving into Occitan/Old French in the early medieval period.",
+          "value": {
+            "name": "Latin",
+            "wikidata": "Q397"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 900,
+          "role": "major",
+          "notes": "Occitan (Provençal) was the vernacular language of Marseille through the medieval period.",
+          "value": {
+            "name": "Occitan",
+            "wikidata": "Q14185"
+          },
+          "sources": [
+            "In Occitan (Provençal)",
+            "from the Medieval Occitan"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1481,
+          "role": "state",
+          "notes": "French became the administrative language after the annexation of Provence to France in 1481, and increasingly dominant over Occitan.",
+          "value": {
+            "name": "French",
+            "wikidata": "Q150"
+          },
+          "confidence": "high"
+        },
+        {
+          "to": 1900,
+          "from": 1481,
+          "role": "major",
+          "notes": "Occitan continued as a major spoken language alongside French after annexation, gradually declining through the 19th century.",
+          "value": {
+            "name": "Occitan",
+            "wikidata": "Q14185"
+          },
+          "confidence": "high"
+        }
+      ]
+    },
+    "religion": {
+      "entries": [
+        {
+          "to": 400,
+          "from": -600,
+          "role": "state",
+          "notes": "Greek polytheism practiced at Massalia from its founding. Gradually displaced by Roman religion after 49 BC conquest, then by Christianity. Closing date approximate.",
+          "value": {
+            "name": "Ancient Greek religion",
+            "wikidata": "Q855270"
+          },
+          "confidence": "high"
+        },
+        {
+          "to": 380,
+          "from": -49,
+          "role": "state",
+          "notes": "Roman religion dominant after Caesar's conquest. State religion until the Christianisation of the empire.",
+          "value": {
+            "name": "religion in ancient Rome",
+            "wikidata": "Q107013169"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 100,
+          "role": "minority",
+          "notes": "Early Christian communities in Marseille; the city had an early bishopric.",
+          "value": {
+            "name": "Christianity",
+            "wikidata": "Q5043"
+          },
+          "confidence": "medium"
+        },
+        {
+          "from": 380,
+          "role": "state",
+          "notes": "Christianity became the state religion of the Roman Empire under Theodosius I in 380 AD.",
+          "value": {
+            "name": "Catholic Church",
+            "wikidata": "Q9592"
+          },
+          "confidence": "high"
+        }
+      ]
+    },
+    "site_type": {
+      "entries": [
+        {
+          "from": -600,
+          "notes": "Greek colony of Massalia, founded c. 600 BC by Phocaean Greeks.",
+          "value": "colony",
+          "sources": [
+            "city was founded by Greek settlers around 600 BC"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": -49,
+          "notes": "Roman city after Caesar's siege and conquest in 49 BC; became a Roman provincial city.",
+          "value": "city",
+          "confidence": "medium"
+        },
+        {
+          "from": 1200,
+          "notes": "Major Mediterranean port city through the medieval and early modern period.",
+          "value": "port",
+          "confidence": "medium"
+        },
+        {
+          "from": 1792,
+          "notes": "Second-largest city in France; major port and industrial centre.",
+          "value": "city",
+          "confidence": "high"
+        }
+      ]
+    },
+    "population": {
+      "entries": [
+        {
+          "from": 1800,
+          "notes": "Approximate population of Marseille around 1800, based on early 19th-century estimates.",
+          "value": 111130,
+          "confidence": "medium"
+        },
+        {
+          "from": 1900,
+          "notes": "Approximate population at the turn of the 20th century.",
+          "value": 491161,
+          "confidence": "medium"
+        },
+        {
+          "from": 2020,
+          "notes": "Recent population figure for the city of Marseille.",
+          "value": 870018,
+          "confidence": "high"
+        }
+      ]
+    },
+    "missing_entities": [
+      {
+        "kind": "polity",
+        "name": "Massalia",
+        "context": "Independent Greek city-state of Massalia, founded c. 600 BC by Phocaean Greeks, controlling Marseille until the Roman conquest in 49 BC.",
+        "proposed_qid": "Q170537"
+      },
+      {
+        "kind": "polity",
+        "name": "County of Provence",
+        "context": "Marseille was part of the County of Provence from the early medieval period until its annexation to France in 1481.",
+        "proposed_qid": "Q2991382"
+      }
+    ]
+  }
+}

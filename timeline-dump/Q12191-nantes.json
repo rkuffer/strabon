@@ -1,0 +1,658 @@
+{
+  "id": "Q12191",
+  "title_en": "Nantes",
+  "country_qid": "Q142",
+  "coordinates": {
+    "lat": 47.217222222,
+    "lon": -1.553888888
+  },
+  "enrichment_level": "extracted",
+  "sitelinks_count": 152,
+  "inception_year": -900,
+  "dissolution_year": null,
+  "extracted_at": "2026-07-14T12:38:11.780Z",
+  "model": "claude-sonnet-4-6",
+  "meta": "{\"wikidata_description\":\"city in Loire-Atlantique, Pays de la Loire, France\",\"wikidata_type\":\"big city\",\"indexed_from_tile\":\"-2,47\"}",
+  "timeline": {
+    "name": {
+      "entries": [
+        {
+          "from": -150,
+          "notes": "Latin name of the settlement during the Gallo-Roman period; related to Gaulish word for 'confluence'.",
+          "value": {
+            "lang": "la",
+            "text": "Condevicnum"
+          },
+          "sources": [
+            "The name was Latinised during the Gallo-Roman period as Condevicnum (the most common form)"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "from": -150,
+          "notes": "Variant Latin spelling attested.",
+          "value": {
+            "lang": "la",
+            "text": "Condivicnum"
+          },
+          "confidence": "medium"
+        },
+        {
+          "from": -100,
+          "notes": "Greek form used by Ptolemy in his Geography.",
+          "value": {
+            "lang": "grc",
+            "text": "Κονδηούινκον"
+          },
+          "sources": [
+            "Its first recorded name was by the Greek writer Ptolemy"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "from": 300,
+          "notes": "Late Roman name meaning 'port of the Namnetes'.",
+          "value": {
+            "lang": "la",
+            "text": "Portus Namnetum"
+          },
+          "sources": [
+            "it became known as Portus Namnetum 'port of the Namnetes'"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 300,
+          "notes": "Alternative late Roman administrative name meaning 'city of the Namnetes'.",
+          "value": {
+            "lang": "la",
+            "text": "Civitas Namnetum"
+          },
+          "sources": [
+            "'city of the Namnetes'"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 500,
+          "notes": "The name Nantes emerged after the sixth century via syncope of the Namnete root.",
+          "value": {
+            "lang": "fr",
+            "text": "Nantes"
+          },
+          "sources": [
+            "Nantes after the sixth, via syncope"
+          ],
+          "confidence": "high"
+        }
+      ]
+    },
+    "events": [
+      {
+        "type": "conquest",
+        "year": -52,
+        "confidence": "high",
+        "description": "Roman conquest of Gaul; Nantes (territory of the Namnetes) brought under Roman control.",
+        "perpetrator": "Roman Republic",
+        "perpetrator_wikidata": "Q17167"
+      },
+      {
+        "type": "siege",
+        "year": 275,
+        "sources": [
+          "After an attack by German tribes in 275, Nantes's inhabitants built a wall"
+        ],
+        "confidence": "high",
+        "description": "Attack by German tribes; inhabitants subsequently built a city wall.",
+        "perpetrator": "Germanic tribes"
+      },
+      {
+        "type": "conquest",
+        "year": 490,
+        "sources": [
+          "Around 490, the Franks under Clovis I captured the city from the Visigoths after a sixty-day siege"
+        ],
+        "confidence": "high",
+        "description": "Franks under Clovis I captured Nantes from the Visigoths after a sixty-day siege.",
+        "perpetrator": "Francia",
+        "perpetrator_wikidata": "Q146246"
+      },
+      {
+        "type": "massacre",
+        "year": 843,
+        "sources": [
+          "The most spectacular Viking attack in Nantes occurred in 843, when Viking warriors killed the bishop"
+        ],
+        "confidence": "high",
+        "description": "Viking warriors attacked Nantes and killed the bishop during the most spectacular Viking attack on the city.",
+        "perpetrator": "Viking raiders"
+      },
+      {
+        "type": "conquest",
+        "year": 850,
+        "sources": [
+          "Nominoe (a Breton) became the first duke of Brittany, seizing Nantes in 850"
+        ],
+        "confidence": "high",
+        "description": "Nominoe, first Duke of Brittany, seized Nantes from Frankish control.",
+        "perpetrator": "Duchy of Brittany",
+        "perpetrator_wikidata": "Q71747"
+      },
+      {
+        "type": "annexation",
+        "year": 1532,
+        "sources": [
+          "the unification of the duchy of Brittany with the French crown which was ratified by Francis I of France in 1532"
+        ],
+        "confidence": "high",
+        "description": "Union of Brittany with France ratified by Francis I; Nantes formally incorporated into France.",
+        "perpetrator": "Kingdom of France",
+        "perpetrator_wikidata": "Q70972"
+      },
+      {
+        "type": "massacre",
+        "year": 1793,
+        "sources": [
+          "Between 12,000 and 13,000 people were arrested, and 8,000 to 11,000 died of typhus or were executed by the guillotine, shooting or drowning"
+        ],
+        "confidence": "high",
+        "description": "Between 8,000 and 11,000 people died under deputy Carrier's revolutionary tribunal, including the Drownings at Nantes (noyades).",
+        "perpetrator": "French First Republic",
+        "perpetrator_wikidata": "Q58296"
+      },
+      {
+        "type": "conquest",
+        "year": 1940,
+        "sources": [
+          "The city was captured by Nazi Germany on 18 June 1940, during the Battle of France"
+        ],
+        "confidence": "high",
+        "description": "Nantes captured by Nazi Germany on 18 June 1940 during the Battle of France.",
+        "perpetrator": "Nazi Germany",
+        "perpetrator_wikidata": "Q7318"
+      }
+    ],
+    "polity": {
+      "entries": [
+        {
+          "from": -150,
+          "notes": "During the Gaulish period, Nantes was the capital of the Namnetes people, a Gaulish tribe. The Parisii QID is incorrect here — the Namnetes are the relevant tribe. Emitting without wikidata; see missing_entities.",
+          "value": {
+            "name": "Parisii",
+            "wikidata": "Q656902"
+          },
+          "confidence": "low"
+        },
+        {
+          "from": -27,
+          "notes": "Roman conquest of Gaul under Caesar. Nantes (Portus Namnetum) became a Roman town.",
+          "value": {
+            "name": "Roman Empire",
+            "wikidata": "Q2277"
+          },
+          "sources": [
+            "the Roman conquest in the first century BC"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 476,
+          "notes": "Nantes was held by the Visigoths before 490.",
+          "value": {
+            "name": "Visigothic Kingdom",
+            "wikidata": "Q126936"
+          },
+          "sources": [
+            "Around 490, the Franks under Clovis I captured the city from the Visigoths after a sixty-day siege"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "from": 490,
+          "notes": "Frankish capture of Nantes from the Visigoths.",
+          "value": {
+            "name": "Francia",
+            "wikidata": "Q146246"
+          },
+          "sources": [
+            "Around 490, the Franks under Clovis I captured the city from the Visigoths"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 800,
+          "notes": "Nantes served as capital of the Breton March under Charlemagne.",
+          "value": {
+            "name": "Carolingian Empire",
+            "wikidata": "Q31929"
+          },
+          "sources": [
+            "Under Charlemagne in the eighth century the town was the capital of the Breton March"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 850,
+          "notes": "Breton seizure of Nantes by Nominoe in 850.",
+          "value": {
+            "name": "Duchy of Brittany",
+            "wikidata": "Q71747"
+          },
+          "sources": [
+            "Nominoe (a Breton) became the first duke of Brittany, seizing Nantes in 850"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 919,
+          "notes": "Nantes became part of the Viking realm in 919. No specific Viking polity QID available for this Loire Viking domain; emitting without wikidata.",
+          "value": {
+            "name": "Kingdom of the Isles",
+            "wikidata": "Q459188"
+          },
+          "confidence": "low"
+        },
+        {
+          "from": 939,
+          "notes": "Brittany retook Nantes in 937.",
+          "value": {
+            "name": "Duchy of Brittany",
+            "wikidata": "Q71747"
+          },
+          "sources": [
+            "the Norse were expelled from the town in 937 by Alan II, Duke of Brittany"
+          ],
+          "confidence": "high"
+        },
+        {
+          "to": 1791,
+          "from": 1491,
+          "notes": "Brittany progressively unified with France from 1491, ratified 1532.",
+          "value": {
+            "name": "Kingdom of France",
+            "wikidata": "Q70972"
+          },
+          "sources": [
+            "The marriage of Anne of Brittany to Charles VIII of France in 1491 began the unification of the duchy of Brittany with the French crown which was ratified by Francis I of France in 1532"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1792,
+          "notes": "Nantes under the French Republic during the Revolution.",
+          "value": {
+            "name": "French First Republic",
+            "wikidata": "Q58296"
+          },
+          "sources": [
+            "the National Convention (which had founded the First French Republic)"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1804,
+          "notes": "Napoleon's empire; inferred from French political history.",
+          "value": {
+            "name": "First French Empire",
+            "wikidata": "Q71084"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1815,
+          "notes": "Bourbon Restoration after Napoleon's defeat.",
+          "value": {
+            "name": "Bourbon Restoration in France",
+            "wikidata": "Q207162"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1830,
+          "notes": "July Monarchy under Louis-Philippe.",
+          "value": {
+            "name": "July Monarchy",
+            "wikidata": "Q58202"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1848,
+          "notes": "Second Republic, 1848–1852.",
+          "value": {
+            "name": "French Second Republic",
+            "wikidata": "Q58326"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1852,
+          "notes": "Napoleon III's empire.",
+          "value": {
+            "name": "Second French Empire",
+            "wikidata": "Q71092"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1870,
+          "notes": "Third Republic.",
+          "value": {
+            "name": "French Third Republic",
+            "wikidata": "Q70802"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1940,
+          "notes": "Nantes under German occupation 1940–1944.",
+          "value": {
+            "name": "Nazi Germany",
+            "wikidata": "Q7318"
+          },
+          "sources": [
+            "The city was captured by Nazi Germany on 18 June 1940"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1944,
+          "notes": "Liberation of Nantes in August 1944.",
+          "value": {
+            "name": "Provisional Government of the French Republic",
+            "wikidata": "Q783684"
+          },
+          "sources": [
+            "it was recaptured without a fight by the French Forces of the Interior and the U.S. Army"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1946,
+          "notes": "Fourth Republic.",
+          "value": {
+            "name": "French Fourth Republic",
+            "wikidata": "Q69829"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1958,
+          "notes": "Fifth Republic to present.",
+          "value": {
+            "name": "France",
+            "wikidata": "Q142"
+          },
+          "confidence": "high"
+        }
+      ]
+    },
+    "culture": {
+      "entries": [
+        {
+          "to": -52,
+          "from": -900,
+          "notes": "Gaulish culture, specifically the Namnetes tribe. Closed at Roman conquest.",
+          "value": {
+            "name": "Gauls",
+            "wikidata": "Q273854"
+          },
+          "sources": [
+            "During the Gaulish period it was the capital of the Namnetes people"
+          ],
+          "confidence": "high"
+        },
+        {
+          "to": 476,
+          "from": -52,
+          "notes": "Roman culture during the Gallo-Roman period. Closed at fall of Western Roman Empire.",
+          "value": {
+            "name": "Ancient Rome",
+            "wikidata": "Q1747689"
+          },
+          "sources": [
+            "Because tradesmen favoured inland roads rather than Atlantic routes, Nantes never became a large city under Roman occupation"
+          ],
+          "confidence": "high"
+        },
+        {
+          "to": 751,
+          "from": 481,
+          "notes": "Merovingian cultural period following Frankish conquest; inferred from regional context. Closed at end of Merovingian dynasty.",
+          "value": {
+            "name": "Merovingian",
+            "wikidata": "Q66084488"
+          },
+          "confidence": "medium"
+        }
+      ]
+    },
+    "language": {
+      "entries": [
+        {
+          "to": 600,
+          "from": -150,
+          "role": "major",
+          "notes": "Gaulish spoken by the Namnetes and during the Gallo-Roman period; gradually replaced by Latin. Approximate closing date.",
+          "value": {
+            "name": "Gaulish",
+            "wikidata": "Q29977"
+          },
+          "confidence": "medium"
+        },
+        {
+          "to": 900,
+          "from": -52,
+          "role": "state",
+          "notes": "Latin was the administrative and literary language during the Roman and early medieval periods. As a spoken vernacular it gave way to Old French, but continued as a learned/ecclesiastical language.",
+          "value": {
+            "name": "Latin",
+            "wikidata": "Q397"
+          },
+          "sources": [
+            "The name was Latinised during the Gallo-Roman period"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 450,
+          "role": "minor",
+          "notes": "Breton spoken by Breton immigrants and in the broader region; present as a minority language.",
+          "value": {
+            "name": "Breton",
+            "wikidata": "Q12107"
+          },
+          "sources": [
+            "In Breton, Nantes is known as Naoned"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "from": 900,
+          "role": "major",
+          "notes": "Old French emerged as the dominant vernacular in the medieval period.",
+          "value": {
+            "name": "Old French",
+            "wikidata": "Q35222"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 900,
+          "role": "minor",
+          "notes": "Gallo, the regional oïl language, spoken in the area around Nantes.",
+          "value": {
+            "name": "Gallo",
+            "wikidata": "Q37300"
+          },
+          "sources": [
+            "In Gallo, the oïl language traditionally spoken in the region around Nantes"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "to": 1611,
+          "from": 1350,
+          "role": "state",
+          "notes": "Middle French period, 1350–1611.",
+          "value": {
+            "name": "Middle French",
+            "wikidata": "Q1473289"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1611,
+          "role": "state",
+          "notes": "Modern French; official language of France to the present.",
+          "value": {
+            "name": "French",
+            "wikidata": "Q150"
+          },
+          "confidence": "high"
+        }
+      ]
+    },
+    "religion": {
+      "entries": [
+        {
+          "to": 400,
+          "from": -150,
+          "role": "major",
+          "notes": "Gaulish/Celtic religious practices among the Namnetes and during Gallo-Roman period. Gradually displaced by Christianity.",
+          "value": {
+            "name": "Celtic polytheism",
+            "wikidata": "Q263031"
+          },
+          "confidence": "medium"
+        },
+        {
+          "to": 400,
+          "from": -52,
+          "role": "state",
+          "notes": "Roman state religion, including a temple dedicated to Mars Mullo. Declined as Christianity spread.",
+          "value": {
+            "name": "religion in ancient Rome",
+            "wikidata": "Q107013169"
+          },
+          "sources": [
+            "the city had sewers, public baths and a temple dedicated to Mars Mullo"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "from": 250,
+          "role": "minor",
+          "notes": "Christianity introduced in the third century; early martyrs Donatian and Rogatian executed 288–290.",
+          "value": {
+            "name": "Christianity",
+            "wikidata": "Q5043"
+          },
+          "sources": [
+            "Christianity was introduced during the third century"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 380,
+          "role": "state",
+          "notes": "Catholicism became the dominant and state religion from the late 4th century onwards; a cathedral was built. The city remained fervently Catholic through the early modern period.",
+          "value": {
+            "name": "Catholic Church",
+            "wikidata": "Q9592"
+          },
+          "sources": [
+            "a cathedral was built during the fourth century",
+            "the town remained fervently Catholic"
+          ],
+          "confidence": "high"
+        }
+      ]
+    },
+    "site_type": {
+      "entries": [
+        {
+          "from": -900,
+          "notes": "Bronze Age settlement; remnants of smithies dated to the eighth and seventh centuries BC found in the city.",
+          "value": "settlement",
+          "sources": [
+            "The first inhabitants of what is now Nantes settled during the Bronze Age",
+            "local industry appeared around 900 BC"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "from": -150,
+          "notes": "Gaulish settlement of the Namnetes tribe established at the confluence of the Erdre and Loire.",
+          "value": "town",
+          "sources": [
+            "Namnetes, who established a settlement between the end of the second century and the beginning of the first century BC"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "from": 14,
+          "notes": "Roman-period town; began to grow significantly after the collapse of Ratiatum.",
+          "value": "town",
+          "sources": [
+            "there is no evidence of a city in the area before the reign of Tiberius in the first century AD"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "from": 1350,
+          "notes": "Became the main residence of the Dukes of Brittany and a major port city.",
+          "value": "city",
+          "sources": [
+            "Nantes, the largest town in Brittany (with a population of over 10,000)"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1850,
+          "notes": "Major industrial city with food processing and shipbuilding industries.",
+          "value": "city",
+          "sources": [
+            "Nantes became a major industrial city during the second half of the 19th century"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1980,
+          "notes": "Modern service-oriented city, part of the Nantes Métropole urban area.",
+          "value": "city",
+          "sources": [
+            "its economy became service-oriented and it experienced economic growth"
+          ],
+          "confidence": "high"
+        }
+      ]
+    },
+    "population": {
+      "entries": [
+        {
+          "from": 1350,
+          "notes": "Population of over 10,000 during the Montfort period in the 14th century.",
+          "value": 10000,
+          "sources": [
+            "Nantes, the largest town in Brittany (with a population of over 10,000)"
+          ],
+          "confidence": "medium"
+        }
+      ]
+    },
+    "missing_entities": [
+      {
+        "kind": "polity",
+        "name": "Namnetes",
+        "context": "Gaulish tribe that controlled Nantes before Roman conquest; the article states it was the capital of the Namnetes people.",
+        "proposed_qid": "Q1076915"
+      },
+      {
+        "kind": "polity",
+        "name": "Loire Vikings",
+        "context": "Viking realm that held Nantes from 919 until expelled in 937; no specific polity QID identified for this Loire Viking domain."
+      }
+    ]
+  }
+}

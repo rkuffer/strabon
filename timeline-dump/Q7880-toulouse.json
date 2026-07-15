@@ -1,0 +1,508 @@
+{
+  "id": "Q7880",
+  "title_en": "Toulouse",
+  "country_qid": "Q142",
+  "coordinates": {
+    "lat": 43.604444444,
+    "lon": 1.443333333
+  },
+  "enrichment_level": "extracted",
+  "sitelinks_count": 171,
+  "inception_year": -200,
+  "dissolution_year": null,
+  "extracted_at": "2026-07-14T12:43:34.431Z",
+  "model": "claude-sonnet-4-6",
+  "meta": "{\"wikidata_description\":\"French commune and city in Haute-Garonne, Occitania\",\"wikidata_type\":\"big city\",\"indexed_from_tile\":\"1,43\"}",
+  "timeline": {
+    "name": {
+      "entries": [
+        {
+          "from": -200,
+          "notes": "Latin name of the city, first recorded in 2nd century BC; used throughout Roman and medieval periods.",
+          "value": {
+            "lang": "la",
+            "text": "Tolosa"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": -200,
+          "notes": "Ancient Greek form of the name, as recorded in Greek sources.",
+          "value": {
+            "lang": "grc",
+            "text": "Τολῶσσα"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1000,
+          "notes": "Occitan name of the city, used in the medieval period and still used in Occitan today.",
+          "value": {
+            "lang": "oc",
+            "text": "Tolosa"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1200,
+          "notes": "French form of the name, current modern name.",
+          "value": {
+            "lang": "fr",
+            "text": "Toulouse"
+          },
+          "confidence": "high"
+        }
+      ]
+    },
+    "events": [
+      {
+        "type": "siege",
+        "year": 721,
+        "confidence": "high",
+        "description": "Battle of Toulouse: Duke Odo of Aquitaine defeated an invading Umayyad Muslim army."
+      },
+      {
+        "type": "conquest",
+        "year": 1229,
+        "confidence": "high",
+        "description": "Treaty of Paris ended the Albigensian Crusade; Toulouse incorporated into the French royal domain."
+      },
+      {
+        "type": "plague",
+        "year": 1348,
+        "confidence": "high",
+        "description": "The Black Death struck Toulouse, causing major demographic crisis."
+      },
+      {
+        "type": "fire",
+        "year": 1463,
+        "confidence": "high",
+        "description": "Great Fire of Toulouse ravaged the city for fifteen days; Louis XI subsequently exempted the city from taxes for 100 years."
+      },
+      {
+        "type": "massacre",
+        "year": 1562,
+        "confidence": "high",
+        "description": "Massacre of Huguenots in Toulouse at the start of the French Wars of Religion; Protestant capitouls and merchants fled the city."
+      },
+      {
+        "type": "revolution",
+        "year": 1789,
+        "confidence": "high",
+        "description": "French Revolution; Toulouse lost its role as capital of Languedoc and its parlement was abolished."
+      },
+      {
+        "type": "flood",
+        "year": 1875,
+        "confidence": "high",
+        "description": "Flood of the Garonne devastated more than 1,000 houses and killed 200 people; destroyed all bridges except the Pont-Neuf."
+      }
+    ],
+    "polity": {
+      "entries": [
+        {
+          "from": -200,
+          "notes": "Tolosa as oppidum of the Volcae Tectosages, a Gaulish tribe, before Roman conquest.",
+          "value": {
+            "name": "Gauls"
+          },
+          "confidence": "medium"
+        },
+        {
+          "from": -120,
+          "notes": "Toulouse became a Roman military outpost in the 2nd century BC during the Roman conquest of southern Gaul.",
+          "value": {
+            "name": "Roman Republic",
+            "wikidata": "Q17167"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": -27,
+          "notes": "Developed as Roman city in Gallia Narbonensis under Augustus and through the imperial period.",
+          "value": {
+            "name": "Roman Empire",
+            "wikidata": "Q2277"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 476,
+          "notes": "Toulouse was capital of the Visigothic Kingdom, which stretched from the Loire to Gibraltar.",
+          "value": {
+            "name": "Visigothic Kingdom",
+            "wikidata": "Q126936"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 507,
+          "notes": "After Frankish conquest following Battle of Vouillé 507; Toulouse came under Frankish control.",
+          "value": {
+            "name": "Francia",
+            "wikidata": "Q146246"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 800,
+          "notes": "County of Toulouse emerged within the Carolingian sub-kingdom of Aquitaine.",
+          "value": {
+            "name": "Carolingian Empire",
+            "wikidata": "Q31929"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 843,
+          "notes": "After Carolingian partition; County of Toulouse within West Francia.",
+          "value": {
+            "name": "West Francia",
+            "wikidata": "Q46370"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 987,
+          "notes": "County of Toulouse nominally under the Kingdom of France; came under direct royal control after Albigensian Crusade (Treaty of Paris, 1229).",
+          "value": {
+            "name": "Kingdom of France",
+            "wikidata": "Q70972"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1792,
+          "notes": "French Revolution 1789; Toulouse lost role as capital of Languedoc and became head of Haute-Garonne department.",
+          "value": {
+            "name": "French First Republic",
+            "wikidata": "Q58296"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1804,
+          "notes": "Napoleonic Empire.",
+          "value": {
+            "name": "First French Empire",
+            "wikidata": "Q71084"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1815,
+          "notes": "Bourbon Restoration after Napoleon's defeat.",
+          "value": {
+            "name": "Bourbon Restoration in France",
+            "wikidata": "Q207162"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1830,
+          "notes": "July Revolution 1830.",
+          "value": {
+            "name": "July Monarchy",
+            "wikidata": "Q58202"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1848,
+          "notes": "Second Republic established 1848.",
+          "value": {
+            "name": "French Second Republic",
+            "wikidata": "Q58326"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1852,
+          "notes": "Second Empire under Napoleon III.",
+          "value": {
+            "name": "Second French Empire",
+            "wikidata": "Q71092"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1870,
+          "notes": "Third Republic after Franco-Prussian War.",
+          "value": {
+            "name": "French Third Republic",
+            "wikidata": "Q70802"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1940,
+          "notes": "Toulouse under Vichy regime during WWII.",
+          "value": {
+            "name": "Vichy France",
+            "wikidata": "Q69808"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1944,
+          "notes": "Liberation of Toulouse 1944.",
+          "value": {
+            "name": "Provisional Government of the French Republic",
+            "wikidata": "Q783684"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1946,
+          "notes": "Fourth Republic established 1946.",
+          "value": {
+            "name": "French Fourth Republic",
+            "wikidata": "Q69829"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1958,
+          "notes": "Fifth Republic established 1958; Toulouse remains a major city and since 2016 regional prefecture of Occitanie.",
+          "value": {
+            "name": "France",
+            "wikidata": "Q142"
+          },
+          "confidence": "high"
+        }
+      ]
+    },
+    "culture": {
+      "entries": [
+        {
+          "to": -120,
+          "from": -200,
+          "notes": "Volcae Tectosages, a Gaulish tribe, inhabited the area before Roman conquest.",
+          "value": {
+            "name": "Gauls",
+            "wikidata": "Q273854"
+          },
+          "confidence": "medium"
+        },
+        {
+          "to": 476,
+          "from": -120,
+          "notes": "Toulouse developed as a Roman city in Gallia Narbonensis; Roman material culture dominant.",
+          "value": {
+            "name": "Ancient Rome",
+            "wikidata": "Q1747689"
+          },
+          "confidence": "high"
+        },
+        {
+          "to": 751,
+          "from": 481,
+          "notes": "Frankish cultural context from 507; Merovingian period closes c. 751. Visigothic culture preceded but Frankish culture followed conquest.",
+          "value": {
+            "name": "Merovingian",
+            "wikidata": "Q66084488"
+          },
+          "confidence": "medium"
+        }
+      ]
+    },
+    "language": {
+      "entries": [
+        {
+          "to": -50,
+          "from": -200,
+          "role": "major",
+          "notes": "Gaulish spoken by the Volcae Tectosages; gradually replaced by Latin after Roman conquest.",
+          "value": {
+            "name": "Gaulish",
+            "wikidata": "Q29977"
+          },
+          "confidence": "medium"
+        },
+        {
+          "to": 600,
+          "from": -120,
+          "role": "state",
+          "notes": "Latin as official and administrative language of Roman Toulouse; continued through late antiquity.",
+          "value": {
+            "name": "Latin",
+            "wikidata": "Q397"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 600,
+          "role": "major",
+          "notes": "Occitan (langue d'oc) the vernacular language of Toulouse and the region throughout the medieval period.",
+          "value": {
+            "name": "Occitan",
+            "wikidata": "Q14185"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1229,
+          "role": "minor",
+          "notes": "French administrative presence increased after Treaty of Paris 1229 incorporated Toulouse into royal France.",
+          "value": {
+            "name": "Old French",
+            "wikidata": "Q35222"
+          },
+          "confidence": "medium"
+        },
+        {
+          "from": 1350,
+          "role": "minor",
+          "notes": "Occitan continued as a spoken language but gradually displaced by French from the late medieval period onward; still present as a regional language.",
+          "value": {
+            "name": "Occitan",
+            "wikidata": "Q14185"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1500,
+          "role": "state",
+          "notes": "French became the administrative and eventually dominant language; Ordinance of Villers-Cotterêts 1539 mandated French in legal documents.",
+          "value": {
+            "name": "French",
+            "wikidata": "Q150"
+          },
+          "confidence": "high"
+        }
+      ]
+    },
+    "religion": {
+      "entries": [
+        {
+          "to": 400,
+          "from": -200,
+          "role": "major",
+          "notes": "Gaulish/Celtic religious practices among the Volcae Tectosages prior to and during Roman period.",
+          "value": {
+            "name": "Celtic polytheism",
+            "wikidata": "Q263031"
+          },
+          "confidence": "medium"
+        },
+        {
+          "to": 380,
+          "from": -120,
+          "role": "state",
+          "notes": "Roman state religion dominant during Roman period; Domitian placed Toulouse under patronage of Pallas Athena.",
+          "value": {
+            "name": "religion in ancient Rome",
+            "wikidata": "Q107013169"
+          },
+          "confidence": "high"
+        },
+        {
+          "to": 380,
+          "from": 250,
+          "role": "minor",
+          "notes": "Early Christian presence; Saint Saturnin (Sernin) martyred in Toulouse c. 250 AD, traditionally first bishop.",
+          "value": {
+            "name": "Christianity",
+            "wikidata": "Q5043"
+          },
+          "confidence": "medium"
+        },
+        {
+          "from": 380,
+          "role": "state",
+          "notes": "Christianity became state religion of Roman Empire under Theodosius; Toulouse has been Catholic ever since. Catharism suppressed by 1321.",
+          "value": {
+            "name": "Catholic Church",
+            "wikidata": "Q9592"
+          },
+          "confidence": "high"
+        },
+        {
+          "to": 1244,
+          "from": 1100,
+          "role": "minor",
+          "notes": "Catharism was significant in Toulouse and surrounding region; Council of Toulouse 1229 laid foundations for Inquisition to eradicate it; effectively suppressed by mid-13th century.",
+          "value": {
+            "name": "Catharism",
+            "wikidata": "Q161696"
+          },
+          "confidence": "high"
+        },
+        {
+          "to": 1685,
+          "from": 1562,
+          "role": "minor",
+          "notes": "Huguenots were a significant minority; French Wars of Religion began 1562; Toulouse became ultra-Catholic stronghold; Edict of Fontainebleau 1685 revoked Edict of Nantes, driving out remaining Protestants.",
+          "value": {
+            "name": "Protestantism",
+            "wikidata": "Q23540"
+          },
+          "confidence": "high"
+        }
+      ]
+    },
+    "site_type": {
+      "entries": [
+        {
+          "from": -200,
+          "notes": "Tolosa attested as an oppidum on hills before Roman development; the Garonne Valley was a trade hub since at least the Iron Age.",
+          "value": "settlement",
+          "confidence": "medium"
+        },
+        {
+          "from": -100,
+          "notes": "Roman military outpost and then developed as a Roman city in Gallia Narbonensis from 2nd century BC.",
+          "value": "town",
+          "confidence": "medium"
+        },
+        {
+          "from": 300,
+          "notes": "Grew significantly under Roman rule; capital of Visigothic Kingdom in 5th century.",
+          "value": "city",
+          "confidence": "medium"
+        },
+        {
+          "from": 1443,
+          "notes": "Second parlement of France established 1443; major administrative and judicial centre.",
+          "value": "city",
+          "confidence": "high"
+        },
+        {
+          "from": 2016,
+          "notes": "Became regional prefecture of Occitanie in 2016.",
+          "value": "city",
+          "confidence": "high"
+        }
+      ]
+    },
+    "population": {
+      "entries": [
+        {
+          "from": 1335,
+          "notes": "Article states 'between 35,000 and 40,000 inhabitants' in 1335; midpoint used.",
+          "value": 37500,
+          "confidence": "medium"
+        }
+      ]
+    },
+    "missing_entities": [
+      {
+        "kind": "polity",
+        "name": "County of Toulouse",
+        "context": "The County of Toulouse was a quasi-independent entity within the Carolingian and later Capetian framework from the late 8th century until its incorporation into the French royal domain in 1229.",
+        "proposed_qid": "Q486761"
+      },
+      {
+        "kind": "culture",
+        "name": "Volcae Tectosages",
+        "context": "The Gaulish tribe inhabiting the Toulouse area before and during the early Roman period; the name Tolosa has been connected to them.",
+        "proposed_qid": "Q779058"
+      },
+      {
+        "kind": "polity",
+        "name": "Gauls",
+        "context": "QID stripped by validation: QID belongs to kind 'culture' (\"Gauls\"), used on 'polity' track"
+      }
+    ]
+  }
+}

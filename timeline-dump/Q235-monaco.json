@@ -1,0 +1,324 @@
+{
+  "id": "Q235",
+  "title_en": "Monaco",
+  "country_qid": "Q235",
+  "coordinates": {
+    "lat": 43.731111111,
+    "lon": 7.42
+  },
+  "enrichment_level": "extracted",
+  "sitelinks_count": 320,
+  "inception_year": -600,
+  "dissolution_year": null,
+  "extracted_at": "2026-07-14T12:36:38.750Z",
+  "model": "claude-sonnet-4-6",
+  "meta": "{\"wikidata_description\":\"microstate in Western Europe\",\"wikidata_type\":\"border city\",\"indexed_from_tile\":\"7,43\"}",
+  "timeline": {
+    "name": {
+      "entries": [
+        {
+          "from": -600,
+          "value": {
+            "lang": "grc",
+            "text": "Μόνοικος"
+          },
+          "sources": "referred to it as Monoikos, a Ligurian town; Monoikos (Greek for 'the solitary one')",
+          "confidence": "medium",
+          "from_circa": true,
+          "from_precision": 7
+        },
+        {
+          "from": -600,
+          "notes": "Latin/Latinised form of the Greek name Monoikos, used by ancient authors including Strabo.",
+          "value": {
+            "lang": "la",
+            "text": "Monoikos"
+          },
+          "confidence": "medium",
+          "from_circa": true,
+          "from_precision": 7
+        },
+        {
+          "from": 1215,
+          "value": {
+            "lang": "it",
+            "text": "Monaco"
+          },
+          "sources": "refounded in 1215 as a colony of Genoa; the area was already known by this name",
+          "confidence": "high"
+        },
+        {
+          "from": 1861,
+          "value": {
+            "lang": "fr",
+            "text": "Monaco"
+          },
+          "sources": "Franco-Monégasque Treaty of 1861; French became official language in 1860",
+          "confidence": "high"
+        }
+      ]
+    },
+    "events": [
+      {
+        "type": "founding",
+        "year": 1191,
+        "confidence": "high",
+        "description": "Grant of land from Emperor Henry VI; Monaco refounded in 1215 as a colony of Genoa."
+      },
+      {
+        "type": "refounding",
+        "year": 1215,
+        "confidence": "high",
+        "description": "Monaco refounded as a colony of Genoa following the imperial land grant."
+      },
+      {
+        "type": "conquest",
+        "year": 1297,
+        "confidence": "high",
+        "description": "Francesco Grimaldi and his men captured the fortress of the Rock of Monaco, dressed as Franciscan friars, establishing Grimaldi rule."
+      },
+      {
+        "type": "annexation",
+        "year": 1793,
+        "confidence": "high",
+        "description": "Revolutionary French forces captured Monaco; the principality was occupied until 1814."
+      },
+      {
+        "type": "annexation",
+        "year": 1815,
+        "confidence": "high",
+        "description": "Monaco designated a protectorate of the Kingdom of Sardinia by the Congress of Vienna."
+      },
+      {
+        "type": "conquest",
+        "year": 1943,
+        "confidence": "high",
+        "description": "Italian Army invaded and occupied Monaco in 1943, forming a fascist administration. In September 1943, German Wehrmacht occupied Monaco after Mussolini's fall."
+      },
+      {
+        "type": "expulsion",
+        "year": 1943,
+        "confidence": "high",
+        "description": "Nazi deportation of the Jewish population of Monaco began in September 1943 following German occupation."
+      }
+    ],
+    "polity": {
+      "entries": [
+        {
+          "from": 1191,
+          "notes": "Emperor Henry VI granted land; Monaco then refounded as a Genoese colony in 1215.",
+          "value": {
+            "name": "Holy Roman Empire",
+            "wikidata": "Q12548"
+          },
+          "sources": "Following a grant of land from Emperor Henry VI in 1191",
+          "confidence": "medium"
+        },
+        {
+          "from": 1215,
+          "value": {
+            "name": "Republic of Genoa",
+            "wikidata": "Q174306"
+          },
+          "sources": "refounded in 1215 as a colony of Genoa",
+          "confidence": "high"
+        },
+        {
+          "from": 1297,
+          "value": {
+            "name": "Monaco",
+            "wikidata": "Q235"
+          },
+          "sources": "Monaco was first ruled by a member of the House of Grimaldi in 1297",
+          "confidence": "high"
+        },
+        {
+          "from": 1793,
+          "value": {
+            "name": "French First Republic",
+            "wikidata": "Q58296"
+          },
+          "sources": "In 1793, Revolutionary forces captured Monaco",
+          "confidence": "high"
+        },
+        {
+          "from": 1804,
+          "notes": "Napoleon's empire governed Monaco from 1804 until 1814.",
+          "value": {
+            "name": "First French Empire",
+            "wikidata": "Q71084"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1814,
+          "value": {
+            "name": "Monaco",
+            "wikidata": "Q235"
+          },
+          "sources": "The principality was reestablished in 1814 under the Grimaldis",
+          "confidence": "high"
+        }
+      ]
+    },
+    "culture": {
+      "entries": [
+        {
+          "to": -200,
+          "from": -600,
+          "notes": "Hecataeus refers to Monaco as a Ligurian town; Ligurians were a pre-Roman Italic/Celtic people of the region. No specific archaeological culture named for this site; using Gauls as closest attested regional culture. Closed at Roman period.",
+          "value": {
+            "name": "Gauls",
+            "wikidata": "Q273854"
+          },
+          "confidence": "low",
+          "from_circa": true,
+          "from_precision": 7
+        },
+        {
+          "to": 476,
+          "from": -200,
+          "notes": "Roman presence in the western Mediterranean from the 2nd century BC; Monaco area under Roman influence. Closed at the fall of the Western Roman Empire.",
+          "value": {
+            "name": "Ancient Rome",
+            "wikidata": "Q1747689"
+          },
+          "confidence": "low",
+          "from_circa": true
+        }
+      ]
+    },
+    "language": {
+      "entries": [
+        {
+          "to": -100,
+          "from": -600,
+          "role": "major",
+          "notes": "Ligurian/Gaulish dialects spoken in the region before Roman conquest. Closed with Latin dominance from the 1st century BC.",
+          "value": {
+            "name": "Gaulish",
+            "wikidata": "Q29977"
+          },
+          "confidence": "low",
+          "from_circa": true,
+          "from_precision": 7
+        },
+        {
+          "to": 900,
+          "from": -100,
+          "role": "major",
+          "notes": "Latin spread with Roman conquest; ceased as spoken vernacular and was replaced by Italian/Old French dialects in the early medieval period.",
+          "value": {
+            "name": "Latin",
+            "wikidata": "Q397"
+          },
+          "confidence": "medium",
+          "from_circa": true
+        },
+        {
+          "to": 1860,
+          "from": 900,
+          "role": "state",
+          "notes": "Italian was the official language until replaced by French in 1860. Approximate start date from the medieval period.",
+          "value": {
+            "name": "Italian",
+            "wikidata": "Q652"
+          },
+          "sources": "Italian was the official language in Monaco until 1860",
+          "confidence": "medium",
+          "from_circa": true
+        },
+        {
+          "from": 1860,
+          "role": "state",
+          "value": {
+            "name": "French",
+            "wikidata": "Q150"
+          },
+          "sources": "Italian was the official language in Monaco until 1860, when it was replaced by French",
+          "confidence": "high"
+        }
+      ]
+    },
+    "religion": {
+      "entries": [
+        {
+          "to": 400,
+          "from": -600,
+          "role": "minor",
+          "notes": "Strabo mentions a temple of Heracles (Monoikos) at Monaco, attesting Greek religious presence. Closed circa 4th–5th century AD with Christianisation.",
+          "value": {
+            "name": "Ancient Greek religion",
+            "wikidata": "Q855270"
+          },
+          "confidence": "low",
+          "from_circa": true,
+          "from_precision": 7
+        },
+        {
+          "to": 400,
+          "from": -200,
+          "role": "major",
+          "notes": "Roman religious practice from the Roman period. Closed with Christianisation circa 4th–5th century AD.",
+          "value": {
+            "name": "religion in ancient Rome",
+            "wikidata": "Q107013169"
+          },
+          "confidence": "low",
+          "from_circa": true
+        },
+        {
+          "from": 400,
+          "role": "state",
+          "notes": "Christianity became dominant in the region from the 4th–5th century AD. Catholicism has been the state religion of Monaco to the present day.",
+          "value": {
+            "name": "Catholic Church",
+            "wikidata": "Q9592"
+          },
+          "confidence": "medium",
+          "from_circa": true
+        }
+      ]
+    },
+    "site_type": {
+      "entries": [
+        {
+          "from": -600,
+          "notes": "Mentioned by Hecataeus of Miletus as a Ligurian town; approximate date for ancient attestation.",
+          "value": "settlement",
+          "confidence": "low",
+          "from_circa": true,
+          "from_precision": 7
+        },
+        {
+          "from": 1215,
+          "value": "colony",
+          "sources": "refounded in 1215 as a colony of Genoa",
+          "confidence": "high"
+        },
+        {
+          "from": 1297,
+          "value": "town",
+          "sources": "first ruled by a member of the House of Grimaldi in 1297",
+          "confidence": "high"
+        },
+        {
+          "from": 1861,
+          "value": "capital",
+          "sources": "Monaco's sovereignty were recognised by the Franco-Monégasque Treaty of 1861",
+          "confidence": "high"
+        },
+        {
+          "from": 1993,
+          "value": "capital_city",
+          "sources": "the Principality of Monaco became a member of the United Nations in 1993",
+          "confidence": "high"
+        }
+      ]
+    },
+    "population": {
+      "entries": []
+    },
+    "missing_entities": []
+  }
+}

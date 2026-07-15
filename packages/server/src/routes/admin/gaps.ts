@@ -27,8 +27,8 @@ export const adminGapsRoutes: FastifyPluginAsync = async (app) => {
     const [gaps, counts] = await Promise.all([
       sql.unsafe(`
         SELECT g.id, g.kind, g.name, g.context, g.proposed_qid,
-               g.site_ids, g.status, g.resolved_qid, g.resolution_note,
-               g.first_seen_at, g.last_seen_at,
+               g.site_ids, g.occurrences, g.status, g.resolved_qid,
+               g.resolution_note, g.first_seen_at, g.last_seen_at,
                COALESCE(array_length(g.site_ids, 1), 0) AS site_count
         FROM referential_gaps g
         ${where}
@@ -58,12 +58,31 @@ export const adminGapsRoutes: FastifyPluginAsync = async (app) => {
       for (const r of rows as any[]) siteTitles.set(r.id, r.title_en);
     }
 
-    const enriched = gaps.map((g: any) => ({
+    // A proposed QID that appears on TWO UNRELATED gaps is a red flag: the model
+    // has reached for a generic or invented identifier. Q41137 was proposed for
+    // both "Old Assyrian city-state" (Assur) and "Greek colony (Phocaean)" (Nice)
+    // — two entities with nothing in common. Verification will catch it, but the
+    // duplication is free evidence and worth surfacing.
+    const qidUses = new Map<string, number>();
+    for (const g of gaps as any[]) {
+      if (g.proposed_qid) {
+        qidUses.set(g.proposed_qid, (qidUses.get(g.proposed_qid) ?? 0) + 1);
+      }
+    }
+
+    const enriched = (gaps as any[]).map((g: any) => ({
       ...g,
       sites: (g.site_ids ?? []).map((id: string) => ({
         id,
         title: siteTitles.get(id) ?? id,
       })),
+      // The entries that produced the gap — the real context.
+      occurrences: (g.occurrences ?? []).map((o: any) => ({
+        ...o,
+        site_title: siteTitles.get(o.site_id) ?? o.site_id,
+      })),
+      proposed_qid_reused:
+        g.proposed_qid && (qidUses.get(g.proposed_qid) ?? 0) > 1,
     }));
 
     // Counters for the header

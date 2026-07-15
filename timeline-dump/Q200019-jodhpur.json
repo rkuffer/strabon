@@ -1,0 +1,182 @@
+{
+  "id": "Q200019",
+  "title_en": "Jodhpur",
+  "country_qid": "Q668",
+  "coordinates": {
+    "lat": 26.294444444,
+    "lon": 73.027777777
+  },
+  "enrichment_level": "extracted",
+  "sitelinks_count": 91,
+  "inception_year": 1100,
+  "dissolution_year": null,
+  "extracted_at": "2026-07-14T12:47:50.437Z",
+  "model": "claude-sonnet-4-6",
+  "meta": "{\"wikidata_description\":\"city in Rajasthan, India\",\"wikidata_type\":\"big city\",\"indexed_from_tile\":\"73,26\"}",
+  "timeline": {
+    "name": {
+      "entries": [
+        {
+          "from": 1459,
+          "value": {
+            "lang": "en",
+            "text": "Jodhpur"
+          },
+          "sources": [
+            "The name 'Jodhpur' is derived from its founder, Rao Jodha, who established the city in 1459"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1459,
+          "value": {
+            "lang": "hi",
+            "text": "जोधपुर"
+          },
+          "sources": [
+            "जोधपुर शहर"
+          ],
+          "confidence": "high"
+        }
+      ]
+    },
+    "events": [
+      {
+        "type": "founding",
+        "year": 1459,
+        "confidence": "high",
+        "description": "Jodhpur founded by Rao Jodha, a Rajput chief of the Rathore clan, after conquering surrounding territory from the Delhi Sultanate."
+      }
+    ],
+    "polity": {
+      "entries": [
+        {
+          "from": 1100,
+          "notes": "The article states the region was part of the Gurjara-Pratihara Empire until 1100 AD. This refers to the pre-founding region of Marwar, not Jodhpur city itself (founded 1459). Included as regional context for the Mandore/Marwar area.",
+          "value": {
+            "name": "Gurjara-Pratihara",
+            "wikidata": "Q5324"
+          },
+          "sources": [
+            "Marwar formed a part of the Gurjara-Pratihara Empire and until 1100 AD was ruled by a powerful Pratihara King"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "from": 1459,
+          "value": {
+            "name": "Marwar",
+            "wikidata": "Q1419618"
+          },
+          "sources": [
+            "Rao Jodha founded a kingdom that came to be known as Marwar",
+            "Jodhpur soon took over that role as capital"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1858,
+          "notes": "Marwar (Jodhpur) became a princely state under British suzerainty following the treaties of 1818. Inferred from standard regional history.",
+          "value": {
+            "name": "British Raj",
+            "wikidata": "Q129286"
+          },
+          "confidence": "medium"
+        },
+        {
+          "from": 1947,
+          "notes": "India's independence in 1947; Jodhpur/Marwar acceded to the Indian Union.",
+          "value": {
+            "name": "India",
+            "wikidata": "Q668"
+          },
+          "confidence": "high"
+        }
+      ]
+    },
+    "culture": {
+      "entries": []
+    },
+    "language": {
+      "entries": [
+        {
+          "from": 1459,
+          "role": "major",
+          "notes": "Marwari/Rajasthani dialects and Hindi were the dominant vernacular languages of the Marwar region. Hindi used as the closest referential match.",
+          "value": {
+            "name": "Hindi",
+            "wikidata": "Q1568"
+          },
+          "confidence": "medium"
+        }
+      ]
+    },
+    "religion": {
+      "entries": [
+        {
+          "from": 1459,
+          "role": "major",
+          "notes": "Jodhpur was founded by Rajput rulers; Hinduism was the dominant religion of the ruling class and population.",
+          "value": {
+            "name": "Hinduism",
+            "wikidata": "Q9089"
+          },
+          "sources": [
+            "Chamunda Devi Temple",
+            "Rajput chief of the Rathore clan",
+            "temples mentioned throughout"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1459,
+          "role": "minor",
+          "notes": "The city's location on the Delhi-Gujarat trade route and interaction with the Delhi Sultanate and Tughlaqs implies a Muslim merchant and administrative presence. Inferred from regional context.",
+          "value": {
+            "name": "Islam",
+            "wikidata": "Q432"
+          },
+          "confidence": "medium"
+        }
+      ]
+    },
+    "site_type": {
+      "entries": [
+        {
+          "from": 1459,
+          "value": "town",
+          "sources": [
+            "Jodhpur was founded in 1459 by Rao Jodha"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1600,
+          "notes": "Described as a main trade centre of the 16th century; inferred city status from regional context and trade importance.",
+          "value": "city",
+          "confidence": "medium"
+        },
+        {
+          "from": 1947,
+          "value": "city",
+          "sources": [
+            "Rajasthan's second largest city",
+            "judicial capital of Rajasthan"
+          ],
+          "confidence": "high"
+        }
+      ]
+    },
+    "population": {
+      "entries": []
+    },
+    "missing_entities": [
+      {
+        "kind": "polity",
+        "name": "Marwar",
+        "context": "The kingdom founded by Rao Jodha in 1459, with Jodhpur as its capital. Also known as the Kingdom of Marwar or Jodhpur State.",
+        "proposed_qid": "Q6207845"
+      }
+    ]
+  }
+}

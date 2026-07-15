@@ -1,0 +1,111 @@
+{
+  "id": "Q172125",
+  "title_en": "Lascaux",
+  "country_qid": "Q142",
+  "coordinates": {
+    "lat": 45.049166666,
+    "lon": 1.176111111
+  },
+  "enrichment_level": "extracted",
+  "sitelinks_count": 69,
+  "inception_year": -17000,
+  "dissolution_year": 1940,
+  "extracted_at": "2026-07-14T12:44:56.290Z",
+  "model": "claude-sonnet-4-6",
+  "meta": "{\"wikidata_description\":\"cave in southwestern France famous for its Paleolithic cave paintings\",\"wikidata_type\":\"cave with prehistoric art\",\"indexed_from_tile\":\"1,45\"}",
+  "timeline": {
+    "name": {
+      "entries": [
+        {
+          "from": 1300,
+          "notes": "Occitan name attested from the early 14th century (début du XIVe siècle); derived from Occitan 'cous' or 'cos', meaning a stony place. Also rendered 'La Coux'.",
+          "value": {
+            "lang": "oc",
+            "text": "Las Coutz"
+          },
+          "confidence": "medium",
+          "from_circa": true,
+          "from_precision": 7
+        },
+        {
+          "from": 1300,
+          "notes": "Variant Occitan spelling of the same toponym, attested alongside 'Las Coutz'.",
+          "value": {
+            "lang": "oc",
+            "text": "La Coux"
+          },
+          "confidence": "medium",
+          "from_circa": true,
+          "from_precision": 7
+        },
+        {
+          "from": 1300,
+          "notes": "French form of the Occitan toponym, attested as a noble estate name from the early 14th century. Used for the cave after its rediscovery in 1940.",
+          "value": {
+            "lang": "fr",
+            "text": "Lascaux"
+          },
+          "confidence": "medium",
+          "from_circa": true,
+          "from_precision": 7
+        }
+      ]
+    },
+    "events": [
+      {
+        "type": "discovery",
+        "year": 1940,
+        "confidence": "high",
+        "description": "On 12 September 1940, Marcel Ravidat discovered the entrance to the Lascaux cave. The cave walls were found to be covered with Palaeolithic animal depictions."
+      }
+    ],
+    "polity": {
+      "entries": []
+    },
+    "culture": {
+      "entries": [
+        {
+          "to": -10001,
+          "from": -15001,
+          "notes": "The cave paintings are attributed to the Magdalenian culture, c. 17,000 BC. The 'to' closes the entry at the end of the Magdalenian period; the cave was not continuously occupied thereafter.",
+          "value": {
+            "name": "Magdalenian",
+            "wikidata": "Q693549"
+          },
+          "confidence": "medium",
+          "from_circa": true,
+          "from_precision": 6
+        }
+      ]
+    },
+    "language": {
+      "entries": []
+    },
+    "religion": {
+      "entries": []
+    },
+    "site_type": {
+      "entries": [
+        {
+          "to": -15000,
+          "from": -17000,
+          "notes": "Magdalenian cave used for parietal art, dated to approximately 17,000 BC. Closed with 'to' as occupation ended after the Palaeolithic period.",
+          "value": "religious_site",
+          "confidence": "medium",
+          "from_circa": true,
+          "from_precision": 7
+        },
+        {
+          "from": 1940,
+          "notes": "Rediscovered in 1940; designated a heritage site. Closed to the public since 1963; no resident community. Classified as ruins/uninhabited archaeological site under modern stewardship.",
+          "value": "ruins",
+          "confidence": "high"
+        }
+      ]
+    },
+    "population": {
+      "entries": []
+    },
+    "missing_entities": []
+  }
+}

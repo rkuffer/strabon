@@ -1,0 +1,490 @@
+{
+  "id": "Q33959",
+  "title_en": "Nice",
+  "country_qid": "Q142",
+  "coordinates": {
+    "lat": 43.701944444,
+    "lon": 7.268333333
+  },
+  "enrichment_level": "extracted",
+  "sitelinks_count": 174,
+  "inception_year": -400000,
+  "dissolution_year": null,
+  "extracted_at": "2026-07-14T12:39:24.056Z",
+  "model": "claude-sonnet-4-6",
+  "meta": "{\"wikidata_description\":\"city and commune in Alpes-Maritimes, Provence-Alpes-Côte d'Azur, France\",\"wikidata_type\":\"big city\",\"indexed_from_tile\":\"7,43\"}",
+  "timeline": {
+    "name": {
+      "entries": [
+        {
+          "from": -350,
+          "value": {
+            "lang": "grc",
+            "text": "Νίκαια"
+          },
+          "sources": [
+            "It was given the name of Níkaia in honour of a victory over the neighbouring Ligurians"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": -350,
+          "notes": "Latin-script transliteration of the Ancient Greek name Νίκαια.",
+          "value": {
+            "lang": "grc",
+            "text": "Nikaia"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": -27,
+          "notes": "Latin form of the name during the Roman period.",
+          "value": {
+            "lang": "la",
+            "text": "Nicaea"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1388,
+          "notes": "Italian name used during the County of Nice period under the House of Savoy.",
+          "value": {
+            "lang": "it",
+            "text": "Nizza"
+          },
+          "sources": [
+            "The Italian language, which was the official language of the county"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1388,
+          "notes": "Occitan/Niçard vernacular name of the city.",
+          "value": {
+            "lang": "oc",
+            "text": "Niça"
+          },
+          "confidence": "medium"
+        },
+        {
+          "from": 1860,
+          "value": {
+            "lang": "fr",
+            "text": "Nice"
+          },
+          "sources": [
+            "annexed to France in 1860"
+          ],
+          "confidence": "high"
+        }
+      ]
+    },
+    "events": [
+      {
+        "type": "founding",
+        "year": -350,
+        "confidence": "high",
+        "description": "Nice founded by Phocaean Greek colonists and named Nikaia in honour of a victory over the Ligurians."
+      },
+      {
+        "type": "destruction",
+        "year": 859,
+        "confidence": "high",
+        "description": "Saracens pillaged and burned Nice in 859 and again in 880.",
+        "perpetrator": "Saracens"
+      },
+      {
+        "type": "siege",
+        "year": 1543,
+        "confidence": "high",
+        "description": "Nice attacked by combined Franco-Ottoman forces of Francis I and Barbarossa; city surrendered and was pillaged, with 2,500 captives taken.",
+        "perpetrator": "France and Ottoman Empire (Barbarossa)"
+      },
+      {
+        "type": "conquest",
+        "year": 1691,
+        "confidence": "high",
+        "description": "Nice captured by Nicolas Catinat; restored to Savoy in 1696.",
+        "perpetrator": "France"
+      },
+      {
+        "type": "conquest",
+        "year": 1792,
+        "confidence": "high",
+        "description": "Nice conquered by the armies of the French First Republic.",
+        "perpetrator": "French First Republic"
+      },
+      {
+        "type": "annexation",
+        "year": 1860,
+        "confidence": "high",
+        "description": "Nice annexed to France following a plebiscite on 15–16 April 1860; Italian was immediately replaced by French as official language.",
+        "perpetrator": "France"
+      },
+      {
+        "type": "conquest",
+        "year": 1944,
+        "confidence": "high",
+        "description": "American paratroopers entered Nice on 30 August 1944, liberating it from German occupation.",
+        "perpetrator": "Allied forces (United States)"
+      },
+      {
+        "type": "massacre",
+        "year": 2016,
+        "confidence": "high",
+        "description": "On 14 July 2016, a truck was deliberately driven into a crowd on the Promenade des Anglais; 87 people killed, 434 injured.",
+        "perpetrator": "Mohamed Lahouaiej-Bouhlel",
+        "perpetrator_wikidata": "Q26271350"
+      }
+    ],
+    "polity": {
+      "entries": [
+        {
+          "from": -350,
+          "notes": "Phocaean Greek colony named Nikaia. No specific polity QID available for this colonial settlement.",
+          "value": {
+            "name": "Ancient Greek colony (Phocaean)"
+          },
+          "sources": [
+            "founded around 350 BC by colonists from the Greek city of Phocaea"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": -27,
+          "notes": "Roman presence attested by the rival town of Cemenelum (Cimiez); Nice was within Roman Italy (Regio IX Liguria).",
+          "value": {
+            "name": "Roman Empire",
+            "wikidata": "Q2277"
+          },
+          "confidence": "medium"
+        },
+        {
+          "from": 476,
+          "notes": "Lombard invasions ended Cemenelum's separate existence; Nice came under Lombard influence.",
+          "value": {
+            "name": "Kingdom of the Lombards",
+            "wikidata": "Q854415"
+          },
+          "sources": [
+            "Cemenelum continued to exist as a separate city until the time of the Lombard invasions"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "from": 568,
+          "notes": "Inferred from regional control during Lombard period.",
+          "value": {
+            "name": "Kingdom of the Lombards",
+            "wikidata": "Q854415"
+          },
+          "confidence": "medium"
+        },
+        {
+          "from": 855,
+          "notes": "Nice was part of the County of Provence in the Carolingian and post-Carolingian period. In the 7th century Nice joined the Genoese League formed by towns of Liguria.",
+          "value": {
+            "name": "County of Provence",
+            "wikidata": "Q2991382"
+          },
+          "confidence": "medium"
+        },
+        {
+          "from": 1388,
+          "notes": "County of Nice established under the House of Savoy from 1388.",
+          "value": {
+            "name": "County of Nice",
+            "wikidata": "Q706553"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1720,
+          "value": {
+            "name": "Kingdom of Sardinia",
+            "wikidata": "Q2577303"
+          },
+          "sources": [
+            "The Treaty of Utrecht (1713) once more gave the city back to the Duke of Savoy, who was on that same occasion recognised as King of Sicily",
+            "In 1775 the king, who in 1718 had swapped his sovereignty of Sicily for the Kingdom of Sardinia"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1792,
+          "value": {
+            "name": "French First Republic",
+            "wikidata": "Q58296"
+          },
+          "sources": [
+            "Conquered in 1792 by the armies of the First French Republic"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1804,
+          "notes": "Nice remained part of France under Napoleon's Empire.",
+          "value": {
+            "name": "First French Empire",
+            "wikidata": "Q71084"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1814,
+          "value": {
+            "name": "Kingdom of Sardinia",
+            "wikidata": "Q2577303"
+          },
+          "sources": [
+            "after that date it reverted to the Kingdom of Piedmont-Sardinia"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1860,
+          "value": {
+            "name": "France",
+            "wikidata": "Q142"
+          },
+          "sources": [
+            "A plebiscite was voted on 15 and 16 April 1860",
+            "The 'yes' vote won 83% of registered voters throughout the county of Nice"
+          ],
+          "confidence": "high"
+        }
+      ]
+    },
+    "culture": {
+      "entries": [
+        {
+          "to": -148001,
+          "from": -400000,
+          "notes": "Terra Amata site shows Homo erectus presence with flint tools ~400,000 years ago; Acheulean culture broadly applicable. This is specifically attested AT the Terra Amata site in Nice.",
+          "value": {
+            "name": "Acheulean",
+            "wikidata": "Q210774"
+          },
+          "confidence": "low",
+          "from_precision": 6
+        },
+        {
+          "to": -27,
+          "from": -350,
+          "notes": "Phocaean Greek colonial culture. No specific archaeological culture QID in referential.",
+          "value": {
+            "name": "Ancient Greek colony culture"
+          },
+          "sources": [
+            "founded around 350 BC by colonists from the Greek city of Phocaea"
+          ],
+          "confidence": "high"
+        },
+        {
+          "to": 476,
+          "from": -27,
+          "notes": "Roman culture prevailed during the Roman imperial period.",
+          "value": {
+            "name": "Ancient Rome",
+            "wikidata": "Q1747689"
+          },
+          "confidence": "medium"
+        },
+        {
+          "to": 751,
+          "from": 481,
+          "notes": "Merovingian Frankish cultural influence in southern Gaul after the fall of the Western Roman Empire; inferred from regional context.",
+          "value": {
+            "name": "Merovingian",
+            "wikidata": "Q66084488"
+          },
+          "confidence": "low"
+        }
+      ]
+    },
+    "language": {
+      "entries": [
+        {
+          "to": -27,
+          "from": -350,
+          "role": "major",
+          "notes": "Greek was the language of the Phocaean colonists.",
+          "value": {
+            "name": "Ancient Greek",
+            "wikidata": "Q35497"
+          },
+          "sources": [
+            "founded around 350 BC by colonists from the Greek city of Phocaea"
+          ],
+          "confidence": "high"
+        },
+        {
+          "to": 600,
+          "from": -27,
+          "role": "state",
+          "notes": "Latin was the administrative and dominant language during Roman rule and its aftermath.",
+          "value": {
+            "name": "Latin",
+            "wikidata": "Q397"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 900,
+          "role": "major",
+          "value": {
+            "name": "Italian",
+            "wikidata": "Q652"
+          },
+          "sources": [
+            "The Italian language, which was the official language of the county, used by the Church, at the town hall, taught in schools, used in theaters and at the Opera"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 900,
+          "role": "major",
+          "notes": "Niçard (a variant of Ligurian/Occitan) was spoken as a vernacular language by the local population throughout the medieval and early modern period and beyond.",
+          "value": {
+            "name": "Occitan",
+            "wikidata": "Q14185"
+          },
+          "confidence": "medium"
+        },
+        {
+          "from": 1860,
+          "role": "state",
+          "value": {
+            "name": "French",
+            "wikidata": "Q150"
+          },
+          "sources": [
+            "The Italian language ... was immediately abolished and replaced by French",
+            "The French government implemented a policy of Francization of society, language and culture"
+          ],
+          "confidence": "high"
+        },
+        {
+          "to": 1871,
+          "from": 1860,
+          "role": "minor",
+          "notes": "Italian declined rapidly after annexation to France; Italian-language newspapers were banned by 1871.",
+          "value": {
+            "name": "Italian",
+            "wikidata": "Q652"
+          },
+          "sources": [
+            "Italian-language newspapers in Nice were banned",
+            "A quarter of the population of Nice, around 11,000 people from Nice, decided to voluntarily exile to Italy"
+          ],
+          "confidence": "high"
+        }
+      ]
+    },
+    "religion": {
+      "entries": [
+        {
+          "to": 400,
+          "from": -350,
+          "role": "major",
+          "notes": "Greek colony; Greek polytheistic religion would have been dominant among colonists.",
+          "value": {
+            "name": "Ancient Greek religion",
+            "wikidata": "Q855270"
+          },
+          "confidence": "medium"
+        },
+        {
+          "to": 380,
+          "from": -27,
+          "role": "state",
+          "notes": "Roman state religion during imperial period.",
+          "value": {
+            "name": "religion in ancient Rome",
+            "wikidata": "Q107013169"
+          },
+          "confidence": "medium"
+        },
+        {
+          "from": 300,
+          "role": "major",
+          "notes": "Christianity spreading through the Roman Empire by the 4th century; Nice progressively Christianised.",
+          "value": {
+            "name": "Catholic Church",
+            "wikidata": "Q9592"
+          },
+          "confidence": "medium"
+        },
+        {
+          "from": 380,
+          "role": "state",
+          "notes": "Catholicism became the state religion of the Roman Empire under Theodosius I in 380 AD, and remained the dominant and official religion of Nice through all subsequent periods.",
+          "value": {
+            "name": "Catholic Church",
+            "wikidata": "Q9592"
+          },
+          "confidence": "high"
+        }
+      ]
+    },
+    "site_type": {
+      "entries": [
+        {
+          "from": -400000,
+          "notes": "Terra Amata archaeological site shows hominid (Homo erectus) presence ~400,000 years ago, one of earliest uses of fire and construction of houses.",
+          "value": "campsite",
+          "confidence": "medium",
+          "from_precision": 6
+        },
+        {
+          "from": -350,
+          "value": "town",
+          "sources": [
+            "founded around 350 BC by colonists from the Greek city of Phocaea",
+            "one of the busiest trading ports on the Ligurian coast"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1000,
+          "notes": "Nice grew into a major urban centre through the medieval and early modern period.",
+          "value": "city",
+          "confidence": "medium"
+        },
+        {
+          "from": 1860,
+          "value": "city",
+          "sources": [
+            "annexed to France in 1860",
+            "economic boom primarily driven by tourism and construction"
+          ],
+          "confidence": "high"
+        }
+      ]
+    },
+    "population": {
+      "entries": [
+        {
+          "from": 1860,
+          "notes": "Approximate population at time of annexation to France; roughly 11,000 people (a quarter of the population) chose to emigrate to Italy, suggesting a total of about 44,000.",
+          "value": 44000,
+          "confidence": "low"
+        }
+      ]
+    },
+    "missing_entities": [
+      {
+        "kind": "polity",
+        "name": "Ancient Greek colony (Phocaean)",
+        "context": "The Phocaean Greek colonial settlement of Nikaia at Nice, founded c. 350 BC, was not a named independent polity in the referential.",
+        "proposed_qid": "Q4479830"
+      },
+      {
+        "kind": "language",
+        "name": "Occitan",
+        "context": "Occitan/Niçard spoken as a vernacular in Nice throughout the medieval and modern period. Occitan is in the referential as Q14185 — confirmed match.",
+        "proposed_qid": "Q14185"
+      }
+    ]
+  }
+}

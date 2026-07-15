@@ -1,0 +1,749 @@
+{
+  "id": "Q490",
+  "title_en": "Milan",
+  "country_qid": "Q38",
+  "coordinates": {
+    "lat": 45.466944444,
+    "lon": 9.19
+  },
+  "enrichment_level": "extracted",
+  "sitelinks_count": 225,
+  "inception_year": -590,
+  "dissolution_year": null,
+  "extracted_at": "2026-07-14T12:46:50.519Z",
+  "model": "claude-sonnet-4-6",
+  "meta": "{\"wikidata_description\":\"Italian commune and capital city of Lombardy\",\"wikidata_type\":\"city\",\"indexed_from_tile\":\"9,45\"}",
+  "timeline": {
+    "name": {
+      "entries": [
+        {
+          "from": -590,
+          "notes": "Original Celtic name of the settlement.",
+          "value": {
+            "lang": "cel",
+            "text": "Medhelanon"
+          },
+          "sources": [
+            "Milan was founded with the Celtic name of Medhelanon"
+          ],
+          "confidence": "medium",
+          "from_circa": true
+        },
+        {
+          "from": -222,
+          "notes": "Latin name given by Romans after conquest of Cisalpine Gaul.",
+          "value": {
+            "lang": "la",
+            "text": "Mediolanum"
+          },
+          "sources": [
+            "Latinized name of Mediolanum"
+          ],
+          "confidence": "high",
+          "from_circa": true
+        },
+        {
+          "from": -222,
+          "notes": "Intermediate Celtic form attested in graffiti on Roman walls after Roman conquest.",
+          "value": {
+            "lang": "cel",
+            "text": "Mesiolano"
+          },
+          "sources": [
+            "graffiti in Celtic language... in Mesiolano"
+          ],
+          "confidence": "low",
+          "from_circa": true
+        },
+        {
+          "from": 1000,
+          "notes": "Italian vernacular name, in use through the medieval period to the present.",
+          "value": {
+            "lang": "it",
+            "text": "Milano"
+          },
+          "sources": [
+            "Milan"
+          ],
+          "confidence": "high",
+          "from_circa": true
+        },
+        {
+          "from": 1000,
+          "notes": "French and English exonym of the city, widely used in modern languages.",
+          "value": {
+            "lang": "fr",
+            "text": "Milan"
+          },
+          "confidence": "high",
+          "from_circa": true
+        },
+        {
+          "from": 1000,
+          "notes": "German exonym for Milan.",
+          "value": {
+            "lang": "de",
+            "text": "Mailand"
+          },
+          "confidence": "high",
+          "from_circa": true
+        }
+      ]
+    },
+    "events": [
+      {
+        "type": "conquest",
+        "year": -222,
+        "confidence": "medium",
+        "description": "Roman conquest of Cisalpine Gaul; Celtic settlement of Medhelanon comes under Roman rule."
+      },
+      {
+        "type": "siege",
+        "year": 402,
+        "confidence": "high",
+        "description": "Visigoths besieged Milan; Emperor Honorius moved the imperial residence to Ravenna."
+      },
+      {
+        "type": "siege",
+        "year": 452,
+        "confidence": "high",
+        "description": "Attila the Hun besieged and sacked Milan."
+      },
+      {
+        "type": "massacre",
+        "year": 539,
+        "confidence": "medium",
+        "description": "Ostrogothic siege during Gothic War; after capitulation, according to Procopius, 300,000 male citizens were executed and women sold to Gothic allies.",
+        "perpetrator": "Ostrogoths"
+      },
+      {
+        "type": "conquest",
+        "year": 569,
+        "confidence": "high",
+        "description": "Lombards conquered Milan, overpowering the Byzantine garrison."
+      },
+      {
+        "type": "conquest",
+        "year": 774,
+        "confidence": "high",
+        "description": "Milan surrendered to Charlemagne and the Franks."
+      },
+      {
+        "type": "destruction",
+        "year": 1162,
+        "confidence": "high",
+        "description": "Frederick I Barbarossa brought the destruction of much of Milan.",
+        "perpetrator": "Frederick I Barbarossa"
+      },
+      {
+        "type": "conquest",
+        "year": 1796,
+        "confidence": "high",
+        "description": "Napoleon invaded Italy and declared Milan capital of the Cisalpine Republic."
+      },
+      {
+        "type": "revolution",
+        "year": 1848,
+        "confidence": "high",
+        "description": "The Five Days of Milan (18–22 March 1848): uprising against Austrian rule forced Field Marshal Radetzky to temporarily withdraw."
+      },
+      {
+        "type": "annexation",
+        "year": 1859,
+        "confidence": "high",
+        "description": "Following the Battle of Solferino, Milan and Lombardy were incorporated into Piedmont-Sardinia."
+      }
+    ],
+    "polity": {
+      "entries": [
+        {
+          "from": -590,
+          "notes": "Founded as a Celtic/Gaulish settlement.",
+          "value": {
+            "name": "Gauls"
+          },
+          "sources": [
+            "Celtic name of Medhelanon",
+            "Around 590 BC"
+          ],
+          "confidence": "medium",
+          "from_circa": true
+        },
+        {
+          "from": -222,
+          "notes": "Roman conquest of the Po Valley and Cisalpine Gaul.",
+          "value": {
+            "name": "Roman Republic",
+            "wikidata": "Q17167"
+          },
+          "sources": [
+            "Romans eventually conquered the entirety of the region, calling the new province 'Cisalpine Gaul'"
+          ],
+          "confidence": "medium",
+          "from_circa": true
+        },
+        {
+          "from": -27,
+          "notes": "Mediolanum under the Roman Empire; capital of Western Empire from 286.",
+          "value": {
+            "name": "Roman Empire",
+            "wikidata": "Q2277"
+          },
+          "sources": [
+            "In 286, the Roman Emperor Diocletian moved the capital of the Western Roman Empire from Rome to Mediolanum"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 285,
+          "notes": "Capital of the Western Roman Empire from 286 under Diocletian/Maximian.",
+          "value": {
+            "name": "Western Roman Empire",
+            "wikidata": "Q42834"
+          },
+          "sources": [
+            "capital of the Western Roman Empire"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 402,
+          "notes": "Still part of Western Roman Empire after loss of capital status.",
+          "value": {
+            "name": "Western Roman Empire",
+            "wikidata": "Q42834"
+          },
+          "sources": [
+            "the Emperor Honorius moved the Imperial residence to Ravenna"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 493,
+          "notes": "After fall of Western Roman Empire, northern Italy under Odoacer then Ostrogoths. Milan under Ostrogothic Kingdom until 539.",
+          "value": {
+            "name": "Ostrogothic Kingdom",
+            "wikidata": "Q583038"
+          },
+          "sources": [
+            "In 539 the Ostrogoths conquered and destroyed Milan"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "from": 539,
+          "notes": "After Ostrogothic destruction in 539, briefly under Byzantine control until Lombard conquest in 569.",
+          "value": {
+            "name": "Byzantine Empire",
+            "wikidata": "Q12544"
+          },
+          "sources": [
+            "In 539 the Ostrogoths conquered and destroyed Milan during the Gothic War against Byzantine Emperor Justinian I",
+            "small Byzantine garrison left for its defence"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "from": 569,
+          "notes": "Lombard conquest; capital was Pavia, Milan governed by its archbishops.",
+          "value": {
+            "name": "Kingdom of the Lombards",
+            "wikidata": "Q854415"
+          },
+          "sources": [
+            "In the summer of 569 the Lombards conquered Milan"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 800,
+          "notes": "Milan surrendered to Charlemagne.",
+          "value": {
+            "name": "Carolingian Empire",
+            "wikidata": "Q31929"
+          },
+          "sources": [
+            "Milan surrendered to Charlemagne and the Franks in 774"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 843,
+          "notes": "After Carolingian partition, Milan fell within the Kingdom of Italy (sub-kingdom of the HRE).",
+          "value": {
+            "name": "Kingdom of Italy",
+            "wikidata": "Q838931"
+          },
+          "sources": [
+            "city-states emerged in northern Italy"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "from": 962,
+          "notes": "Milan was part of the Holy Roman Empire. City-state autonomy grew in the 11th–12th century.",
+          "value": {
+            "name": "Holy Roman Empire",
+            "wikidata": "Q12548"
+          },
+          "sources": [
+            "The 11th century saw a reaction against the control of the Holy Roman Emperors"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1259,
+          "notes": "Milan operated as an increasingly autonomous commune/signoria, formally recognizing Visconti rule from 1259. Using Signoria of Milan as the polity for this period.",
+          "value": {
+            "name": "Signoria of Milan",
+            "wikidata": "Q15890801"
+          },
+          "sources": [
+            "Milan returned to the commune form of local government first established in the 11th century",
+            "Peace of Constance in 1183"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "from": 1395,
+          "notes": "Duchy of Milan established under Visconti.",
+          "value": {
+            "name": "Duchy of Milan",
+            "wikidata": "Q153529"
+          },
+          "sources": [
+            "In 1395, Gian Galeazzo Visconti became the first Duke of Milan"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1447,
+          "notes": "Short-lived Ambrosian Republic 1447–1450.",
+          "value": {
+            "name": "Golden Ambrosian Republic",
+            "wikidata": "Q746443"
+          },
+          "sources": [
+            "In 1447, Filippo Maria Visconti, Duke of Milan, died without a male heir. Following the end of the Visconti line, the Ambrosian Republic was established"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1450,
+          "notes": "Duchy of Milan restored under Sforza.",
+          "value": {
+            "name": "Duchy of Milan",
+            "wikidata": "Q153529"
+          },
+          "sources": [
+            "In 1450, the Republic collapsed when Milan was conquered by Francesco I of the House of Sforza"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1535,
+          "notes": "Milan under Spanish Habsburg rule from 1535 (direct control after Sforza extinction).",
+          "value": {
+            "name": "Habsburg Spain",
+            "wikidata": "Q600093"
+          },
+          "sources": [
+            "In 1535, the Sforza line went extinct",
+            "In 1556, Charles V abdicated in favour of his son Philip II",
+            "Charles's Italian possessions, including Milan, passed to Philip II"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1700,
+          "notes": "Austrian Habsburgs took control from 1706/1713. Using Austrian Empire as proxy for Habsburg Austrian rule; formally the Habsburg Monarchy.",
+          "value": {
+            "name": "Austrian Empire",
+            "wikidata": "Q131964"
+          },
+          "sources": [
+            "In 1706, the French were defeated... forced to yield northern Italy to the Austrian Habsburgs",
+            "In 1713 and 1714, the Treaties of Utrecht and Rastatt formally confirmed Austrian sovereignty over most of Habsburg Spain's Italian possessions including Lombardy and its capital, Milan"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1797,
+          "notes": "Milan capital of the Cisalpine Republic.",
+          "value": {
+            "name": "Cisalpine Republic",
+            "wikidata": "Q213353"
+          },
+          "sources": [
+            "Napoleon invaded Italy in 1796, and Milan was declared capital of the Cisalpine Republic"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1802,
+          "notes": "Cisalpine Republic became Italian Republic in 1802, then Kingdom of Italy in 1805.",
+          "value": {
+            "name": "Italian Republic",
+            "wikidata": "Q723118"
+          },
+          "sources": [
+            "Later, he declared Milan capital of the Kingdom of Italy"
+          ],
+          "confidence": "high"
+        },
+        {
+          "to": 1814,
+          "from": 1805,
+          "notes": "Napoleon's Kingdom of Italy, capital Milan.",
+          "value": {
+            "name": "Kingdom of Italy",
+            "wikidata": "Q223936"
+          },
+          "sources": [
+            "he declared Milan capital of the Kingdom of Italy and was crowned King of Italy in the cathedral"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1815,
+          "notes": "Austrian control restored after Napoleon's defeat.",
+          "value": {
+            "name": "Austrian Empire",
+            "wikidata": "Q131964"
+          },
+          "sources": [
+            "the Congress of Vienna returned Lombardy and Milan to Austrian control in 1815"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1859,
+          "notes": "Milan incorporated into Piedmont-Sardinia following Battle of Solferino.",
+          "value": {
+            "name": "Kingdom of Sardinia",
+            "wikidata": "Q2577303"
+          },
+          "sources": [
+            "Milan and the rest of Lombardy were incorporated into Piedmont-Sardinia"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1861,
+          "notes": "Milan part of unified Kingdom of Italy.",
+          "value": {
+            "name": "Kingdom of Italy",
+            "wikidata": "Q172579"
+          },
+          "sources": [
+            "proclaim the birth of the Kingdom of Italy on 17 March 1861"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1946,
+          "notes": "Italian Republic from 1946 to present.",
+          "value": {
+            "name": "Italy",
+            "wikidata": "Q38"
+          },
+          "sources": [
+            "During the post-war economic boom"
+          ],
+          "confidence": "high"
+        }
+      ]
+    },
+    "culture": {
+      "entries": [
+        {
+          "to": -222,
+          "from": -590,
+          "notes": "Celtic/Gaulish culture at the founding of Medhelanon.",
+          "value": {
+            "name": "Gauls",
+            "wikidata": "Q273854"
+          },
+          "sources": [
+            "Celtic name of Medhelanon",
+            "Around 590 BC"
+          ],
+          "confidence": "medium",
+          "from_circa": true
+        },
+        {
+          "to": 476,
+          "from": -222,
+          "notes": "Roman culture dominant from conquest to fall of Western Roman Empire.",
+          "value": {
+            "name": "Ancient Rome",
+            "wikidata": "Q1747689"
+          },
+          "sources": [
+            "The Roman city was then gradually superimposed and replaced by the medieval one"
+          ],
+          "confidence": "high"
+        }
+      ]
+    },
+    "language": {
+      "entries": [
+        {
+          "to": -222,
+          "from": -590,
+          "role": "major",
+          "notes": "Gaulish spoken by the Celtic founders; graffiti in Celtic language attested on Roman walls.",
+          "value": {
+            "name": "Gaulish",
+            "wikidata": "Q29977"
+          },
+          "sources": [
+            "Celtic name of Medhelanon",
+            "graffiti in Celtic language"
+          ],
+          "confidence": "medium",
+          "from_circa": true
+        },
+        {
+          "to": 600,
+          "from": -222,
+          "role": "state",
+          "notes": "Latin as official language of Roman Mediolanum and post-Roman period.",
+          "value": {
+            "name": "Latin",
+            "wikidata": "Q397"
+          },
+          "sources": [
+            "The Roman city was then gradually superimposed and replaced by the medieval one"
+          ],
+          "confidence": "high"
+        },
+        {
+          "to": 400,
+          "from": -100,
+          "role": "minor",
+          "notes": "Gaulish persisted as a minority language for some time after Roman conquest, as evidenced by Celtic graffiti on Roman walls.",
+          "value": {
+            "name": "Gaulish",
+            "wikidata": "Q29977"
+          },
+          "sources": [
+            "graffiti in Celtic language present on a section of the Roman walls of Milan which dates back to a period following the Roman conquest"
+          ],
+          "confidence": "low",
+          "from_circa": true
+        },
+        {
+          "from": 600,
+          "role": "major",
+          "notes": "Romance vernacular (proto-Italian/Lombard dialect) emerged from Vulgar Latin; Italian eventually became the standard language.",
+          "value": {
+            "name": "Italian",
+            "wikidata": "Q652"
+          },
+          "sources": [
+            "The urban center of Milan has therefore grown constantly and rapidly, until modern times"
+          ],
+          "confidence": "medium",
+          "from_circa": true
+        }
+      ]
+    },
+    "religion": {
+      "entries": [
+        {
+          "to": -222,
+          "from": -590,
+          "role": "major",
+          "notes": "Celtic religious sanctuary at the heart of the settlement.",
+          "value": {
+            "name": "Celtic polytheism",
+            "wikidata": "Q263031"
+          },
+          "sources": [
+            "Medhelanon, in particular, was developed around a sanctuary"
+          ],
+          "confidence": "medium",
+          "from_circa": true
+        },
+        {
+          "to": 400,
+          "from": -222,
+          "role": "state",
+          "notes": "Roman polytheism as state religion under Roman rule.",
+          "value": {
+            "name": "religion in ancient Rome",
+            "wikidata": "Q107013169"
+          },
+          "sources": [
+            "Roman Empire"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 100,
+          "role": "minority",
+          "notes": "Christianity as a minority/growing religion before the Edict of Milan (313).",
+          "value": {
+            "name": "Christianity",
+            "wikidata": "Q5043"
+          },
+          "sources": [
+            "granting tolerance to all religions within the Empire, thus paving the way for Christianity"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "from": 313,
+          "role": "major",
+          "notes": "Christianity grew rapidly after the Edict of Milan.",
+          "value": {
+            "name": "Christianity",
+            "wikidata": "Q5043"
+          },
+          "sources": [
+            "the Edict of Milan in AD 313, granting tolerance to all religions within the Empire, thus paving the way for Christianity to become the dominant religion"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 400,
+          "role": "state",
+          "notes": "Catholicism became the dominant state religion; Milan's archbishops governed the city in the early Middle Ages and beyond.",
+          "value": {
+            "name": "Catholic Church",
+            "wikidata": "Q9592"
+          },
+          "sources": [
+            "left early-medieval Milan to the governance of its archbishops"
+          ],
+          "confidence": "high"
+        }
+      ]
+    },
+    "site_type": {
+      "entries": [
+        {
+          "from": -590,
+          "notes": "Celtic founding of Medhelanon, developed around a sanctuary.",
+          "value": "settlement",
+          "sources": [
+            "Around 590 BC",
+            "The ancient Celtic settlement"
+          ],
+          "confidence": "medium",
+          "from_circa": true
+        },
+        {
+          "from": -222,
+          "notes": "Roman conquest of Cisalpine Gaul; Mediolanum becomes a Roman town.",
+          "value": "town",
+          "sources": [
+            "Romans eventually conquered the entirety of the region"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "from": 286,
+          "notes": "Capital of the Western Roman Empire under Diocletian and successors.",
+          "value": "capital",
+          "sources": [
+            "In 286, the Roman Emperor Diocletian moved the capital of the Western Roman Empire from Rome to Mediolanum"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 402,
+          "notes": "Capital status lost when imperial residence moved to Ravenna after Visigoth siege.",
+          "value": "city",
+          "sources": [
+            "the Emperor Honorius moved the Imperial residence to Ravenna"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1000,
+          "notes": "One of the largest European cities in the Middle Ages; major trade centre.",
+          "value": "city",
+          "sources": [
+            "the city was considered one of the largest European cities"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1796,
+          "notes": "Capital of the Cisalpine Republic (1796), then of the Napoleonic Kingdom of Italy.",
+          "value": "capital",
+          "sources": [
+            "Milan was declared capital of the Cisalpine Republic",
+            "Napoleon... declared Milan capital of the Kingdom of Italy"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1815,
+          "notes": "Capital status lost after Congress of Vienna; remains major city.",
+          "value": "city",
+          "sources": [
+            "the Congress of Vienna returned Lombardy and Milan to Austrian control in 1815"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1861,
+          "notes": "Industrial metropolis and financial capital of unified Italy.",
+          "value": "metropolis",
+          "sources": [
+            "Milan's economic dominance over northern Italy",
+            "city became the country's leading financial centre"
+          ],
+          "confidence": "high"
+        }
+      ]
+    },
+    "population": {
+      "entries": [
+        {
+          "from": 1629,
+          "notes": "Population before the Great Plague of 1629–31.",
+          "value": 130000,
+          "sources": [
+            "the Great Plague of Milan in 1629–31, that claimed the lives of an estimated 60,000 people out of a population of 130,000"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "from": 1951,
+          "notes": "Population in 1951.",
+          "value": 1300000,
+          "sources": [
+            "The population grew from 1.3 million in 1951 to 1.7 million in 1967"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1967,
+          "notes": "Population peak in 1967.",
+          "value": 1700000,
+          "sources": [
+            "The population grew from 1.3 million in 1951 to 1.7 million in 1967"
+          ],
+          "confidence": "high"
+        }
+      ]
+    },
+    "missing_entities": [
+      {
+        "kind": "polity",
+        "name": "Signoria of Milan",
+        "context": "The autonomous commune/signoria of Milan from the 11th century through to the establishment of the Visconti Duchy in 1395.",
+        "proposed_qid": "Q15890801"
+      },
+      {
+        "kind": "polity",
+        "name": "Gauls",
+        "context": "QID stripped by validation: QID belongs to kind 'culture' (\"Gauls\"), used on 'polity' track"
+      }
+    ]
+  }
+}

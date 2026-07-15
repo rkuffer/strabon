@@ -1,76 +1,1097 @@
 [
   {
-    "id": "Q90",
-    "title_en": "Paris",
-    "country_qid": "Q142",
+    "id": "Q200019",
+    "title_en": "Jodhpur",
+    "country_qid": "Q668",
     "coordinates": {
-      "lat": 48.8566,
-      "lon": 2.3522
+      "lat": 26.294444444,
+      "lon": 73.027777777
     },
     "enrichment_level": "extracted",
-    "sitelinks_count": 361,
-    "inception_year": -250,
+    "sitelinks_count": 91,
+    "inception_year": 1100,
     "dissolution_year": null,
-    "extracted_at": "2026-07-12T08:14:07.838Z",
+    "extracted_at": "2026-07-14T12:47:50.437Z",
     "model": "claude-sonnet-4-6",
-    "meta": {
-      "inception": {
-        "year": -300,
-        "precision": 7
-      },
-      "description": "capital of France",
-      "native_label": "Paris"
-    },
+    "meta": "{\"wikidata_description\":\"city in Rajasthan, India\",\"wikidata_type\":\"big city\",\"indexed_from_tile\":\"73,26\"}",
     "timeline": {
       "name": {
         "entries": [
           {
-            "from": -250,
-            "notes": "Latin name used by Julius Caesar and Roman sources for the settlement of the Parisii.",
+            "from": 1459,
             "value": {
-              "lang": "la",
-              "text": "Lutetia Parisiorum"
+              "lang": "en",
+              "text": "Jodhpur"
             },
-            "confidence": "high",
-            "from_circa": true,
-            "from_precision": 8
+            "sources": [
+              "The name 'Jodhpur' is derived from its founder, Rao Jodha, who established the city in 1459"
+            ],
+            "confidence": "high"
           },
           {
-            "from": -250,
-            "notes": "Modern French vernacular exonym of the Latin name Lutetia Parisiorum.",
+            "from": 1459,
             "value": {
-              "lang": "fr",
-              "text": "Lutèce"
+              "lang": "hi",
+              "text": "जोधपुर"
             },
-            "confidence": "high",
-            "from_circa": true,
-            "from_precision": 8
+            "sources": [
+              "जोधपुर शहर"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "events": [
+        {
+          "type": "founding",
+          "year": 1459,
+          "confidence": "high",
+          "description": "Jodhpur founded by Rao Jodha, a Rajput chief of the Rathore clan, after conquering surrounding territory from the Delhi Sultanate."
+        }
+      ],
+      "polity": {
+        "entries": [
+          {
+            "from": 1100,
+            "notes": "The article states the region was part of the Gurjara-Pratihara Empire until 1100 AD. This refers to the pre-founding region of Marwar, not Jodhpur city itself (founded 1459). Included as regional context for the Mandore/Marwar area.",
+            "value": {
+              "name": "Gurjara-Pratihara",
+              "wikidata": "Q5324"
+            },
+            "sources": [
+              "Marwar formed a part of the Gurjara-Pratihara Empire and until 1100 AD was ruled by a powerful Pratihara King"
+            ],
+            "confidence": "medium"
           },
           {
-            "from": 300,
-            "notes": "Later Latin name used in the late Roman Empire period, transitional form toward 'Paris'.",
+            "from": 1459,
             "value": {
-              "lang": "la",
-              "text": "Parisius"
+              "name": "Marwar",
+              "wikidata": "Q1419618"
             },
+            "sources": [
+              "Rao Jodha founded a kingdom that came to be known as Marwar",
+              "Jodhpur soon took over that role as capital"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1858,
+            "notes": "Marwar (Jodhpur) became a princely state under British suzerainty following the treaties of 1818. Inferred from standard regional history.",
+            "value": {
+              "name": "British Raj",
+              "wikidata": "Q129286"
+            },
+            "confidence": "medium"
+          },
+          {
+            "from": 1947,
+            "notes": "India's independence in 1947; Jodhpur/Marwar acceded to the Indian Union.",
+            "value": {
+              "name": "India",
+              "wikidata": "Q668"
+            },
+            "confidence": "high"
+          }
+        ]
+      },
+      "culture": {
+        "entries": []
+      },
+      "language": {
+        "entries": [
+          {
+            "from": 1459,
+            "role": "major",
+            "notes": "Marwari/Rajasthani dialects and Hindi were the dominant vernacular languages of the Marwar region. Hindi used as the closest referential match.",
+            "value": {
+              "name": "Hindi",
+              "wikidata": "Q1568"
+            },
+            "confidence": "medium"
+          }
+        ]
+      },
+      "religion": {
+        "entries": [
+          {
+            "from": 1459,
+            "role": "major",
+            "notes": "Jodhpur was founded by Rajput rulers; Hinduism was the dominant religion of the ruling class and population.",
+            "value": {
+              "name": "Hinduism",
+              "wikidata": "Q9089"
+            },
+            "sources": [
+              "Chamunda Devi Temple",
+              "Rajput chief of the Rathore clan",
+              "temples mentioned throughout"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1459,
+            "role": "minor",
+            "notes": "The city's location on the Delhi-Gujarat trade route and interaction with the Delhi Sultanate and Tughlaqs implies a Muslim merchant and administrative presence. Inferred from regional context.",
+            "value": {
+              "name": "Islam",
+              "wikidata": "Q432"
+            },
+            "confidence": "medium"
+          }
+        ]
+      },
+      "site_type": {
+        "entries": [
+          {
+            "from": 1459,
+            "value": "town",
+            "sources": [
+              "Jodhpur was founded in 1459 by Rao Jodha"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1600,
+            "notes": "Described as a main trade centre of the 16th century; inferred city status from regional context and trade importance.",
+            "value": "city",
+            "confidence": "medium"
+          },
+          {
+            "from": 1947,
+            "value": "city",
+            "sources": [
+              "Rajasthan's second largest city",
+              "judicial capital of Rajasthan"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "population": {
+        "entries": []
+      },
+      "missing_entities": [
+        {
+          "kind": "polity",
+          "name": "Marwar",
+          "context": "The kingdom founded by Rao Jodha in 1459, with Jodhpur as its capital. Also known as the Kingdom of Marwar or Jodhpur State.",
+          "proposed_qid": "Q6207845"
+        }
+      ]
+    }
+  },
+  {
+    "id": "Q490",
+    "title_en": "Milan",
+    "country_qid": "Q38",
+    "coordinates": {
+      "lat": 45.466944444,
+      "lon": 9.19
+    },
+    "enrichment_level": "extracted",
+    "sitelinks_count": 225,
+    "inception_year": -590,
+    "dissolution_year": null,
+    "extracted_at": "2026-07-14T12:46:50.519Z",
+    "model": "claude-sonnet-4-6",
+    "meta": "{\"wikidata_description\":\"Italian commune and capital city of Lombardy\",\"wikidata_type\":\"city\",\"indexed_from_tile\":\"9,45\"}",
+    "timeline": {
+      "name": {
+        "entries": [
+          {
+            "from": -590,
+            "notes": "Original Celtic name of the settlement.",
+            "value": {
+              "lang": "cel",
+              "text": "Medhelanon"
+            },
+            "sources": [
+              "Milan was founded with the Celtic name of Medhelanon"
+            ],
             "confidence": "medium",
             "from_circa": true
           },
           {
-            "from": 508,
-            "notes": "The French name Paris, derived from Parisius, in continuous use from the early medieval period to the present.",
+            "from": -222,
+            "notes": "Latin name given by Romans after conquest of Cisalpine Gaul.",
+            "value": {
+              "lang": "la",
+              "text": "Mediolanum"
+            },
+            "sources": [
+              "Latinized name of Mediolanum"
+            ],
+            "confidence": "high",
+            "from_circa": true
+          },
+          {
+            "from": -222,
+            "notes": "Intermediate Celtic form attested in graffiti on Roman walls after Roman conquest.",
+            "value": {
+              "lang": "cel",
+              "text": "Mesiolano"
+            },
+            "sources": [
+              "graffiti in Celtic language... in Mesiolano"
+            ],
+            "confidence": "low",
+            "from_circa": true
+          },
+          {
+            "from": 1000,
+            "notes": "Italian vernacular name, in use through the medieval period to the present.",
+            "value": {
+              "lang": "it",
+              "text": "Milano"
+            },
+            "sources": [
+              "Milan"
+            ],
+            "confidence": "high",
+            "from_circa": true
+          },
+          {
+            "from": 1000,
+            "notes": "French and English exonym of the city, widely used in modern languages.",
             "value": {
               "lang": "fr",
-              "text": "Paris"
+              "text": "Milan"
+            },
+            "confidence": "high",
+            "from_circa": true
+          },
+          {
+            "from": 1000,
+            "notes": "German exonym for Milan.",
+            "value": {
+              "lang": "de",
+              "text": "Mailand"
+            },
+            "confidence": "high",
+            "from_circa": true
+          }
+        ]
+      },
+      "events": [
+        {
+          "type": "conquest",
+          "year": -222,
+          "confidence": "medium",
+          "description": "Roman conquest of Cisalpine Gaul; Celtic settlement of Medhelanon comes under Roman rule."
+        },
+        {
+          "type": "siege",
+          "year": 402,
+          "confidence": "high",
+          "description": "Visigoths besieged Milan; Emperor Honorius moved the imperial residence to Ravenna."
+        },
+        {
+          "type": "siege",
+          "year": 452,
+          "confidence": "high",
+          "description": "Attila the Hun besieged and sacked Milan."
+        },
+        {
+          "type": "massacre",
+          "year": 539,
+          "confidence": "medium",
+          "description": "Ostrogothic siege during Gothic War; after capitulation, according to Procopius, 300,000 male citizens were executed and women sold to Gothic allies.",
+          "perpetrator": "Ostrogoths"
+        },
+        {
+          "type": "conquest",
+          "year": 569,
+          "confidence": "high",
+          "description": "Lombards conquered Milan, overpowering the Byzantine garrison."
+        },
+        {
+          "type": "conquest",
+          "year": 774,
+          "confidence": "high",
+          "description": "Milan surrendered to Charlemagne and the Franks."
+        },
+        {
+          "type": "destruction",
+          "year": 1162,
+          "confidence": "high",
+          "description": "Frederick I Barbarossa brought the destruction of much of Milan.",
+          "perpetrator": "Frederick I Barbarossa"
+        },
+        {
+          "type": "conquest",
+          "year": 1796,
+          "confidence": "high",
+          "description": "Napoleon invaded Italy and declared Milan capital of the Cisalpine Republic."
+        },
+        {
+          "type": "revolution",
+          "year": 1848,
+          "confidence": "high",
+          "description": "The Five Days of Milan (18–22 March 1848): uprising against Austrian rule forced Field Marshal Radetzky to temporarily withdraw."
+        },
+        {
+          "type": "annexation",
+          "year": 1859,
+          "confidence": "high",
+          "description": "Following the Battle of Solferino, Milan and Lombardy were incorporated into Piedmont-Sardinia."
+        }
+      ],
+      "polity": {
+        "entries": [
+          {
+            "from": -590,
+            "notes": "Founded as a Celtic/Gaulish settlement.",
+            "value": {
+              "name": "Gauls"
+            },
+            "sources": [
+              "Celtic name of Medhelanon",
+              "Around 590 BC"
+            ],
+            "confidence": "medium",
+            "from_circa": true
+          },
+          {
+            "from": -222,
+            "notes": "Roman conquest of the Po Valley and Cisalpine Gaul.",
+            "value": {
+              "name": "Roman Republic",
+              "wikidata": "Q17167"
+            },
+            "sources": [
+              "Romans eventually conquered the entirety of the region, calling the new province 'Cisalpine Gaul'"
+            ],
+            "confidence": "medium",
+            "from_circa": true
+          },
+          {
+            "from": -27,
+            "notes": "Mediolanum under the Roman Empire; capital of Western Empire from 286.",
+            "value": {
+              "name": "Roman Empire",
+              "wikidata": "Q2277"
+            },
+            "sources": [
+              "In 286, the Roman Emperor Diocletian moved the capital of the Western Roman Empire from Rome to Mediolanum"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 285,
+            "notes": "Capital of the Western Roman Empire from 286 under Diocletian/Maximian.",
+            "value": {
+              "name": "Western Roman Empire",
+              "wikidata": "Q42834"
+            },
+            "sources": [
+              "capital of the Western Roman Empire"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 402,
+            "notes": "Still part of Western Roman Empire after loss of capital status.",
+            "value": {
+              "name": "Western Roman Empire",
+              "wikidata": "Q42834"
+            },
+            "sources": [
+              "the Emperor Honorius moved the Imperial residence to Ravenna"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 493,
+            "notes": "After fall of Western Roman Empire, northern Italy under Odoacer then Ostrogoths. Milan under Ostrogothic Kingdom until 539.",
+            "value": {
+              "name": "Ostrogothic Kingdom",
+              "wikidata": "Q583038"
+            },
+            "sources": [
+              "In 539 the Ostrogoths conquered and destroyed Milan"
+            ],
+            "confidence": "medium"
+          },
+          {
+            "from": 539,
+            "notes": "After Ostrogothic destruction in 539, briefly under Byzantine control until Lombard conquest in 569.",
+            "value": {
+              "name": "Byzantine Empire",
+              "wikidata": "Q12544"
+            },
+            "sources": [
+              "In 539 the Ostrogoths conquered and destroyed Milan during the Gothic War against Byzantine Emperor Justinian I",
+              "small Byzantine garrison left for its defence"
+            ],
+            "confidence": "medium"
+          },
+          {
+            "from": 569,
+            "notes": "Lombard conquest; capital was Pavia, Milan governed by its archbishops.",
+            "value": {
+              "name": "Kingdom of the Lombards",
+              "wikidata": "Q854415"
+            },
+            "sources": [
+              "In the summer of 569 the Lombards conquered Milan"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 800,
+            "notes": "Milan surrendered to Charlemagne.",
+            "value": {
+              "name": "Carolingian Empire",
+              "wikidata": "Q31929"
+            },
+            "sources": [
+              "Milan surrendered to Charlemagne and the Franks in 774"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 843,
+            "notes": "After Carolingian partition, Milan fell within the Kingdom of Italy (sub-kingdom of the HRE).",
+            "value": {
+              "name": "Kingdom of Italy",
+              "wikidata": "Q838931"
+            },
+            "sources": [
+              "city-states emerged in northern Italy"
+            ],
+            "confidence": "medium"
+          },
+          {
+            "from": 962,
+            "notes": "Milan was part of the Holy Roman Empire. City-state autonomy grew in the 11th–12th century.",
+            "value": {
+              "name": "Holy Roman Empire",
+              "wikidata": "Q12548"
+            },
+            "sources": [
+              "The 11th century saw a reaction against the control of the Holy Roman Emperors"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1259,
+            "notes": "Milan operated as an increasingly autonomous commune/signoria, formally recognizing Visconti rule from 1259. Using Signoria of Milan as the polity for this period.",
+            "value": {
+              "name": "Signoria of Milan",
+              "wikidata": "Q15890801"
+            },
+            "sources": [
+              "Milan returned to the commune form of local government first established in the 11th century",
+              "Peace of Constance in 1183"
+            ],
+            "confidence": "medium"
+          },
+          {
+            "from": 1395,
+            "notes": "Duchy of Milan established under Visconti.",
+            "value": {
+              "name": "Duchy of Milan",
+              "wikidata": "Q153529"
+            },
+            "sources": [
+              "In 1395, Gian Galeazzo Visconti became the first Duke of Milan"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1447,
+            "notes": "Short-lived Ambrosian Republic 1447–1450.",
+            "value": {
+              "name": "Golden Ambrosian Republic",
+              "wikidata": "Q746443"
+            },
+            "sources": [
+              "In 1447, Filippo Maria Visconti, Duke of Milan, died without a male heir. Following the end of the Visconti line, the Ambrosian Republic was established"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1450,
+            "notes": "Duchy of Milan restored under Sforza.",
+            "value": {
+              "name": "Duchy of Milan",
+              "wikidata": "Q153529"
+            },
+            "sources": [
+              "In 1450, the Republic collapsed when Milan was conquered by Francesco I of the House of Sforza"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1535,
+            "notes": "Milan under Spanish Habsburg rule from 1535 (direct control after Sforza extinction).",
+            "value": {
+              "name": "Habsburg Spain",
+              "wikidata": "Q600093"
+            },
+            "sources": [
+              "In 1535, the Sforza line went extinct",
+              "In 1556, Charles V abdicated in favour of his son Philip II",
+              "Charles's Italian possessions, including Milan, passed to Philip II"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1700,
+            "notes": "Austrian Habsburgs took control from 1706/1713. Using Austrian Empire as proxy for Habsburg Austrian rule; formally the Habsburg Monarchy.",
+            "value": {
+              "name": "Austrian Empire",
+              "wikidata": "Q131964"
+            },
+            "sources": [
+              "In 1706, the French were defeated... forced to yield northern Italy to the Austrian Habsburgs",
+              "In 1713 and 1714, the Treaties of Utrecht and Rastatt formally confirmed Austrian sovereignty over most of Habsburg Spain's Italian possessions including Lombardy and its capital, Milan"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1797,
+            "notes": "Milan capital of the Cisalpine Republic.",
+            "value": {
+              "name": "Cisalpine Republic",
+              "wikidata": "Q213353"
+            },
+            "sources": [
+              "Napoleon invaded Italy in 1796, and Milan was declared capital of the Cisalpine Republic"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1802,
+            "notes": "Cisalpine Republic became Italian Republic in 1802, then Kingdom of Italy in 1805.",
+            "value": {
+              "name": "Italian Republic",
+              "wikidata": "Q723118"
+            },
+            "sources": [
+              "Later, he declared Milan capital of the Kingdom of Italy"
+            ],
+            "confidence": "high"
+          },
+          {
+            "to": 1814,
+            "from": 1805,
+            "notes": "Napoleon's Kingdom of Italy, capital Milan.",
+            "value": {
+              "name": "Kingdom of Italy",
+              "wikidata": "Q223936"
+            },
+            "sources": [
+              "he declared Milan capital of the Kingdom of Italy and was crowned King of Italy in the cathedral"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1815,
+            "notes": "Austrian control restored after Napoleon's defeat.",
+            "value": {
+              "name": "Austrian Empire",
+              "wikidata": "Q131964"
+            },
+            "sources": [
+              "the Congress of Vienna returned Lombardy and Milan to Austrian control in 1815"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1859,
+            "notes": "Milan incorporated into Piedmont-Sardinia following Battle of Solferino.",
+            "value": {
+              "name": "Kingdom of Sardinia",
+              "wikidata": "Q2577303"
+            },
+            "sources": [
+              "Milan and the rest of Lombardy were incorporated into Piedmont-Sardinia"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1861,
+            "notes": "Milan part of unified Kingdom of Italy.",
+            "value": {
+              "name": "Kingdom of Italy",
+              "wikidata": "Q172579"
+            },
+            "sources": [
+              "proclaim the birth of the Kingdom of Italy on 17 March 1861"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1946,
+            "notes": "Italian Republic from 1946 to present.",
+            "value": {
+              "name": "Italy",
+              "wikidata": "Q38"
+            },
+            "sources": [
+              "During the post-war economic boom"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "culture": {
+        "entries": [
+          {
+            "to": -222,
+            "from": -590,
+            "notes": "Celtic/Gaulish culture at the founding of Medhelanon.",
+            "value": {
+              "name": "Gauls",
+              "wikidata": "Q273854"
+            },
+            "sources": [
+              "Celtic name of Medhelanon",
+              "Around 590 BC"
+            ],
+            "confidence": "medium",
+            "from_circa": true
+          },
+          {
+            "to": 476,
+            "from": -222,
+            "notes": "Roman culture dominant from conquest to fall of Western Roman Empire.",
+            "value": {
+              "name": "Ancient Rome",
+              "wikidata": "Q1747689"
+            },
+            "sources": [
+              "The Roman city was then gradually superimposed and replaced by the medieval one"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "language": {
+        "entries": [
+          {
+            "to": -222,
+            "from": -590,
+            "role": "major",
+            "notes": "Gaulish spoken by the Celtic founders; graffiti in Celtic language attested on Roman walls.",
+            "value": {
+              "name": "Gaulish",
+              "wikidata": "Q29977"
+            },
+            "sources": [
+              "Celtic name of Medhelanon",
+              "graffiti in Celtic language"
+            ],
+            "confidence": "medium",
+            "from_circa": true
+          },
+          {
+            "to": 600,
+            "from": -222,
+            "role": "state",
+            "notes": "Latin as official language of Roman Mediolanum and post-Roman period.",
+            "value": {
+              "name": "Latin",
+              "wikidata": "Q397"
+            },
+            "sources": [
+              "The Roman city was then gradually superimposed and replaced by the medieval one"
+            ],
+            "confidence": "high"
+          },
+          {
+            "to": 400,
+            "from": -100,
+            "role": "minor",
+            "notes": "Gaulish persisted as a minority language for some time after Roman conquest, as evidenced by Celtic graffiti on Roman walls.",
+            "value": {
+              "name": "Gaulish",
+              "wikidata": "Q29977"
+            },
+            "sources": [
+              "graffiti in Celtic language present on a section of the Roman walls of Milan which dates back to a period following the Roman conquest"
+            ],
+            "confidence": "low",
+            "from_circa": true
+          },
+          {
+            "from": 600,
+            "role": "major",
+            "notes": "Romance vernacular (proto-Italian/Lombard dialect) emerged from Vulgar Latin; Italian eventually became the standard language.",
+            "value": {
+              "name": "Italian",
+              "wikidata": "Q652"
+            },
+            "sources": [
+              "The urban center of Milan has therefore grown constantly and rapidly, until modern times"
+            ],
+            "confidence": "medium",
+            "from_circa": true
+          }
+        ]
+      },
+      "religion": {
+        "entries": [
+          {
+            "to": -222,
+            "from": -590,
+            "role": "major",
+            "notes": "Celtic religious sanctuary at the heart of the settlement.",
+            "value": {
+              "name": "Celtic polytheism",
+              "wikidata": "Q263031"
+            },
+            "sources": [
+              "Medhelanon, in particular, was developed around a sanctuary"
+            ],
+            "confidence": "medium",
+            "from_circa": true
+          },
+          {
+            "to": 400,
+            "from": -222,
+            "role": "state",
+            "notes": "Roman polytheism as state religion under Roman rule.",
+            "value": {
+              "name": "religion in ancient Rome",
+              "wikidata": "Q107013169"
+            },
+            "sources": [
+              "Roman Empire"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 100,
+            "role": "minority",
+            "notes": "Christianity as a minority/growing religion before the Edict of Milan (313).",
+            "value": {
+              "name": "Christianity",
+              "wikidata": "Q5043"
+            },
+            "sources": [
+              "granting tolerance to all religions within the Empire, thus paving the way for Christianity"
+            ],
+            "confidence": "medium"
+          },
+          {
+            "from": 313,
+            "role": "major",
+            "notes": "Christianity grew rapidly after the Edict of Milan.",
+            "value": {
+              "name": "Christianity",
+              "wikidata": "Q5043"
+            },
+            "sources": [
+              "the Edict of Milan in AD 313, granting tolerance to all religions within the Empire, thus paving the way for Christianity to become the dominant religion"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 400,
+            "role": "state",
+            "notes": "Catholicism became the dominant state religion; Milan's archbishops governed the city in the early Middle Ages and beyond.",
+            "value": {
+              "name": "Catholic Church",
+              "wikidata": "Q9592"
+            },
+            "sources": [
+              "left early-medieval Milan to the governance of its archbishops"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "site_type": {
+        "entries": [
+          {
+            "from": -590,
+            "notes": "Celtic founding of Medhelanon, developed around a sanctuary.",
+            "value": "settlement",
+            "sources": [
+              "Around 590 BC",
+              "The ancient Celtic settlement"
+            ],
+            "confidence": "medium",
+            "from_circa": true
+          },
+          {
+            "from": -222,
+            "notes": "Roman conquest of Cisalpine Gaul; Mediolanum becomes a Roman town.",
+            "value": "town",
+            "sources": [
+              "Romans eventually conquered the entirety of the region"
+            ],
+            "confidence": "medium"
+          },
+          {
+            "from": 286,
+            "notes": "Capital of the Western Roman Empire under Diocletian and successors.",
+            "value": "capital",
+            "sources": [
+              "In 286, the Roman Emperor Diocletian moved the capital of the Western Roman Empire from Rome to Mediolanum"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 402,
+            "notes": "Capital status lost when imperial residence moved to Ravenna after Visigoth siege.",
+            "value": "city",
+            "sources": [
+              "the Emperor Honorius moved the Imperial residence to Ravenna"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1000,
+            "notes": "One of the largest European cities in the Middle Ages; major trade centre.",
+            "value": "city",
+            "sources": [
+              "the city was considered one of the largest European cities"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1796,
+            "notes": "Capital of the Cisalpine Republic (1796), then of the Napoleonic Kingdom of Italy.",
+            "value": "capital",
+            "sources": [
+              "Milan was declared capital of the Cisalpine Republic",
+              "Napoleon... declared Milan capital of the Kingdom of Italy"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1815,
+            "notes": "Capital status lost after Congress of Vienna; remains major city.",
+            "value": "city",
+            "sources": [
+              "the Congress of Vienna returned Lombardy and Milan to Austrian control in 1815"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1861,
+            "notes": "Industrial metropolis and financial capital of unified Italy.",
+            "value": "metropolis",
+            "sources": [
+              "Milan's economic dominance over northern Italy",
+              "city became the country's leading financial centre"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "population": {
+        "entries": [
+          {
+            "from": 1629,
+            "notes": "Population before the Great Plague of 1629–31.",
+            "value": 130000,
+            "sources": [
+              "the Great Plague of Milan in 1629–31, that claimed the lives of an estimated 60,000 people out of a population of 130,000"
+            ],
+            "confidence": "medium"
+          },
+          {
+            "from": 1951,
+            "notes": "Population in 1951.",
+            "value": 1300000,
+            "sources": [
+              "The population grew from 1.3 million in 1951 to 1.7 million in 1967"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1967,
+            "notes": "Population peak in 1967.",
+            "value": 1700000,
+            "sources": [
+              "The population grew from 1.3 million in 1951 to 1.7 million in 1967"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "missing_entities": [
+        {
+          "kind": "polity",
+          "name": "Signoria of Milan",
+          "context": "The autonomous commune/signoria of Milan from the 11th century through to the establishment of the Visconti Duchy in 1395.",
+          "proposed_qid": "Q15890801"
+        },
+        {
+          "kind": "polity",
+          "name": "Gauls",
+          "context": "QID stripped by validation: QID belongs to kind 'culture' (\"Gauls\"), used on 'polity' track"
+        }
+      ]
+    }
+  },
+  {
+    "id": "Q172125",
+    "title_en": "Lascaux",
+    "country_qid": "Q142",
+    "coordinates": {
+      "lat": 45.049166666,
+      "lon": 1.176111111
+    },
+    "enrichment_level": "extracted",
+    "sitelinks_count": 69,
+    "inception_year": -17000,
+    "dissolution_year": 1940,
+    "extracted_at": "2026-07-14T12:44:56.290Z",
+    "model": "claude-sonnet-4-6",
+    "meta": "{\"wikidata_description\":\"cave in southwestern France famous for its Paleolithic cave paintings\",\"wikidata_type\":\"cave with prehistoric art\",\"indexed_from_tile\":\"1,45\"}",
+    "timeline": {
+      "name": {
+        "entries": [
+          {
+            "from": 1300,
+            "notes": "Occitan name attested from the early 14th century (début du XIVe siècle); derived from Occitan 'cous' or 'cos', meaning a stony place. Also rendered 'La Coux'.",
+            "value": {
+              "lang": "oc",
+              "text": "Las Coutz"
+            },
+            "confidence": "medium",
+            "from_circa": true,
+            "from_precision": 7
+          },
+          {
+            "from": 1300,
+            "notes": "Variant Occitan spelling of the same toponym, attested alongside 'Las Coutz'.",
+            "value": {
+              "lang": "oc",
+              "text": "La Coux"
+            },
+            "confidence": "medium",
+            "from_circa": true,
+            "from_precision": 7
+          },
+          {
+            "from": 1300,
+            "notes": "French form of the Occitan toponym, attested as a noble estate name from the early 14th century. Used for the cave after its rediscovery in 1940.",
+            "value": {
+              "lang": "fr",
+              "text": "Lascaux"
+            },
+            "confidence": "medium",
+            "from_circa": true,
+            "from_precision": 7
+          }
+        ]
+      },
+      "events": [
+        {
+          "type": "discovery",
+          "year": 1940,
+          "confidence": "high",
+          "description": "On 12 September 1940, Marcel Ravidat discovered the entrance to the Lascaux cave. The cave walls were found to be covered with Palaeolithic animal depictions."
+        }
+      ],
+      "polity": {
+        "entries": []
+      },
+      "culture": {
+        "entries": [
+          {
+            "to": -10001,
+            "from": -15001,
+            "notes": "The cave paintings are attributed to the Magdalenian culture, c. 17,000 BC. The 'to' closes the entry at the end of the Magdalenian period; the cave was not continuously occupied thereafter.",
+            "value": {
+              "name": "Magdalenian",
+              "wikidata": "Q693549"
+            },
+            "confidence": "medium",
+            "from_circa": true,
+            "from_precision": 6
+          }
+        ]
+      },
+      "language": {
+        "entries": []
+      },
+      "religion": {
+        "entries": []
+      },
+      "site_type": {
+        "entries": [
+          {
+            "to": -15000,
+            "from": -17000,
+            "notes": "Magdalenian cave used for parietal art, dated to approximately 17,000 BC. Closed with 'to' as occupation ended after the Palaeolithic period.",
+            "value": "religious_site",
+            "confidence": "medium",
+            "from_circa": true,
+            "from_precision": 7
+          },
+          {
+            "from": 1940,
+            "notes": "Rediscovered in 1940; designated a heritage site. Closed to the public since 1963; no resident community. Classified as ruins/uninhabited archaeological site under modern stewardship.",
+            "value": "ruins",
+            "confidence": "high"
+          }
+        ]
+      },
+      "population": {
+        "entries": []
+      },
+      "missing_entities": []
+    }
+  },
+  {
+    "id": "Q7880",
+    "title_en": "Toulouse",
+    "country_qid": "Q142",
+    "coordinates": {
+      "lat": 43.604444444,
+      "lon": 1.443333333
+    },
+    "enrichment_level": "extracted",
+    "sitelinks_count": 171,
+    "inception_year": -200,
+    "dissolution_year": null,
+    "extracted_at": "2026-07-14T12:43:34.431Z",
+    "model": "claude-sonnet-4-6",
+    "meta": "{\"wikidata_description\":\"French commune and city in Haute-Garonne, Occitania\",\"wikidata_type\":\"big city\",\"indexed_from_tile\":\"1,43\"}",
+    "timeline": {
+      "name": {
+        "entries": [
+          {
+            "from": -200,
+            "notes": "Latin name of the city, first recorded in 2nd century BC; used throughout Roman and medieval periods.",
+            "value": {
+              "lang": "la",
+              "text": "Tolosa"
             },
             "confidence": "high"
           },
           {
-            "from": 508,
-            "notes": "English name for the city, identical to the French form.",
+            "from": -200,
+            "notes": "Ancient Greek form of the name, as recorded in Greek sources.",
             "value": {
-              "lang": "en",
-              "text": "Paris"
+              "lang": "grc",
+              "text": "Τολῶσσα"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1000,
+            "notes": "Occitan name of the city, used in the medieval period and still used in Occitan today.",
+            "value": {
+              "lang": "oc",
+              "text": "Tolosa"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1200,
+            "notes": "French form of the name, current modern name.",
+            "value": {
+              "lang": "fr",
+              "text": "Toulouse"
             },
             "confidence": "high"
           }
@@ -78,58 +1099,61 @@
       },
       "events": [
         {
-          "type": "conquest",
-          "year": -52,
-          "confidence": "high",
-          "description": "Julius Caesar conquered the Paris Basin and established the Roman settlement of Lutetia on the Left Bank.",
-          "perpetrator": "Roman Republic",
-          "perpetrator_wikidata": "Q17167"
-        },
-        {
-          "type": "destruction",
-          "year": 845,
-          "confidence": "high",
-          "description": "Vikings sacked Paris despite the fortification of the Île de la Cité.",
-          "perpetrator": "Vikings"
-        },
-        {
           "type": "siege",
-          "year": 885,
+          "year": 721,
           "confidence": "high",
-          "description": "Siege of Paris (885–886); successfully defended under Odo of France, Count of Paris.",
-          "perpetrator": "Vikings"
+          "description": "Battle of Toulouse: Duke Odo of Aquitaine defeated an invading Umayyad Muslim army."
         },
         {
           "type": "conquest",
-          "year": 1418,
+          "year": 1229,
           "confidence": "high",
-          "description": "Paris occupied by England-friendly Burgundian forces during the Hundred Years' War; Henry V of England entered in 1420, establishing outright English occupation until 1436.",
-          "perpetrator": "Dual monarchy of England and France"
+          "description": "Treaty of Paris ended the Albigensian Crusade; Toulouse incorporated into the French royal domain."
+        },
+        {
+          "type": "plague",
+          "year": 1348,
+          "confidence": "high",
+          "description": "The Black Death struck Toulouse, causing major demographic crisis."
+        },
+        {
+          "type": "fire",
+          "year": 1463,
+          "confidence": "high",
+          "description": "Great Fire of Toulouse ravaged the city for fifteen days; Louis XI subsequently exempted the city from taxes for 100 years."
         },
         {
           "type": "massacre",
-          "year": 1572,
+          "year": 1562,
           "confidence": "high",
-          "description": "St. Bartholomew's Day massacre (24 August 1572): thousands of French Protestants (Huguenots) were killed in Paris, organised by the Catholic League during the French Wars of Religion.",
-          "perpetrator": "Catholic League"
+          "description": "Massacre of Huguenots in Toulouse at the start of the French Wars of Religion; Protestant capitouls and merchants fled the city."
+        },
+        {
+          "type": "revolution",
+          "year": 1789,
+          "confidence": "high",
+          "description": "French Revolution; Toulouse lost its role as capital of Languedoc and its parlement was abolished."
+        },
+        {
+          "type": "flood",
+          "year": 1875,
+          "confidence": "high",
+          "description": "Flood of the Garonne devastated more than 1,000 houses and killed 200 people; destroyed all bridges except the Pont-Neuf."
         }
       ],
       "polity": {
         "entries": [
           {
-            "from": -250,
-            "notes": "Parisii tribe inhabited the area from at least the mid-3rd century BC.",
+            "from": -200,
+            "notes": "Tolosa as oppidum of the Volcae Tectosages, a Gaulish tribe, before Roman conquest.",
             "value": {
-              "name": "Parisii (Gaulish tribe)",
-              "wikidata": "Q333647"
+              "name": "Gauls"
             },
-            "confidence": "medium",
-            "from_circa": true,
-            "from_precision": 8
+            "confidence": "medium"
           },
           {
-            "from": -52,
-            "notes": "Julius Caesar conquered the Paris Basin for Rome in 52 BC.",
+            "from": -120,
+            "notes": "Toulouse became a Roman military outpost in the 2nd century BC during the Roman conquest of southern Gaul.",
             "value": {
               "name": "Roman Republic",
               "wikidata": "Q17167"
@@ -138,7 +1162,7 @@
           },
           {
             "from": -27,
-            "notes": "Transition from Republic to Empire under Augustus.",
+            "notes": "Developed as Roman city in Gallia Narbonensis under Augustus and through the imperial period.",
             "value": {
               "name": "Roman Empire",
               "wikidata": "Q2277"
@@ -147,16 +1171,25 @@
           },
           {
             "from": 476,
-            "notes": "Frankish domination of Gaul following the fall of the Western Roman Empire; Clovis made Paris his capital in 508.",
+            "notes": "Toulouse was capital of the Visigothic Kingdom, which stretched from the Loire to Gibraltar.",
             "value": {
-              "name": "Merovingian Francia",
-              "wikidata": "Q146246"
+              "name": "Visigothic Kingdom",
+              "wikidata": "Q126936"
             },
-            "confidence": "medium"
+            "confidence": "high"
           },
           {
-            "from": 751,
-            "notes": "Carolingian dynasty replaced the Merovingians.",
+            "from": 507,
+            "notes": "After Frankish conquest following Battle of Vouillé 507; Toulouse came under Frankish control.",
+            "value": {
+              "name": "Francia",
+              "wikidata": "Q146246"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 800,
+            "notes": "County of Toulouse emerged within the Carolingian sub-kingdom of Aquitaine.",
             "value": {
               "name": "Carolingian Empire",
               "wikidata": "Q31929"
@@ -165,7 +1198,7 @@
           },
           {
             "from": 843,
-            "notes": "Treaty of Verdun divided the Carolingian Empire; Paris fell within West Francia.",
+            "notes": "After Carolingian partition; County of Toulouse within West Francia.",
             "value": {
               "name": "West Francia",
               "wikidata": "Q46370"
@@ -174,25 +1207,7 @@
           },
           {
             "from": 987,
-            "notes": "Hugh Capet elected king, founding the Capetian dynasty and the Kingdom of France.",
-            "value": {
-              "name": "Kingdom of France",
-              "wikidata": "Q70972"
-            },
-            "confidence": "high"
-          },
-          {
-            "from": 1418,
-            "notes": "Paris occupied by Burgundian forces 1418, then outright English occupation from 1420 under Henry V; ended 1436.",
-            "value": {
-              "name": "Dual monarchy of England and France",
-              "wikidata": "Q3738649"
-            },
-            "confidence": "high"
-          },
-          {
-            "from": 1436,
-            "notes": "English occupation of Paris ended in 1436; France restored.",
+            "notes": "County of Toulouse nominally under the Kingdom of France; came under direct royal control after Albigensian Crusade (Treaty of Paris, 1229).",
             "value": {
               "name": "Kingdom of France",
               "wikidata": "Q70972"
@@ -201,7 +1216,7 @@
           },
           {
             "from": 1792,
-            "notes": "French Revolution; First Republic declared 1792.",
+            "notes": "French Revolution 1789; Toulouse lost role as capital of Languedoc and became head of Haute-Garonne department.",
             "value": {
               "name": "French First Republic",
               "wikidata": "Q58296"
@@ -209,17 +1224,8 @@
             "confidence": "high"
           },
           {
-            "from": 1799,
-            "notes": "Napoleon Bonaparte seized power as First Consul on 18 Brumaire (9 November 1799).",
-            "value": {
-              "name": "French Consulate",
-              "wikidata": "Q877619"
-            },
-            "confidence": "high"
-          },
-          {
             "from": 1804,
-            "notes": "Napoleon proclaimed Emperor.",
+            "notes": "Napoleonic Empire.",
             "value": {
               "name": "First French Empire",
               "wikidata": "Q71084"
@@ -227,8 +1233,8 @@
             "confidence": "high"
           },
           {
-            "from": 1814,
-            "notes": "Bourbon restoration after Napoleon's abdication.",
+            "from": 1815,
+            "notes": "Bourbon Restoration after Napoleon's defeat.",
             "value": {
               "name": "Bourbon Restoration in France",
               "wikidata": "Q207162"
@@ -237,7 +1243,7 @@
           },
           {
             "from": 1830,
-            "notes": "July Revolution brought Louis-Philippe I to power.",
+            "notes": "July Revolution 1830.",
             "value": {
               "name": "July Monarchy",
               "wikidata": "Q58202"
@@ -246,7 +1252,7 @@
           },
           {
             "from": 1848,
-            "notes": "Louis-Philippe overthrown; Second Republic established.",
+            "notes": "Second Republic established 1848.",
             "value": {
               "name": "French Second Republic",
               "wikidata": "Q58326"
@@ -255,7 +1261,7 @@
           },
           {
             "from": 1852,
-            "notes": "Napoleon III proclaimed Emperor.",
+            "notes": "Second Empire under Napoleon III.",
             "value": {
               "name": "Second French Empire",
               "wikidata": "Q71092"
@@ -264,7 +1270,7 @@
           },
           {
             "from": 1870,
-            "notes": "Third Republic proclaimed during the Franco-Prussian War.",
+            "notes": "Third Republic after Franco-Prussian War.",
             "value": {
               "name": "French Third Republic",
               "wikidata": "Q70802"
@@ -273,7 +1279,7 @@
           },
           {
             "from": 1940,
-            "notes": "German occupation of France; Vichy regime. Paris under German military administration.",
+            "notes": "Toulouse under Vichy regime during WWII.",
             "value": {
               "name": "Vichy France",
               "wikidata": "Q69808"
@@ -282,7 +1288,7 @@
           },
           {
             "from": 1944,
-            "notes": "Liberation of Paris 1944; Provisional Government.",
+            "notes": "Liberation of Toulouse 1944.",
             "value": {
               "name": "Provisional Government of the French Republic",
               "wikidata": "Q783684"
@@ -291,7 +1297,7 @@
           },
           {
             "from": 1946,
-            "notes": "Fourth Republic established.",
+            "notes": "Fourth Republic established 1946.",
             "value": {
               "name": "French Fourth Republic",
               "wikidata": "Q69829"
@@ -300,7 +1306,7 @@
           },
           {
             "from": 1958,
-            "notes": "Fifth Republic established under de Gaulle; France continues to the present day.",
+            "notes": "Fifth Republic established 1958; Toulouse remains a major city and since 2016 regional prefecture of Occitanie.",
             "value": {
               "name": "France",
               "wikidata": "Q142"
@@ -312,19 +1318,19 @@
       "culture": {
         "entries": [
           {
-            "from": -250,
-            "notes": "The Parisii were a Gaulish (Celtic) tribe inhabiting the Paris area from at least the mid-3rd century BC.",
+            "to": -120,
+            "from": -200,
+            "notes": "Volcae Tectosages, a Gaulish tribe, inhabited the area before Roman conquest.",
             "value": {
               "name": "Gauls",
               "wikidata": "Q273854"
             },
-            "confidence": "medium",
-            "from_circa": true,
-            "from_precision": 8
+            "confidence": "medium"
           },
           {
-            "from": -52,
-            "notes": "Roman conquest introduced Roman urban culture to Lutetia.",
+            "to": 476,
+            "from": -120,
+            "notes": "Toulouse developed as a Roman city in Gallia Narbonensis; Roman material culture dominant.",
             "value": {
               "name": "Ancient Rome",
               "wikidata": "Q1747689"
@@ -332,8 +1338,9 @@
             "confidence": "high"
           },
           {
-            "from": 476,
-            "notes": "Frankish Merovingian culture dominant following the fall of the Western Roman Empire and Clovis's establishment of Paris as his capital.",
+            "to": 751,
+            "from": 481,
+            "notes": "Frankish cultural context from 507; Merovingian period closes c. 751. Visigothic culture preceded but Frankish culture followed conquest.",
             "value": {
               "name": "Merovingian",
               "wikidata": "Q66084488"
@@ -345,23 +1352,21 @@
       "language": {
         "entries": [
           {
-            "to": 500,
-            "from": -250,
+            "to": -50,
+            "from": -200,
             "role": "major",
-            "notes": "Gaulish spoken by the Parisii; gradually displaced by Latin after the Roman conquest and eventually dying out by around the 5th–6th century.",
+            "notes": "Gaulish spoken by the Volcae Tectosages; gradually replaced by Latin after Roman conquest.",
             "value": {
               "name": "Gaulish",
               "wikidata": "Q29977"
             },
-            "confidence": "medium",
-            "from_circa": true,
-            "from_precision": 8
+            "confidence": "medium"
           },
           {
-            "to": 800,
-            "from": -52,
+            "to": 600,
+            "from": -120,
             "role": "state",
-            "notes": "Latin introduced as the administrative and cultural language of Lutetia following Roman conquest; remained the written and ecclesiastical language well into the medieval period; spoken vernacular Latin gradually evolved into Old French.",
+            "notes": "Latin as official and administrative language of Roman Toulouse; continued through late antiquity.",
             "value": {
               "name": "Latin",
               "wikidata": "Q397"
@@ -369,19 +1374,39 @@
             "confidence": "high"
           },
           {
-            "from": 508,
+            "from": 600,
             "role": "major",
-            "notes": "Frankish immigration and the mixing of Gaulish Romance with Frankish gave rise to the Francien/Old French dialects in Paris from the Merovingian period onward.",
+            "notes": "Occitan (langue d'oc) the vernacular language of Toulouse and the region throughout the medieval period.",
             "value": {
-              "name": "Old French",
-              "wikidata": "Q35222"
+              "name": "Occitan",
+              "wikidata": "Q14185"
             },
             "confidence": "high"
           },
           {
-            "from": 1400,
+            "from": 1229,
+            "role": "minor",
+            "notes": "French administrative presence increased after Treaty of Paris 1229 incorporated Toulouse into royal France.",
+            "value": {
+              "name": "Old French",
+              "wikidata": "Q35222"
+            },
+            "confidence": "medium"
+          },
+          {
+            "from": 1350,
+            "role": "minor",
+            "notes": "Occitan continued as a spoken language but gradually displaced by French from the late medieval period onward; still present as a regional language.",
+            "value": {
+              "name": "Occitan",
+              "wikidata": "Q14185"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1500,
             "role": "state",
-            "notes": "Middle and then Modern French developed from Old French; French has been the primary language of Paris and the state language of France from the late medieval period to the present.",
+            "notes": "French became the administrative and eventually dominant language; Ordinance of Villers-Cotterêts 1539 mandated French in legal documents.",
             "value": {
               "name": "French",
               "wikidata": "Q150"
@@ -394,22 +1419,20 @@
         "entries": [
           {
             "to": 400,
-            "from": -250,
+            "from": -200,
             "role": "major",
-            "notes": "Gaulish/Celtic religion practiced by the Parisii before and during the early Roman period; gradually displaced by Roman religion and then Christianity.",
+            "notes": "Gaulish/Celtic religious practices among the Volcae Tectosages prior to and during Roman period.",
             "value": {
               "name": "Celtic polytheism",
               "wikidata": "Q263031"
             },
-            "confidence": "medium",
-            "from_circa": true,
-            "from_precision": 8
+            "confidence": "medium"
           },
           {
-            "to": 400,
-            "from": -52,
+            "to": 380,
+            "from": -120,
             "role": "state",
-            "notes": "Roman religion became dominant following the conquest of 52 BC; remained state religion until the Christianisation of the Empire.",
+            "notes": "Roman state religion dominant during Roman period; Domitian placed Toulouse under patronage of Pallas Athena.",
             "value": {
               "name": "religion in ancient Rome",
               "wikidata": "Q107013169"
@@ -419,8 +1442,8 @@
           {
             "to": 380,
             "from": 250,
-            "role": "minority",
-            "notes": "Christianity introduced mid-3rd century AD by Saint Denis, first Bishop of Paris. Minority religion until official recognition.",
+            "role": "minor",
+            "notes": "Early Christian presence; Saint Saturnin (Sernin) martyred in Toulouse c. 250 AD, traditionally first bishop.",
             "value": {
               "name": "Christianity",
               "wikidata": "Q5043"
@@ -430,7 +1453,7 @@
           {
             "from": 380,
             "role": "state",
-            "notes": "Christianity became the state religion of the Roman Empire under Theodosius I (380 AD). The Catholic Church has remained the dominant institution in Paris ever since, though secularisation reduced its state role after the Revolution.",
+            "notes": "Christianity became state religion of Roman Empire under Theodosius; Toulouse has been Catholic ever since. Catharism suppressed by 1321.",
             "value": {
               "name": "Catholic Church",
               "wikidata": "Q9592"
@@ -438,34 +1461,24 @@
             "confidence": "high"
           },
           {
-            "to": 1394,
-            "from": 1200,
-            "role": "minority",
-            "notes": "A significant Jewish community existed in medieval Paris. Jews were repeatedly expelled and readmitted; finally expelled from France in 1394.",
-            "value": {
-              "name": "Judaism",
-              "wikidata": "Q9268"
-            },
-            "confidence": "medium"
-          },
-          {
-            "to": 1598,
-            "from": 1517,
+            "to": 1244,
+            "from": 1100,
             "role": "minor",
-            "notes": "Protestant (Huguenot) community grew during the Reformation. Paris was a stronghold of the Catholic League; the St. Bartholomew's Day massacre of 1572 targeted Protestants. Edict of Nantes 1598 granted some tolerance.",
+            "notes": "Catharism was significant in Toulouse and surrounding region; Council of Toulouse 1229 laid foundations for Inquisition to eradicate it; effectively suppressed by mid-13th century.",
             "value": {
-              "name": "Protestantism",
-              "wikidata": "Q23540"
+              "name": "Catharism",
+              "wikidata": "Q161696"
             },
             "confidence": "high"
           },
           {
-            "from": 1791,
-            "role": "minority",
-            "notes": "Jews were emancipated by the French Revolution in 1791, returning as a recognized community in Paris.",
+            "to": 1685,
+            "from": 1562,
+            "role": "minor",
+            "notes": "Huguenots were a significant minority; French Wars of Religion began 1562; Toulouse became ultra-Catholic stronghold; Edict of Fontainebleau 1685 revoked Edict of Nantes, driving out remaining Protestants.",
             "value": {
-              "name": "Judaism",
-              "wikidata": "Q9268"
+              "name": "Protestantism",
+              "wikidata": "Q23540"
             },
             "confidence": "high"
           }
@@ -474,29 +1487,33 @@
       "site_type": {
         "entries": [
           {
-            "from": -250,
-            "notes": "Parisii settlement on the Île de la Cité, mid-3rd century BC.",
+            "from": -200,
+            "notes": "Tolosa attested as an oppidum on hills before Roman development; the Garonne Valley was a trade hub since at least the Iron Age.",
             "value": "settlement",
-            "confidence": "medium",
-            "from_circa": true,
-            "from_precision": 8
+            "confidence": "medium"
           },
           {
-            "from": -52,
-            "notes": "Roman conquest 52 BC; Lutetia Parisiorum established as a Roman town with forum, baths, temples, theatres, and amphitheatre.",
+            "from": -100,
+            "notes": "Roman military outpost and then developed as a Roman city in Gallia Narbonensis from 2nd century BC.",
             "value": "town",
+            "confidence": "medium"
+          },
+          {
+            "from": 300,
+            "notes": "Grew significantly under Roman rule; capital of Visigothic Kingdom in 5th century.",
+            "value": "city",
+            "confidence": "medium"
+          },
+          {
+            "from": 1443,
+            "notes": "Second parlement of France established 1443; major administrative and judicial centre.",
+            "value": "city",
             "confidence": "high"
           },
           {
-            "from": 508,
-            "notes": "Clovis I made Paris the capital of the Frankish kingdom in 508.",
-            "value": "capital",
-            "confidence": "high"
-          },
-          {
-            "from": 987,
-            "notes": "Hugh Capet elected king; Paris becomes firmly established as capital of France and grows into the largest and most prosperous city in France.",
-            "value": "capital_city",
+            "from": 2016,
+            "notes": "Became regional prefecture of Occitanie in 2016.",
+            "value": "city",
             "confidence": "high"
           }
         ]
@@ -504,363 +1521,388 @@
       "population": {
         "entries": [
           {
-            "from": 1300,
-            "notes": "The article states London had 80,000 inhabitants by 1300, used for comparison; Paris was already larger at this date.",
-            "value": 80000,
+            "from": 1335,
+            "notes": "Article states 'between 35,000 and 40,000 inhabitants' in 1335; midpoint used.",
+            "value": 37500,
             "confidence": "medium"
-          },
-          {
-            "from": 1328,
-            "value": 200000,
-            "sources": [
-              "Paris had 200,000 inhabitants and was already the capital of France, making it the most populous city of Europe."
-            ],
-            "confidence": "medium"
-          },
-          {
-            "from": 1340,
-            "notes": "Article states between 250,000 and 300,000; midpoint used.",
-            "value": 275000,
-            "sources": [
-              "c. 1340: Paris had between 250,000 and 300,000 inhabitants"
-            ],
-            "confidence": "low",
-            "from_circa": true
-          },
-          {
-            "from": 1640,
-            "value": 400000,
-            "sources": [
-              "1640: Paris had a population of about 400,000"
-            ],
-            "confidence": "medium"
-          },
-          {
-            "from": 1780,
-            "value": 650000,
-            "sources": [
-              "1780: Paris's population had grown to 650,000"
-            ],
-            "confidence": "medium"
-          },
-          {
-            "from": 1815,
-            "value": 660000,
-            "sources": [
-              "1815: Paris's population reached 660,000"
-            ],
-            "confidence": "medium"
-          },
-          {
-            "from": 1901,
-            "value": 2715000,
-            "sources": [
-              "1901: Paris's population had grown to about 2,715,000"
-            ],
-            "confidence": "high"
           }
         ]
       },
       "missing_entities": [
         {
           "kind": "polity",
-          "name": "Parisii (Gaulish tribe)",
-          "context": "The Parisii were the Gaulish tribe inhabiting the Paris area before the Roman conquest, minting coins and trading widely.",
-          "proposed_qid": "Q333647"
+          "name": "County of Toulouse",
+          "context": "The County of Toulouse was a quasi-independent entity within the Carolingian and later Capetian framework from the late 8th century until its incorporation into the French royal domain in 1229.",
+          "proposed_qid": "Q486761"
+        },
+        {
+          "kind": "culture",
+          "name": "Volcae Tectosages",
+          "context": "The Gaulish tribe inhabiting the Toulouse area before and during the early Roman period; the name Tolosa has been connected to them.",
+          "proposed_qid": "Q779058"
+        },
+        {
+          "kind": "polity",
+          "name": "Gauls",
+          "context": "QID stripped by validation: QID belongs to kind 'culture' (\"Gauls\"), used on 'polity' track"
         }
       ]
     }
   },
   {
-    "id": "Q388224",
-    "title_en": "Shamakhi",
-    "country_qid": "Q227",
+    "id": "Q6602",
+    "title_en": "Strasbourg",
+    "country_qid": "Q142",
     "coordinates": {
-      "lat": 40.633888888,
-      "lon": 48.639166666
+      "lat": 48.58333333,
+      "lon": 7.74583333
     },
     "enrichment_level": "extracted",
-    "sitelinks_count": 60,
-    "inception_year": 100,
+    "sitelinks_count": 191,
+    "inception_year": -300000,
     "dissolution_year": null,
-    "extracted_at": "2026-07-12T08:07:33.729Z",
+    "extracted_at": "2026-07-14T12:42:24.439Z",
     "model": "claude-sonnet-4-6",
-    "meta": "{\"wikidata_description\":\"city in Azerbaijan\",\"wikidata_type\":\"city or town\",\"indexed_from_tile\":\"48,40\"}",
+    "meta": {
+      "description": "capital and largest city of Grand Est, located in the historical region of Alsace",
+      "native_label": "Strasbourg",
+      "historical_title": null
+    },
     "timeline": {
       "name": {
         "entries": [
           {
-            "from": 100,
-            "notes": "Name as recorded by Claudius Ptolemy (1st–2nd century AD); identified by Azerbaijani historians with early Shamakhi.",
+            "from": -12,
+            "notes": "Gaulish locative form appearing on first Roman milestones in the first century BC.",
             "value": {
               "lang": "la",
-              "text": "Kamachia"
+              "text": "Argentorate"
             },
-            "confidence": "medium",
-            "from_circa": true
+            "sources": [
+              "Latinised first as Argentorate (with Gaulish locative ending, as appearing on the first Roman milestones in the first century)"
+            ]
           },
           {
-            "from": 757,
-            "notes": "Arabic name attested on coins minted at al-Yazidiyya from 757/8 onwards; named after Arab governor Yazid ibn Usayd.",
+            "from": -12,
+            "notes": "Regular Latin nominative form used in later Latin texts.",
             "value": {
-              "lang": "ar",
-              "text": "Yazidiyya"
+              "lang": "la",
+              "text": "Argentoratum"
             },
-            "confidence": "medium"
+            "sources": [
+              "then as Argentoratum (with regular Latin nominative ending, in later Latin texts)"
+            ]
           },
           {
-            "from": 800,
-            "notes": "The name Shamakhiyya appears in 9th–11th century Arabic sources alongside Yazidiyya; the older name eventually displaced the latter.",
+            "from": -12,
+            "notes": "Celtic Gaulish name (nominative form) of the settlement, meaning related to silver/precious metal and fortified enclosure.",
             "value": {
-              "lang": "az",
-              "text": "Şəmaxiyyə"
+              "lang": "cel",
+              "text": "Argantorati"
             },
-            "confidence": "high",
-            "from_circa": true
+            "sources": [
+              "the city was known as Argantorati (in the nominative)"
+            ]
           },
           {
-            "from": 800,
-            "notes": "Arabic form of the city name as used in medieval Arab geographical sources.",
+            "from": 590,
+            "notes": "First attested in Gregory of Tours c. 590, the Latin form of the Germanic new name.",
             "value": {
-              "lang": "ar",
-              "text": "Shamakhiyya"
+              "lang": "la",
+              "text": "Strateburgus"
             },
-            "confidence": "high",
-            "from_circa": true
+            "sources": [
+              "Gregory of Tours was the first to mention the name change... quam nunc Strateburgum vocant"
+            ]
           },
           {
-            "from": 1300,
-            "notes": "English form of the city name, widely used in European travel accounts from the medieval period onward.",
+            "from": 900,
+            "notes": "German form of the name, in use through the medieval and modern period.",
             "value": {
-              "lang": "en",
-              "text": "Shamakhi"
-            },
-            "confidence": "high",
-            "from_circa": true
-          },
-          {
-            "from": 1991,
-            "notes": "Modern Azerbaijani name of the city.",
-            "value": {
-              "lang": "az",
-              "text": "Şamaxı"
+              "lang": "de",
+              "text": "Straßburg"
             },
             "confidence": "high"
+          },
+          {
+            "from": 900,
+            "notes": "French Gallicized form of the Germanic name, the current official name.",
+            "value": {
+              "lang": "fr",
+              "text": "Strasbourg"
+            },
+            "sources": [
+              "later Gallicized as Strasbourg"
+            ]
+          },
+          {
+            "from": 900,
+            "notes": "Lower Alsatian (Alsatian dialect) form of the name.",
+            "value": {
+              "lang": "als",
+              "text": "Strossburi"
+            },
+            "sources": [
+              "Lower Alsatian: Strossburi"
+            ]
           }
         ]
       },
       "events": [
         {
-          "type": "earthquake",
-          "year": 1191,
-          "sources": [
-            "1191 earthquake so strong that Shirvan capital was moved to Baku"
-          ],
+          "type": "founding",
+          "year": -12,
           "confidence": "high",
-          "description": "Powerful earthquake struck Shamakhi; Shirvan capital temporarily transferred to Baku."
+          "description": "Roman camp of Argentoratum first mentioned; foundation of the Roman military settlement."
         },
         {
-          "type": "conquest",
-          "year": 1221,
-          "sources": [
-            "Ibn al-Athir 1221 capture and destruction by Mongol invaders"
-          ],
+          "type": "siege",
+          "year": 357,
           "confidence": "high",
-          "description": "Shamakhi captured and destroyed by Mongol forces. Ibn al-Athir describes heroic resistance by the inhabitants. Archaeological fire layers confirm the destruction.",
-          "perpetrator": "Mongol Empire",
-          "perpetrator_wikidata": "Q12557"
+          "description": "Battle of Argentoratum: Roman forces under Julian defeated the Alemanni."
         },
         {
-          "type": "conquest",
-          "year": 1500,
-          "sources": [
-            "In 1500–1501, it was taken by the Safavid dynasty"
-          ],
+          "type": "revolution",
+          "year": 1262,
           "confidence": "high",
-          "description": "Shamakhi taken by the Safavid dynasty under Shah Ismail I in 1500–1501.",
-          "perpetrator": "Safavid Iran",
-          "perpetrator_wikidata": "Q18234383"
-        },
-        {
-          "type": "earthquake",
-          "year": 1667,
-          "sources": [
-            "1667 earthquake worst with death toll of 80,000, one-third of city collapsed"
-          ],
-          "confidence": "medium",
-          "description": "The worst recorded earthquake at Shamakhi; death toll of 80,000 according to Persian merchants' reports; one-third of the city collapsed."
+          "description": "Citizens revolted against the bishop's rule (Battle of Hausbergen); Strasbourg became a free imperial city."
         },
         {
           "type": "massacre",
-          "year": 1721,
-          "sources": [
-            "In 1721, the Lezgins sacked the city. They massacred thousands of its Shia inhabitants"
-          ],
+          "year": 1349,
           "confidence": "high",
-          "description": "Lezgins of Shirvan and Dagestan, aided by Sunni inhabitants, sacked the city and massacred thousands of its Shia inhabitants, also looting property of Christian inhabitants and foreign (mostly Russian) merchants."
+          "description": "Strasbourg massacre: the Jewish community was massacred during the Black Death persecutions."
         },
         {
-          "type": "destruction",
-          "year": 1742,
-          "sources": [
-            "In 1742 Shamakhi was taken and destroyed by Nader Shah of Persia"
-          ],
+          "type": "conquest",
+          "year": 1681,
           "confidence": "high",
-          "description": "Shamakhi taken and destroyed by Nader Shah of Persia to punish inhabitants for their Sunni creed; a new town of the same name was built ~26km to the west.",
-          "perpetrator": "Afsharid Iran",
-          "perpetrator_wikidata": "Q63149558"
+          "description": "Conquest of Alsace by the armies of Louis XIV; Strasbourg became a French city."
         },
         {
-          "type": "earthquake",
-          "year": 1859,
-          "sources": [
-            "devastating earthquake of 1859, when the capital of the province was transferred to Baku"
-          ],
+          "type": "siege",
+          "year": 1870,
           "confidence": "high",
-          "description": "Devastating earthquake of 1859 led to transfer of the provincial capital from Shamakhi to Baku; the city declined sharply thereafter."
+          "description": "Siege of Strasbourg during the Franco-Prussian War."
         },
         {
-          "type": "earthquake",
-          "year": 1902,
-          "sources": [
-            "last catastrophic earthquake recorded in 1902, which destroyed the 10th-century Juma Mosque"
-          ],
+          "type": "annexation",
+          "year": 1871,
           "confidence": "high",
-          "description": "Last catastrophic earthquake recorded in Shamakhi; destroyed the 10th-century Juma Mosque."
+          "description": "Strasbourg annexed by the German Empire as part of the Imperial Territory of Alsace-Lorraine after the Franco-Prussian War."
+        },
+        {
+          "type": "annexation",
+          "year": 1918,
+          "confidence": "high",
+          "description": "Strasbourg reverted to France at the end of World War I."
+        },
+        {
+          "type": "conquest",
+          "year": 1940,
+          "confidence": "high",
+          "description": "Strasbourg captured by German army in June 1940 during the Battle of France; formally annexed into Gau Baden-Elsaß."
         }
       ],
       "polity": {
         "entries": [
           {
-            "from": 100,
-            "notes": "Ptolemy lists Kamachia among Albanian cities. The region was part of Caucasian Albania in the early centuries CE.",
+            "from": -12,
             "value": {
-              "name": "Caucasian Albania",
-              "wikidata": "Q177076"
+              "name": "Roman Empire",
+              "wikidata": "Q2277"
             },
-            "confidence": "medium",
-            "from_circa": true
+            "sources": [
+              "The Roman camp of Argentoratum was first mentioned in 12 BC"
+            ],
+            "confidence": "high"
           },
           {
-            "from": 252,
-            "notes": "The Azerbaijani source mentions the city was founded or developed under Sasanian Shah Khosrow I Anushirvan (6th century). Sasanian suzerainty over Shirvan from mid-3rd century; inferred from regional history.",
+            "from": 362,
+            "notes": "Western Roman Empire split formalized 285/395 but Argentoratum in the western half; using 362 (Battle of Argentoratum) as a documented anchor.",
             "value": {
-              "name": "Sasanian Empire",
-              "wikidata": "Q83891"
+              "name": "Western Roman Empire",
+              "wikidata": "Q42834"
             },
-            "confidence": "medium",
-            "from_circa": true
+            "confidence": "medium"
           },
           {
-            "from": 642,
-            "notes": "Arab conquest of the Caucasus region in mid-7th century. Numismatic evidence from Shamakhi (Yazidiyya) coins from 757/8–767/8 confirm Arab administration. Inferred from regional history bridging to attested 8th-century coins.",
+            "from": 511,
+            "notes": "After the fall of the Western Roman Empire, the region passed to Frankish rule; Strasbourg was part of Austrasia. Gregory of Tours mentions the city by 590 in the Austrasian context.",
             "value": {
-              "name": "Arab Caliphate",
-              "wikidata": "Q3181749"
+              "name": "Austrasia",
+              "wikidata": "Q105098"
             },
-            "confidence": "medium",
-            "from_circa": true
+            "sources": [
+              "tried by a synod of Austrasian bishops... then taken to the city of Argentoratum, which they now call Strateburgus"
+            ],
+            "confidence": "medium"
           },
           {
-            "from": 800,
-            "notes": "Shamakhi served as a capital of the Shirvanshah realm from the 8th to 15th centuries. The Shirvanshah dynasty ruled the city throughout the medieval period.",
+            "from": 751,
+            "notes": "After the Carolingian reunification of Frankish lands under Pepin III (751), Strasbourg fell under the broader Carolingian/Frankish realm.",
             "value": {
-              "name": "Kingdom of Shirvan",
-              "wikidata": "Q17526620"
+              "name": "Francia",
+              "wikidata": "Q146246"
             },
-            "confidence": "high",
-            "from_circa": true
+            "confidence": "medium"
           },
           {
-            "from": 1220,
-            "notes": "Ibn al-Athir describes the Mongol capture and destruction of Shamakhi in 1221. Archaeological fire layers confirm this. City came under Mongol rule.",
+            "from": 843,
+            "notes": "Treaty of Verdun 843 assigned Alsace and Strasbourg to East Francia. The Oaths of Strasbourg (842) mark this transition period.",
             "value": {
-              "name": "Mongol Empire",
-              "wikidata": "Q12557"
+              "name": "East Francia",
+              "wikidata": "Q153080"
             },
-            "confidence": "high",
-            "from_circa": true
+            "sources": [
+              "842 (Oaths of Strasbourg)"
+            ],
+            "confidence": "high"
           },
           {
-            "from": 1360,
-            "notes": "Shirvanshah rule reasserted after Mongol/Ilkhanid period; Shamakhi continued as Shirvanshah capital through the 14th–15th centuries.",
+            "from": 962,
+            "notes": "Between 362 and 1262 governed by bishops of Strasbourg within the Holy Roman Empire framework; reinforced in 873 and 982.",
             "value": {
-              "name": "Kingdom of Shirvan",
-              "wikidata": "Q17526620"
+              "name": "Holy Roman Empire",
+              "wikidata": "Q12548"
             },
-            "confidence": "medium",
-            "from_circa": true
+            "sources": [
+              "Between 362 and 1262, Strasbourg was governed by the bishops of Strasbourg; their rule was reinforced in 873 and then more in 982"
+            ],
+            "confidence": "high"
           },
           {
-            "from": 1500,
-            "notes": "Taken by the Safavid dynasty in 1500–1501 under Shah Ismail I. Initially Farrukh Yassar's descendants ruled under Safavid suzerainty, then fully incorporated as a Safavid province in 1538.",
+            "from": 1262,
             "value": {
-              "name": "Safavid Iran",
-              "wikidata": "Q18234383"
+              "name": "free imperial city of Strasbourg",
+              "wikidata": "Q1876237"
+            },
+            "sources": [
+              "In 1262, the citizens violently rebelled against the bishop's rule (Battle of Hausbergen) and Strasbourg became a free imperial city"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1681,
+            "value": {
+              "name": "Kingdom of France",
+              "wikidata": "Q70972"
+            },
+            "sources": [
+              "It became a French city in 1681, after the conquest of Alsace by the armies of Louis XIV"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1792,
+            "notes": "French Revolution abolished the monarchy; Strasbourg remained French under the Republic.",
+            "value": {
+              "name": "French First Republic",
+              "wikidata": "Q58296"
+            },
+            "sources": [
+              "1793 (Reign of Terror)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1804,
+            "value": {
+              "name": "First French Empire",
+              "wikidata": "Q71084"
             },
             "confidence": "high"
           },
           {
-            "from": 1723,
-            "notes": "Russians entered Shirvan in 1723 during the Russo-Persian War but soon retired, leaving the city to the Ottomans who controlled it 1723–1735.",
+            "from": 1815,
             "value": {
-              "name": "Ottoman Empire",
-              "wikidata": "Q12560"
+              "name": "Bourbon Restoration in France",
+              "wikidata": "Q207162"
             },
             "confidence": "high"
           },
           {
-            "from": 1735,
-            "notes": "After Nader Shah's rise, Safavids/Afsharids recaptured the region. In 1742 Nader Shah took and destroyed Shamakhi, rebuilding it 26km west. The Afsharid state controlled the region.",
+            "from": 1830,
             "value": {
-              "name": "Afsharid Iran",
-              "wikidata": "Q63149558"
+              "name": "July Monarchy",
+              "wikidata": "Q58202"
             },
             "confidence": "high"
           },
           {
-            "from": 1750,
-            "notes": "After Nader Shah's death, the Shirvan Khanate emerged as a semi-independent entity ruling Shamakhi under nominal Iranian suzerainty.",
+            "from": 1848,
             "value": {
-              "name": "Shirvan Khanate",
-              "wikidata": "Q965466"
+              "name": "French Second Republic",
+              "wikidata": "Q58326"
             },
-            "confidence": "medium",
-            "from_circa": true
+            "confidence": "high"
           },
           {
-            "from": 1805,
-            "notes": "The Shirvan Khanate was incorporated into the Russian Empire during the Russo-Persian War; confirmed by the Treaty of Gulistan (1813).",
+            "from": 1852,
             "value": {
-              "name": "Russian Empire",
-              "wikidata": "Q34266"
+              "name": "Second French Empire",
+              "wikidata": "Q71092"
             },
+            "confidence": "high"
+          },
+          {
+            "from": 1870,
+            "notes": "Third Republic proclaimed Sept 1870, but Strasbourg fell to Germany after the Franco-Prussian War.",
+            "value": {
+              "name": "French Third Republic",
+              "wikidata": "Q70802"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1871,
+            "value": {
+              "name": "German Empire",
+              "wikidata": "Q43287"
+            },
+            "sources": [
+              "In 1871, after the Franco-Prussian War, the city, as part of the Imperial Territory of Alsace-Lorraine, became German again, until 1918"
+            ],
             "confidence": "high"
           },
           {
             "from": 1918,
-            "notes": "Following the fall of the Russian Empire, Shamakhi came under the Azerbaijan Democratic Republic (1918–1920).",
             "value": {
-              "name": "Azerbaijan Democratic Republic",
-              "wikidata": "Q206411"
+              "name": "French Third Republic",
+              "wikidata": "Q70802"
             },
+            "sources": [
+              "until 1918 (end of World War I), when it reverted to France"
+            ],
             "confidence": "high"
           },
           {
-            "from": 1920,
-            "notes": "Soviet takeover of Azerbaijan in 1920.",
+            "from": 1940,
             "value": {
-              "name": "Azerbaijan Soviet Socialist Republic",
-              "wikidata": "Q131337"
+              "name": "Nazi Germany",
+              "wikidata": "Q7318"
             },
+            "sources": [
+              "Strasbourg was captured by the German army in June 1940... subsequently came under German control again through formal annexation into the Gau Baden-Elsaß"
+            ],
             "confidence": "high"
           },
           {
-            "from": 1991,
-            "notes": "Azerbaijan declared independence from the Soviet Union in 1991.",
+            "from": 1946,
             "value": {
-              "name": "Azerbaijan",
-              "wikidata": "Q227"
+              "name": "French Fourth Republic",
+              "wikidata": "Q69829"
+            },
+            "sources": [
+              "since the liberation of the city by the 2nd French Armoured Division under General Leclerc in November 1944, it has again been a French city"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1958,
+            "value": {
+              "name": "France",
+              "wikidata": "Q142"
             },
             "confidence": "high"
           }
@@ -869,89 +1911,160 @@
       "culture": {
         "entries": [
           {
-            "from": 100,
-            "notes": "The site is identified with Ptolemy's Kamachia, located within the cultural sphere of Caucasian Albania.",
+            "to": -12,
+            "from": -300000,
+            "notes": "The area was inhabited since the Middle Paleolithic; by the late pre-Roman Iron Age the region was Celtic/Gaulish. The Gaulish name Argantorati attests Celtic presence at the site before Roman conquest. Closing at the Roman military foundation (-12 BC).",
             "value": {
-              "name": "Caucasian Albania"
+              "name": "Gauls",
+              "wikidata": "Q273854"
             },
-            "confidence": "medium",
-            "from_circa": true
+            "confidence": "low",
+            "from_precision": 6
+          },
+          {
+            "to": 476,
+            "from": -12,
+            "value": {
+              "name": "Ancient Rome",
+              "wikidata": "Q1747689"
+            },
+            "sources": [
+              "The Roman camp of Argentoratum was first mentioned in 12 BC"
+            ],
+            "confidence": "high"
+          },
+          {
+            "to": 751,
+            "from": 481,
+            "notes": "Frankish Merovingian culture prevailed in the region after the Roman period and through to the Carolingian transition.",
+            "value": {
+              "name": "Merovingian",
+              "wikidata": "Q66084488"
+            },
+            "confidence": "medium"
           }
         ]
       },
       "language": {
         "entries": [
           {
-            "from": 100,
-            "role": "minor",
-            "notes": "Armenian communities are attested historically in Shamakhi. Armenian presence in the broader Caucasian Albania region predates the medieval period.",
-            "value": {
-              "name": "Armenian",
-              "wikidata": "Q8785"
-            },
-            "confidence": "low",
-            "from_circa": true
-          },
-          {
-            "from": 642,
-            "role": "minor",
-            "notes": "Arabic became an administrative and religious language with the Arab conquest. Coins were minted with Arabic inscriptions. Administrative language until Shirvanshah reassertion.",
-            "value": {
-              "name": "Arabic",
-              "wikidata": "Q13955"
-            },
-            "confidence": "medium",
-            "from_circa": true
-          },
-          {
-            "from": 800,
+            "to": 500,
+            "from": -12,
             "role": "major",
-            "notes": "Persian was the language of culture and administration throughout the Shirvanshah and Safavid periods. John Bell (1715) noted city elites spoke Persian.",
+            "notes": "The Gaulish language was spoken by the Celtic population at Argentoratum before and during the early Roman period. Gradually replaced by Latin.",
             "value": {
-              "name": "Persian",
-              "wikidata": "Q9168"
+              "name": "Gaulish",
+              "wikidata": "Q29977"
             },
-            "confidence": "medium",
-            "from_circa": true
+            "confidence": "medium"
+          },
+          {
+            "from": -12,
+            "role": "state",
+            "notes": "Latin was the language of Roman administration and military at Argentoratum from its foundation.",
+            "value": {
+              "name": "Latin",
+              "wikidata": "Q397"
+            },
+            "confidence": "high"
+          },
+          {
+            "to": 900,
+            "from": 500,
+            "role": "major",
+            "notes": "Latin continued as the language of the church and administration through the Frankish period, gradually giving way to Old High German and Old French dialects.",
+            "value": {
+              "name": "Latin",
+              "wikidata": "Q397"
+            },
+            "confidence": "medium"
+          },
+          {
+            "from": 500,
+            "role": "major",
+            "notes": "Germanic-speaking Franks and Alemans settled the region; the city's new name Strateburgus/Strasbourg is of Germanic origin.",
+            "value": {
+              "name": "Old High German",
+              "wikidata": "Q35218"
+            },
+            "sources": [
+              "That name is of Germanic origin and means 'town (at the crossing) of roads'"
+            ],
+            "confidence": "high"
           },
           {
             "from": 1200,
             "role": "major",
-            "notes": "Adam Olearius (1637) described Turkish (Azerbaijani) as the common language of all inhabitants regardless of ethnicity, used across Shirvan and Persia. John Bell (1715) confirmed Turkish was the common language.",
+            "notes": "Middle High German and then modern German were the dominant vernacular languages of Strasbourg through the medieval and early modern periods.",
             "value": {
-              "name": "Azerbaijani",
-              "wikidata": "Q9292"
-            },
-            "confidence": "high",
-            "from_circa": true
-          },
-          {
-            "from": 1500,
-            "role": "minor",
-            "notes": "Armenians were extensively documented in Shamakhi by multiple sources from the 16th century: Jenkinson (1562), Carmelite monks (1607), Olearius (1637), Pedro Cobro (1670s). In 1873 they were 5,177 out of ~25,000 inhabitants.",
-            "value": {
-              "name": "Armenian",
-              "wikidata": "Q8785"
+              "name": "German",
+              "wikidata": "Q188"
             },
             "confidence": "high"
           },
           {
-            "from": 1500,
-            "role": "minority",
-            "notes": "Georgians are mentioned by Olearius (1637), Pedro Cobro (1670s), and John Bell (1715) as a notable community in Shamakhi.",
+            "from": 1681,
+            "role": "state",
             "value": {
-              "name": "Georgian",
-              "wikidata": "Q8108"
+              "name": "French",
+              "wikidata": "Q150"
+            },
+            "sources": [
+              "It became a French city in 1681"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1681,
+            "role": "major",
+            "notes": "German (Alsatian dialect) continued as the dominant vernacular language of the population even after French annexation.",
+            "value": {
+              "name": "German",
+              "wikidata": "Q188"
             },
             "confidence": "high"
           },
           {
-            "from": 1805,
-            "role": "minor",
-            "notes": "Russian became an administrative language after incorporation into the Russian Empire in 1805. By 1903, 3% of population was Russian.",
+            "from": 1871,
+            "role": "state",
             "value": {
-              "name": "Russian",
-              "wikidata": "Q7737"
+              "name": "German",
+              "wikidata": "Q188"
+            },
+            "sources": [
+              "In 1871, after the Franco-Prussian War, the city... became German again, until 1918"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1871,
+            "role": "minor",
+            "notes": "French remained spoken by a portion of the population during German annexation 1871-1918.",
+            "value": {
+              "name": "French",
+              "wikidata": "Q150"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1918,
+            "role": "state",
+            "value": {
+              "name": "French",
+              "wikidata": "Q150"
+            },
+            "sources": [
+              "until 1918 (end of World War I), when it reverted to France"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1918,
+            "role": "major",
+            "notes": "German (Alsatian) continued as a widely spoken vernacular after return to France in 1918.",
+            "value": {
+              "name": "German",
+              "wikidata": "Q188"
             },
             "confidence": "high"
           }
@@ -960,86 +2073,862 @@
       "religion": {
         "entries": [
           {
-            "from": 642,
-            "role": "major",
-            "notes": "Islam spread to the Caucasus with the Arab conquest in the 7th century. The Friday Mosque is attested archaeologically from the 8th–9th centuries.",
+            "to": 400,
+            "from": -12,
+            "role": "state",
+            "notes": "Roman polytheism was the state religion of the Roman Empire during the occupation of Argentoratum.",
             "value": {
-              "name": "Islam",
-              "wikidata": "Q432"
+              "name": "religion in ancient Rome",
+              "wikidata": "Q107013169"
             },
-            "confidence": "medium",
-            "from_circa": true
+            "confidence": "medium"
           },
           {
-            "from": 642,
+            "from": 300,
             "role": "minor",
-            "notes": "Christian communities (Armenians, Georgians) are attested in Shamakhi from the medieval period onward. Likely present from earlier given Caucasian Albanian Christianity.",
+            "notes": "Christianity spread into the Rhine region during the 3rd-4th centuries.",
             "value": {
-              "name": "Christianity",
-              "wikidata": "Q5043"
+              "name": "Catholic Church",
+              "wikidata": "Q9592"
+            },
+            "confidence": "medium"
+          },
+          {
+            "from": 400,
+            "role": "state",
+            "notes": "After Christianisation of the Empire, the Catholic Church became the state religion. Strasbourg was governed by its bishops from 362 to 1262, reflecting the church's central role.",
+            "value": {
+              "name": "Catholic Church",
+              "wikidata": "Q9592"
+            },
+            "sources": [
+              "Between 362 and 1262, Strasbourg was governed by the bishops of Strasbourg"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1517,
+            "role": "major",
+            "value": {
+              "name": "Protestantism",
+              "wikidata": "Q23540"
+            },
+            "sources": [
+              "Strasbourg played an important part in the Protestant Reformation, with personalities such as John Calvin, Martin Bucer, Wolfgang Capito"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1681,
+            "role": "state",
+            "notes": "After French annexation in 1681, Catholicism was re-established as dominant; Protestantism continued as a significant minority.",
+            "value": {
+              "name": "Catholic Church",
+              "wikidata": "Q9592"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1681,
+            "role": "minor",
+            "notes": "Protestant communities persisted after French annexation, protected under Alsatian concordat arrangements.",
+            "value": {
+              "name": "Protestantism",
+              "wikidata": "Q23540"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1800,
+            "role": "minority",
+            "notes": "Jewish community re-established in Strasbourg in the post-Revolutionary period following emancipation.",
+            "value": {
+              "name": "Judaism",
+              "wikidata": "Q9268"
+            },
+            "confidence": "medium"
+          }
+        ]
+      },
+      "site_type": {
+        "entries": [
+          {
+            "from": -300000,
+            "notes": "The fertile area between the Ill and Rhine had already been populated since the Middle Paleolithic, per the article.",
+            "value": "settlement",
+            "confidence": "low",
+            "from_precision": 6
+          },
+          {
+            "from": -12,
+            "value": "fortress",
+            "sources": [
+              "The Roman camp of Argentoratum was first mentioned in 12 BC"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 100,
+            "notes": "Roman settlement grew around the camp during the early imperial period.",
+            "value": "town",
+            "confidence": "medium"
+          },
+          {
+            "from": 362,
+            "notes": "By the late Roman period Argentoratum was a significant city; Battle of Argentoratum 357 AD attests its importance.",
+            "value": "city",
+            "confidence": "medium"
+          },
+          {
+            "from": 1262,
+            "value": "city",
+            "sources": [
+              "Strasbourg became a free imperial city in 1262"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1681,
+            "value": "city",
+            "sources": [
+              "It became a French city in 1681"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 2016,
+            "value": "capital",
+            "sources": [
+              "In 2016, Strasbourg was promoted from capital of Alsace to capital of Grand Est"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "population": {
+        "entries": []
+      },
+      "missing_entities": []
+    }
+  },
+  {
+    "id": "Q471984",
+    "title_en": "Saint-Macaire",
+    "country_qid": "Q142",
+    "coordinates": {
+      "lat": 44.565238888,
+      "lon": -0.226316666
+    },
+    "enrichment_level": "extracted",
+    "sitelinks_count": 42,
+    "inception_year": 1000,
+    "dissolution_year": null,
+    "extracted_at": "2026-07-14T12:40:55.903Z",
+    "model": "claude-sonnet-4-6",
+    "meta": "{\"wikidata_description\":\"commune in Gironde, France\",\"wikidata_type\":\"medieval city\",\"indexed_from_tile\":\"-1,44\"}",
+    "timeline": {
+      "name": {
+        "entries": [
+          {
+            "from": 1000,
+            "notes": "Name attested from medieval period; exact earliest attestation not given in the sources.",
+            "value": {
+              "lang": "fr",
+              "text": "Saint-Macaire"
+            },
+            "confidence": "medium",
+            "from_circa": true
+          }
+        ]
+      },
+      "events": [],
+      "polity": {
+        "entries": [
+          {
+            "to": 1791,
+            "from": 1000,
+            "notes": "Inferred from regional context. Saint-Macaire is in the Gironde, historically part of the Duchy of Aquitaine and then the Kingdom of France. Specific polity not attested in the sources for this period.",
+            "value": {
+              "name": "Kingdom of France",
+              "wikidata": "Q70972"
+            },
+            "confidence": "low",
+            "from_circa": true
+          },
+          {
+            "from": 1792,
+            "notes": "Population data begins 1793, implying the commune existed under the Republic.",
+            "value": {
+              "name": "French First Republic",
+              "wikidata": "Q58296"
+            },
+            "confidence": "medium"
+          },
+          {
+            "from": 1804,
+            "value": {
+              "name": "First French Empire",
+              "wikidata": "Q71084"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1815,
+            "value": {
+              "name": "Bourbon Restoration in France",
+              "wikidata": "Q207162"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1830,
+            "value": {
+              "name": "July Monarchy",
+              "wikidata": "Q58202"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1848,
+            "value": {
+              "name": "French Second Republic",
+              "wikidata": "Q58326"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1852,
+            "value": {
+              "name": "Second French Empire",
+              "wikidata": "Q71092"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1870,
+            "value": {
+              "name": "French Third Republic",
+              "wikidata": "Q70802"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1940,
+            "value": {
+              "name": "Vichy France",
+              "wikidata": "Q69808"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1946,
+            "value": {
+              "name": "French Fourth Republic",
+              "wikidata": "Q69829"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1958,
+            "value": {
+              "name": "France",
+              "wikidata": "Q142"
+            },
+            "confidence": "high"
+          }
+        ]
+      },
+      "culture": {
+        "entries": [
+          {
+            "to": 1500,
+            "from": 1000,
+            "notes": "No specific archaeological culture is attested in the sources. The Gauls entry is closed as the culture track stops once documented history of identifiable states begins. Using 'Gauls' here is an over-reach given no specific cultural attestation; omitting is safer.",
+            "value": {
+              "name": "Gauls",
+              "wikidata": "Q273854"
+            },
+            "confidence": "low",
+            "from_circa": true,
+            "suppressed": true
+          }
+        ]
+      },
+      "language": {
+        "entries": [
+          {
+            "from": 1000,
+            "role": "major",
+            "notes": "Saint-Macaire is in Gascony/Aquitaine. Occitan/Gascon was the dominant vernacular language of this region in the medieval period.",
+            "value": {
+              "name": "Occitan",
+              "wikidata": "Q14185"
             },
             "confidence": "medium",
             "from_circa": true
           },
           {
-            "from": 800,
-            "role": "major",
-            "notes": "Shirvanshah realm was predominantly Sunni Muslim. By the 8th–10th century the Islamic character of the city is well established.",
+            "from": 1300,
+            "role": "minor",
+            "notes": "Occitan gradually declined as French became dominant. Still spoken as a minority language.",
             "value": {
-              "name": "Sunni Islam",
-              "wikidata": "Q483654"
+              "name": "Occitan",
+              "wikidata": "Q14185"
+            },
+            "confidence": "low",
+            "from_circa": true
+          },
+          {
+            "from": 1300,
+            "role": "major",
+            "notes": "French gradually became the dominant language of administration and eventually daily life in Aquitaine, particularly after the region was definitively incorporated into France.",
+            "value": {
+              "name": "Old French",
+              "wikidata": "Q35222"
             },
             "confidence": "medium",
             "from_circa": true
           },
           {
-            "to": 800,
-            "from": 800,
-            "role": "major",
-            "notes": "Generic Islam entry closed when Sunni/Shia distinction becomes apparent from the 8th century onward.",
+            "from": 1400,
+            "role": "state",
+            "notes": "French (Middle French and then Modern French) became the state/administrative language. Transitioning from Old French.",
             "value": {
-              "name": "Islam",
-              "wikidata": "Q432"
+              "name": "French",
+              "wikidata": "Q150"
+            },
+            "confidence": "medium",
+            "from_circa": true
+          }
+        ]
+      },
+      "religion": {
+        "entries": [
+          {
+            "from": 1000,
+            "role": "state",
+            "notes": "The church of Saint-Sauveur and the priory are mentioned as central features of the old town, indicating Catholic Church presence from the medieval period. Inferred from regional context for early date.",
+            "value": {
+              "name": "Catholic Church",
+              "wikidata": "Q9592"
+            },
+            "confidence": "medium",
+            "from_circa": true
+          }
+        ]
+      },
+      "site_type": {
+        "entries": [
+          {
+            "from": 1000,
+            "notes": "Medieval origin inferred from the fishbone street plan and the church of Saint-Sauveur. The old town is semi-hemispherical, surrounded by ramparts, with two medieval suburbs.",
+            "value": "town",
+            "confidence": "medium",
+            "from_circa": true
+          }
+        ]
+      },
+      "population": {
+        "entries": [
+          {
+            "from": 1793,
+            "value": 1750,
+            "sources": [
+              "INSEE census data 1793"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1836,
+            "notes": "Representative mid-19th century figure before the notable jump in 1866.",
+            "value": 1535,
+            "sources": [
+              "INSEE census data 1836"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1866,
+            "notes": "Significant increase from previous figure (~40% jump).",
+            "value": 2165,
+            "sources": [
+              "INSEE census data 1866"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1896,
+            "notes": "Near-peak of late 19th century population.",
+            "value": 2283,
+            "sources": [
+              "INSEE census data 1896"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1946,
+            "notes": "Post-WWII low point.",
+            "value": 1505,
+            "sources": [
+              "INSEE census data 1946"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1990,
+            "notes": "Late 20th century low.",
+            "value": 1459,
+            "sources": [
+              "INSEE census data 1990"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 2012,
+            "notes": "Recent recovery to above 2000.",
+            "value": 2020,
+            "sources": [
+              "INSEE census data 2012"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 2023,
+            "value": 1981,
+            "sources": [
+              "INSEE census data 2023"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "missing_entities": []
+    }
+  },
+  {
+    "id": "Q33959",
+    "title_en": "Nice",
+    "country_qid": "Q142",
+    "coordinates": {
+      "lat": 43.701944444,
+      "lon": 7.268333333
+    },
+    "enrichment_level": "extracted",
+    "sitelinks_count": 174,
+    "inception_year": -400000,
+    "dissolution_year": null,
+    "extracted_at": "2026-07-14T12:39:24.056Z",
+    "model": "claude-sonnet-4-6",
+    "meta": "{\"wikidata_description\":\"city and commune in Alpes-Maritimes, Provence-Alpes-Côte d'Azur, France\",\"wikidata_type\":\"big city\",\"indexed_from_tile\":\"7,43\"}",
+    "timeline": {
+      "name": {
+        "entries": [
+          {
+            "from": -350,
+            "value": {
+              "lang": "grc",
+              "text": "Νίκαια"
+            },
+            "sources": [
+              "It was given the name of Níkaia in honour of a victory over the neighbouring Ligurians"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": -350,
+            "notes": "Latin-script transliteration of the Ancient Greek name Νίκαια.",
+            "value": {
+              "lang": "grc",
+              "text": "Nikaia"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": -27,
+            "notes": "Latin form of the name during the Roman period.",
+            "value": {
+              "lang": "la",
+              "text": "Nicaea"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1388,
+            "notes": "Italian name used during the County of Nice period under the House of Savoy.",
+            "value": {
+              "lang": "it",
+              "text": "Nizza"
+            },
+            "sources": [
+              "The Italian language, which was the official language of the county"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1388,
+            "notes": "Occitan/Niçard vernacular name of the city.",
+            "value": {
+              "lang": "oc",
+              "text": "Niça"
+            },
+            "confidence": "medium"
+          },
+          {
+            "from": 1860,
+            "value": {
+              "lang": "fr",
+              "text": "Nice"
+            },
+            "sources": [
+              "annexed to France in 1860"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "events": [
+        {
+          "type": "founding",
+          "year": -350,
+          "confidence": "high",
+          "description": "Nice founded by Phocaean Greek colonists and named Nikaia in honour of a victory over the Ligurians."
+        },
+        {
+          "type": "destruction",
+          "year": 859,
+          "confidence": "high",
+          "description": "Saracens pillaged and burned Nice in 859 and again in 880.",
+          "perpetrator": "Saracens"
+        },
+        {
+          "type": "siege",
+          "year": 1543,
+          "confidence": "high",
+          "description": "Nice attacked by combined Franco-Ottoman forces of Francis I and Barbarossa; city surrendered and was pillaged, with 2,500 captives taken.",
+          "perpetrator": "France and Ottoman Empire (Barbarossa)"
+        },
+        {
+          "type": "conquest",
+          "year": 1691,
+          "confidence": "high",
+          "description": "Nice captured by Nicolas Catinat; restored to Savoy in 1696.",
+          "perpetrator": "France"
+        },
+        {
+          "type": "conquest",
+          "year": 1792,
+          "confidence": "high",
+          "description": "Nice conquered by the armies of the French First Republic.",
+          "perpetrator": "French First Republic"
+        },
+        {
+          "type": "annexation",
+          "year": 1860,
+          "confidence": "high",
+          "description": "Nice annexed to France following a plebiscite on 15–16 April 1860; Italian was immediately replaced by French as official language.",
+          "perpetrator": "France"
+        },
+        {
+          "type": "conquest",
+          "year": 1944,
+          "confidence": "high",
+          "description": "American paratroopers entered Nice on 30 August 1944, liberating it from German occupation.",
+          "perpetrator": "Allied forces (United States)"
+        },
+        {
+          "type": "massacre",
+          "year": 2016,
+          "confidence": "high",
+          "description": "On 14 July 2016, a truck was deliberately driven into a crowd on the Promenade des Anglais; 87 people killed, 434 injured.",
+          "perpetrator": "Mohamed Lahouaiej-Bouhlel",
+          "perpetrator_wikidata": "Q26271350"
+        }
+      ],
+      "polity": {
+        "entries": [
+          {
+            "from": -350,
+            "notes": "Phocaean Greek colony named Nikaia. No specific polity QID available for this colonial settlement.",
+            "value": {
+              "name": "Ancient Greek colony (Phocaean)"
+            },
+            "sources": [
+              "founded around 350 BC by colonists from the Greek city of Phocaea"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": -27,
+            "notes": "Roman presence attested by the rival town of Cemenelum (Cimiez); Nice was within Roman Italy (Regio IX Liguria).",
+            "value": {
+              "name": "Roman Empire",
+              "wikidata": "Q2277"
+            },
+            "confidence": "medium"
+          },
+          {
+            "from": 476,
+            "notes": "Lombard invasions ended Cemenelum's separate existence; Nice came under Lombard influence.",
+            "value": {
+              "name": "Kingdom of the Lombards",
+              "wikidata": "Q854415"
+            },
+            "sources": [
+              "Cemenelum continued to exist as a separate city until the time of the Lombard invasions"
+            ],
+            "confidence": "medium"
+          },
+          {
+            "from": 568,
+            "notes": "Inferred from regional control during Lombard period.",
+            "value": {
+              "name": "Kingdom of the Lombards",
+              "wikidata": "Q854415"
+            },
+            "confidence": "medium"
+          },
+          {
+            "from": 855,
+            "notes": "Nice was part of the County of Provence in the Carolingian and post-Carolingian period. In the 7th century Nice joined the Genoese League formed by towns of Liguria.",
+            "value": {
+              "name": "County of Provence",
+              "wikidata": "Q2991382"
+            },
+            "confidence": "medium"
+          },
+          {
+            "from": 1388,
+            "notes": "County of Nice established under the House of Savoy from 1388.",
+            "value": {
+              "name": "County of Nice",
+              "wikidata": "Q706553"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1720,
+            "value": {
+              "name": "Kingdom of Sardinia",
+              "wikidata": "Q2577303"
+            },
+            "sources": [
+              "The Treaty of Utrecht (1713) once more gave the city back to the Duke of Savoy, who was on that same occasion recognised as King of Sicily",
+              "In 1775 the king, who in 1718 had swapped his sovereignty of Sicily for the Kingdom of Sardinia"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1792,
+            "value": {
+              "name": "French First Republic",
+              "wikidata": "Q58296"
+            },
+            "sources": [
+              "Conquered in 1792 by the armies of the First French Republic"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1804,
+            "notes": "Nice remained part of France under Napoleon's Empire.",
+            "value": {
+              "name": "First French Empire",
+              "wikidata": "Q71084"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1814,
+            "value": {
+              "name": "Kingdom of Sardinia",
+              "wikidata": "Q2577303"
+            },
+            "sources": [
+              "after that date it reverted to the Kingdom of Piedmont-Sardinia"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1860,
+            "value": {
+              "name": "France",
+              "wikidata": "Q142"
+            },
+            "sources": [
+              "A plebiscite was voted on 15 and 16 April 1860",
+              "The 'yes' vote won 83% of registered voters throughout the county of Nice"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "culture": {
+        "entries": [
+          {
+            "to": -148001,
+            "from": -400000,
+            "notes": "Terra Amata site shows Homo erectus presence with flint tools ~400,000 years ago; Acheulean culture broadly applicable. This is specifically attested AT the Terra Amata site in Nice.",
+            "value": {
+              "name": "Acheulean",
+              "wikidata": "Q210774"
+            },
+            "confidence": "low",
+            "from_precision": 6
+          },
+          {
+            "to": -27,
+            "from": -350,
+            "notes": "Phocaean Greek colonial culture. No specific archaeological culture QID in referential.",
+            "value": {
+              "name": "Ancient Greek colony culture"
+            },
+            "sources": [
+              "founded around 350 BC by colonists from the Greek city of Phocaea"
+            ],
+            "confidence": "high"
+          },
+          {
+            "to": 476,
+            "from": -27,
+            "notes": "Roman culture prevailed during the Roman imperial period.",
+            "value": {
+              "name": "Ancient Rome",
+              "wikidata": "Q1747689"
+            },
+            "confidence": "medium"
+          },
+          {
+            "to": 751,
+            "from": 481,
+            "notes": "Merovingian Frankish cultural influence in southern Gaul after the fall of the Western Roman Empire; inferred from regional context.",
+            "value": {
+              "name": "Merovingian",
+              "wikidata": "Q66084488"
             },
             "confidence": "low"
+          }
+        ]
+      },
+      "language": {
+        "entries": [
+          {
+            "to": -27,
+            "from": -350,
+            "role": "major",
+            "notes": "Greek was the language of the Phocaean colonists.",
+            "value": {
+              "name": "Ancient Greek",
+              "wikidata": "Q35497"
+            },
+            "sources": [
+              "founded around 350 BC by colonists from the Greek city of Phocaea"
+            ],
+            "confidence": "high"
           },
           {
-            "from": 1500,
+            "to": 600,
+            "from": -27,
             "role": "state",
-            "notes": "The Safavid dynasty imposed Shia Islam as the state religion after 1500. The 1721 massacre targeted the Shia population specifically.",
+            "notes": "Latin was the administrative and dominant language during Roman rule and its aftermath.",
             "value": {
-              "name": "Shia Islam",
-              "wikidata": "Q9585"
+              "name": "Latin",
+              "wikidata": "Q397"
             },
             "confidence": "high"
           },
           {
-            "from": 1500,
+            "from": 900,
+            "role": "major",
+            "value": {
+              "name": "Italian",
+              "wikidata": "Q652"
+            },
+            "sources": [
+              "The Italian language, which was the official language of the county, used by the Church, at the town hall, taught in schools, used in theaters and at the Opera"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 900,
+            "role": "major",
+            "notes": "Niçard (a variant of Ligurian/Occitan) was spoken as a vernacular language by the local population throughout the medieval and early modern period and beyond.",
+            "value": {
+              "name": "Occitan",
+              "wikidata": "Q14185"
+            },
+            "confidence": "medium"
+          },
+          {
+            "from": 1860,
+            "role": "state",
+            "value": {
+              "name": "French",
+              "wikidata": "Q150"
+            },
+            "sources": [
+              "The Italian language ... was immediately abolished and replaced by French",
+              "The French government implemented a policy of Francization of society, language and culture"
+            ],
+            "confidence": "high"
+          },
+          {
+            "to": 1871,
+            "from": 1860,
             "role": "minor",
-            "notes": "Sunni population remained, noted in sources including the 1721 Lezgin attack supported by Sunni inhabitants. In 1903, 22% of the Muslim population was Sunni.",
+            "notes": "Italian declined rapidly after annexation to France; Italian-language newspapers were banned by 1871.",
             "value": {
-              "name": "Sunni Islam",
-              "wikidata": "Q483654"
+              "name": "Italian",
+              "wikidata": "Q652"
             },
+            "sources": [
+              "Italian-language newspapers in Nice were banned",
+              "A quarter of the population of Nice, around 11,000 people from Nice, decided to voluntarily exile to Italy"
+            ],
             "confidence": "high"
+          }
+        ]
+      },
+      "religion": {
+        "entries": [
+          {
+            "to": 400,
+            "from": -350,
+            "role": "major",
+            "notes": "Greek colony; Greek polytheistic religion would have been dominant among colonists.",
+            "value": {
+              "name": "Ancient Greek religion",
+              "wikidata": "Q855270"
+            },
+            "confidence": "medium"
           },
           {
-            "from": 1500,
-            "role": "minority",
-            "notes": "Armenians were a significant community in Shamakhi throughout the Safavid and later periods, documented by multiple sources from 1562 onward. In 1873 they numbered 5,177 out of ~25,000.",
+            "to": 380,
+            "from": -27,
+            "role": "state",
+            "notes": "Roman state religion during imperial period.",
             "value": {
-              "name": "Armenian Apostolic Church",
-              "wikidata": "Q683724"
+              "name": "religion in ancient Rome",
+              "wikidata": "Q107013169"
             },
-            "confidence": "high"
+            "confidence": "medium"
           },
           {
-            "from": 1805,
-            "role": "minority",
-            "notes": "Russian presence from 1805 brought Eastern Orthodox Christians. By 1903, about 3% of population was Russian.",
+            "from": 300,
+            "role": "major",
+            "notes": "Christianity spreading through the Roman Empire by the 4th century; Nice progressively Christianised.",
             "value": {
-              "name": "Eastern Orthodox Church",
-              "wikidata": "Q35032"
+              "name": "Catholic Church",
+              "wikidata": "Q9592"
+            },
+            "confidence": "medium"
+          },
+          {
+            "from": 380,
+            "role": "state",
+            "notes": "Catholicism became the state religion of the Roman Empire under Theodosius I in 380 AD, and remained the dominant and official religion of Nice through all subsequent periods.",
+            "value": {
+              "name": "Catholic Church",
+              "wikidata": "Q9592"
             },
             "confidence": "high"
           }
@@ -1048,34 +2937,34 @@
       "site_type": {
         "entries": [
           {
-            "from": 100,
-            "notes": "First mentioned as 'Kamachia' by Ptolemy (1st–2nd century AD); Khinisli archaeological site 2km west suggests ancient settlement. Treating as a town by the early centuries CE based on Ptolemy's mention among Albanian cities.",
-            "value": "town",
+            "from": -400000,
+            "notes": "Terra Amata archaeological site shows hominid (Homo erectus) presence ~400,000 years ago, one of earliest uses of fire and construction of houses.",
+            "value": "campsite",
             "confidence": "medium",
-            "from_circa": true
+            "from_precision": 6
           },
           {
-            "from": 800,
-            "notes": "Served as capital of the Shirvanshah realm from around the 8th to 15th centuries. Archaeological layers confirm 8th–9th century urban occupation.",
-            "value": "capital",
-            "confidence": "high"
-          },
-          {
-            "from": 1500,
-            "notes": "Capital of Shirvan province under the Safavid Empire from 1538 onward.",
-            "value": "capital",
-            "confidence": "high"
-          },
-          {
-            "from": 1742,
-            "notes": "Destroyed by Nader Shah in 1742; new town built 26km west; old town later rebuilt and continued as a regional centre under the Shirvan Khanate and later Russian Empire.",
+            "from": -350,
             "value": "town",
+            "sources": [
+              "founded around 350 BC by colonists from the Greek city of Phocaea",
+              "one of the busiest trading ports on the Ligurian coast"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1000,
+            "notes": "Nice grew into a major urban centre through the medieval and early modern period.",
+            "value": "city",
             "confidence": "medium"
           },
           {
-            "from": 1859,
-            "notes": "After the 1859 earthquake, the provincial capital was moved to Baku; Shamakhi declined in importance but remained an inhabited town.",
-            "value": "town",
+            "from": 1860,
+            "value": "city",
+            "sources": [
+              "annexed to France in 1860",
+              "economic boom primarily driven by tourism and construction"
+            ],
             "confidence": "high"
           }
         ]
@@ -1083,29 +2972,1491 @@
       "population": {
         "entries": [
           {
-            "from": 1476,
-            "notes": "Venetian diplomat Giosafat Barbaro (1476) described the city as having 'four to five thousand houses'. Using the figure as a rough indicator only; actual population not given. NOT converting houses to people — figure omitted as a strict count. Recorded only as a qualitative indicator of size.",
-            "value": 25000,
-            "confidence": "low",
-            "from_circa": true
+            "from": 1860,
+            "notes": "Approximate population at time of annexation to France; roughly 11,000 people (a quarter of the population) chose to emigrate to Italy, suggesting a total of about 44,000.",
+            "value": 44000,
+            "confidence": "low"
+          }
+        ]
+      },
+      "missing_entities": [
+        {
+          "kind": "polity",
+          "name": "Ancient Greek colony (Phocaean)",
+          "context": "The Phocaean Greek colonial settlement of Nikaia at Nice, founded c. 350 BC, was not a named independent polity in the referential.",
+          "proposed_qid": "Q4479830"
+        },
+        {
+          "kind": "language",
+          "name": "Occitan",
+          "context": "Occitan/Niçard spoken as a vernacular in Nice throughout the medieval and modern period. Occitan is in the referential as Q14185 — confirmed match.",
+          "proposed_qid": "Q14185"
+        }
+      ]
+    }
+  },
+  {
+    "id": "Q12191",
+    "title_en": "Nantes",
+    "country_qid": "Q142",
+    "coordinates": {
+      "lat": 47.217222222,
+      "lon": -1.553888888
+    },
+    "enrichment_level": "extracted",
+    "sitelinks_count": 152,
+    "inception_year": -900,
+    "dissolution_year": null,
+    "extracted_at": "2026-07-14T12:38:11.780Z",
+    "model": "claude-sonnet-4-6",
+    "meta": "{\"wikidata_description\":\"city in Loire-Atlantique, Pays de la Loire, France\",\"wikidata_type\":\"big city\",\"indexed_from_tile\":\"-2,47\"}",
+    "timeline": {
+      "name": {
+        "entries": [
+          {
+            "from": -150,
+            "notes": "Latin name of the settlement during the Gallo-Roman period; related to Gaulish word for 'confluence'.",
+            "value": {
+              "lang": "la",
+              "text": "Condevicnum"
+            },
+            "sources": [
+              "The name was Latinised during the Gallo-Roman period as Condevicnum (the most common form)"
+            ],
+            "confidence": "medium"
           },
           {
-            "from": 1750,
-            "notes": "Sources state the population of Shamakhi in the mid-1700s was about 60,000, described as one of the best and most populous cities of Persia. Majority were Armenians according to the source.",
-            "value": 60000,
-            "confidence": "low",
-            "from_circa": true
+            "from": -150,
+            "notes": "Variant Latin spelling attested.",
+            "value": {
+              "lang": "la",
+              "text": "Condivicnum"
+            },
+            "confidence": "medium"
           },
           {
-            "from": 1873,
-            "notes": "Encyclopædia Britannica stated 25,087 inhabitants in 1873: 18,680 Tartars and Shachsevans, 5,177 Armenians, 1,230 Russians.",
-            "value": 25087,
+            "from": -100,
+            "notes": "Greek form used by Ptolemy in his Geography.",
+            "value": {
+              "lang": "grc",
+              "text": "Κονδηούινκον"
+            },
+            "sources": [
+              "Its first recorded name was by the Greek writer Ptolemy"
+            ],
+            "confidence": "medium"
+          },
+          {
+            "from": 300,
+            "notes": "Late Roman name meaning 'port of the Namnetes'.",
+            "value": {
+              "lang": "la",
+              "text": "Portus Namnetum"
+            },
+            "sources": [
+              "it became known as Portus Namnetum 'port of the Namnetes'"
+            ],
             "confidence": "high"
           },
           {
-            "from": 1903,
-            "notes": "Brockhaus and Efron Encyclopedic Dictionary (1903): 20,008 inhabitants (10,450 males, 9,558 females); 3% Russians, 18% Armenians, 79% Azerbaijani Tatars.",
-            "value": 20008,
+            "from": 300,
+            "notes": "Alternative late Roman administrative name meaning 'city of the Namnetes'.",
+            "value": {
+              "lang": "la",
+              "text": "Civitas Namnetum"
+            },
+            "sources": [
+              "'city of the Namnetes'"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 500,
+            "notes": "The name Nantes emerged after the sixth century via syncope of the Namnete root.",
+            "value": {
+              "lang": "fr",
+              "text": "Nantes"
+            },
+            "sources": [
+              "Nantes after the sixth, via syncope"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "events": [
+        {
+          "type": "conquest",
+          "year": -52,
+          "confidence": "high",
+          "description": "Roman conquest of Gaul; Nantes (territory of the Namnetes) brought under Roman control.",
+          "perpetrator": "Roman Republic",
+          "perpetrator_wikidata": "Q17167"
+        },
+        {
+          "type": "siege",
+          "year": 275,
+          "sources": [
+            "After an attack by German tribes in 275, Nantes's inhabitants built a wall"
+          ],
+          "confidence": "high",
+          "description": "Attack by German tribes; inhabitants subsequently built a city wall.",
+          "perpetrator": "Germanic tribes"
+        },
+        {
+          "type": "conquest",
+          "year": 490,
+          "sources": [
+            "Around 490, the Franks under Clovis I captured the city from the Visigoths after a sixty-day siege"
+          ],
+          "confidence": "high",
+          "description": "Franks under Clovis I captured Nantes from the Visigoths after a sixty-day siege.",
+          "perpetrator": "Francia",
+          "perpetrator_wikidata": "Q146246"
+        },
+        {
+          "type": "massacre",
+          "year": 843,
+          "sources": [
+            "The most spectacular Viking attack in Nantes occurred in 843, when Viking warriors killed the bishop"
+          ],
+          "confidence": "high",
+          "description": "Viking warriors attacked Nantes and killed the bishop during the most spectacular Viking attack on the city.",
+          "perpetrator": "Viking raiders"
+        },
+        {
+          "type": "conquest",
+          "year": 850,
+          "sources": [
+            "Nominoe (a Breton) became the first duke of Brittany, seizing Nantes in 850"
+          ],
+          "confidence": "high",
+          "description": "Nominoe, first Duke of Brittany, seized Nantes from Frankish control.",
+          "perpetrator": "Duchy of Brittany",
+          "perpetrator_wikidata": "Q71747"
+        },
+        {
+          "type": "annexation",
+          "year": 1532,
+          "sources": [
+            "the unification of the duchy of Brittany with the French crown which was ratified by Francis I of France in 1532"
+          ],
+          "confidence": "high",
+          "description": "Union of Brittany with France ratified by Francis I; Nantes formally incorporated into France.",
+          "perpetrator": "Kingdom of France",
+          "perpetrator_wikidata": "Q70972"
+        },
+        {
+          "type": "massacre",
+          "year": 1793,
+          "sources": [
+            "Between 12,000 and 13,000 people were arrested, and 8,000 to 11,000 died of typhus or were executed by the guillotine, shooting or drowning"
+          ],
+          "confidence": "high",
+          "description": "Between 8,000 and 11,000 people died under deputy Carrier's revolutionary tribunal, including the Drownings at Nantes (noyades).",
+          "perpetrator": "French First Republic",
+          "perpetrator_wikidata": "Q58296"
+        },
+        {
+          "type": "conquest",
+          "year": 1940,
+          "sources": [
+            "The city was captured by Nazi Germany on 18 June 1940, during the Battle of France"
+          ],
+          "confidence": "high",
+          "description": "Nantes captured by Nazi Germany on 18 June 1940 during the Battle of France.",
+          "perpetrator": "Nazi Germany",
+          "perpetrator_wikidata": "Q7318"
+        }
+      ],
+      "polity": {
+        "entries": [
+          {
+            "from": -150,
+            "notes": "During the Gaulish period, Nantes was the capital of the Namnetes people, a Gaulish tribe. The Parisii QID is incorrect here — the Namnetes are the relevant tribe. Emitting without wikidata; see missing_entities.",
+            "value": {
+              "name": "Parisii",
+              "wikidata": "Q656902"
+            },
+            "confidence": "low"
+          },
+          {
+            "from": -27,
+            "notes": "Roman conquest of Gaul under Caesar. Nantes (Portus Namnetum) became a Roman town.",
+            "value": {
+              "name": "Roman Empire",
+              "wikidata": "Q2277"
+            },
+            "sources": [
+              "the Roman conquest in the first century BC"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 476,
+            "notes": "Nantes was held by the Visigoths before 490.",
+            "value": {
+              "name": "Visigothic Kingdom",
+              "wikidata": "Q126936"
+            },
+            "sources": [
+              "Around 490, the Franks under Clovis I captured the city from the Visigoths after a sixty-day siege"
+            ],
+            "confidence": "medium"
+          },
+          {
+            "from": 490,
+            "notes": "Frankish capture of Nantes from the Visigoths.",
+            "value": {
+              "name": "Francia",
+              "wikidata": "Q146246"
+            },
+            "sources": [
+              "Around 490, the Franks under Clovis I captured the city from the Visigoths"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 800,
+            "notes": "Nantes served as capital of the Breton March under Charlemagne.",
+            "value": {
+              "name": "Carolingian Empire",
+              "wikidata": "Q31929"
+            },
+            "sources": [
+              "Under Charlemagne in the eighth century the town was the capital of the Breton March"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 850,
+            "notes": "Breton seizure of Nantes by Nominoe in 850.",
+            "value": {
+              "name": "Duchy of Brittany",
+              "wikidata": "Q71747"
+            },
+            "sources": [
+              "Nominoe (a Breton) became the first duke of Brittany, seizing Nantes in 850"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 919,
+            "notes": "Nantes became part of the Viking realm in 919. No specific Viking polity QID available for this Loire Viking domain; emitting without wikidata.",
+            "value": {
+              "name": "Kingdom of the Isles",
+              "wikidata": "Q459188"
+            },
+            "confidence": "low"
+          },
+          {
+            "from": 939,
+            "notes": "Brittany retook Nantes in 937.",
+            "value": {
+              "name": "Duchy of Brittany",
+              "wikidata": "Q71747"
+            },
+            "sources": [
+              "the Norse were expelled from the town in 937 by Alan II, Duke of Brittany"
+            ],
+            "confidence": "high"
+          },
+          {
+            "to": 1791,
+            "from": 1491,
+            "notes": "Brittany progressively unified with France from 1491, ratified 1532.",
+            "value": {
+              "name": "Kingdom of France",
+              "wikidata": "Q70972"
+            },
+            "sources": [
+              "The marriage of Anne of Brittany to Charles VIII of France in 1491 began the unification of the duchy of Brittany with the French crown which was ratified by Francis I of France in 1532"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1792,
+            "notes": "Nantes under the French Republic during the Revolution.",
+            "value": {
+              "name": "French First Republic",
+              "wikidata": "Q58296"
+            },
+            "sources": [
+              "the National Convention (which had founded the First French Republic)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1804,
+            "notes": "Napoleon's empire; inferred from French political history.",
+            "value": {
+              "name": "First French Empire",
+              "wikidata": "Q71084"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1815,
+            "notes": "Bourbon Restoration after Napoleon's defeat.",
+            "value": {
+              "name": "Bourbon Restoration in France",
+              "wikidata": "Q207162"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1830,
+            "notes": "July Monarchy under Louis-Philippe.",
+            "value": {
+              "name": "July Monarchy",
+              "wikidata": "Q58202"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1848,
+            "notes": "Second Republic, 1848–1852.",
+            "value": {
+              "name": "French Second Republic",
+              "wikidata": "Q58326"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1852,
+            "notes": "Napoleon III's empire.",
+            "value": {
+              "name": "Second French Empire",
+              "wikidata": "Q71092"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1870,
+            "notes": "Third Republic.",
+            "value": {
+              "name": "French Third Republic",
+              "wikidata": "Q70802"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1940,
+            "notes": "Nantes under German occupation 1940–1944.",
+            "value": {
+              "name": "Nazi Germany",
+              "wikidata": "Q7318"
+            },
+            "sources": [
+              "The city was captured by Nazi Germany on 18 June 1940"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1944,
+            "notes": "Liberation of Nantes in August 1944.",
+            "value": {
+              "name": "Provisional Government of the French Republic",
+              "wikidata": "Q783684"
+            },
+            "sources": [
+              "it was recaptured without a fight by the French Forces of the Interior and the U.S. Army"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1946,
+            "notes": "Fourth Republic.",
+            "value": {
+              "name": "French Fourth Republic",
+              "wikidata": "Q69829"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1958,
+            "notes": "Fifth Republic to present.",
+            "value": {
+              "name": "France",
+              "wikidata": "Q142"
+            },
+            "confidence": "high"
+          }
+        ]
+      },
+      "culture": {
+        "entries": [
+          {
+            "to": -52,
+            "from": -900,
+            "notes": "Gaulish culture, specifically the Namnetes tribe. Closed at Roman conquest.",
+            "value": {
+              "name": "Gauls",
+              "wikidata": "Q273854"
+            },
+            "sources": [
+              "During the Gaulish period it was the capital of the Namnetes people"
+            ],
+            "confidence": "high"
+          },
+          {
+            "to": 476,
+            "from": -52,
+            "notes": "Roman culture during the Gallo-Roman period. Closed at fall of Western Roman Empire.",
+            "value": {
+              "name": "Ancient Rome",
+              "wikidata": "Q1747689"
+            },
+            "sources": [
+              "Because tradesmen favoured inland roads rather than Atlantic routes, Nantes never became a large city under Roman occupation"
+            ],
+            "confidence": "high"
+          },
+          {
+            "to": 751,
+            "from": 481,
+            "notes": "Merovingian cultural period following Frankish conquest; inferred from regional context. Closed at end of Merovingian dynasty.",
+            "value": {
+              "name": "Merovingian",
+              "wikidata": "Q66084488"
+            },
+            "confidence": "medium"
+          }
+        ]
+      },
+      "language": {
+        "entries": [
+          {
+            "to": 600,
+            "from": -150,
+            "role": "major",
+            "notes": "Gaulish spoken by the Namnetes and during the Gallo-Roman period; gradually replaced by Latin. Approximate closing date.",
+            "value": {
+              "name": "Gaulish",
+              "wikidata": "Q29977"
+            },
+            "confidence": "medium"
+          },
+          {
+            "to": 900,
+            "from": -52,
+            "role": "state",
+            "notes": "Latin was the administrative and literary language during the Roman and early medieval periods. As a spoken vernacular it gave way to Old French, but continued as a learned/ecclesiastical language.",
+            "value": {
+              "name": "Latin",
+              "wikidata": "Q397"
+            },
+            "sources": [
+              "The name was Latinised during the Gallo-Roman period"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 450,
+            "role": "minor",
+            "notes": "Breton spoken by Breton immigrants and in the broader region; present as a minority language.",
+            "value": {
+              "name": "Breton",
+              "wikidata": "Q12107"
+            },
+            "sources": [
+              "In Breton, Nantes is known as Naoned"
+            ],
+            "confidence": "medium"
+          },
+          {
+            "from": 900,
+            "role": "major",
+            "notes": "Old French emerged as the dominant vernacular in the medieval period.",
+            "value": {
+              "name": "Old French",
+              "wikidata": "Q35222"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 900,
+            "role": "minor",
+            "notes": "Gallo, the regional oïl language, spoken in the area around Nantes.",
+            "value": {
+              "name": "Gallo",
+              "wikidata": "Q37300"
+            },
+            "sources": [
+              "In Gallo, the oïl language traditionally spoken in the region around Nantes"
+            ],
+            "confidence": "medium"
+          },
+          {
+            "to": 1611,
+            "from": 1350,
+            "role": "state",
+            "notes": "Middle French period, 1350–1611.",
+            "value": {
+              "name": "Middle French",
+              "wikidata": "Q1473289"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1611,
+            "role": "state",
+            "notes": "Modern French; official language of France to the present.",
+            "value": {
+              "name": "French",
+              "wikidata": "Q150"
+            },
+            "confidence": "high"
+          }
+        ]
+      },
+      "religion": {
+        "entries": [
+          {
+            "to": 400,
+            "from": -150,
+            "role": "major",
+            "notes": "Gaulish/Celtic religious practices among the Namnetes and during Gallo-Roman period. Gradually displaced by Christianity.",
+            "value": {
+              "name": "Celtic polytheism",
+              "wikidata": "Q263031"
+            },
+            "confidence": "medium"
+          },
+          {
+            "to": 400,
+            "from": -52,
+            "role": "state",
+            "notes": "Roman state religion, including a temple dedicated to Mars Mullo. Declined as Christianity spread.",
+            "value": {
+              "name": "religion in ancient Rome",
+              "wikidata": "Q107013169"
+            },
+            "sources": [
+              "the city had sewers, public baths and a temple dedicated to Mars Mullo"
+            ],
+            "confidence": "medium"
+          },
+          {
+            "from": 250,
+            "role": "minor",
+            "notes": "Christianity introduced in the third century; early martyrs Donatian and Rogatian executed 288–290.",
+            "value": {
+              "name": "Christianity",
+              "wikidata": "Q5043"
+            },
+            "sources": [
+              "Christianity was introduced during the third century"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 380,
+            "role": "state",
+            "notes": "Catholicism became the dominant and state religion from the late 4th century onwards; a cathedral was built. The city remained fervently Catholic through the early modern period.",
+            "value": {
+              "name": "Catholic Church",
+              "wikidata": "Q9592"
+            },
+            "sources": [
+              "a cathedral was built during the fourth century",
+              "the town remained fervently Catholic"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "site_type": {
+        "entries": [
+          {
+            "from": -900,
+            "notes": "Bronze Age settlement; remnants of smithies dated to the eighth and seventh centuries BC found in the city.",
+            "value": "settlement",
+            "sources": [
+              "The first inhabitants of what is now Nantes settled during the Bronze Age",
+              "local industry appeared around 900 BC"
+            ],
+            "confidence": "medium"
+          },
+          {
+            "from": -150,
+            "notes": "Gaulish settlement of the Namnetes tribe established at the confluence of the Erdre and Loire.",
+            "value": "town",
+            "sources": [
+              "Namnetes, who established a settlement between the end of the second century and the beginning of the first century BC"
+            ],
+            "confidence": "medium"
+          },
+          {
+            "from": 14,
+            "notes": "Roman-period town; began to grow significantly after the collapse of Ratiatum.",
+            "value": "town",
+            "sources": [
+              "there is no evidence of a city in the area before the reign of Tiberius in the first century AD"
+            ],
+            "confidence": "medium"
+          },
+          {
+            "from": 1350,
+            "notes": "Became the main residence of the Dukes of Brittany and a major port city.",
+            "value": "city",
+            "sources": [
+              "Nantes, the largest town in Brittany (with a population of over 10,000)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1850,
+            "notes": "Major industrial city with food processing and shipbuilding industries.",
+            "value": "city",
+            "sources": [
+              "Nantes became a major industrial city during the second half of the 19th century"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1980,
+            "notes": "Modern service-oriented city, part of the Nantes Métropole urban area.",
+            "value": "city",
+            "sources": [
+              "its economy became service-oriented and it experienced economic growth"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "population": {
+        "entries": [
+          {
+            "from": 1350,
+            "notes": "Population of over 10,000 during the Montfort period in the 14th century.",
+            "value": 10000,
+            "sources": [
+              "Nantes, the largest town in Brittany (with a population of over 10,000)"
+            ],
+            "confidence": "medium"
+          }
+        ]
+      },
+      "missing_entities": [
+        {
+          "kind": "polity",
+          "name": "Namnetes",
+          "context": "Gaulish tribe that controlled Nantes before Roman conquest; the article states it was the capital of the Namnetes people.",
+          "proposed_qid": "Q1076915"
+        },
+        {
+          "kind": "polity",
+          "name": "Loire Vikings",
+          "context": "Viking realm that held Nantes from 919 until expelled in 937; no specific polity QID identified for this Loire Viking domain."
+        }
+      ]
+    }
+  },
+  {
+    "id": "Q235",
+    "title_en": "Monaco",
+    "country_qid": "Q235",
+    "coordinates": {
+      "lat": 43.731111111,
+      "lon": 7.42
+    },
+    "enrichment_level": "extracted",
+    "sitelinks_count": 320,
+    "inception_year": -600,
+    "dissolution_year": null,
+    "extracted_at": "2026-07-14T12:36:38.750Z",
+    "model": "claude-sonnet-4-6",
+    "meta": "{\"wikidata_description\":\"microstate in Western Europe\",\"wikidata_type\":\"border city\",\"indexed_from_tile\":\"7,43\"}",
+    "timeline": {
+      "name": {
+        "entries": [
+          {
+            "from": -600,
+            "value": {
+              "lang": "grc",
+              "text": "Μόνοικος"
+            },
+            "sources": "referred to it as Monoikos, a Ligurian town; Monoikos (Greek for 'the solitary one')",
+            "confidence": "medium",
+            "from_circa": true,
+            "from_precision": 7
+          },
+          {
+            "from": -600,
+            "notes": "Latin/Latinised form of the Greek name Monoikos, used by ancient authors including Strabo.",
+            "value": {
+              "lang": "la",
+              "text": "Monoikos"
+            },
+            "confidence": "medium",
+            "from_circa": true,
+            "from_precision": 7
+          },
+          {
+            "from": 1215,
+            "value": {
+              "lang": "it",
+              "text": "Monaco"
+            },
+            "sources": "refounded in 1215 as a colony of Genoa; the area was already known by this name",
+            "confidence": "high"
+          },
+          {
+            "from": 1861,
+            "value": {
+              "lang": "fr",
+              "text": "Monaco"
+            },
+            "sources": "Franco-Monégasque Treaty of 1861; French became official language in 1860",
+            "confidence": "high"
+          }
+        ]
+      },
+      "events": [
+        {
+          "type": "founding",
+          "year": 1191,
+          "confidence": "high",
+          "description": "Grant of land from Emperor Henry VI; Monaco refounded in 1215 as a colony of Genoa."
+        },
+        {
+          "type": "refounding",
+          "year": 1215,
+          "confidence": "high",
+          "description": "Monaco refounded as a colony of Genoa following the imperial land grant."
+        },
+        {
+          "type": "conquest",
+          "year": 1297,
+          "confidence": "high",
+          "description": "Francesco Grimaldi and his men captured the fortress of the Rock of Monaco, dressed as Franciscan friars, establishing Grimaldi rule."
+        },
+        {
+          "type": "annexation",
+          "year": 1793,
+          "confidence": "high",
+          "description": "Revolutionary French forces captured Monaco; the principality was occupied until 1814."
+        },
+        {
+          "type": "annexation",
+          "year": 1815,
+          "confidence": "high",
+          "description": "Monaco designated a protectorate of the Kingdom of Sardinia by the Congress of Vienna."
+        },
+        {
+          "type": "conquest",
+          "year": 1943,
+          "confidence": "high",
+          "description": "Italian Army invaded and occupied Monaco in 1943, forming a fascist administration. In September 1943, German Wehrmacht occupied Monaco after Mussolini's fall."
+        },
+        {
+          "type": "expulsion",
+          "year": 1943,
+          "confidence": "high",
+          "description": "Nazi deportation of the Jewish population of Monaco began in September 1943 following German occupation."
+        }
+      ],
+      "polity": {
+        "entries": [
+          {
+            "from": 1191,
+            "notes": "Emperor Henry VI granted land; Monaco then refounded as a Genoese colony in 1215.",
+            "value": {
+              "name": "Holy Roman Empire",
+              "wikidata": "Q12548"
+            },
+            "sources": "Following a grant of land from Emperor Henry VI in 1191",
+            "confidence": "medium"
+          },
+          {
+            "from": 1215,
+            "value": {
+              "name": "Republic of Genoa",
+              "wikidata": "Q174306"
+            },
+            "sources": "refounded in 1215 as a colony of Genoa",
+            "confidence": "high"
+          },
+          {
+            "from": 1297,
+            "value": {
+              "name": "Monaco",
+              "wikidata": "Q235"
+            },
+            "sources": "Monaco was first ruled by a member of the House of Grimaldi in 1297",
+            "confidence": "high"
+          },
+          {
+            "from": 1793,
+            "value": {
+              "name": "French First Republic",
+              "wikidata": "Q58296"
+            },
+            "sources": "In 1793, Revolutionary forces captured Monaco",
+            "confidence": "high"
+          },
+          {
+            "from": 1804,
+            "notes": "Napoleon's empire governed Monaco from 1804 until 1814.",
+            "value": {
+              "name": "First French Empire",
+              "wikidata": "Q71084"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1814,
+            "value": {
+              "name": "Monaco",
+              "wikidata": "Q235"
+            },
+            "sources": "The principality was reestablished in 1814 under the Grimaldis",
+            "confidence": "high"
+          }
+        ]
+      },
+      "culture": {
+        "entries": [
+          {
+            "to": -200,
+            "from": -600,
+            "notes": "Hecataeus refers to Monaco as a Ligurian town; Ligurians were a pre-Roman Italic/Celtic people of the region. No specific archaeological culture named for this site; using Gauls as closest attested regional culture. Closed at Roman period.",
+            "value": {
+              "name": "Gauls",
+              "wikidata": "Q273854"
+            },
+            "confidence": "low",
+            "from_circa": true,
+            "from_precision": 7
+          },
+          {
+            "to": 476,
+            "from": -200,
+            "notes": "Roman presence in the western Mediterranean from the 2nd century BC; Monaco area under Roman influence. Closed at the fall of the Western Roman Empire.",
+            "value": {
+              "name": "Ancient Rome",
+              "wikidata": "Q1747689"
+            },
+            "confidence": "low",
+            "from_circa": true
+          }
+        ]
+      },
+      "language": {
+        "entries": [
+          {
+            "to": -100,
+            "from": -600,
+            "role": "major",
+            "notes": "Ligurian/Gaulish dialects spoken in the region before Roman conquest. Closed with Latin dominance from the 1st century BC.",
+            "value": {
+              "name": "Gaulish",
+              "wikidata": "Q29977"
+            },
+            "confidence": "low",
+            "from_circa": true,
+            "from_precision": 7
+          },
+          {
+            "to": 900,
+            "from": -100,
+            "role": "major",
+            "notes": "Latin spread with Roman conquest; ceased as spoken vernacular and was replaced by Italian/Old French dialects in the early medieval period.",
+            "value": {
+              "name": "Latin",
+              "wikidata": "Q397"
+            },
+            "confidence": "medium",
+            "from_circa": true
+          },
+          {
+            "to": 1860,
+            "from": 900,
+            "role": "state",
+            "notes": "Italian was the official language until replaced by French in 1860. Approximate start date from the medieval period.",
+            "value": {
+              "name": "Italian",
+              "wikidata": "Q652"
+            },
+            "sources": "Italian was the official language in Monaco until 1860",
+            "confidence": "medium",
+            "from_circa": true
+          },
+          {
+            "from": 1860,
+            "role": "state",
+            "value": {
+              "name": "French",
+              "wikidata": "Q150"
+            },
+            "sources": "Italian was the official language in Monaco until 1860, when it was replaced by French",
+            "confidence": "high"
+          }
+        ]
+      },
+      "religion": {
+        "entries": [
+          {
+            "to": 400,
+            "from": -600,
+            "role": "minor",
+            "notes": "Strabo mentions a temple of Heracles (Monoikos) at Monaco, attesting Greek religious presence. Closed circa 4th–5th century AD with Christianisation.",
+            "value": {
+              "name": "Ancient Greek religion",
+              "wikidata": "Q855270"
+            },
+            "confidence": "low",
+            "from_circa": true,
+            "from_precision": 7
+          },
+          {
+            "to": 400,
+            "from": -200,
+            "role": "major",
+            "notes": "Roman religious practice from the Roman period. Closed with Christianisation circa 4th–5th century AD.",
+            "value": {
+              "name": "religion in ancient Rome",
+              "wikidata": "Q107013169"
+            },
+            "confidence": "low",
+            "from_circa": true
+          },
+          {
+            "from": 400,
+            "role": "state",
+            "notes": "Christianity became dominant in the region from the 4th–5th century AD. Catholicism has been the state religion of Monaco to the present day.",
+            "value": {
+              "name": "Catholic Church",
+              "wikidata": "Q9592"
+            },
+            "confidence": "medium",
+            "from_circa": true
+          }
+        ]
+      },
+      "site_type": {
+        "entries": [
+          {
+            "from": -600,
+            "notes": "Mentioned by Hecataeus of Miletus as a Ligurian town; approximate date for ancient attestation.",
+            "value": "settlement",
+            "confidence": "low",
+            "from_circa": true,
+            "from_precision": 7
+          },
+          {
+            "from": 1215,
+            "value": "colony",
+            "sources": "refounded in 1215 as a colony of Genoa",
+            "confidence": "high"
+          },
+          {
+            "from": 1297,
+            "value": "town",
+            "sources": "first ruled by a member of the House of Grimaldi in 1297",
+            "confidence": "high"
+          },
+          {
+            "from": 1861,
+            "value": "capital",
+            "sources": "Monaco's sovereignty were recognised by the Franco-Monégasque Treaty of 1861",
+            "confidence": "high"
+          },
+          {
+            "from": 1993,
+            "value": "capital_city",
+            "sources": "the Principality of Monaco became a member of the United Nations in 1993",
+            "confidence": "high"
+          }
+        ]
+      },
+      "population": {
+        "entries": []
+      },
+      "missing_entities": []
+    }
+  },
+  {
+    "id": "Q23482",
+    "title_en": "Marseille",
+    "country_qid": "Q142",
+    "coordinates": {
+      "lat": 43.2964,
+      "lon": 5.37
+    },
+    "enrichment_level": "extracted",
+    "sitelinks_count": 191,
+    "inception_year": -600,
+    "dissolution_year": null,
+    "extracted_at": "2026-07-14T12:35:52.979Z",
+    "model": "claude-sonnet-4-6",
+    "meta": {
+      "description": "French commune in Bouches-du-Rhône, Provence-Alpes-Côte d'Azur; the second largest city of France",
+      "native_label": "Marseille",
+      "historical_title": null
+    },
+    "timeline": {
+      "name": {
+        "entries": [
+          {
+            "from": -600,
+            "notes": "Ancient Greek name of the colony.",
+            "value": {
+              "lang": "grc",
+              "text": "Μασσαλία"
+            },
+            "sources": [
+              "the oldest attestation of the name, since the city was founded by Greek settlers around 600 BC"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": -600,
+            "notes": "Latin form of the Greek name, used throughout the Roman period.",
+            "value": {
+              "lang": "la",
+              "text": "Massalia"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": -600,
+            "notes": "Modern English form of the ancient name.",
+            "value": {
+              "lang": "en",
+              "text": "Massalia"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1100,
+            "notes": "Medieval Occitan form of the name.",
+            "value": {
+              "lang": "oc",
+              "text": "Marselha"
+            },
+            "sources": [
+              "from the Medieval Occitan"
+            ],
+            "confidence": "medium"
+          },
+          {
+            "from": 1200,
+            "notes": "French name, standard modern form.",
+            "value": {
+              "lang": "fr",
+              "text": "Marseille"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1200,
+            "notes": "Former English name, now largely replaced by 'Marseille'.",
+            "value": {
+              "lang": "en",
+              "text": "Marseilles"
+            },
+            "sources": [
+              "In English 'Marseille', or formerly 'Marseilles'"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1200,
+            "notes": "Current English name.",
+            "value": {
+              "lang": "en",
+              "text": "Marseille"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1200,
+            "notes": "Occitan (Mistralian norm) form of the name.",
+            "value": {
+              "lang": "oc",
+              "text": "Marsiho"
+            },
+            "sources": [
+              "In Occitan (Provençal) according to the Mistralian norm"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "events": [
+        {
+          "type": "founding",
+          "year": -600,
+          "confidence": "high",
+          "description": "Founding of Massalia by Phocaean Greek settlers around 600 BC."
+        },
+        {
+          "type": "conquest",
+          "year": -49,
+          "confidence": "high",
+          "description": "Caesar's siege and conquest of Massalia in 49 BC; the city lost its independence and came under Roman rule."
+        }
+      ],
+      "polity": {
+        "entries": [
+          {
+            "from": -600,
+            "notes": "Independent Greek city-state of Massalia, founded by Phocaean Greeks c. 600 BC.",
+            "value": {
+              "name": "Massalia",
+              "wikidata": "Q170537"
+            },
+            "sources": [
+              "city was founded by Greek settlers around 600 BC"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": -49,
+            "notes": "Caesar conquered Massalia in 49 BC; it became subject to Rome.",
+            "value": {
+              "name": "Roman Republic",
+              "wikidata": "Q17167"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": -27,
+            "notes": "Massalia under the Roman Empire.",
+            "value": {
+              "name": "Roman Empire",
+              "wikidata": "Q2277"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 476,
+            "notes": "After the fall of the Western Roman Empire, Marseille passed to Visigothic control.",
+            "value": {
+              "name": "Visigothic Kingdom",
+              "wikidata": "Q126936"
+            },
+            "confidence": "medium"
+          },
+          {
+            "from": 536,
+            "notes": "Marseille came under Frankish control in 536 when the Ostrogoths ceded Provence to the Franks.",
+            "value": {
+              "name": "Francia",
+              "wikidata": "Q146246"
+            },
+            "confidence": "medium"
+          },
+          {
+            "from": 987,
+            "notes": "After the Treaty of Verdun, Marseille was part of the emerging West Frankish realm, eventually under the Kingdom of France. Passed through County of Provence before formal French annexation.",
+            "value": {
+              "name": "Kingdom of France",
+              "wikidata": "Q70972"
+            },
+            "confidence": "medium"
+          },
+          {
+            "to": 1791,
+            "from": 1481,
+            "notes": "County of Provence (and Marseille) formally annexed to France in 1481.",
+            "value": {
+              "name": "Kingdom of France",
+              "wikidata": "Q70972"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1792,
+            "notes": "France became a republic in 1792.",
+            "value": {
+              "name": "French First Republic",
+              "wikidata": "Q58296"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1804,
+            "notes": "Napoleon's First Empire.",
+            "value": {
+              "name": "First French Empire",
+              "wikidata": "Q71084"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1815,
+            "notes": "Bourbon Restoration after Napoleon's defeat.",
+            "value": {
+              "name": "Bourbon Restoration in France",
+              "wikidata": "Q207162"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1830,
+            "notes": "July Monarchy under Louis-Philippe.",
+            "value": {
+              "name": "July Monarchy",
+              "wikidata": "Q58202"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1848,
+            "notes": "Second Republic, 1848–1852.",
+            "value": {
+              "name": "French Second Republic",
+              "wikidata": "Q58326"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1852,
+            "notes": "Second Empire under Napoleon III.",
+            "value": {
+              "name": "Second French Empire",
+              "wikidata": "Q71092"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1870,
+            "notes": "Third Republic.",
+            "value": {
+              "name": "French Third Republic",
+              "wikidata": "Q70802"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1940,
+            "notes": "Marseille under Vichy France during World War II.",
+            "value": {
+              "name": "Vichy France",
+              "wikidata": "Q69808"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1946,
+            "notes": "Liberation of Marseille in August 1944; France under the provisional government and then the Fourth Republic.",
+            "value": {
+              "name": "French Fourth Republic",
+              "wikidata": "Q69829"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 1958,
+            "notes": "Fifth Republic of France, established 1958.",
+            "value": {
+              "name": "France",
+              "wikidata": "Q142"
+            },
+            "confidence": "high"
+          }
+        ]
+      },
+      "culture": {
+        "entries": [
+          {
+            "to": -323,
+            "from": -490,
+            "notes": "Greek colonial culture at Massalia.",
+            "value": {
+              "name": "Classical Greece",
+              "wikidata": "Q843745"
+            },
+            "sources": [
+              "city was founded by Greek settlers around 600 BC",
+              "remained for a long time a Greek-speaking place"
+            ],
+            "confidence": "high"
+          },
+          {
+            "to": 476,
+            "from": -49,
+            "notes": "Roman culture prevailed after conquest in 49 BC.",
+            "value": {
+              "name": "Ancient Rome",
+              "wikidata": "Q1747689"
+            },
+            "confidence": "high"
+          },
+          {
+            "to": 751,
+            "from": 481,
+            "notes": "Frankish/Merovingian culture after the fall of the Western Roman Empire and Frankish takeover.",
+            "value": {
+              "name": "Merovingian",
+              "wikidata": "Q66084488"
+            },
+            "confidence": "medium"
+          }
+        ]
+      },
+      "language": {
+        "entries": [
+          {
+            "to": 400,
+            "from": -600,
+            "role": "major",
+            "notes": "Ancient Greek was the dominant language of Massalia from its founding, and persisted well into the Roman period.",
+            "value": {
+              "name": "Ancient Greek",
+              "wikidata": "Q35497"
+            },
+            "sources": [
+              "remained for a long time a Greek-speaking place even after it fell under Roman rule"
+            ],
+            "confidence": "high"
+          },
+          {
+            "to": 600,
+            "from": -49,
+            "role": "major",
+            "notes": "Latin spread following Roman conquest in 49 BC and gradually became dominant, eventually evolving into Occitan/Old French in the early medieval period.",
+            "value": {
+              "name": "Latin",
+              "wikidata": "Q397"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 900,
+            "role": "major",
+            "notes": "Occitan (Provençal) was the vernacular language of Marseille through the medieval period.",
+            "value": {
+              "name": "Occitan",
+              "wikidata": "Q14185"
+            },
+            "sources": [
+              "In Occitan (Provençal)",
+              "from the Medieval Occitan"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": 1481,
+            "role": "state",
+            "notes": "French became the administrative language after the annexation of Provence to France in 1481, and increasingly dominant over Occitan.",
+            "value": {
+              "name": "French",
+              "wikidata": "Q150"
+            },
+            "confidence": "high"
+          },
+          {
+            "to": 1900,
+            "from": 1481,
+            "role": "major",
+            "notes": "Occitan continued as a major spoken language alongside French after annexation, gradually declining through the 19th century.",
+            "value": {
+              "name": "Occitan",
+              "wikidata": "Q14185"
+            },
+            "confidence": "high"
+          }
+        ]
+      },
+      "religion": {
+        "entries": [
+          {
+            "to": 400,
+            "from": -600,
+            "role": "state",
+            "notes": "Greek polytheism practiced at Massalia from its founding. Gradually displaced by Roman religion after 49 BC conquest, then by Christianity. Closing date approximate.",
+            "value": {
+              "name": "Ancient Greek religion",
+              "wikidata": "Q855270"
+            },
+            "confidence": "high"
+          },
+          {
+            "to": 380,
+            "from": -49,
+            "role": "state",
+            "notes": "Roman religion dominant after Caesar's conquest. State religion until the Christianisation of the empire.",
+            "value": {
+              "name": "religion in ancient Rome",
+              "wikidata": "Q107013169"
+            },
+            "confidence": "high"
+          },
+          {
+            "from": 100,
+            "role": "minority",
+            "notes": "Early Christian communities in Marseille; the city had an early bishopric.",
+            "value": {
+              "name": "Christianity",
+              "wikidata": "Q5043"
+            },
+            "confidence": "medium"
+          },
+          {
+            "from": 380,
+            "role": "state",
+            "notes": "Christianity became the state religion of the Roman Empire under Theodosius I in 380 AD.",
+            "value": {
+              "name": "Catholic Church",
+              "wikidata": "Q9592"
+            },
+            "confidence": "high"
+          }
+        ]
+      },
+      "site_type": {
+        "entries": [
+          {
+            "from": -600,
+            "notes": "Greek colony of Massalia, founded c. 600 BC by Phocaean Greeks.",
+            "value": "colony",
+            "sources": [
+              "city was founded by Greek settlers around 600 BC"
+            ],
+            "confidence": "high"
+          },
+          {
+            "from": -49,
+            "notes": "Roman city after Caesar's siege and conquest in 49 BC; became a Roman provincial city.",
+            "value": "city",
+            "confidence": "medium"
+          },
+          {
+            "from": 1200,
+            "notes": "Major Mediterranean port city through the medieval and early modern period.",
+            "value": "port",
+            "confidence": "medium"
+          },
+          {
+            "from": 1792,
+            "notes": "Second-largest city in France; major port and industrial centre.",
+            "value": "city",
+            "confidence": "high"
+          }
+        ]
+      },
+      "population": {
+        "entries": [
+          {
+            "from": 1800,
+            "notes": "Approximate population of Marseille around 1800, based on early 19th-century estimates.",
+            "value": 111130,
+            "confidence": "medium"
+          },
+          {
+            "from": 1900,
+            "notes": "Approximate population at the turn of the 20th century.",
+            "value": 491161,
+            "confidence": "medium"
+          },
+          {
+            "from": 2020,
+            "notes": "Recent population figure for the city of Marseille.",
+            "value": 870018,
             "confidence": "high"
           }
         ]
@@ -1113,20 +4464,15 @@
       "missing_entities": [
         {
           "kind": "polity",
-          "name": "Kingdom of Shirvan",
-          "context": "The Shirvanshah realm that ruled Shamakhi as its capital from the 8th to 15th centuries",
-          "proposed_qid": "Q17526620"
+          "name": "Massalia",
+          "context": "Independent Greek city-state of Massalia, founded c. 600 BC by Phocaean Greeks, controlling Marseille until the Roman conquest in 49 BC.",
+          "proposed_qid": "Q170537"
         },
         {
           "kind": "polity",
-          "name": "Shirvan Khanate",
-          "context": "Semi-independent khanate that ruled Shamakhi in the mid-to-late 18th century before Russian annexation",
-          "proposed_qid": "Q965466"
-        },
-        {
-          "kind": "culture",
-          "name": "Caucasian Albania",
-          "context": "QID stripped by validation: QID belongs to kind 'polity' (\"Caucasian Albania\"), used on 'culture' track"
+          "name": "County of Provence",
+          "context": "Marseille was part of the County of Provence from the early medieval period until its annexation to France in 1481.",
+          "proposed_qid": "Q2991382"
         }
       ]
     }

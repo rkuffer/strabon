@@ -1,2 +1,10 @@
-Q90        Paris                    2026-07-12 08:14  site_type:4 polity:21 culture:3 religion:7 language:4 name:5 population:7 events:5 missing:1
-Q388224    Shamakhi                 2026-07-12 08:07  site_type:5 polity:14 culture:1 religion:8 language:7 name:6 population:4 events:8 missing:3
+Q200019    Jodhpur                  2026-07-14 12:47  site_type:3 polity:4 culture:0 religion:2 language:1 name:2 population:0 events:1 missing:1
+Q490       Milan                    2026-07-14 12:46  site_type:8 polity:24 culture:2 religion:5 language:4 name:6 population:3 events:10 missing:2
+Q172125    Lascaux                  2026-07-14 12:44  site_type:2 polity:0 culture:1 religion:0 language:0 name:3 population:0 events:1 missing:0
+Q7880      Toulouse                 2026-07-14 12:43  site_type:5 polity:19 culture:3 religion:6 language:6 name:4 population:1 events:7 missing:3
+Q6602      Strasbourg               2026-07-14 12:42  site_type:7 polity:20 culture:3 religion:7 language:11 name:7 population:0 events:9 missing:0
+Q471984    Saint-Macaire            2026-07-14 12:40  site_type:1 polity:11 culture:1 religion:1 language:4 name:1 population:8 events:0 missing:0
+Q33959     Nice                     2026-07-14 12:39  site_type:4 polity:11 culture:4 religion:4 language:6 name:6 population:1 events:8 missing:2
+Q12191     Nantes                   2026-07-14 12:38  site_type:6 polity:20 culture:3 religion:4 language:7 name:6 population:1 events:8 missing:2
+Q235       Monaco                   2026-07-14 12:36  site_type:5 polity:6 culture:2 religion:3 language:4 name:4 population:0 events:7 missing:0
+Q23482     Marseille                2026-07-14 12:35  site_type:4 polity:17 culture:3 religion:4 language:5 name:8 population:3 events:2 missing:2

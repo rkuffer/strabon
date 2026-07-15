@@ -80,8 +80,17 @@ export type MissingEntity = {
  * perfectly good QID). Those are noise: if the timeline entry of that kind+name
  * already has a `wikidata` field, the entity is not missing and we skip it.
  *
- * Pass the timeline so we can perform that check. Without it, every gap is
- * recorded (previous behaviour).
+ * WE ALSO CAPTURE THE ENTRY THAT PRODUCED THE GAP.
+ *
+ * The model's `context` is a gloss — a sentence about the entity. What a human
+ * actually needs in order to arbitrate is the ENTRY: its period, its role, its
+ * confidence, the source phrases it cites. "Insubres, on Milan" cannot be
+ * decided; "Insubres, on Milan, -590 to -222, medium confidence, with this
+ * source" is decided in ten seconds.
+ *
+ * Stored as an array because the same gap is signalled by several sites, each
+ * with its own period — and the periods are often what reveals that two sites
+ * mean different things by the same name.
  */
 export async function recordGaps(
   sql: Sql<any>,
@@ -127,14 +136,38 @@ export async function recordGaps(
     const proposedQid =
       typeof raw === "string" && /^Q\d+$/.test(raw.trim()) ? raw.trim() : null;
 
+    // Find the timeline entry that produced this gap. normaliseName() absorbs the
+    // drift the model shows between the two ("Norse/Viking culture" in the track,
+    // "Norse / Viking culture" in the gap) without ever matching two real entities.
+    const entries = timeline?.[m.kind]?.entries;
+    const hit = Array.isArray(entries)
+      ? entries.find(
+          (e: any) =>
+            typeof e?.value?.name === "string" &&
+            normaliseName(e.value.name) === normaliseName(m.name),
+        )
+      : undefined;
+
+    const occurrence = {
+      site_id: siteId,
+      from: hit?.from ?? null,
+      to: hit?.to ?? null,
+      role: hit?.role ?? null,
+      confidence: hit?.confidence ?? null,
+      notes: hit?.notes ?? null,
+      sources: Array.isArray(hit?.sources) ? hit.sources : [],
+    };
+
     await sql`
-      INSERT INTO referential_gaps (kind, name, context, proposed_qid, site_ids)
+      INSERT INTO referential_gaps
+        (kind, name, context, proposed_qid, site_ids, occurrences)
       VALUES (
         ${m.kind},
         ${m.name},
         ${m.context ?? null},
         ${proposedQid},
-        ARRAY[${siteId}]::text[]
+        ARRAY[${siteId}]::text[],
+        ${sql.json([occurrence])}::JSONB
       )
       ON CONFLICT (kind, name) DO UPDATE SET
         site_ids = (
@@ -142,6 +175,14 @@ export async function recordGaps(
             SELECT DISTINCT unnest(referential_gaps.site_ids || ARRAY[${siteId}]::text[])
           )
         ),
+        -- Replace this site's occurrence rather than append: a re-extraction
+        -- produces a NEW entry for the same site, and stacking them would show a
+        -- history of our own runs instead of the current state of the timeline.
+        occurrences = (
+          SELECT COALESCE(jsonb_agg(o), '[]'::JSONB)
+          FROM jsonb_array_elements(referential_gaps.occurrences) o
+          WHERE o->>'site_id' <> ${siteId}
+        ) || ${sql.json([occurrence])}::JSONB,
         context = COALESCE(referential_gaps.context, EXCLUDED.context),
         proposed_qid = COALESCE(referential_gaps.proposed_qid, EXCLUDED.proposed_qid),
         last_seen_at = now()

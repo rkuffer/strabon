@@ -1,0 +1,662 @@
+{
+  "id": "Q6602",
+  "title_en": "Strasbourg",
+  "country_qid": "Q142",
+  "coordinates": {
+    "lat": 48.58333333,
+    "lon": 7.74583333
+  },
+  "enrichment_level": "extracted",
+  "sitelinks_count": 191,
+  "inception_year": -300000,
+  "dissolution_year": null,
+  "extracted_at": "2026-07-14T12:42:24.439Z",
+  "model": "claude-sonnet-4-6",
+  "meta": {
+    "description": "capital and largest city of Grand Est, located in the historical region of Alsace",
+    "native_label": "Strasbourg",
+    "historical_title": null
+  },
+  "timeline": {
+    "name": {
+      "entries": [
+        {
+          "from": -12,
+          "notes": "Gaulish locative form appearing on first Roman milestones in the first century BC.",
+          "value": {
+            "lang": "la",
+            "text": "Argentorate"
+          },
+          "sources": [
+            "Latinised first as Argentorate (with Gaulish locative ending, as appearing on the first Roman milestones in the first century)"
+          ]
+        },
+        {
+          "from": -12,
+          "notes": "Regular Latin nominative form used in later Latin texts.",
+          "value": {
+            "lang": "la",
+            "text": "Argentoratum"
+          },
+          "sources": [
+            "then as Argentoratum (with regular Latin nominative ending, in later Latin texts)"
+          ]
+        },
+        {
+          "from": -12,
+          "notes": "Celtic Gaulish name (nominative form) of the settlement, meaning related to silver/precious metal and fortified enclosure.",
+          "value": {
+            "lang": "cel",
+            "text": "Argantorati"
+          },
+          "sources": [
+            "the city was known as Argantorati (in the nominative)"
+          ]
+        },
+        {
+          "from": 590,
+          "notes": "First attested in Gregory of Tours c. 590, the Latin form of the Germanic new name.",
+          "value": {
+            "lang": "la",
+            "text": "Strateburgus"
+          },
+          "sources": [
+            "Gregory of Tours was the first to mention the name change... quam nunc Strateburgum vocant"
+          ]
+        },
+        {
+          "from": 900,
+          "notes": "German form of the name, in use through the medieval and modern period.",
+          "value": {
+            "lang": "de",
+            "text": "Straßburg"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 900,
+          "notes": "French Gallicized form of the Germanic name, the current official name.",
+          "value": {
+            "lang": "fr",
+            "text": "Strasbourg"
+          },
+          "sources": [
+            "later Gallicized as Strasbourg"
+          ]
+        },
+        {
+          "from": 900,
+          "notes": "Lower Alsatian (Alsatian dialect) form of the name.",
+          "value": {
+            "lang": "als",
+            "text": "Strossburi"
+          },
+          "sources": [
+            "Lower Alsatian: Strossburi"
+          ]
+        }
+      ]
+    },
+    "events": [
+      {
+        "type": "founding",
+        "year": -12,
+        "confidence": "high",
+        "description": "Roman camp of Argentoratum first mentioned; foundation of the Roman military settlement."
+      },
+      {
+        "type": "siege",
+        "year": 357,
+        "confidence": "high",
+        "description": "Battle of Argentoratum: Roman forces under Julian defeated the Alemanni."
+      },
+      {
+        "type": "revolution",
+        "year": 1262,
+        "confidence": "high",
+        "description": "Citizens revolted against the bishop's rule (Battle of Hausbergen); Strasbourg became a free imperial city."
+      },
+      {
+        "type": "massacre",
+        "year": 1349,
+        "confidence": "high",
+        "description": "Strasbourg massacre: the Jewish community was massacred during the Black Death persecutions."
+      },
+      {
+        "type": "conquest",
+        "year": 1681,
+        "confidence": "high",
+        "description": "Conquest of Alsace by the armies of Louis XIV; Strasbourg became a French city."
+      },
+      {
+        "type": "siege",
+        "year": 1870,
+        "confidence": "high",
+        "description": "Siege of Strasbourg during the Franco-Prussian War."
+      },
+      {
+        "type": "annexation",
+        "year": 1871,
+        "confidence": "high",
+        "description": "Strasbourg annexed by the German Empire as part of the Imperial Territory of Alsace-Lorraine after the Franco-Prussian War."
+      },
+      {
+        "type": "annexation",
+        "year": 1918,
+        "confidence": "high",
+        "description": "Strasbourg reverted to France at the end of World War I."
+      },
+      {
+        "type": "conquest",
+        "year": 1940,
+        "confidence": "high",
+        "description": "Strasbourg captured by German army in June 1940 during the Battle of France; formally annexed into Gau Baden-Elsaß."
+      }
+    ],
+    "polity": {
+      "entries": [
+        {
+          "from": -12,
+          "value": {
+            "name": "Roman Empire",
+            "wikidata": "Q2277"
+          },
+          "sources": [
+            "The Roman camp of Argentoratum was first mentioned in 12 BC"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 362,
+          "notes": "Western Roman Empire split formalized 285/395 but Argentoratum in the western half; using 362 (Battle of Argentoratum) as a documented anchor.",
+          "value": {
+            "name": "Western Roman Empire",
+            "wikidata": "Q42834"
+          },
+          "confidence": "medium"
+        },
+        {
+          "from": 511,
+          "notes": "After the fall of the Western Roman Empire, the region passed to Frankish rule; Strasbourg was part of Austrasia. Gregory of Tours mentions the city by 590 in the Austrasian context.",
+          "value": {
+            "name": "Austrasia",
+            "wikidata": "Q105098"
+          },
+          "sources": [
+            "tried by a synod of Austrasian bishops... then taken to the city of Argentoratum, which they now call Strateburgus"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "from": 751,
+          "notes": "After the Carolingian reunification of Frankish lands under Pepin III (751), Strasbourg fell under the broader Carolingian/Frankish realm.",
+          "value": {
+            "name": "Francia",
+            "wikidata": "Q146246"
+          },
+          "confidence": "medium"
+        },
+        {
+          "from": 843,
+          "notes": "Treaty of Verdun 843 assigned Alsace and Strasbourg to East Francia. The Oaths of Strasbourg (842) mark this transition period.",
+          "value": {
+            "name": "East Francia",
+            "wikidata": "Q153080"
+          },
+          "sources": [
+            "842 (Oaths of Strasbourg)"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 962,
+          "notes": "Between 362 and 1262 governed by bishops of Strasbourg within the Holy Roman Empire framework; reinforced in 873 and 982.",
+          "value": {
+            "name": "Holy Roman Empire",
+            "wikidata": "Q12548"
+          },
+          "sources": [
+            "Between 362 and 1262, Strasbourg was governed by the bishops of Strasbourg; their rule was reinforced in 873 and then more in 982"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1262,
+          "value": {
+            "name": "free imperial city of Strasbourg",
+            "wikidata": "Q1876237"
+          },
+          "sources": [
+            "In 1262, the citizens violently rebelled against the bishop's rule (Battle of Hausbergen) and Strasbourg became a free imperial city"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1681,
+          "value": {
+            "name": "Kingdom of France",
+            "wikidata": "Q70972"
+          },
+          "sources": [
+            "It became a French city in 1681, after the conquest of Alsace by the armies of Louis XIV"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1792,
+          "notes": "French Revolution abolished the monarchy; Strasbourg remained French under the Republic.",
+          "value": {
+            "name": "French First Republic",
+            "wikidata": "Q58296"
+          },
+          "sources": [
+            "1793 (Reign of Terror)"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1804,
+          "value": {
+            "name": "First French Empire",
+            "wikidata": "Q71084"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1815,
+          "value": {
+            "name": "Bourbon Restoration in France",
+            "wikidata": "Q207162"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1830,
+          "value": {
+            "name": "July Monarchy",
+            "wikidata": "Q58202"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1848,
+          "value": {
+            "name": "French Second Republic",
+            "wikidata": "Q58326"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1852,
+          "value": {
+            "name": "Second French Empire",
+            "wikidata": "Q71092"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1870,
+          "notes": "Third Republic proclaimed Sept 1870, but Strasbourg fell to Germany after the Franco-Prussian War.",
+          "value": {
+            "name": "French Third Republic",
+            "wikidata": "Q70802"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1871,
+          "value": {
+            "name": "German Empire",
+            "wikidata": "Q43287"
+          },
+          "sources": [
+            "In 1871, after the Franco-Prussian War, the city, as part of the Imperial Territory of Alsace-Lorraine, became German again, until 1918"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1918,
+          "value": {
+            "name": "French Third Republic",
+            "wikidata": "Q70802"
+          },
+          "sources": [
+            "until 1918 (end of World War I), when it reverted to France"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1940,
+          "value": {
+            "name": "Nazi Germany",
+            "wikidata": "Q7318"
+          },
+          "sources": [
+            "Strasbourg was captured by the German army in June 1940... subsequently came under German control again through formal annexation into the Gau Baden-Elsaß"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1946,
+          "value": {
+            "name": "French Fourth Republic",
+            "wikidata": "Q69829"
+          },
+          "sources": [
+            "since the liberation of the city by the 2nd French Armoured Division under General Leclerc in November 1944, it has again been a French city"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1958,
+          "value": {
+            "name": "France",
+            "wikidata": "Q142"
+          },
+          "confidence": "high"
+        }
+      ]
+    },
+    "culture": {
+      "entries": [
+        {
+          "to": -12,
+          "from": -300000,
+          "notes": "The area was inhabited since the Middle Paleolithic; by the late pre-Roman Iron Age the region was Celtic/Gaulish. The Gaulish name Argantorati attests Celtic presence at the site before Roman conquest. Closing at the Roman military foundation (-12 BC).",
+          "value": {
+            "name": "Gauls",
+            "wikidata": "Q273854"
+          },
+          "confidence": "low",
+          "from_precision": 6
+        },
+        {
+          "to": 476,
+          "from": -12,
+          "value": {
+            "name": "Ancient Rome",
+            "wikidata": "Q1747689"
+          },
+          "sources": [
+            "The Roman camp of Argentoratum was first mentioned in 12 BC"
+          ],
+          "confidence": "high"
+        },
+        {
+          "to": 751,
+          "from": 481,
+          "notes": "Frankish Merovingian culture prevailed in the region after the Roman period and through to the Carolingian transition.",
+          "value": {
+            "name": "Merovingian",
+            "wikidata": "Q66084488"
+          },
+          "confidence": "medium"
+        }
+      ]
+    },
+    "language": {
+      "entries": [
+        {
+          "to": 500,
+          "from": -12,
+          "role": "major",
+          "notes": "The Gaulish language was spoken by the Celtic population at Argentoratum before and during the early Roman period. Gradually replaced by Latin.",
+          "value": {
+            "name": "Gaulish",
+            "wikidata": "Q29977"
+          },
+          "confidence": "medium"
+        },
+        {
+          "from": -12,
+          "role": "state",
+          "notes": "Latin was the language of Roman administration and military at Argentoratum from its foundation.",
+          "value": {
+            "name": "Latin",
+            "wikidata": "Q397"
+          },
+          "confidence": "high"
+        },
+        {
+          "to": 900,
+          "from": 500,
+          "role": "major",
+          "notes": "Latin continued as the language of the church and administration through the Frankish period, gradually giving way to Old High German and Old French dialects.",
+          "value": {
+            "name": "Latin",
+            "wikidata": "Q397"
+          },
+          "confidence": "medium"
+        },
+        {
+          "from": 500,
+          "role": "major",
+          "notes": "Germanic-speaking Franks and Alemans settled the region; the city's new name Strateburgus/Strasbourg is of Germanic origin.",
+          "value": {
+            "name": "Old High German",
+            "wikidata": "Q35218"
+          },
+          "sources": [
+            "That name is of Germanic origin and means 'town (at the crossing) of roads'"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1200,
+          "role": "major",
+          "notes": "Middle High German and then modern German were the dominant vernacular languages of Strasbourg through the medieval and early modern periods.",
+          "value": {
+            "name": "German",
+            "wikidata": "Q188"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1681,
+          "role": "state",
+          "value": {
+            "name": "French",
+            "wikidata": "Q150"
+          },
+          "sources": [
+            "It became a French city in 1681"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1681,
+          "role": "major",
+          "notes": "German (Alsatian dialect) continued as the dominant vernacular language of the population even after French annexation.",
+          "value": {
+            "name": "German",
+            "wikidata": "Q188"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1871,
+          "role": "state",
+          "value": {
+            "name": "German",
+            "wikidata": "Q188"
+          },
+          "sources": [
+            "In 1871, after the Franco-Prussian War, the city... became German again, until 1918"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1871,
+          "role": "minor",
+          "notes": "French remained spoken by a portion of the population during German annexation 1871-1918.",
+          "value": {
+            "name": "French",
+            "wikidata": "Q150"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1918,
+          "role": "state",
+          "value": {
+            "name": "French",
+            "wikidata": "Q150"
+          },
+          "sources": [
+            "until 1918 (end of World War I), when it reverted to France"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1918,
+          "role": "major",
+          "notes": "German (Alsatian) continued as a widely spoken vernacular after return to France in 1918.",
+          "value": {
+            "name": "German",
+            "wikidata": "Q188"
+          },
+          "confidence": "high"
+        }
+      ]
+    },
+    "religion": {
+      "entries": [
+        {
+          "to": 400,
+          "from": -12,
+          "role": "state",
+          "notes": "Roman polytheism was the state religion of the Roman Empire during the occupation of Argentoratum.",
+          "value": {
+            "name": "religion in ancient Rome",
+            "wikidata": "Q107013169"
+          },
+          "confidence": "medium"
+        },
+        {
+          "from": 300,
+          "role": "minor",
+          "notes": "Christianity spread into the Rhine region during the 3rd-4th centuries.",
+          "value": {
+            "name": "Catholic Church",
+            "wikidata": "Q9592"
+          },
+          "confidence": "medium"
+        },
+        {
+          "from": 400,
+          "role": "state",
+          "notes": "After Christianisation of the Empire, the Catholic Church became the state religion. Strasbourg was governed by its bishops from 362 to 1262, reflecting the church's central role.",
+          "value": {
+            "name": "Catholic Church",
+            "wikidata": "Q9592"
+          },
+          "sources": [
+            "Between 362 and 1262, Strasbourg was governed by the bishops of Strasbourg"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1517,
+          "role": "major",
+          "value": {
+            "name": "Protestantism",
+            "wikidata": "Q23540"
+          },
+          "sources": [
+            "Strasbourg played an important part in the Protestant Reformation, with personalities such as John Calvin, Martin Bucer, Wolfgang Capito"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1681,
+          "role": "state",
+          "notes": "After French annexation in 1681, Catholicism was re-established as dominant; Protestantism continued as a significant minority.",
+          "value": {
+            "name": "Catholic Church",
+            "wikidata": "Q9592"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1681,
+          "role": "minor",
+          "notes": "Protestant communities persisted after French annexation, protected under Alsatian concordat arrangements.",
+          "value": {
+            "name": "Protestantism",
+            "wikidata": "Q23540"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1800,
+          "role": "minority",
+          "notes": "Jewish community re-established in Strasbourg in the post-Revolutionary period following emancipation.",
+          "value": {
+            "name": "Judaism",
+            "wikidata": "Q9268"
+          },
+          "confidence": "medium"
+        }
+      ]
+    },
+    "site_type": {
+      "entries": [
+        {
+          "from": -300000,
+          "notes": "The fertile area between the Ill and Rhine had already been populated since the Middle Paleolithic, per the article.",
+          "value": "settlement",
+          "confidence": "low",
+          "from_precision": 6
+        },
+        {
+          "from": -12,
+          "value": "fortress",
+          "sources": [
+            "The Roman camp of Argentoratum was first mentioned in 12 BC"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 100,
+          "notes": "Roman settlement grew around the camp during the early imperial period.",
+          "value": "town",
+          "confidence": "medium"
+        },
+        {
+          "from": 362,
+          "notes": "By the late Roman period Argentoratum was a significant city; Battle of Argentoratum 357 AD attests its importance.",
+          "value": "city",
+          "confidence": "medium"
+        },
+        {
+          "from": 1262,
+          "value": "city",
+          "sources": [
+            "Strasbourg became a free imperial city in 1262"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1681,
+          "value": "city",
+          "sources": [
+            "It became a French city in 1681"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 2016,
+          "value": "capital",
+          "sources": [
+            "In 2016, Strasbourg was promoted from capital of Alsace to capital of Grand Est"
+          ],
+          "confidence": "high"
+        }
+      ]
+    },
+    "population": {
+      "entries": []
+    },
+    "missing_entities": []
+  }
+}

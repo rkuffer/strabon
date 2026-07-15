@@ -1,0 +1,294 @@
+{
+  "id": "Q471984",
+  "title_en": "Saint-Macaire",
+  "country_qid": "Q142",
+  "coordinates": {
+    "lat": 44.565238888,
+    "lon": -0.226316666
+  },
+  "enrichment_level": "extracted",
+  "sitelinks_count": 42,
+  "inception_year": 1000,
+  "dissolution_year": null,
+  "extracted_at": "2026-07-14T12:40:55.903Z",
+  "model": "claude-sonnet-4-6",
+  "meta": "{\"wikidata_description\":\"commune in Gironde, France\",\"wikidata_type\":\"medieval city\",\"indexed_from_tile\":\"-1,44\"}",
+  "timeline": {
+    "name": {
+      "entries": [
+        {
+          "from": 1000,
+          "notes": "Name attested from medieval period; exact earliest attestation not given in the sources.",
+          "value": {
+            "lang": "fr",
+            "text": "Saint-Macaire"
+          },
+          "confidence": "medium",
+          "from_circa": true
+        }
+      ]
+    },
+    "events": [],
+    "polity": {
+      "entries": [
+        {
+          "to": 1791,
+          "from": 1000,
+          "notes": "Inferred from regional context. Saint-Macaire is in the Gironde, historically part of the Duchy of Aquitaine and then the Kingdom of France. Specific polity not attested in the sources for this period.",
+          "value": {
+            "name": "Kingdom of France",
+            "wikidata": "Q70972"
+          },
+          "confidence": "low",
+          "from_circa": true
+        },
+        {
+          "from": 1792,
+          "notes": "Population data begins 1793, implying the commune existed under the Republic.",
+          "value": {
+            "name": "French First Republic",
+            "wikidata": "Q58296"
+          },
+          "confidence": "medium"
+        },
+        {
+          "from": 1804,
+          "value": {
+            "name": "First French Empire",
+            "wikidata": "Q71084"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1815,
+          "value": {
+            "name": "Bourbon Restoration in France",
+            "wikidata": "Q207162"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1830,
+          "value": {
+            "name": "July Monarchy",
+            "wikidata": "Q58202"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1848,
+          "value": {
+            "name": "French Second Republic",
+            "wikidata": "Q58326"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1852,
+          "value": {
+            "name": "Second French Empire",
+            "wikidata": "Q71092"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1870,
+          "value": {
+            "name": "French Third Republic",
+            "wikidata": "Q70802"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1940,
+          "value": {
+            "name": "Vichy France",
+            "wikidata": "Q69808"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1946,
+          "value": {
+            "name": "French Fourth Republic",
+            "wikidata": "Q69829"
+          },
+          "confidence": "high"
+        },
+        {
+          "from": 1958,
+          "value": {
+            "name": "France",
+            "wikidata": "Q142"
+          },
+          "confidence": "high"
+        }
+      ]
+    },
+    "culture": {
+      "entries": [
+        {
+          "to": 1500,
+          "from": 1000,
+          "notes": "No specific archaeological culture is attested in the sources. The Gauls entry is closed as the culture track stops once documented history of identifiable states begins. Using 'Gauls' here is an over-reach given no specific cultural attestation; omitting is safer.",
+          "value": {
+            "name": "Gauls",
+            "wikidata": "Q273854"
+          },
+          "confidence": "low",
+          "from_circa": true,
+          "suppressed": true
+        }
+      ]
+    },
+    "language": {
+      "entries": [
+        {
+          "from": 1000,
+          "role": "major",
+          "notes": "Saint-Macaire is in Gascony/Aquitaine. Occitan/Gascon was the dominant vernacular language of this region in the medieval period.",
+          "value": {
+            "name": "Occitan",
+            "wikidata": "Q14185"
+          },
+          "confidence": "medium",
+          "from_circa": true
+        },
+        {
+          "from": 1300,
+          "role": "minor",
+          "notes": "Occitan gradually declined as French became dominant. Still spoken as a minority language.",
+          "value": {
+            "name": "Occitan",
+            "wikidata": "Q14185"
+          },
+          "confidence": "low",
+          "from_circa": true
+        },
+        {
+          "from": 1300,
+          "role": "major",
+          "notes": "French gradually became the dominant language of administration and eventually daily life in Aquitaine, particularly after the region was definitively incorporated into France.",
+          "value": {
+            "name": "Old French",
+            "wikidata": "Q35222"
+          },
+          "confidence": "medium",
+          "from_circa": true
+        },
+        {
+          "from": 1400,
+          "role": "state",
+          "notes": "French (Middle French and then Modern French) became the state/administrative language. Transitioning from Old French.",
+          "value": {
+            "name": "French",
+            "wikidata": "Q150"
+          },
+          "confidence": "medium",
+          "from_circa": true
+        }
+      ]
+    },
+    "religion": {
+      "entries": [
+        {
+          "from": 1000,
+          "role": "state",
+          "notes": "The church of Saint-Sauveur and the priory are mentioned as central features of the old town, indicating Catholic Church presence from the medieval period. Inferred from regional context for early date.",
+          "value": {
+            "name": "Catholic Church",
+            "wikidata": "Q9592"
+          },
+          "confidence": "medium",
+          "from_circa": true
+        }
+      ]
+    },
+    "site_type": {
+      "entries": [
+        {
+          "from": 1000,
+          "notes": "Medieval origin inferred from the fishbone street plan and the church of Saint-Sauveur. The old town is semi-hemispherical, surrounded by ramparts, with two medieval suburbs.",
+          "value": "town",
+          "confidence": "medium",
+          "from_circa": true
+        }
+      ]
+    },
+    "population": {
+      "entries": [
+        {
+          "from": 1793,
+          "value": 1750,
+          "sources": [
+            "INSEE census data 1793"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1836,
+          "notes": "Representative mid-19th century figure before the notable jump in 1866.",
+          "value": 1535,
+          "sources": [
+            "INSEE census data 1836"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1866,
+          "notes": "Significant increase from previous figure (~40% jump).",
+          "value": 2165,
+          "sources": [
+            "INSEE census data 1866"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1896,
+          "notes": "Near-peak of late 19th century population.",
+          "value": 2283,
+          "sources": [
+            "INSEE census data 1896"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1946,
+          "notes": "Post-WWII low point.",
+          "value": 1505,
+          "sources": [
+            "INSEE census data 1946"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 1990,
+          "notes": "Late 20th century low.",
+          "value": 1459,
+          "sources": [
+            "INSEE census data 1990"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 2012,
+          "notes": "Recent recovery to above 2000.",
+          "value": 2020,
+          "sources": [
+            "INSEE census data 2012"
+          ],
+          "confidence": "high"
+        },
+        {
+          "from": 2023,
+          "value": 1981,
+          "sources": [
+            "INSEE census data 2023"
+          ],
+          "confidence": "high"
+        }
+      ]
+    },
+    "missing_entities": []
+  }
+}
