@@ -28,8 +28,29 @@ CREATE TABLE IF NOT EXISTS sites (
   -- Classification Wikidata (héritage, peut être affiné par timeline)
   site_type               TEXT,
 
-  -- Importance
-  base_importance         INTEGER DEFAULT 50 CHECK (base_importance BETWEEN 0 AND 100),
+  -- Signaux de notoriété (remplis par le tiling ; base_importance en dépend,
+  -- ils sont donc déclarés AVANT elle dans la table)
+  sitelinks_count         INTEGER,
+  population              BIGINT,
+
+  -- Socle d'importance statique : colonne GÉNÉRÉE dérivée de sitelinks_count
+  -- (+ bonus si un article EN existe). La population est volontairement exclue
+  -- du socle (rare sur les sites anciens, sur-valorise les mégalopoles modernes,
+  -- corrèle déjà aux sitelinks) — elle n'agit que dans compute_importance,
+  -- pondérée par l'année. Coefficient 20 : chaque ×10 de sitelinks = +20 points.
+  --   0 sl sans article → 0 ; 0 sl + article → 8 ; 3 → 20 ; 10 → 29 ;
+  --   100 → ~48 ; 1000 → ~68.
+  base_importance         INTEGER GENERATED ALWAYS AS (
+    CASE
+      WHEN COALESCE(sitelinks_count, 0) = 0 AND wikipedia_page_en_url IS NULL
+        THEN 0
+      ELSE LEAST(
+        100,
+        (20 * LOG(COALESCE(sitelinks_count, 0) + 1))::INT
+        + CASE WHEN wikipedia_page_en_url IS NOT NULL THEN 8 ELSE 0 END
+      )
+    END
+  ) STORED,
 
   -- JSONB flexible
   names                   JSONB DEFAULT '{}',
@@ -125,10 +146,11 @@ $$ LANGUAGE SQL IMMUTABLE;
 CREATE OR REPLACE FUNCTION compute_importance(year_val INTEGER, tl JSONB)
 RETURNS INTEGER AS $$
 DECLARE
-  site_type TEXT;
-  pop       BIGINT;
-  type_score INT;
-  pop_score  INT;
+  site_type      TEXT;
+  pop            BIGINT;
+  type_score     INT;
+  pop_score      INT;
+  timeline_bonus INT;
 BEGIN
   -- Résoudre le site_type à l'année donnée
   site_type := track_value_at(tl->'site_type', year_val) #>> '{}';
@@ -161,7 +183,18 @@ BEGIN
     ELSE 0
   END;
 
-  RETURN LEAST(100, COALESCE(type_score, 20) + COALESCE(pop_score, 0));
+  -- Bonus léger de présence de timeline : à notoriété comparable, oriente le
+  -- clic vers un site qui a du contenu à montrer. Gardé petit pour que les sites
+  -- peu importants extraits au hasard (phase de test) ne remontent pas au-dessus
+  -- de sites réellement notables. Un site L0 (sans timeline) a tl IS NULL ⇒ pas
+  -- de bonus et type_score retombe à 20, donc un village extrait (30 + 10)
+  -- devance un point nu (20).
+  timeline_bonus := CASE WHEN tl IS NOT NULL THEN 10 ELSE 0 END;
+
+  RETURN LEAST(
+    100,
+    COALESCE(type_score, 20) + COALESCE(pop_score, 0) + timeline_bonus
+  );
 END;
 $$ LANGUAGE plpgsql IMMUTABLE;
 
@@ -414,6 +447,27 @@ CREATE INDEX IF NOT EXISTS idx_tiles_status ON tiles(status);
 
 
 -- =============================================================================
+-- PLACE_CLASSES — Wikidata subclass closure for tiling recall
+-- =============================================================================
+-- Materialised closure of the Wikidata place hierarchy (human settlement +
+-- municipality, minus exclusions, plus a positive-list subset of archaeological
+-- site). Computed once from live Wikidata by build-place-classes.ts and used by
+-- the tiling SPARQL as the class filter, so recall no longer depends on runtime
+-- P279* completeness. MUST keep the city-state class (Bronze-Age Near-East
+-- polities are structurally both site and polity). See build-place-classes.ts.
+
+CREATE TABLE IF NOT EXISTS place_classes (
+  qid       TEXT PRIMARY KEY,
+  label     TEXT NOT NULL,
+  root_qid  TEXT NOT NULL,                 -- which curated root this class descends from
+  source    TEXT NOT NULL DEFAULT 'sparql-closure',
+  built_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS idx_place_classes_root ON place_classes(root_qid);
+
+
+-- =============================================================================
 -- REFERENTIAL GAPS
 -- =============================================================================
 -- When extraction meets a religion / language / polity / culture that is not in
@@ -433,12 +487,15 @@ CREATE TABLE IF NOT EXISTS referential_gaps (
   proposed_qid    TEXT,                    -- LLM-proposed QID, UNVERIFIED
   site_ids        TEXT[] NOT NULL DEFAULT '{}',
   status          TEXT NOT NULL DEFAULT 'pending'
-                    CHECK (status IN ('pending', 'resolved', 'rejected')),
+                    CHECK (status IN ('pending', 'resolved', 'rejected', 'stale')),
   resolved_qid    TEXT,                    -- verified QID, after human review
   resolved_at     TIMESTAMPTZ,
   resolution_note TEXT,
   first_seen_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
   last_seen_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+  -- Historique des apparitions du gap (accumulé au fil des extractions) : chaque
+  -- occurrence porte son contexte, pour la revue humaine.
+  occurrences     JSONB NOT NULL DEFAULT '[]'::JSONB,
   UNIQUE (kind, name)
 );
 
@@ -520,8 +577,10 @@ CREATE INDEX IF NOT EXISTS ne_land_geom_idx ON ne_land USING GIST (geom);
 -- attenuated at L0 and is never paid for.
 
 ALTER TABLE sites ADD COLUMN IF NOT EXISTS enrichment_level TEXT DEFAULT 'extracted';
-ALTER TABLE sites ADD COLUMN IF NOT EXISTS sitelinks_count  INTEGER;
-ALTER TABLE sites ADD COLUMN IF NOT EXISTS population       BIGINT;
+-- sitelinks_count / population are now declared in the sites table definition
+-- above: base_importance is a GENERATED column that depends on sitelinks_count,
+-- so both signals must exist before it. On pre-existing databases they were
+-- added by an earlier ALTER and by migration-base-importance.sql.
 
 DO $$
 BEGIN
@@ -552,6 +611,78 @@ ALTER TABLE wikidata_entities ADD COLUMN IF NOT EXISTS family_label TEXT;
 
 CREATE INDEX IF NOT EXISTS idx_wikidata_entities_family
   ON wikidata_entities(family_qid) WHERE family_qid IS NOT NULL;
+
+
+-- =============================================================================
+-- WIKIDATA_ENTITIES — chronological bounds
+-- =============================================================================
+-- Widest-window bounds (earliest inception P571/P580, latest dissolution
+-- P576/P582) used as the deterministic anachronism guard (applyEntityBounds):
+-- an entry whose `from` precedes an entity's birth or follows its death is
+-- closed/shortened, never deleted. A bound is a CEILING, never a truth — we
+-- prefer cutting too little. `*_precision` follows Wikidata timePrecision
+-- (9=year, 8=decade, 7=century, 6=millennium).
+--
+-- bounds_source records provenance: 'sparql' (Wikidata statement nodes),
+-- 'description' (parsed), 'llm' (proposed, stays in review), 'human'. Only human
+-- (and sparql citing Wikidata) may trigger an AUTO cut; bounds_confirmed gates
+-- that. sitelinks_count here mirrors the notoriety proxy, used to prioritise the
+-- referential (frequent/notable entities kept when filtering the prompt).
+
+ALTER TABLE wikidata_entities ADD COLUMN IF NOT EXISTS inception            INTEGER;
+ALTER TABLE wikidata_entities ADD COLUMN IF NOT EXISTS inception_precision  INTEGER;
+ALTER TABLE wikidata_entities ADD COLUMN IF NOT EXISTS dissolution          INTEGER;
+ALTER TABLE wikidata_entities ADD COLUMN IF NOT EXISTS dissolution_precision INTEGER;
+ALTER TABLE wikidata_entities ADD COLUMN IF NOT EXISTS bounds_source        TEXT;
+ALTER TABLE wikidata_entities ADD COLUMN IF NOT EXISTS bounds_confirmed     BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE wikidata_entities ADD COLUMN IF NOT EXISTS bounds_note          TEXT;
+ALTER TABLE wikidata_entities ADD COLUMN IF NOT EXISTS bounds_updated_at    TIMESTAMPTZ;
+ALTER TABLE wikidata_entities ADD COLUMN IF NOT EXISTS sitelinks_count      INTEGER;
+
+DO $$
+BEGIN
+  ALTER TABLE wikidata_entities ADD CONSTRAINT wikidata_entities_bounds_source_check
+    CHECK (bounds_source IS NULL
+           OR bounds_source IN ('sparql', 'description', 'llm', 'human'));
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;
+
+-- Entities still lacking bounds (for the LLM/human backfill pass), grouped by kind.
+CREATE INDEX IF NOT EXISTS idx_wikidata_entities_bounds
+  ON wikidata_entities(kind) WHERE bounds_source IS NULL;
+
+-- Referential prioritisation: most notable entities per kind first.
+CREATE INDEX IF NOT EXISTS idx_wikidata_entities_sitelinks
+  ON wikidata_entities(kind, sitelinks_count DESC NULLS LAST);
+
+
+-- =============================================================================
+-- BOUNDS_CONFLICTS — anachronisms surfaced for human review
+-- =============================================================================
+-- When applyEntityBounds finds a timeline entry incompatible with its entity's
+-- chronological bounds (entry precedes the entity's birth or follows its death),
+-- the entry is left UNTOUCHED and the conflict is recorded here for /admin/bounds
+-- to arbitrate: either the entry is wrong, or the bound is. `detail` carries the
+-- human-readable explanation; the UNIQUE key dedupes recurring conflicts.
+
+CREATE TABLE IF NOT EXISTS bounds_conflicts (
+  id                  BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  site_id             TEXT NOT NULL REFERENCES sites(id) ON DELETE CASCADE,
+  track               TEXT NOT NULL,
+  entity_qid          TEXT NOT NULL,
+  entity_label        TEXT,
+  entry_from          INTEGER NOT NULL,
+  entry_to            INTEGER,
+  entity_inception    INTEGER,
+  entity_dissolution  INTEGER,
+  detail              TEXT,
+  status              TEXT NOT NULL DEFAULT 'pending'
+                        CHECK (status IN ('pending', 'entry_wrong', 'bound_wrong', 'accepted')),
+  first_seen_at       TIMESTAMPTZ NOT NULL DEFAULT now(),
+  last_seen_at        TIMESTAMPTZ NOT NULL DEFAULT now(),
+  UNIQUE (site_id, track, entity_qid, entry_from)
+);
 
 
 -- =============================================================================

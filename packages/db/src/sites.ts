@@ -118,7 +118,8 @@ export async function upsertSite(site: {
   inception_year?: number;
   dissolution_year?: number;
   site_type?: string;
-  base_importance?: number;
+  // base_importance est désormais une colonne GÉNÉRÉE (dérivée de
+  // sitelinks_count + article EN) : elle ne peut plus être écrite explicitement.
   names?: Record<string, string>;
   timeline?: object;
   meta?: object;
@@ -137,7 +138,7 @@ export async function upsertSite(site: {
       id, wikidata_id, title_en, wikipedia_page_en_url, source,
       location, country, country_qid,
       inception_year, dissolution_year,
-      site_type, base_importance,
+      site_type,
       names, timeline, meta,
       wikidata_enriched_at, timeline_extracted_at, timeline_extraction_model,
       last_updated
@@ -153,7 +154,6 @@ export async function upsertSite(site: {
       ${site.inception_year ?? null},
       ${site.dissolution_year ?? null},
       ${site.site_type ?? null},
-      ${site.base_importance ?? 50},
       ${sql.json(site.names ?? {})},
       ${site.timeline ? sql.json(site.timeline) : null},
       ${sql.json(site.meta ?? {})},
@@ -173,7 +173,6 @@ export async function upsertSite(site: {
       inception_year          = COALESCE(EXCLUDED.inception_year, sites.inception_year),
       dissolution_year        = COALESCE(EXCLUDED.dissolution_year, sites.dissolution_year),
       site_type               = COALESCE(EXCLUDED.site_type, sites.site_type),
-      base_importance         = COALESCE(EXCLUDED.base_importance, sites.base_importance),
       names                   = CASE
                                   WHEN EXCLUDED.names != '{}'::JSONB
                                   THEN EXCLUDED.names

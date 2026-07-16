@@ -7,7 +7,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { upsertSite, closeSql } from "@strabon/db";
-import type { Index, SiteEntry } from "@strabon/shared";
+import type { Index } from "@strabon/shared";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -24,25 +24,10 @@ if (!fs.existsSync(indexPath)) {
   process.exit(1);
 }
 
-// ── Calcul du base_importance depuis la taille de l'article Wikipedia ─────────
-// La taille est stockée dans meta.wikipedia_article_size si disponible,
-// sinon on utilise une valeur par défaut basée sur la richesse des données.
-function computeBaseImportance(entry: SiteEntry): number {
-  // Taille article Wikipedia (si stockée par batchIsArticlePage)
-  const articleSize = (entry as any).meta?.wikipedia_article_size as number | undefined;
-  if (articleSize) {
-    // Log scale : 500 octets → 10, 100 000 octets → 100
-    return Math.min(100, Math.max(10, Math.floor(Math.log10(articleSize) * 20)));
-  }
-
-  // Fallback : score heuristique sur la richesse des données
-  let score = 50;
-  if (entry.timeline) score += 20;
-  if (entry.timeline?.events?.length) score += 10;
-  if (entry.names && Object.keys(entry.names).length > 5) score += 10;
-  if (entry.coordinates) score += 5;
-  return Math.min(100, score);
-}
+// base_importance n'est plus calculé ici : c'est désormais une colonne GÉNÉRÉE
+// (dérivée de sitelinks_count + article EN, voir schema.sql /
+// migration-base-importance.sql). L'ancien calcul par taille d'article est
+// caduc.
 
 // ── Migration ─────────────────────────────────────────────────────────────────
 async function migrate() {
@@ -73,7 +58,6 @@ async function migrate() {
           inception_year:          entry.inception?.year,
           dissolution_year:        entry.dissolution?.year,
           site_type:               entry.site_type,
-          base_importance:         computeBaseImportance(entry),
           names:                   entry.names,
           timeline:                entry.timeline as object | undefined,
           meta: {
