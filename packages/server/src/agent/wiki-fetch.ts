@@ -42,15 +42,19 @@ async function throttle(): Promise<void> {
 
 /**
  * Fetch JSON from a Wikimedia endpoint with global spacing + retry/backoff.
+ * Pass `init` to override method/body/headers (e.g. POST for large SPARQL
+ * queries that would exceed GET URL length limits — VALUES clauses with
+ * thousands of QIDs, as used by place_classes-driven tiling).
  */
-export async function wikiFetchJson(url: string): Promise<any> {
+export async function wikiFetchJson(url: string, init?: RequestInit): Promise<any> {
   let attempt = 0;
   // eslint-disable-next-line no-constant-condition
   while (true) {
     await throttle();
     try {
       const res = await fetch(url, {
-        headers: { "User-Agent": WIKI_USER_AGENT },
+        ...init,
+        headers: { "User-Agent": WIKI_USER_AGENT, ...(init?.headers ?? {}) },
       });
       if (res.status === 429 || (res.status >= 500 && res.status < 600)) {
         if (attempt < MAX_ATTEMPTS) {

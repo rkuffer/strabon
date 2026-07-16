@@ -1358,6 +1358,58 @@ function normalizeCooccurrentTo(entries: any[]): any[] {
   });
 }
 
+/**
+ * Co-occurrent tracks (religion, language): `role: state` is EXCLUSIVE — at most ONE
+ * entity may hold it at any instant. The prompt says so (Roman religion cannot stay
+ * "state" once Christianity becomes "state"; one official language at a time), but the
+ * model violates it intermittently: Montpellier emitted Latin state 985→∞ AND French
+ * state 1349→∞; Damascus emitted Christianity state 330→∞ AND Eastern Orthodox state
+ * 400→635 — two "state" alive at once, forever in the first case.
+ *
+ * This is a VERIFIABLE CONTRADICTION on a CLOSED SET (one track, one instant, two
+ * entities in role "state"), not a fuzzy match — so a deterministic guard is legitimate
+ * here, unlike anything that would read the notes.
+ *
+ * THE FIX (safe closing, never deletion, never invention):
+ *   Walk the "state" entries in chronological order. When a newer "state" opens while an
+ *   older one is still open (no `to`, or a `to` reaching past the newer's `from`), close
+ *   the OLDER one at the newer's `from`. The older entry survives — it is shortened, not
+ *   removed.
+ *
+ * What this deliberately does NOT do: it does not DOWNGRADE the closed entity to a lower
+ * role (a new "major"/"minor" entry). The prompt offers the model that choice ("either it
+ * ends entirely, or it continues with a lower role") because only history can say whether
+ * the language/religion lived on subordinate. Code cannot know that, and a spurious
+ * "scholarly Latin, major, 1349→today" would otherwise sprout under every European city
+ * (and Sumerian across Mesopotamia). Closing the old `state` is the correct safe action;
+ * a genuine subordinate continuation is the model's job, not the guard's.
+ *
+ * Runs AFTER normalizeCooccurrentTo, on entries whose trunk/branch duplicates and
+ * zero-length closing-instructions have already been folded — so the `state` set is clean.
+ */
+function enforceStateExclusivity(entries: any[]): any[] {
+  // Chronological order; keep original objects so we mutate `to` in place.
+  const states = entries
+    .filter((e) => e?.role === "state")
+    .sort((a, b) => (a.from ?? 0) - (b.from ?? 0));
+
+  for (let i = 0; i < states.length; i++) {
+    const cur = states[i];
+    const next = states[i + 1];
+    if (!next) break;
+
+    // `cur` is still open at `next.from` if it has no `to`, or a `to` that reaches at or
+    // beyond where `next` begins. In both cases two "state" overlap ⇒ close `cur`.
+    if (cur.to == null || cur.to >= next.from) {
+      // Never create a non-positive span: if `next` starts at//before `cur`, leave it to
+      // the sanity pass (should not happen after normalizeCooccurrentTo, but be safe).
+      if (next.from > cur.from) cur.to = next.from;
+    }
+  }
+
+  return entries;
+}
+
 /** Step tracks: `to` is meaningless. Remove it. */
 function stripTo(entries: any[]): any[] {
   return entries.map((e: any) => {
@@ -1398,9 +1450,8 @@ function normalizeEvents(events: any): any[] {
 }
 
 /**
- * missing_entities: drop empty `proposed_qid` strings. The model writes "" rather
- * than omitting the field — same dodge as `wikidata: ""`. An empty string is not a
- * hypothesis; it would just noise up the verification pass.
+ * missing_entities: drop `proposed_qid` empty strings and nameless entries.
+ * (Pass 1 — shape cleanup, no cross-track knowledge.)
  */
 function normalizeMissingEntities(missing: any): any[] {
   if (!Array.isArray(missing)) return [];
@@ -1413,6 +1464,59 @@ function normalizeMissingEntities(missing: any): any[] {
       const { proposed_qid, ...rest } = m;
       return rest;
     });
+}
+
+/**
+ * missing_entities: drop entries the model ALREADY RESOLVED on a timeline track.
+ * (Pass 2 — needs the whole timeline, so it runs on `result`, not on the array alone.)
+ *
+ * The prompt forbids signalling an entity you have resolved ("Do NOT signal an entity
+ * you have already resolved"), but the model does it intermittently: Damascus re-listed
+ * Aram-Damascus, the Burid dynasty and the State of Damascus as "missing" while each
+ * carried its correct QID in the polity track. That is noise the auto-resolution pass
+ * would then re-verify for nothing.
+ *
+ * THE SAFE CRITERION — a conjunction, deliberately strict:
+ *   drop a missing_entity ONLY IF some timeline entry, on ANY track, carries BOTH
+ *     - the same normalised name, AND
+ *     - a non-empty `wikidata` QID.
+ *
+ * Why the conjunction, and not either half alone:
+ *   - Name alone is unsafe. When validate-timeline STRIPS a wrong QID (Hittite Empire,
+ *     Tulunid — kind confusion / collision), the timeline keeps the NAME but loses the
+ *     QID, and the gap is LEGITIMATE — it is exactly the entity we still need to resolve.
+ *     Matching on name alone would delete these real gaps.
+ *   - QID alone is unsafe too: the missing_entity's proposed_qid may differ from, or be
+ *     absent against, the timeline's — different entities can be involved.
+ * Only "same name AND a QID survived on the track" proves the entity is genuinely
+ * resolved, so signalling it is pure contradiction. That is a verifiable contradiction
+ * on a closed set — the only kind of deterministic drop we allow.
+ */
+function dropResolvedMissingEntities(result: any): any[] {
+  const missing: any[] = result.missing_entities;
+  if (!Array.isArray(missing) || missing.length === 0) return missing ?? [];
+
+  // Names that appear on SOME track with a non-empty wikidata QID.
+  const resolvedNames = new Set<string>();
+  for (const key of TRACK_KEYS) {
+    const entries = result[key]?.entries;
+    if (!Array.isArray(entries)) continue;
+    for (const e of entries) {
+      const v = e?.value;
+      if (v && typeof v === "object" && typeof v.wikidata === "string") {
+        const qid = v.wikidata.trim();
+        const name = typeof v.name === "string" ? v.name : "";
+        if (qid && name) resolvedNames.add(normName(name));
+      }
+    }
+  }
+
+  if (resolvedNames.size === 0) return missing;
+
+  return missing.filter(
+    (m: any) =>
+      !(typeof m?.name === "string" && resolvedNames.has(normName(m.name))),
+  );
 }
 
 const TRACK_KEYS = [
@@ -1472,9 +1576,12 @@ export function normalizeTimelineV2(raw: any): any {
   }
 
   // Co-occurrent tracks: `to` marks disappearance — KEEP it, sanity-check only.
+  // Then enforce `role: state` exclusivity (at most one "state" at a time) — a
+  // deterministic guard for a rule the prompt states but the model applies unevenly.
   for (const key of COOCCURRENT_TRACKS) {
     if (result[key]?.entries) {
       result[key].entries = normalizeCooccurrentTo(result[key].entries);
+      result[key].entries = enforceStateExclusivity(result[key].entries);
     }
   }
 
@@ -1488,9 +1595,11 @@ export function normalizeTimelineV2(raw: any): any {
     result.events = normalizeEvents(result.events);
   }
 
-  // missing_entities: drop empty proposed_qid strings and nameless entries.
+  // missing_entities: (1) shape cleanup, then (2) drop entries already resolved on a
+  // timeline track (same name + a surviving QID) — pure contradiction, safe to remove.
   if (result.missing_entities !== undefined) {
     result.missing_entities = normalizeMissingEntities(result.missing_entities);
+    result.missing_entities = dropResolvedMissingEntities(result);
   }
 
   return result;

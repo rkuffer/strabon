@@ -39,7 +39,9 @@ async function main() {
     const flag = s.already_in_db ? "  [ALREADY IN DB]" : "";
     const sl = s.sitelinks_count != null ? `  sl:${s.sitelinks_count}` : "";
     const pop = s.population != null ? `  pop:${s.population.toLocaleString()}` : "";
-    console.log(`  ${s.qid.padEnd(12)} ${s.label}${flag}${sl}${pop}`);
+    const inc = s.inception_year != null ? `  ⌂${s.inception_year}` : "";
+    const wiki = s.wikipedia_page_en_url ? "  [wiki]" : "";
+    console.log(`  ${s.qid.padEnd(12)} ${s.label}${flag}${sl}${pop}${inc}${wiki}`);
     if (s.description) console.log(`    ↳ ${s.description}`);
   }
 
