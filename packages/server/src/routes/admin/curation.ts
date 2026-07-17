@@ -18,11 +18,30 @@ export const adminCurationRoutes: FastifyPluginAsync = async (app) => {
     const offset = (parseInt(page) - 1) * limit;
 
     const conditions: string[] = [];
-    if (q) conditions.push(`(s.title_en ILIKE '%${q.replace(/'/g, "''")}%' OR s.meta->>'wikidata_description' ILIKE '%${q.replace(/'/g, "''")}%')`);
-    if (level && level !== "all") conditions.push(`s.enrichment_level = '${level}'`);
-    if (country) conditions.push(`s.country_qid = '${country.replace(/'/g, "''")}'`);
+    const qEsc = q ? q.replace(/'/g, "''") : "";
+    if (q)
+      conditions.push(
+        `(s.title_en ILIKE '%${qEsc}%' OR s.meta->>'wikidata_description' ILIKE '%${qEsc}%')`,
+      );
+    if (level && level !== "all")
+      conditions.push(`s.enrichment_level = '${level}'`);
+    if (country)
+      conditions.push(`s.country_qid = '${country.replace(/'/g, "''")}'`);
 
     const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
+
+    // Avec une recherche texte : la correspondance exacte du titre d'abord,
+    // puis les titres qui commencent par la requête, puis le reste (matches
+    // sur la description ou en milieu de titre) — importance en tie-break.
+    // Sans recherche : l'ordre habituel piloté par l'importance.
+    const orderBy = q
+      ? `CASE
+           WHEN lower(s.title_en) = lower('${qEsc}') THEN 0
+           WHEN s.title_en ILIKE '${qEsc}%' THEN 1
+           ELSE 2
+         END,
+         s.base_importance DESC NULLS LAST, s.sitelinks_count DESC NULLS LAST, s.title_en`
+      : `s.base_importance DESC NULLS LAST, s.sitelinks_count DESC NULLS LAST, s.title_en`;
 
     const [sites, totalRow, countries, levelCounts] = await Promise.all([
       sql.unsafe(`
@@ -41,7 +60,7 @@ export const adminCurationRoutes: FastifyPluginAsync = async (app) => {
         FROM sites s
         LEFT JOIN countries c ON c.qid = s.country_qid
         ${where}
-        ORDER BY s.base_importance DESC NULLS LAST, s.sitelinks_count DESC NULLS LAST, s.title_en
+        ORDER BY ${orderBy}
         LIMIT ${limit} OFFSET ${offset}
       `),
       sql.unsafe(`SELECT COUNT(*)::int AS count FROM sites s ${where}`),

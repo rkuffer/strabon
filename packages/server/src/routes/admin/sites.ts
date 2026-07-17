@@ -18,13 +18,27 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
     const offset = (parseInt(page) - 1) * limit;
 
     const conditions: string[] = [];
-    if (q) conditions.push(`s.title_en ILIKE '%${q.replace(/'/g, "''")}%'`);
+    const qEsc = q ? q.replace(/'/g, "''") : "";
+    if (q) conditions.push(`s.title_en ILIKE '%${qEsc}%'`);
     if (status === "no_timeline") conditions.push(`s.timeline IS NULL`);
     if (status === "no_coords") conditions.push(`s.location IS NULL`);
     if (country)
       conditions.push(`s.country_qid = '${country.replace(/'/g, "''")}'`);
 
     const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
+
+    // Avec une recherche texte : correspondance exacte du titre d'abord, puis
+    // les titres qui commencent par la requête, puis le reste — importance en
+    // tie-break. Sans recherche : ordre habituel piloté par l'importance.
+    // (même logique que /admin/curation)
+    const orderBy = q
+      ? `CASE
+           WHEN lower(s.title_en) = lower('${qEsc}') THEN 0
+           WHEN s.title_en ILIKE '${qEsc}%' THEN 1
+           ELSE 2
+         END,
+         s.base_importance DESC NULLS LAST, s.title_en`
+      : `s.base_importance DESC NULLS LAST, s.title_en`;
 
     const [sites, totalRow, countries] = await Promise.all([
       sql.unsafe(`
@@ -39,7 +53,7 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
         FROM sites s
         LEFT JOIN countries c ON c.qid = s.country_qid
         ${where}
-        ORDER BY s.base_importance DESC NULLS LAST, s.title_en
+        ORDER BY ${orderBy}
         LIMIT ${limit} OFFSET ${offset}
       `),
       sql.unsafe(`SELECT COUNT(*)::int AS count FROM sites s ${where}`),

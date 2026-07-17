@@ -58,7 +58,7 @@
     <% it.sites.forEach(function(site) { %>
     <tr id="row-<%= site.id %>">
       <td><input type="checkbox" class="site-check" value="<%= site.id %>"></td>
-      <td><strong><a href="/admin/extract/<%= site.id %>"><%= site.title_en %></a></strong></td>
+      <td><strong><a href="/admin/sites/<%= site.id %>"><%= site.title_en %></a></strong></td>
       <td class="text-muted"><%= site.country || '—' %></td>
       <td><span class="importance-badge"><%= site.base_importance %></span></td>
       <td>
