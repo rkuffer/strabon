@@ -30,6 +30,7 @@ export const adminCurationRoutes: FastifyPluginAsync = async (app) => {
                s.country_qid,
                c.name_en AS country_name,
                s.enrichment_level,
+               s.base_importance,
                s.sitelinks_count,
                s.population,
                s.meta->>'wikidata_description' AS description,
@@ -40,7 +41,7 @@ export const adminCurationRoutes: FastifyPluginAsync = async (app) => {
         FROM sites s
         LEFT JOIN countries c ON c.qid = s.country_qid
         ${where}
-        ORDER BY s.sitelinks_count DESC NULLS LAST, s.title_en
+        ORDER BY s.base_importance DESC NULLS LAST, s.sitelinks_count DESC NULLS LAST, s.title_en
         LIMIT ${limit} OFFSET ${offset}
       `),
       sql.unsafe(`SELECT COUNT(*)::int AS count FROM sites s ${where}`),

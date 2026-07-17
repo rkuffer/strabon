@@ -150,7 +150,6 @@ function extractSelected() {
     var d = JSON.parse(e.data);
     appendLog('done', 'Terminé — ' + d.done + ' extraits, ' + d.errors + ' erreurs. Rechargement...');
     sse.close();
-    setTimeout(function() { window.location.reload(); }, 2000);
   });
   sse.addEventListener('fatal', function(e) {
     appendLog('error', 'Erreur: ' + JSON.parse(e.data).message);

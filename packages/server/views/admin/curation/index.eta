@@ -56,6 +56,7 @@
       <th>Description</th>
       <th>Type</th>
       <th>Country</th>
+      <th class="col-num">Importance</th>
       <th class="col-num">Sitelinks</th>
       <th class="col-num">Population</th>
       <th>Level</th>
@@ -75,6 +76,7 @@
         <td class="col-desc"><%= s.description || '' %></td>
         <td><%= s.site_type || '' %></td>
         <td><%= s.country_name || '' %></td>
+        <td class="col-num"><span class="importance-badge"><%= s.base_importance %></span></td>
         <td class="col-num"><%= s.sitelinks_count != null ? s.sitelinks_count : '' %></td>
         <td class="col-num"><%= s.population != null ? Number(s.population).toLocaleString() : '' %></td>
         <td>

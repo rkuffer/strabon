@@ -7,7 +7,7 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
   app.get<{
     Querystring: {
       q?: string;
-      status?: "no_timeline" | "no_coords" | "no_enrich" | "all";
+      status?: "no_timeline" | "no_coords" | "all";
       country?: string;
       page?: string;
     };
@@ -21,8 +21,6 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
     if (q) conditions.push(`s.title_en ILIKE '%${q.replace(/'/g, "''")}%'`);
     if (status === "no_timeline") conditions.push(`s.timeline IS NULL`);
     if (status === "no_coords") conditions.push(`s.location IS NULL`);
-    if (status === "no_enrich")
-      conditions.push(`s.wikidata_enriched_at IS NULL`);
     if (country)
       conditions.push(`s.country_qid = '${country.replace(/'/g, "''")}'`);
 
@@ -33,16 +31,15 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
         SELECT s.id, s.title_en,
                c.name_en AS country_name,
                s.site_type, s.base_importance,
-               s.sitelinks_count, s.enrichment_level,
+               s.sitelinks_count, s.wikipedia_page_en_url, s.enrichment_level,
                s.inception_year, s.dissolution_year,
                s.timeline IS NOT NULL             AS has_timeline,
                s.location IS NOT NULL             AS has_coords,
-               s.wikidata_enriched_at IS NOT NULL AS has_enrich,
                s.timeline_extracted_at
         FROM sites s
         LEFT JOIN countries c ON c.qid = s.country_qid
         ${where}
-        ORDER BY s.sitelinks_count DESC NULLS LAST, s.title_en
+        ORDER BY s.base_importance DESC NULLS LAST, s.title_en
         LIMIT ${limit} OFFSET ${offset}
       `),
       sql.unsafe(`SELECT COUNT(*)::int AS count FROM sites s ${where}`),

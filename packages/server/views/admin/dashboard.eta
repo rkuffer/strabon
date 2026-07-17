@@ -14,9 +14,9 @@
     <div class="stat-pct"><%= Math.round(it.stats.withCoords / it.stats.total * 100) %>%</div>
   </div>
   <div class="stat-card">
-    <div class="stat-value"><%= it.stats.withEnrich.toLocaleString() %></div>
-    <div class="stat-label">Enrichis Wikidata</div>
-    <div class="stat-pct"><%= Math.round(it.stats.withEnrich / it.stats.total * 100) %>%</div>
+    <div class="stat-value"><%= it.stats.withImportance.toLocaleString() %></div>
+    <div class="stat-label">Notoriété détectée</div>
+    <div class="stat-pct"><%= Math.round(it.stats.withImportance / it.stats.total * 100) %>%</div>
   </div>
   <div class="stat-card stat-card--highlight">
     <div class="stat-value"><%= it.stats.withTimeline.toLocaleString() %></div>
