@@ -160,21 +160,33 @@ function sizeForScore(score: number, zoom: number): number {
   return Math.round(min + (max - min) * Math.sqrt(ratio));
 }
 
-// ── Fabrique d'icônes avec cache (clé = type + taille arrondie) ───────────────
-// La taille encode déjà score ET zoom : la clé type:size suffit à distinguer les
-// variantes, inutile d'ajouter le zoom séparément.
+// ── Fabrique d'icônes avec cache (clé = type + taille + niveau) ───────────────
+// La taille encode déjà score ET zoom ; on ajoute le niveau L0/L2 à la clé car
+// les L0 (indexés, sans timeline) sont rendus ATTÉNUÉS (opacité réduite) pour
+// matérialiser la gradation « L0 en filigrane, L2 plein ».
 const iconCache = new Map<string, L.DivIcon>();
 
-function makeIcon(siteType: string, score: number, zoom: number): L.DivIcon {
+// Opacité des marqueurs L0 (indexés, non extraits). Les L2 restent à 1.
+const L0_OPACITY = 0.1;
+
+function makeIcon(
+  siteType: string,
+  score: number,
+  zoom: number,
+  extracted: boolean,
+): L.DivIcon {
   const size = sizeForScore(score, zoom);
-  const key = `${siteType}:${size}`;
+  const key = `${siteType}:${size}:${extracted ? "L2" : "L0"}`;
   const cached = iconCache.get(key);
   if (cached) return cached;
 
   const shape = (SHAPES[siteType] ?? SHAPES.default)();
+  // L0 : la forme est enveloppée dans un <g opacity> (opacité de groupe SVG,
+  // fiable partout, contrairement à l'attribut opacity sur la racine <svg>).
+  const inner = extracted ? shape : `<g opacity="${L0_OPACITY}">${shape}</g>`;
   const svg =
     `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 32 32">` +
-    `${shape}</svg>`;
+    `${inner}</svg>`;
 
   const icon = L.divIcon({
     html: svg,
@@ -261,11 +273,16 @@ function updateMarkers(newSites: SiteState[]) {
 
   // Ajouter/mettre à jour
   for (const site of newSites) {
-    // L'icône dépend maintenant du type, du score ET du zoom : elle doit se
-    // rafraîchir à chaque changement d'année (computed_importance varie avec la
-    // population et le site_type effectif) comme de zoom. makeIcon est caché,
-    // l'appel systématique est bénin.
-    const icon = makeIcon(site.site_type, site.computed_importance, zoom.value);
+    // L'icône dépend du type, du score, du zoom ET du niveau L0/L2 : elle doit
+    // se rafraîchir à chaque changement d'année (computed_importance varie avec
+    // la population et le site_type effectif) comme de zoom. makeIcon est caché,
+    // l'appel systématique est bénin. Les L0 (has_timeline=false) sont atténués.
+    const icon = makeIcon(
+      site.site_type,
+      site.computed_importance,
+      zoom.value,
+      site.has_timeline,
+    );
 
     if (markerMap.has(site.id)) {
       markerMap.get(site.id)!.setIcon(icon);

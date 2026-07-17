@@ -448,6 +448,9 @@ export type SiteState = {
   culture?: CultureEntry;
   base_importance: number;
   computed_importance: number;
+  // true = site extrait (L2, timeline présente) ; false = L0 indexé (tiling seul).
+  // Pilote le rendu atténué des L0 sur la carte.
+  has_timeline: boolean;
 };
 
 /**

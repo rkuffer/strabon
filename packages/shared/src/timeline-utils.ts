@@ -525,19 +525,32 @@ export function computeImportance(entry: SiteEntry, year: number): number {
   return Math.min(100, typeScore + popScore + hasTimeline + hasEvents);
 }
 
-/** Mapping zoom Leaflet → seuil de score minimum pour l'affichage. */
+/**
+ * Mapping zoom Leaflet → seuil de score minimum pour l'affichage.
+ *
+ * Calé sur la distribution réelle de `computed_importance` mesurée sur les
+ * ~2,15 M sites (juillet 2026, après passage de base_importance en colonne
+ * générée) : p50=32, p75=36, p90=42, p95=52, p99=61, max=159. 99 % des sites
+ * tiennent dans la bande 20-61 (un site L0 sans timeline vaut 20 : le plancher).
+ * Les seuils suivent donc les percentiles — haut (~p99) au monde entier pour
+ * ne montrer que les sites très notables, jusqu'au plancher au zoom max où seul
+ * le bruit base=0 (computed=20, points nus) reste masqué.
+ *
+ * Ce sont les molettes d'affichage : elles ne changent QUE la densité de
+ * marqueurs par zoom, jamais le classement. À ajuster à l'œil sur carte.
+ */
 export const ZOOM_THRESHOLDS: Record<number, number> = {
-  2: 95,
-  3: 90,
-  4: 85,
-  5: 75,
-  6: 65,
-  7: 55,
-  8: 45,
-  9: 35,
-  10: 20,
-  11: 10,
-  12: 0,
+  2: 70, // monde — ~p99+, seuls les sites les plus notables
+  3: 62,
+  4: 56,
+  5: 50, // ~p95
+  6: 45,
+  7: 40, // ~p90
+  8: 35,
+  9: 31,
+  10: 27,
+  11: 24,
+  12: 21, // zoom max — ne masque plus que le bruit base=0 (computed=20)
 };
 
 export function getZoomThreshold(zoom: number): number {

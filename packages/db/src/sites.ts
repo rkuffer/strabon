@@ -48,7 +48,9 @@ export async function querySites(
       -- Polity résolue
       track_value_at(s.timeline->'polity', ${year})        AS polity,
       -- Culture résolue
-      track_value_at(s.timeline->'culture', ${year})       AS culture
+      track_value_at(s.timeline->'culture', ${year})       AS culture,
+      -- L0 (indexé, tiling seul) vs L2 (extrait) → rendu atténué côté carte
+      (s.timeline IS NOT NULL)                              AS has_timeline
     FROM sites s
     WHERE s.location IS NOT NULL
       -- Filtre temporel
