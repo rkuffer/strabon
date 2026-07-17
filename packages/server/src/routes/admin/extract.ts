@@ -340,6 +340,28 @@ export const adminExtractRoutes: FastifyPluginAsync = async (app) => {
     },
   );
 
+  // POST /admin/extract/:id/exclude — exclusion manuelle (ex. homonyme repéré
+  // avant/sans lancer l'extraction LLM). Marque enrichment_level='excluded'
+  // directement, sans appel LLM ni condition sur l'état actuel du site.
+  app.post<{ Params: { id: string } }>(
+    "/admin/extract/:id/exclude",
+    async (req, reply) => {
+      const sql = getSql();
+      const rows = await sql`
+        UPDATE sites SET
+          enrichment_level = 'excluded',
+          last_updated = now()
+        WHERE id = ${req.params.id}
+        RETURNING id, title_en
+      `;
+      if (!rows.length)
+        return reply.status(404).send({ error: "Site not found" });
+
+      console.log(`[extract] ⊘ ${rows[0].title_en} exclu manuellement`);
+      return reply.send({ ok: true, id: rows[0].id });
+    },
+  );
+
   // POST /admin/extract/:id/run — déclenche l'extraction LLM (preview, pas d'écriture)
   app.post<{ Params: { id: string } }>(
     "/admin/extract/:id/run",
