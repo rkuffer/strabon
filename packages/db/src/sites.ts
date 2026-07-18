@@ -92,7 +92,17 @@ export async function querySites(
         (${params.filter ?? "timeline_only"} = 'no_timeline'   AND s.timeline IS NULL)    OR
         (${params.filter ?? "timeline_only"} = 'all')
       )
-    ORDER BY computed_importance DESC
+    -- Tri : aux zooms larges (baseThreshold > 0), on classe par NOTORIÉTÉ
+    -- RÉELLE d'abord. Sinon le LIMIT ci-dessous choisirait ses 500 survivants
+    -- au score combiné, donc dominés par le bonus dynamique (jusqu'à +100 pour
+    -- un site extrait) : un village extrait passerait devant une métropole non
+    -- extraite. Le filtre base_importance seul ne suffit pas à l'éviter — il
+    -- décide QUI est éligible, pas qui survit au LIMIT. Aux zooms serrés
+    -- (baseThreshold = 0) le CASE devient constant et le tri retombe sur
+    -- computed_importance, où le bonus "a du contenu" est légitime.
+    ORDER BY
+      (CASE WHEN ${baseThreshold} > 0 THEN s.base_importance ELSE 0 END) DESC,
+      computed_importance DESC
     LIMIT ${MAX_MARKERS}
   `;
 

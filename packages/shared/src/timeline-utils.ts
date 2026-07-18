@@ -570,29 +570,35 @@ export function getZoomThreshold(zoom: number): number {
  * C'est le garde-fou anti-Rocamadour : aux zooms larges, il devient la
  * contrainte DOMINANTE (l'autre seuil, sur computed_importance, reste
  * franchissable via le score dynamique) et impose la vraie notoriété
- * (sitelinks). Aux zooms serrés il s'efface (proche de 0) et redonne la main
- * au seuil dynamique — c'est là que "avoir du contenu extrait" redevient un
- * critère pertinent pour la visibilité (design d'origine, toujours voulu).
+ * (sitelinks). Aux zooms serrés il s'efface (0) et redonne la main au seuil
+ * dynamique — c'est là que "avoir du contenu extrait" redevient un critère
+ * pertinent pour la visibilité (design d'origine, toujours voulu).
  *
- * Calé sur la distribution réelle de `base_importance` mesurée sur les mêmes
- * ~2,15 M sites : p50=14, p90=25, p99=41, p99.9=44, max=59. Contrairement à
- * computed_importance, base_importance plafonne BAS — d'où des seuils bien
- * plus resserrés (44→0) que ZOOM_THRESHOLDS (70→21). Un ancien seuil monde à
- * 70 sur base_importance seul aurait été structurellement infranchissable
- * (max mesuré 59) : c'est précisément pour ça qu'il n'existait pas avant et
- * que le score dynamique compensait — en trop.
+ * CALÉ SUR DES COMPTES ABSOLUS MESURÉS, pas sur des percentiles — la
+ * distribution de base_importance s'effondre en falaise, donc raisonner en
+ * percentiles trompe complètement (p99 ≈ 41 laissait passer 22 548 sites).
+ * Comptes mondiaux mesurés (juillet 2026, 2,15 M sites) :
+ *   ≥41 → 22 548   ≥43 → 4 924   ≥45 → 917   ≥47 → 323
+ *   ≥49 →     96   ≥51 →    35   ≥53 →  24   ≥55 →  14
+ * Ces comptes sont un MAJORANT : le filtre bbox réduit encore fortement le
+ * nombre réellement affiché. La cible est de rester nettement sous
+ * MAX_MARKERS (500) aux zooms larges, pour que ce soit le SEUIL qui décide
+ * de ce qu'on voit et non le LIMIT (qui trancherait arbitrairement).
+ *
+ * Repère : Rocamadour (base_importance=43, un village) n'apparaît qu'à
+ * partir du zoom 6 — échelle régionale, ce qui est le bon niveau pour elle.
  */
 export const BASE_ZOOM_THRESHOLDS: Record<number, number> = {
-  2: 44, // monde — ~p99.9, seuls les sites mondialement notoires
-  3: 41, // ~p99
-  4: 36,
-  5: 32,
-  6: 28,
-  7: 25, // ~p90
-  8: 20,
-  9: 16,
-  10: 12,
-  11: 8,
+  2: 49, // monde — ~96 sites éligibles : uniquement les grandes notoriétés
+  3: 47, // ~323
+  4: 45, // ~917
+  5: 44,
+  6: 43, // ~4 900 — échelle régionale, Rocamadour entre ici
+  7: 42,
+  8: 41, // ~22 500 — on est déjà zoomé, le bbox fait le tri
+  9: 35,
+  10: 28,
+  11: 20,
   12: 0, // zoom max — plus de plancher, le seuil dynamique gouverne seul
 };
 
