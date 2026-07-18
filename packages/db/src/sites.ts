@@ -9,6 +9,12 @@ export type SitesQueryParams = {
   year: number;
   zoom: number;
   threshold: number;
+  // Seuil sur base_importance SEUL (notoriété réelle, sans bonus dynamique) —
+  // gate dominant aux zooms larges pour éviter qu'un site mineur extrait ne
+  // s'affiche au dézoom mondial via le seul bonus timeline (bug Rocamadour,
+  // voir BASE_ZOOM_THRESHOLDS dans @strabon/shared). Optionnel pour ne pas
+  // casser un appelant existant ; défaut 0 = aucun effet, comportement inchangé.
+  baseThreshold?: number;
   filter?: SiteFilter;
   bboxMinLon: number;
   bboxMinLat: number;
@@ -26,8 +32,15 @@ export async function querySites(
   params: SitesQueryParams,
 ): Promise<SiteState[]> {
   const sql = getSql();
-  const { year, threshold, bboxMinLon, bboxMinLat, bboxMaxLon, bboxMaxLat } =
-    params;
+  const {
+    year,
+    threshold,
+    baseThreshold = 0,
+    bboxMinLon,
+    bboxMinLat,
+    bboxMaxLon,
+    bboxMaxLat,
+  } = params;
 
   const rows = await sql`
     SELECT
@@ -63,10 +76,16 @@ export async function querySites(
         s.location,
         ST_MakeEnvelope(${bboxMinLon}, ${bboxMinLat}, ${bboxMaxLon}, ${bboxMaxLat}, 4326)
       )
-      -- Filtre importance + zoom
+      -- Filtre importance + zoom (score combiné — reste franchissable via le
+      -- bonus dynamique/timeline seul, voir la note sur BASE_ZOOM_THRESHOLDS)
       AND (
         COALESCE(compute_importance(${year}, s.timeline), 0) + s.base_importance
       ) >= ${threshold}
+      -- Second gate : notoriété réelle SEULE, sans bonus dynamique. Dominant
+      -- aux zooms larges (baseThreshold élevé), s'efface aux zooms serrés
+      -- (baseThreshold→0). Empêche un site mineur extrait de s'afficher au
+      -- dézoom mondial via le seul bonus timeline (cf. Rocamadour).
+      AND s.base_importance >= ${baseThreshold}
       -- Filtre timeline selon le mode demandé
       AND (
         (${params.filter ?? "timeline_only"} = 'timeline_only' AND s.timeline IS NOT NULL) OR

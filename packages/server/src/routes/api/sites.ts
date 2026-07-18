@@ -1,7 +1,7 @@
 // routes/api/sites.ts
 import type { FastifyPluginAsync } from "fastify";
 import { querySites, searchSites } from "@strabon/db";
-import { getZoomThreshold } from "@strabon/shared";
+import { getZoomThreshold, getBaseZoomThreshold } from "@strabon/shared";
 
 export const apiSitesRoutes: FastifyPluginAsync = async (app) => {
   app.get<{
@@ -24,11 +24,13 @@ export const apiSitesRoutes: FastifyPluginAsync = async (app) => {
     const filter = req.query.filter ?? "timeline_only";
 
     const threshold = getZoomThreshold(zoom);
+    const baseThreshold = getBaseZoomThreshold(zoom);
 
     const sites = await querySites({
       year,
       zoom,
       threshold,
+      baseThreshold,
       filter,
       bboxMinLon: minLon,
       bboxMinLat: minLat,

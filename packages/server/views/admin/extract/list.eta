@@ -151,7 +151,7 @@ function extractSelected() {
   });
   sse.addEventListener('done', function(e) {
     var d = JSON.parse(e.data);
-    appendLog('done', 'Terminé — ' + d.done + ' extraits, ' + d.errors + ' erreurs. Rechargement...');
+    appendLog('done', 'Terminé — ' + d.done + ' extraits, ' + d.errors + ' erreurs.');
     sse.close();
   });
   sse.addEventListener('fatal', function(e) {

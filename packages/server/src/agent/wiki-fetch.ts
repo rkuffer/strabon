@@ -16,9 +16,10 @@
 export const WIKI_USER_AGENT =
   "Strabon2/0.1 (pan-historical atlas; https://github.com/rkuffer/strabon)";
 
-const MIN_SPACING_MS = 150;   // minimum gap between two Wikimedia requests
+const MIN_SPACING_MS = 250; // minimum gap between two Wikimedia requests
 const MAX_ATTEMPTS = 5;
-const BASE_BACKOFF_MS = 400;  // 400, 800, 1600, 3200, 6400
+const BASE_BACKOFF_MS = 400; // 400, 800, 1600, 3200, 6400
+const DEFAULT_TIMEOUT_MS = 20_000; // per-attempt timeout (endpoint hangs)
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -46,15 +47,21 @@ async function throttle(): Promise<void> {
  * queries that would exceed GET URL length limits — VALUES clauses with
  * thousands of QIDs, as used by place_classes-driven tiling).
  */
-export async function wikiFetchJson(url: string, init?: RequestInit): Promise<any> {
+export async function wikiFetchJson(
+  url: string,
+  init?: RequestInit,
+): Promise<any> {
   let attempt = 0;
   // eslint-disable-next-line no-constant-condition
   while (true) {
     await throttle();
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), DEFAULT_TIMEOUT_MS);
     try {
       const res = await fetch(url, {
         ...init,
         headers: { "User-Agent": WIKI_USER_AGENT, ...(init?.headers ?? {}) },
+        signal: init?.signal ?? controller.signal,
       });
       if (res.status === 429 || (res.status >= 500 && res.status < 600)) {
         if (attempt < MAX_ATTEMPTS) {
@@ -62,22 +69,27 @@ export async function wikiFetchJson(url: string, init?: RequestInit): Promise<an
           attempt++;
           continue;
         }
-        throw new Error(`Wikimedia HTTP ${res.status} after ${MAX_ATTEMPTS} retries`);
+        throw new Error(
+          `Wikimedia HTTP ${res.status} after ${MAX_ATTEMPTS} retries`,
+        );
       }
       if (!res.ok) {
         throw new Error(`Wikimedia HTTP ${res.status} on ${url.slice(0, 120)}`);
       }
       return await res.json();
     } catch (err: any) {
-      const transient = /network|ECONN|timeout|fetch failed|429|5\d\d/i.test(
-        String(err?.message),
-      );
+      const transient =
+        /network|ECONN|timeout|fetch failed|429|5\d\d|abort/i.test(
+          String(err?.message),
+        );
       if (transient && attempt < MAX_ATTEMPTS) {
         await sleep(BASE_BACKOFF_MS * 2 ** attempt);
         attempt++;
         continue;
       }
       throw err;
+    } finally {
+      clearTimeout(timer);
     }
   }
 }

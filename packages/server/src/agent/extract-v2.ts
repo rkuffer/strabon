@@ -1228,7 +1228,25 @@ export function buildPromptV2(
   // Un marqueur résiduel = un câblage oublié. Mieux vaut échouer ici que d'envoyer
   // « {{cultures}} » à Claude. (On perd le typecheck sur les interpolations ; ce
   // garde-fou attrape la même classe d'erreur, en plus large.)
-  const leftover = out.match(/\{\{(\w+)\}\}/);
+  //
+  // ATTENTION : on ne peut PAS chercher n'importe quel {{...}} — le contenu
+  // Wikipedia contient légitimement des balises WIKITEXT comme {{nbsp}},
+  // {{cite web}}, {{lang|es|...}}, etc. La liste blanche ci-dessous est la
+  // seule source de vérité des marqueurs du template ; toute nouvelle
+  // interpolation doit y être ajoutée en parallèle du replaceAll ci-dessus.
+  const TEMPLATE_MARKERS = [
+    "title",
+    "religions",
+    "languages",
+    "polities",
+    "cultures",
+    "filiation",
+    "two_sources_note",
+    "context_en",
+    "local_section",
+  ];
+  const leftoverRe = new RegExp(`\\{\\{(${TEMPLATE_MARKERS.join("|")})\\}\\}`);
+  const leftover = out.match(leftoverRe);
   if (leftover) {
     throw new Error(`Prompt template: unsubstituted marker ${leftover[0]}`);
   }

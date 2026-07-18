@@ -62,21 +62,39 @@ const YEAR_DEBOUNCE = 350;
 const BBOX_DEBOUNCE = 400; // le déplacement de carte est moins urgent
 
 export function useSitesQuery(params: SiteQueryParams) {
-  // Débouncer l'année et le bbox séparément
+  // L'année se débounce seule (source indépendante : slider / lecture auto).
   const dYear = useDebounced(params.year, YEAR_DEBOUNCE);
-  const dMinLon = useDebounced(params.minLon, BBOX_DEBOUNCE);
-  const dMinLat = useDebounced(params.minLat, BBOX_DEBOUNCE);
-  const dMaxLon = useDebounced(params.maxLon, BBOX_DEBOUNCE);
-  const dMaxLat = useDebounced(params.maxLat, BBOX_DEBOUNCE);
+
+  // Le bbox ET le zoom se débouncent EN UN SEUL BLOC. Deux bugs distincts
+  // étaient en jeu :
+  // (1) débouncer les quatre bornes séparément (un useDebounced par borne)
+  //     donnait à chacune son propre setTimeout, donc chaque affectation
+  //     `debounced.value = val` tombait dans un MACROTASK distinct que Vue ne
+  //     peut pas regrouper → quatre changements successifs de queryKey pour un
+  //     seul déplacement, donc quatre requêtes ne faisant varier qu'une borne
+  //     chacune (signature observée dans l'onglet réseau) ;
+  // (2) `zoom` n'était PAS débouncé du tout et alimentait la queryKey en
+  //     direct → un clic sur +/- partait immédiatement avec l'ANCIEN bbox,
+  //     puis le bbox débouncé relançait une seconde requête.
+  // Zoom et bbox décrivent le même état de vue et changent toujours ensemble :
+  // un objet unique = un timer unique = une seule invalidation.
+  const view = computed(() => ({
+    zoom: params.zoom.value,
+    minLon: params.minLon.value,
+    minLat: params.minLat.value,
+    maxLon: params.maxLon.value,
+    maxLat: params.maxLat.value,
+  }));
+  const dView = useDebounced(view, BBOX_DEBOUNCE);
 
   const url = computed(
     () =>
       `/api/sites?year=${dYear.value}` +
-      `&zoom=${params.zoom.value}` +
-      `&minLon=${dMinLon.value.toFixed(4)}` +
-      `&minLat=${dMinLat.value.toFixed(4)}` +
-      `&maxLon=${dMaxLon.value.toFixed(4)}` +
-      `&maxLat=${dMaxLat.value.toFixed(4)}` +
+      `&zoom=${dView.value.zoom}` +
+      `&minLon=${dView.value.minLon.toFixed(4)}` +
+      `&minLat=${dView.value.minLat.toFixed(4)}` +
+      `&maxLon=${dView.value.maxLon.toFixed(4)}` +
+      `&maxLat=${dView.value.maxLat.toFixed(4)}` +
       `&filter=${params.siteFilter.value}`,
   );
 
@@ -84,13 +102,13 @@ export function useSitesQuery(params: SiteQueryParams) {
     queryKey: computed(() => [
       "sites",
       dYear.value,
-      params.zoom.value,
+      dView.value.zoom,
       params.siteFilter.value,
       // Arrondir le bbox pour limiter les invalidations de cache lors des micro-déplacements
-      Math.round(dMinLon.value * 10) / 10,
-      Math.round(dMinLat.value * 10) / 10,
-      Math.round(dMaxLon.value * 10) / 10,
-      Math.round(dMaxLat.value * 10) / 10,
+      Math.round(dView.value.minLon * 10) / 10,
+      Math.round(dView.value.minLat * 10) / 10,
+      Math.round(dView.value.maxLon * 10) / 10,
+      Math.round(dView.value.maxLat * 10) / 10,
     ]),
     queryFn: () => fetchJson<SiteState[]>(url.value),
     staleTime: 30_000,

@@ -10,11 +10,11 @@
 // Exporté : buildWikipediaContext()
 
 import Anthropic from "@anthropic-ai/sdk";
+import { wikiFetchJson } from "../../agent/wiki-fetch.js";
 
 const WIKIDATA_API = "https://www.wikidata.org/w/api.php";
 const WIKI_API = (lang: string) => `https://${lang}.wikipedia.org/w/api.php`;
-const UA = "Strabon/1.0";
-const FETCH_TIMEOUT = 20_000;
+// UA + timeout are handled centrally by wikiFetchJson (see agent/wiki-fetch.ts).
 
 // ── Mapping pays → langue locale prioritaire ──────────────────────────────────
 // Inspiré de COUNTRY_LABELS dans enrich.ts, étendu avec les codes langue
@@ -65,20 +65,6 @@ export type WikipediaContext = {
   routerSource: RouterSource; // "router" | "keyword-fallback" — traçabilité
 };
 
-// ── Fetch avec timeout ────────────────────────────────────────────────────────
-async function fetchWithTimeout(url: string): Promise<Response> {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT);
-  try {
-    return await fetch(url, {
-      headers: { "User-Agent": UA },
-      signal: controller.signal,
-    });
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
 // ── Phase 1a : Wikidata sitelinks ─────────────────────────────────────────────
 // Retourne un map lang → titre Wikipedia (ex: { "ar": "بعلبك", "fr": "Baalbek" })
 async function fetchSitelinks(
@@ -92,9 +78,10 @@ async function fetchSitelinks(
     origin: "*",
   })}`;
 
-  const res = await fetchWithTimeout(url);
-  if (!res.ok) throw new Error(`Wikidata HTTP ${res.status}`);
-  const data = await res.json();
+  // wikiFetchJson enforces global 250ms spacing + retry/backoff on 429/5xx and
+  // throws on any non-OK response — same effective contract as before, just
+  // with the retry safety net that Wikimedia bursts require.
+  const data = await wikiFetchJson(url);
 
   const sitelinks = data?.entities?.[wikidataId]?.sitelinks ?? {};
   const result = new Map<string, string>();
@@ -123,9 +110,16 @@ async function fetchSections(
     origin: "*",
   })}`;
 
-  const res = await fetchWithTimeout(url);
-  if (!res.ok) return [];
-  const data = await res.json();
+  // Missing page / permanent HTTP error must not fail the whole extraction:
+  // return an empty list so the pipeline keeps going (same behaviour as the
+  // pre-migration `if (!res.ok) return []`). Transient 429/5xx are already
+  // handled inside wikiFetchJson by retry.
+  let data: any;
+  try {
+    data = await wikiFetchJson(url);
+  } catch {
+    return [];
+  }
 
   return (data?.parse?.sections ?? []).map((s: any) => ({
     index: parseInt(s.index),
@@ -418,9 +412,13 @@ async function fetchSectionContent(
     origin: "*",
   })}`;
 
-  const res = await fetchWithTimeout(url);
-  if (!res.ok) return "";
-  const data = await res.json();
+  // Same graceful degradation as fetchSections: a missing section returns "".
+  let data: any;
+  try {
+    data = await wikiFetchJson(url);
+  } catch {
+    return "";
+  }
   return data?.parse?.wikitext?.["*"] ?? "";
 }
 

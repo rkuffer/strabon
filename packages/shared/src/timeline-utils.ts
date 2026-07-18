@@ -526,15 +526,22 @@ export function computeImportance(entry: SiteEntry, year: number): number {
 }
 
 /**
- * Mapping zoom Leaflet → seuil de score minimum pour l'affichage.
+ * Mapping zoom Leaflet → seuil de score minimum pour l'affichage, sur
+ * `computed_importance` (base_importance + score dynamique de l'année).
  *
  * Calé sur la distribution réelle de `computed_importance` mesurée sur les
  * ~2,15 M sites (juillet 2026, après passage de base_importance en colonne
  * générée) : p50=32, p75=36, p90=42, p95=52, p99=61, max=159. 99 % des sites
  * tiennent dans la bande 20-61 (un site L0 sans timeline vaut 20 : le plancher).
- * Les seuils suivent donc les percentiles — haut (~p99) au monde entier pour
- * ne montrer que les sites très notables, jusqu'au plancher au zoom max où seul
- * le bruit base=0 (computed=20, points nus) reste masqué.
+ *
+ * ATTENTION — ce seuil seul NE SUFFIT PAS aux zooms larges : le score
+ * dynamique (type_score + bonus timeline extraction, jusqu'à ~100) peut à lui
+ * seul faire franchir n'importe quel seuil ici, y compris à un site sans
+ * notoriété réelle (base_importance faible) simplement parce qu'il a été
+ * extrait — bug observé sur Rocamadour (base=43, dynamic=40 → computed=83,
+ * passait le seuil monde=70 alors que sa vraie notoriété ne le justifie pas).
+ * Voir BASE_ZOOM_THRESHOLDS ci-dessous, qui corrige ce cas — les deux seuils
+ * se combinent en ET dans querySites, jamais l'un sans l'autre.
  *
  * Ce sont les molettes d'affichage : elles ne changent QUE la densité de
  * marqueurs par zoom, jamais le classement. À ajuster à l'œil sur carte.
@@ -556,6 +563,42 @@ export const ZOOM_THRESHOLDS: Record<number, number> = {
 export function getZoomThreshold(zoom: number): number {
   const z = Math.min(12, Math.max(2, Math.floor(zoom)));
   return ZOOM_THRESHOLDS[z] ?? 0;
+}
+
+/**
+ * Second seuil, sur `base_importance` SEUL (pas de bonus dynamique/timeline).
+ * C'est le garde-fou anti-Rocamadour : aux zooms larges, il devient la
+ * contrainte DOMINANTE (l'autre seuil, sur computed_importance, reste
+ * franchissable via le score dynamique) et impose la vraie notoriété
+ * (sitelinks). Aux zooms serrés il s'efface (proche de 0) et redonne la main
+ * au seuil dynamique — c'est là que "avoir du contenu extrait" redevient un
+ * critère pertinent pour la visibilité (design d'origine, toujours voulu).
+ *
+ * Calé sur la distribution réelle de `base_importance` mesurée sur les mêmes
+ * ~2,15 M sites : p50=14, p90=25, p99=41, p99.9=44, max=59. Contrairement à
+ * computed_importance, base_importance plafonne BAS — d'où des seuils bien
+ * plus resserrés (44→0) que ZOOM_THRESHOLDS (70→21). Un ancien seuil monde à
+ * 70 sur base_importance seul aurait été structurellement infranchissable
+ * (max mesuré 59) : c'est précisément pour ça qu'il n'existait pas avant et
+ * que le score dynamique compensait — en trop.
+ */
+export const BASE_ZOOM_THRESHOLDS: Record<number, number> = {
+  2: 44, // monde — ~p99.9, seuls les sites mondialement notoires
+  3: 41, // ~p99
+  4: 36,
+  5: 32,
+  6: 28,
+  7: 25, // ~p90
+  8: 20,
+  9: 16,
+  10: 12,
+  11: 8,
+  12: 0, // zoom max — plus de plancher, le seuil dynamique gouverne seul
+};
+
+export function getBaseZoomThreshold(zoom: number): number {
+  const z = Math.min(12, Math.max(2, Math.floor(zoom)));
+  return BASE_ZOOM_THRESHOLDS[z] ?? 0;
 }
 
 export const MAX_MARKERS = 500;

@@ -10,6 +10,10 @@ export const useMapStore = defineStore("map", () => {
   const south = ref(-90);
   const east = ref(180);
   const north = ref(90);
+  // Centre exact de la vue (Leaflet getCenter(), pas le milieu des bounds —
+  // plus précis, et c'est ce qu'on veut restaurer via l'URL profonde).
+  const centerLat = ref(30);
+  const centerLng = ref(15);
   const leafletMap = shallowRef<LeafletMap | null>(null);
   const selectedSiteId = ref<string | null>(null);
 
@@ -41,6 +45,9 @@ export const useMapStore = defineStore("map", () => {
     south.value = b.getSouth();
     east.value = b.getEast();
     north.value = b.getNorth();
+    const c = map.getCenter();
+    centerLat.value = c.lat;
+    centerLng.value = c.lng;
   }
 
   /**
@@ -66,6 +73,8 @@ export const useMapStore = defineStore("map", () => {
     south,
     east,
     north,
+    centerLat,
+    centerLng,
     leafletMap,
     selectedSiteId,
     hullKind,
