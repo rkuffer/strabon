@@ -9,5 +9,6 @@
       "@strabon/db": ["../db/src/index.ts"]
     }
   },
-  "include": ["src"]
+  "include": ["src"],
+  "references": [{ "path": "../shared" }, { "path": "../db" }]
 }

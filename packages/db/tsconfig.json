@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "composite": true,
     "outDir": "./dist",
     "rootDir": "./src",
     "baseUrl": ".",
@@ -8,5 +9,6 @@
       "@strabon/shared": ["../shared/src/index.ts"]
     }
   },
-  "include": ["src"]
+  "include": ["src"],
+  "references": [{ "path": "../shared" }]
 }

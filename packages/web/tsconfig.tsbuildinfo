@@ -1,1 +1,1 @@
-{"root":["./src/admin.ts","./src/main.ts","./src/api/client.ts","./src/composables/useTimeScale.ts","./src/stores/map.ts","./src/stores/temporal.ts","./src/stores/ui.ts"],"errors":true,"version":"5.9.3"}
+{"root":["./src/admin.ts","./src/main.ts","./src/api/client.ts","./src/composables/useTimeScale.ts","./src/lib/url-state.ts","./src/stores/map.ts","./src/stores/temporal.ts","./src/stores/ui.ts"],"errors":true,"version":"5.9.3"}

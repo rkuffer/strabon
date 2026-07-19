@@ -12,5 +12,6 @@
       "@strabon/shared": ["../shared/src/index.ts"]
     }
   },
-  "include": ["src", "env.d.ts"]
+  "include": ["src", "env.d.ts"],
+  "references": [{ "path": "../shared" }]
 }

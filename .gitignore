@@ -4,3 +4,19 @@ dist/
 *.log
 output/
 temp/
+
+# Garde-fou anti-sédiment : packages/shared et packages/db émettent leur .js/.d.ts
+# dans dist/ (déjà ignoré ci-dessus), MAIS un `tsc` lancé sans le bon outDir peut
+# les écrire directement à côté du .ts source. Ça s'est déjà produit une fois et
+# a été commité par erreur (52 fichiers), ce qui piège Node/esbuild : un import
+# relatif "./foo.js" (obligatoire en NodeNext) trouve alors le .js figé au lieu
+# de retranspiler le .ts à la volée. Règle scoped (pas de *.js global — le repo
+# a des .js légitimes ailleurs, ex. assets admin) pour ces deux arbres précis.
+packages/shared/src/**/*.js
+packages/shared/src/**/*.js.map
+packages/shared/src/**/*.d.ts
+packages/shared/src/**/*.d.ts.map
+packages/db/src/**/*.js
+packages/db/src/**/*.js.map
+packages/db/src/**/*.d.ts
+packages/db/src/**/*.d.ts.map
