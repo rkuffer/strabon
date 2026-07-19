@@ -170,6 +170,7 @@
         :listView="listView"
         :listGrouping="listGrouping"
         @update:listView="listView = $event"
+        @select-year="temporal.setYear($event)"
       />
     </div>
   </div>

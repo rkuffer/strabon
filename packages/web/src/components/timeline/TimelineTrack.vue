@@ -49,15 +49,18 @@
         :style="{ width: innerWidth + 'px' }"
       >
         <div class="tl-cursor-axis" :style="{ left: cursorPct + '%' }" />
-        <div
+        <button
           v-for="tick in ticks"
           :key="tick.year"
+          type="button"
           class="tl-tick"
           :style="{ left: tick.pct + '%' }"
+          :title="`Aller à ${tick.label}`"
+          @click="emit('select-year', tick.year)"
         >
-          <div class="tl-tick-line" />
+          <span class="tl-tick-line" />
           <span>{{ tick.label }}</span>
-        </div>
+        </button>
       </div>
     </div>
 
@@ -341,7 +344,13 @@ const props = defineProps<{
   listGrouping?: "track" | "chrono";
 }>();
 
-const emit = defineEmits<{ "update:listView": [value: boolean] }>();
+const emit = defineEmits<{
+  "update:listView": [value: boolean];
+  /** Clic sur une graduation : demande le déplacement du curseur temporel.
+      Le composant est présentationnel (il reçoit `year` en prop et sert aussi
+      l'aperçu admin) — c'est au parent de décider quoi en faire. */
+  "select-year": [year: number];
+}>();
 
 const scrollEl = ref<HTMLDivElement>();
 const timeScale = useTimeScale();
@@ -1087,7 +1096,9 @@ const ticks = computed(() => {
   const steps = [
     1, 2, 5, 10, 20, 25, 50, 100, 200, 500, 1000, 2000, 5000, 10000,
   ];
-  const step = steps.find((s) => innerWidth.value / (span / s) >= 50) ?? 10000;
+  // 70px et non 50 : les libellés sont passés à 14px, un "1.5k BC" occupe
+  // maintenant ~55px — à 50px d'écart les graduations se chevauchaient.
+  const step = steps.find((s) => innerWidth.value / (span / s) >= 70) ?? 10000;
   const start = Math.ceil(min / step) * step;
   const result = [];
   for (let y = start; y <= max; y += step) {
@@ -1575,17 +1586,33 @@ $lane-h: 17px;
 // ── Ticks ────────────────────────────────────────────────────────────────────
 .tl-tick {
   position: absolute;
-  font-size: 10px;
+  font-size: 14px;
+  font-family: inherit;
   color: var(--muted);
+  background: none;
+  border: none;
+  padding: 0 4px;
   transform: translateX(-50%);
   white-space: nowrap;
   top: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
+  // Le libellé sert de raccourci temporel : on ne veut pas qu'un clic un peu
+  // traînant le sélectionne au lieu de déclencher la navigation.
+  user-select: none;
+
+  &:hover {
+    color: var(--accent);
+  }
+  &:hover .tl-tick-line {
+    background: var(--accent);
+  }
 }
 
 .tl-tick-line {
+  display: block;
   width: 1px;
   height: 4px;
   background: var(--border);

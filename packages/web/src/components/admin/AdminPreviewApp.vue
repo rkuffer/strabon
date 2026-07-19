@@ -47,7 +47,11 @@
 
     <!-- Frise timeline (réutilise le composant de la carte) -->
     <div class="preview-timeline">
-      <TimelineTrack :site="previewSite" :year="previewYear" />
+      <TimelineTrack
+        :site="previewSite"
+        :year="previewYear"
+        @select-year="previewYear = $event"
+      />
     </div>
 
     <!-- Slider d'année pour naviguer dans la frise -->

@@ -1,6 +1,11 @@
 import { getSql } from "./client.js";
-import type { SiteState, HullFeature, SiteTimeline, JsonObject } from "@strabon/shared";
-import { MAX_MARKERS } from "@strabon/shared";
+import type {
+  SiteState,
+  HullFeature,
+  SiteTimeline,
+  JsonObject,
+} from "@strabon/shared";
+import { MAX_MARKERS, MIN_RESULTS } from "@strabon/shared";
 import type { SiteSearchResult } from "@strabon/shared";
 
 export type SiteFilter = "timeline_only" | "all" | "no_timeline";
@@ -15,6 +20,10 @@ export type SitesQueryParams = {
   // voir BASE_ZOOM_THRESHOLDS dans @strabon/shared). Optionnel pour ne pas
   // casser un appelant existant ; défaut 0 = aucun effet, comportement inchangé.
   baseThreshold?: number;
+  // Plancher adaptatif : si le filtrage strict renvoie moins que ce nombre, on
+  // rejoue en relâchant les seuils pour ne pas afficher une carte vide là où
+  // des sites existent. 0 désactive le repli (comportement strict d'origine).
+  minResults?: number;
   filter?: SiteFilter;
   bboxMinLon: number;
   bboxMinLat: number;
@@ -36,13 +45,30 @@ export async function querySites(
     year,
     threshold,
     baseThreshold = 0,
+    minResults = MIN_RESULTS,
     bboxMinLon,
     bboxMinLat,
     bboxMaxLon,
     bboxMaxLat,
   } = params;
 
-  const rows = await sql`
+  const filter = params.filter ?? "timeline_only";
+
+  /**
+   * Une seule requête, paramétrée par les seuils EFFECTIFS.
+   *
+   * `rankByBase` est dissocié de `effBaseThreshold` à dessein : lors du repli,
+   * on relâche le FILTRAGE sans changer le CLASSEMENT. Sinon un repli au zoom
+   * mondial se remettrait à trier sur le score combiné, et le bonus dynamique
+   * ferait remonter un village extrait devant une métropole — exactement le
+   * biais que le tri par notoriété corrige (cf. BASE_ZOOM_THRESHOLDS).
+   */
+  const run = (
+    effThreshold: number,
+    effBaseThreshold: number,
+    rankByBase: boolean,
+    limit: number,
+  ) => sql`
     SELECT
       s.id,
       s.title_en                                            AS title,
@@ -80,33 +106,55 @@ export async function querySites(
       -- bonus dynamique/timeline seul, voir la note sur BASE_ZOOM_THRESHOLDS)
       AND (
         COALESCE(compute_importance(${year}, s.timeline), 0) + s.base_importance
-      ) >= ${threshold}
+      ) >= ${effThreshold}
       -- Second gate : notoriété réelle SEULE, sans bonus dynamique. Dominant
       -- aux zooms larges (baseThreshold élevé), s'efface aux zooms serrés
       -- (baseThreshold→0). Empêche un site mineur extrait de s'afficher au
       -- dézoom mondial via le seul bonus timeline (cf. Rocamadour).
-      AND s.base_importance >= ${baseThreshold}
+      AND s.base_importance >= ${effBaseThreshold}
       -- Filtre timeline selon le mode demandé
       AND (
-        (${params.filter ?? "timeline_only"} = 'timeline_only' AND s.timeline IS NOT NULL) OR
-        (${params.filter ?? "timeline_only"} = 'no_timeline'   AND s.timeline IS NULL)    OR
-        (${params.filter ?? "timeline_only"} = 'all')
+        (${filter} = 'timeline_only' AND s.timeline IS NOT NULL) OR
+        (${filter} = 'no_timeline'   AND s.timeline IS NULL)    OR
+        (${filter} = 'all')
       )
-    -- Tri : aux zooms larges (baseThreshold > 0), on classe par NOTORIÉTÉ
-    -- RÉELLE d'abord. Sinon le LIMIT ci-dessous choisirait ses 500 survivants
-    -- au score combiné, donc dominés par le bonus dynamique (jusqu'à +100 pour
-    -- un site extrait) : un village extrait passerait devant une métropole non
-    -- extraite. Le filtre base_importance seul ne suffit pas à l'éviter — il
-    -- décide QUI est éligible, pas qui survit au LIMIT. Aux zooms serrés
-    -- (baseThreshold = 0) le CASE devient constant et le tri retombe sur
-    -- computed_importance, où le bonus "a du contenu" est légitime.
+    -- Tri : aux zooms larges, on classe par NOTORIÉTÉ RÉELLE d'abord. Sinon le
+    -- LIMIT choisirait ses survivants au score combiné, donc dominés par le
+    -- bonus dynamique (jusqu'à +100 pour un site extrait) : un village extrait
+    -- passerait devant une métropole non extraite. Le filtre base_importance ne
+    -- suffit pas à l'éviter — il décide QUI est éligible, pas qui survit au
+    -- LIMIT. Aux zooms serrés le CASE devient constant et le tri retombe sur
+    -- computed_importance, où le bonus « a du contenu » est légitime.
     ORDER BY
-      (CASE WHEN ${baseThreshold} > 0 THEN s.base_importance ELSE 0 END) DESC,
+      (CASE WHEN ${rankByBase} THEN s.base_importance ELSE 0 END) DESC,
       computed_importance DESC
-    LIMIT ${MAX_MARKERS}
+    LIMIT ${limit}
   `;
 
-  return rows as unknown as SiteState[];
+  const rankByBase = baseThreshold > 0;
+  const rows = await run(threshold, baseThreshold, rankByBase, MAX_MARKERS);
+
+  // Filtrage strict suffisant, ou repli désactivé : on s'arrête là. C'est le
+  // chemin rapide, inchangé — les seuils élaguent toujours avant l'appel plpgsql.
+  if (rows.length >= minResults || minResults <= 0) {
+    return rows as unknown as SiteState[];
+  }
+
+  /**
+   * REPLI. Les seuils sont calibrés mondialement mais s'appliquent localement :
+   * une fenêtre pauvre peut ne rien laisser passer alors que des sites existent.
+   * On rejoue sans les seuils de zoom, borné à `minResults`.
+   *
+   * On garde `base_importance > 0` : cette borne n'est pas un seuil de zoom mais
+   * la porte anti-bruit de la colonne générée (ni sitelink, ni article = point
+   * de coordonnées nu). La relâcher ferait remonter du bruit pur, ce qui n'est
+   * pas le but — on veut les sites MODESTES, pas les non-sites.
+   *
+   * Le résultat est un SUR-ENSEMBLE du strict (mêmes filtres géo/temporels,
+   * seuils plus bas), trié pareil : les sites déjà retenus restent en tête.
+   */
+  const relaxed = await run(0, 1, rankByBase, minResults);
+  return relaxed as unknown as SiteState[];
 }
 
 /**

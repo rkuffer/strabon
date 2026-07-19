@@ -609,6 +609,24 @@ export function getBaseZoomThreshold(zoom: number): number {
 
 export const MAX_MARKERS = 500;
 
+/**
+ * Plancher adaptatif : nombre de sites qu'on s'efforce d'afficher même quand
+ * AUCUN ne franchit les seuils d'importance du zoom courant.
+ *
+ * Pourquoi : les seuils sont calibrés sur la distribution MONDIALE, mais ils
+ * s'appliquent à une fenêtre LOCALE. Dans une région et une période peu
+ * dotées, il arrive que rien ne passe — la carte affiche alors le vide alors
+ * que des sites existent bel et bien (cas mesuré : Slavonie en -3000, où
+ * Slavonski Brod et Bjelovar, sites de la culture de Starčevo, tombaient sous
+ * le seuil du zoom 9). Ne rien montrer est le pire résultat possible : ça se
+ * lit comme « il n'y avait personne ici », ce qui est faux.
+ *
+ * Ce plancher ne DÉSACTIVE pas les seuils : au-delà de ce nombre, le filtrage
+ * normal reprend la main. Il garantit seulement qu'une fenêtre spatio-
+ * temporelle non vide ne renvoie jamais une carte vide.
+ */
+export const MIN_RESULTS = 40;
+
 // ── Conversion de valeur de piste en string affichable ───────────────────────
 
 /**
