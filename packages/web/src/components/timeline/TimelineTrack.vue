@@ -39,9 +39,12 @@
           </div>
         </Transition>
       </div>
-      <!-- Axe temporel — masqué en vue liste -->
+      <!-- Axe temporel — masqué en vue liste. `axisEl` sert de référence
+           géométrique pour convertir un X écran en position sur la frise
+           (zoom molette et déplacement latéral). -->
       <div
         v-if="!listView"
+        ref="axisEl"
         class="tl-axis-wrap"
         :style="{ width: innerWidth + 'px' }"
       >
@@ -139,86 +142,121 @@
       </div>
     </div>
 
-    <!-- ── Vue timeline ────────────────────────────────────────────────────── -->
-    <div v-else class="track-scroll" ref="scrollEl">
-      <div
-        v-for="row in rows"
-        :key="row.key"
-        class="tl-row"
-        :class="{ 'tl-row--lanes': row.kind === 'lanes' }"
-      >
-        <span class="tl-row-label">{{ row.label }}</span>
+    <!-- ── Contrôles de zoom (pointeurs sans molette) ─────────────────────── -->
+    <div v-if="!listView" class="tl-zoom-ctrl">
+      <button title="Zoom avant" @click="zoomButton(true)">+</button>
+      <button title="Zoom arrière" @click="zoomButton(false)">−</button>
+      <button v-if="zoomed" title="Vue complète" @click="resetZoom">⤢</button>
+    </div>
 
-        <!-- ── Piste ESCALIER : une seule ligne de blocs ─────────────────── -->
-        <div
-          v-if="row.kind === 'step'"
-          class="tl-row-track"
-          :style="{ width: innerWidth + 'px' }"
-        >
-          <div class="tl-cursor" :style="{ left: cursorPct + '%' }" />
-          <div
-            v-for="(block, i) in row.blocks"
-            :key="i"
-            class="tl-block"
-            :class="{ active: block.isActive }"
-            :style="{
-              left: block.x + '%',
-              width: block.w + '%',
-              background: block.bg,
-              color: block.fg,
-            }"
-            @mouseenter="showTooltip($event, block)"
-            @mouseleave="hideTooltip"
-          >
-            <span class="tl-block-text">{{ block.label }}</span>
-          </div>
-          <!-- Hiatus d'occupation (zone vide) -->
-          <div
-            v-for="(gap, gi) in row.gaps"
-            :key="'gap-' + gi"
-            class="tl-gap"
-            :style="{ left: gap.x + '%', width: gap.w + '%' }"
-            :title="gap.title"
-          />
-        </div>
+    <!-- ── Vue timeline ──────────────────────────────────────────────────────
+         Molette = zoom centré sur le curseur. Glisser le FOND = déplacement
+         latéral ; le clic sur une entrée reste libre pour un usage futur. -->
+    <div
+      v-if="!listView"
+      class="track-scroll"
+      :class="{ 'track-scroll--panning': panning }"
+      ref="scrollEl"
+      @wheel="onWheelZoom"
+      @mousedown="onPanStart"
+    >
+      <template v-for="row in orderedRows" :key="row.key">
+        <div class="tl-row" :class="{ 'tl-row--lanes': row.kind === 'lanes' }">
+          <span class="tl-row-label">{{ row.label }}</span>
 
-        <!-- ── Piste CO-OCCURRENTE : N couloirs empilés ──────────────────── -->
-        <div v-else class="tl-lanes" :style="{ width: innerWidth + 'px' }">
+          <!-- ── Piste ESCALIER : une seule ligne de blocs ─────────────────── -->
           <div
-            class="tl-cursor tl-cursor--lanes"
-            :style="{ left: cursorPct + '%' }"
-          />
-          <div
-            v-for="lane in row.lanes"
-            :key="lane.key"
-            class="tl-lane"
-            :style="{ height: lane.h + 'px' }"
+            v-if="row.kind === 'step'"
+            class="tl-row-track"
+            :style="{ width: innerWidth + 'px' }"
           >
+            <div class="tl-cursor" :style="{ left: cursorPct + '%' }" />
             <div
-              v-for="(seg, si) in lane.segments"
-              :key="si"
-              class="tl-seg"
-              :class="[
-                `tl-seg--${seg.role ?? 'unknown'}`,
-                { active: seg.isActive, open: seg.open },
-              ]"
+              v-for="(block, i) in row.blocks"
+              :key="i"
+              class="tl-block"
+              :class="{ active: block.isActive }"
               :style="{
-                left: seg.x + '%',
-                width: seg.w + '%',
-                background: seg.bg,
-                color: seg.fg,
+                left: block.x + '%',
+                width: block.w + '%',
+                background: block.bg,
+                color: block.fg,
               }"
-              @mouseenter="showTooltip($event, seg)"
+              @mouseenter="showTooltip($event, block)"
               @mouseleave="hideTooltip"
             >
-              <span class="tl-block-text">{{ seg.label }}</span>
+              <span class="tl-block-text">{{ block.label }}</span>
+            </div>
+            <!-- Hiatus d'occupation (zone vide) -->
+            <div
+              v-for="(gap, gi) in row.gaps"
+              :key="'gap-' + gi"
+              class="tl-gap"
+              :style="{ left: gap.x + '%', width: gap.w + '%' }"
+              :title="gap.title"
+            />
+          </div>
+
+          <!-- ── Piste CO-OCCURRENTE : N couloirs empilés ──────────────────── -->
+          <div v-else class="tl-lanes" :style="{ width: innerWidth + 'px' }">
+            <div
+              class="tl-cursor tl-cursor--lanes"
+              :style="{ left: cursorPct + '%' }"
+            />
+            <div
+              v-for="lane in row.lanes"
+              :key="lane.key"
+              class="tl-lane"
+              :style="{ height: lane.h + 'px' }"
+            >
+              <div
+                v-for="(seg, si) in lane.segments"
+                :key="si"
+                class="tl-seg"
+                :class="[
+                  `tl-seg--${seg.role ?? 'unknown'}`,
+                  { active: seg.isActive, open: seg.open },
+                ]"
+                :style="{
+                  left: seg.x + '%',
+                  width: seg.w + '%',
+                  background: seg.bg,
+                  color: seg.fg,
+                }"
+                @mouseenter="showTooltip($event, seg)"
+                @mouseleave="hideTooltip"
+              >
+                <span class="tl-block-text">{{ seg.label }}</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- ── Ligne EVENTS ─────────────────────────────────────────────────── -->
-      <div v-if="events.length" class="tl-row">
+        <!-- ── Ligne EVENTS — insérée juste après Polity ─────────────────────── -->
+        <div v-if="row.key === 'polity' && events.length" class="tl-row">
+          <span class="tl-row-label">EVENTS</span>
+          <div
+            class="tl-row-track tl-row-track--events"
+            :style="{ width: innerWidth + 'px' }"
+          >
+            <div
+              v-for="ev in events"
+              :key="ev.year"
+              class="tl-event"
+              :style="{ left: xPct(ev.year) + '%' }"
+              @mouseenter="showTooltip($event, ev)"
+              @mouseleave="hideTooltip"
+            >
+              {{ ev.icon }}
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <!-- Repli : si la piste Polity est absente (rare), Events n'a pas pu
+           s'insérer après elle dans la boucle — on l'affiche en fin de frise
+           plutôt que de perdre l'information. -->
+      <div v-if="!hasPolityRow && events.length" class="tl-row">
         <span class="tl-row-label">EVENTS</span>
         <div
           class="tl-row-track tl-row-track--events"
@@ -268,15 +306,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  computed,
-  ref,
-  watch,
-  nextTick,
-  reactive,
-  onMounted,
-  onUnmounted,
-} from "vue";
+import { computed, ref, watch, reactive, onMounted, onUnmounted } from "vue";
 import {
   getEntryAt,
   getActiveEntriesAt,
@@ -376,32 +406,182 @@ function trackEnd(key: TrackKey): number {
   return endYear.value;
 }
 
+// ── Fenêtre temporelle : zoom & déplacement ─────────────────────────────────
+//
+// La frise montre TOUJOURS l'intégralité de l'étendue du site. Le zoom n'est
+// pas un recadrage des données mais une loupe : on travaille dans l'espace
+// NORMALISÉ de l'échelle courante ([0..1] sur toute l'étendue), ce qui permet
+// de conserver le mode d'échelle choisi (sqrt/log/linéaire) tout en ancrant
+// exactement le zoom sous le curseur.
+//
+// `zoomT = null` ⇒ vue complète. Sinon {t0, t1} borne la portion visible.
+const zoomT = ref<{ t0: number; t1: number } | null>(null);
+const zoomed = computed(() => zoomT.value !== null);
+
+// Un zoom hérité d'un autre site n'aurait aucun sens.
+watch(
+  () => props.site,
+  () => (zoomT.value = null),
+);
+
+const MIN_T_SPAN = 0.002; // portion visible minimale (≈ 0,2 % de l'étendue)
+
 const tlRange = computed(() => {
   const { min, max } = dataBounds.value;
   const span = Math.max(max - min, 100);
   return { min: min - span * 0.04, max: max + span * 0.04 };
 });
 
-// xPct utilise l'échelle choisie (sqrt, log, linear). Le void force la dépendance
-// réactive pour que les computed appelant xPct se recalculent au changement de mode.
-function xPct(year: number): number {
+/** Position normalisée [0..1] d'une année sur l'étendue COMPLÈTE. */
+function tOf(year: number): number {
   void timeScale.mode.value;
-  return timeScale.xPct(year, tlRange.value.min, tlRange.value.max);
+  return timeScale.xPct(year, tlRange.value.min, tlRange.value.max) / 100;
 }
 
-// ── Largeur du conteneur interne ─────────────────────────────────────────────
+const viewT = computed(() => zoomT.value ?? { t0: 0, t1: 1 });
+
+/**
+ * Position en % dans la fenêtre visible. On compose deux transformations :
+ * année → position normalisée sur l'étendue complète (échelle sqrt/log/linéaire
+ * conservée), puis remise à l'échelle de la fenêtre de zoom. Le mode d'échelle
+ * survit donc au zoom, contrairement à un zoom effectué en années.
+ */
+function xPct(year: number): number {
+  const { t0, t1 } = viewT.value;
+  const span = t1 - t0 || 1;
+  return ((tOf(year) - t0) / span) * 100;
+}
+
+/** Bornes en ANNÉES de la fenêtre visible — sert à choisir le pas des graduations. */
+const visibleYears = computed(() => {
+  void timeScale.mode.value;
+  const { t0, t1 } = viewT.value;
+  const { min, max } = tlRange.value;
+  return {
+    min: timeScale.yearFromPct(t0 * 100, min, max),
+    max: timeScale.yearFromPct(t1 * 100, min, max),
+  };
+});
+
+function clampZoom(t0: number, t1: number) {
+  let span = Math.min(Math.max(t1 - t0, MIN_T_SPAN), 1);
+  if (span >= 1) {
+    zoomT.value = null; // couvre tout : on repasse en vue complète
+    return;
+  }
+  let lo = Math.min(Math.max(t0, 0), 1 - span);
+  zoomT.value = { t0: lo, t1: lo + span };
+}
+
+function resetZoom() {
+  zoomT.value = null;
+}
+
+// ── Interaction : molette, boutons, glisser ─────────────────────────────────
+
+/** Élément de référence pour convertir un X écran en ratio [0..1] de la frise. */
+const axisEl = ref<HTMLElement | null>(null);
+
+function ratioFromX(clientX: number): number {
+  const el = axisEl.value;
+  if (!el) return 0.5;
+  const rect = el.getBoundingClientRect();
+  if (!rect.width) return 0.5;
+  return Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+}
+
+const ZOOM_STEP = 1.2;
+
+/** Zoome en gardant fixe le point situé sous `ratio` (0 = gauche, 1 = droite). */
+function zoomAt(ratio: number, zoomIn: boolean) {
+  const { t0, t1 } = viewT.value;
+  const anchor = t0 + ratio * (t1 - t0);
+  const span = (t1 - t0) * (zoomIn ? 1 / ZOOM_STEP : ZOOM_STEP);
+  clampZoom(anchor - ratio * span, anchor - ratio * span + span);
+}
+
+function onWheelZoom(e: WheelEvent) {
+  if (props.listView) return;
+  e.preventDefault(); // sinon la page défile au lieu de zoomer
+  zoomAt(ratioFromX(e.clientX), e.deltaY < 0);
+}
+
+/** Boutons +/- : zoom centré, pour les pointeurs sans molette. */
+function zoomButton(zoomIn: boolean) {
+  zoomAt(0.5, zoomIn);
+}
+
+// Déplacement latéral par glisser sur le FOND de la frise. Le clic sur une
+// entrée est délibérément préservé (usage futur) : un drag démarré sur un
+// segment est ignoré.
+const DRAGGABLE_EXCLUDE = ".tl-block, .tl-seg, .tl-event";
+
+let panFrom: { x: number; t0: number; t1: number; width: number } | null = null;
+const panning = ref(false);
+
+function onPanStart(e: MouseEvent) {
+  if (props.listView || e.button !== 0) return;
+  if ((e.target as HTMLElement)?.closest(DRAGGABLE_EXCLUDE)) return;
+
+  const el = axisEl.value;
+  const width = el?.getBoundingClientRect().width ?? 0;
+  if (!width) return;
+
+  const { t0, t1 } = viewT.value;
+  panFrom = { x: e.clientX, t0, t1, width };
+  panning.value = true;
+  window.addEventListener("mousemove", onPanMove);
+  window.addEventListener("mouseup", onPanEnd);
+}
+
+function onPanMove(e: MouseEvent) {
+  if (!panFrom) return;
+  const dt =
+    ((e.clientX - panFrom.x) / panFrom.width) * (panFrom.t1 - panFrom.t0);
+  // Glisser vers la droite doit révéler le passé : on décale la fenêtre à gauche.
+  clampZoom(panFrom.t0 - dt, panFrom.t1 - dt);
+}
+
+function onPanEnd() {
+  panFrom = null;
+  panning.value = false;
+  window.removeEventListener("mousemove", onPanMove);
+  window.removeEventListener("mouseup", onPanEnd);
+}
+
+onUnmounted(onPanEnd);
+
+// ── Géométrie du conteneur ───────────────────────────────────────────────────
 const LABEL_W = 62;
 
-const innerWidth = computed(() => {
-  const tl = timeline.value;
-  if (!tl) return 600;
-  const counts = presentTrackKeys(tl).map(
-    (k) => getTrack(tl, k)?.entries.length ?? 0,
-  );
-  const maxEntries = Math.max(...counts, 1);
-  const scrollW = scrollEl.value?.clientWidth ?? 600;
-  return Math.max(scrollW - LABEL_W, maxEntries * 65);
+// Largeur du conteneur scrollable, suivie RÉACTIVEMENT. Lire
+// `scrollEl.value.clientWidth` dans un computed ne marche pas : clientWidth
+// n'est pas une source réactive, donc la largeur restait figée à sa première
+// évaluation et ne suivait ni le redimensionnement du panneau ni celui de la
+// fenêtre — d'où une bande morte à droite de la frise.
+const containerW = ref(600);
+let widthObserver: ResizeObserver | null = null;
+
+onMounted(() => {
+  if (!scrollEl.value) return;
+  containerW.value = scrollEl.value.clientWidth;
+  widthObserver = new ResizeObserver((entries) => {
+    const w = entries[0]?.contentRect.width;
+    if (w) containerW.value = w;
+  });
+  widthObserver.observe(scrollEl.value);
 });
+
+onUnmounted(() => {
+  widthObserver?.disconnect();
+  widthObserver = null;
+});
+
+// Le défilement horizontal est supprimé (déplacement au glisser + zoom) :
+// toute largeur supérieure au conteneur serait DÉFINITIVEMENT inaccessible.
+// On colle donc exactement à la place disponible — c'est le zoom, et non une
+// largeur virtuelle, qui donne de l'air aux périodes denses.
+const innerWidth = computed(() => Math.max(containerW.value - LABEL_W, 200));
 
 const cursorPct = computed(() => xPct(props.year));
 
@@ -708,6 +888,30 @@ const rows = computed<(StepRow | LaneRow)[]>(() => {
   });
 });
 
+// ── Ordre d'AFFICHAGE (présentation locale, distinct de l'ordre canonique) ───
+//
+// TRACK_KEYS (site_type, polity, culture, religion, language, name,
+// population) est l'ordre PARTAGÉ (@strabon/shared) — il ne bouge pas, d'autres
+// écrans en dépendent. Ici on ne réordonne que le RENDU de ce composant : Name
+// remonte juste sous Type. Events (rendu séparément, hors TRACK_KEYS) est
+// inséré juste après Polity directement dans le template.
+const orderedRows = computed(() => {
+  const list = [...rows.value];
+  const nameIdx = list.findIndex((r) => r.key === "name");
+  const typeIdx = list.findIndex((r) => r.key === "site_type");
+  if (nameIdx > -1 && typeIdx > -1 && nameIdx !== typeIdx + 1) {
+    const [nameRow] = list.splice(nameIdx, 1);
+    list.splice(typeIdx + 1, 0, nameRow);
+  }
+  return list;
+});
+
+/** Events s'insère après Polity ; si la piste est absente (rare), on retombe
+ * sur l'ancien emplacement (fin de frise) pour ne jamais perdre l'information. */
+const hasPolityRow = computed(() =>
+  orderedRows.value.some((r) => r.key === "polity"),
+);
+
 // ── Vue liste ─────────────────────────────────────────────────────────────────
 
 type ListEntry = {
@@ -876,9 +1080,13 @@ const events = computed(() => {
 
 // ── Ticks d'axe ───────────────────────────────────────────────────────────────
 const ticks = computed(() => {
-  const { min, max } = tlRange.value;
+  const { min, max } = visibleYears.value;
   const span = max - min;
-  const steps = [50, 100, 200, 500, 1000, 2000, 5000, 10000];
+  // Pas fins ajoutés pour les fenêtres serrées : zoomé sur deux siècles, un
+  // pas minimal de 50 ans ne produirait que 3 graduations.
+  const steps = [
+    1, 2, 5, 10, 20, 25, 50, 100, 200, 500, 1000, 2000, 5000, 10000,
+  ];
   const step = steps.find((s) => innerWidth.value / (span / s) >= 50) ?? 10000;
   const start = Math.ceil(min / step) * step;
   const result = [];
@@ -895,28 +1103,9 @@ const ticks = computed(() => {
   return result;
 });
 
-// ── Scroll vers l'année courante à l'ouverture ────────────────────────────────
-async function scrollToCursor() {
-  await nextTick();
-  if (!scrollEl.value) return;
-
-  if (scrollEl.value.clientWidth === 0) {
-    await new Promise<void>((resolve) => {
-      const ro = new ResizeObserver(() => {
-        ro.disconnect();
-        resolve();
-      });
-      ro.observe(scrollEl.value!);
-    });
-    await nextTick();
-  }
-
-  const cx = (cursorPct.value / 100) * innerWidth.value;
-  scrollEl.value.scrollLeft = Math.max(0, cx - scrollEl.value.clientWidth / 2);
-}
-
-watch(() => props.site, scrollToCursor);
-watch(() => timeScale.mode.value, scrollToCursor);
+// Le défilement horizontal ayant disparu (zoom + glisser), il n'y a plus rien
+// à recentrer à l'ouverture : la frise affiche d'emblée toute l'étendue du
+// site. L'ancien scrollToCursor() est donc supprimé.
 
 // ── Tooltip ───────────────────────────────────────────────────────────────────
 const tooltip = reactive({
@@ -971,17 +1160,38 @@ $lane-h: 17px;
   flex-direction: column;
   min-height: 0;
   overflow: hidden;
+  position: relative; // ancre les contrôles de zoom flottants
+  // L'interface est pilotée au glisser : sans ceci, tirer la frise
+  // sélectionne les libellés au lieu de la déplacer.
+  user-select: none;
+}
+
+// Le clic sur une entrée est réservé pour un usage futur : on neutralise le
+// curseur « main » hérité du fond, qui laisserait croire qu'on peut la tirer.
+.tl-block,
+.tl-seg,
+.tl-event {
+  cursor: default;
 }
 
 .track-scroll {
   flex: 1;
-  overflow: auto;
+  // Le déplacement latéral se fait au GLISSER (le zoom rend la barre
+  // horizontale sans objet) ; le défilement vertical garde sa barre, élargie
+  // ci-dessous puisqu'elle devient le seul moyen de défiler verticalement —
+  // la molette est captée par le zoom.
+  overflow-x: hidden;
+  overflow-y: auto;
   position: relative;
   min-height: 0;
+  cursor: grab;
+  // Indispensable avec le glisser : sans ça, tirer la frise sélectionne les
+  // libellés des segments au lieu de la déplacer.
+  user-select: none;
 
   &::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 12px;
+    height: 12px;
   }
   &::-webkit-scrollbar-track {
     background: var(--bg);
@@ -998,6 +1208,13 @@ $lane-h: 17px;
   &::-webkit-scrollbar-corner {
     background: var(--bg);
   }
+}
+
+// Pendant le glisser : le curseur doit rester « main fermée » partout, y
+// compris au survol des segments.
+.track-scroll--panning,
+.track-scroll--panning * {
+  cursor: grabbing !important;
 }
 
 // ── Ligne axe temporel (sticky top) ──────────────────────────────────────────
@@ -1127,22 +1344,36 @@ $lane-h: 17px;
   z-index: 6;
 }
 
-// ── Rows ──────────────────────────────────────────────────────────────────────
-.tl-row {
+// ── Contrôles de zoom ────────────────────────────────────────────────────────
+// Doublent la molette pour les pointeurs qui n'en ont pas (trackpad partiel,
+// tablette). Flottants en haut à droite de la frise.
+.tl-zoom-ctrl {
+  position: absolute;
+  top: 4px;
+  right: 10px;
+  z-index: 30;
   display: flex;
-  align-items: center;
-  min-height: 32px;
-  margin-bottom: 4px;
-  position: relative;
+  gap: 2px;
 
-  // Une piste co-occurrente empile N couloirs : le label s'aligne en haut.
-  &--lanes {
-    align-items: flex-start;
-    .tl-row-label {
-      padding-top: 2px;
-      align-items: flex-start;
-      height: auto;
-      align-self: stretch;
+  button {
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+    font-size: 12px;
+    line-height: 1;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    cursor: pointer;
+    padding: 0;
+
+    &:hover {
+      color: var(--accent);
+      border-color: var(--accent);
     }
   }
 }
