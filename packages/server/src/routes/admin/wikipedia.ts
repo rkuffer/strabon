@@ -10,7 +10,7 @@
 // Exporté : buildWikipediaContext()
 
 import Anthropic from "@anthropic-ai/sdk";
-import { wikiFetchJson } from "../../agent/wiki-fetch.js";
+import { wikiFetchJson } from "@strabon/shared";
 
 const WIKIDATA_API = "https://www.wikidata.org/w/api.php";
 const WIKI_API = (lang: string) => `https://${lang}.wikipedia.org/w/api.php`;

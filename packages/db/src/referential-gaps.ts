@@ -17,7 +17,7 @@
 // =============================================================================
 
 import type { Sql } from "postgres";
-import { wikiFetchJson } from "./wiki-fetch.js";
+import { wikiFetchJson } from "@strabon/shared";
 import { syncBoundsForNewEntity } from "./entity-bounds-sync.js";
 
 const WIKIDATA_API = "https://www.wikidata.org/w/api.php";

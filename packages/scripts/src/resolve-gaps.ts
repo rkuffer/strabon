@@ -35,7 +35,7 @@ import {
   autoResolveGaps,
   resolveGapManually,
   rejectGap,
-} from "../../server/src/agent/referential-gaps.js";
+} from "@strabon/db";
 
 async function list(sql: any) {
   const gaps = await sql`

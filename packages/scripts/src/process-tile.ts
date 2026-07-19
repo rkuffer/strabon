@@ -8,7 +8,7 @@
 //   DATABASE_URL=... npx tsx packages/scripts/src/process-tile.ts 0 44 --execute
 // =============================================================================
 
-import { processTile } from "../../server/src/agent/tile-processor.js";
+import { processTile } from "./tile-processor.js";
 import { closeSql } from "@strabon/db";
 
 async function main() {

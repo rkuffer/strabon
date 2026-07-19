@@ -25,7 +25,7 @@ import {
   getCountryInfo,
 } from "../../agent/extract-v2.js";
 import { validateTimelineQids } from "../../agent/validate-timeline.js";
-import { recordGaps } from "../../agent/referential-gaps.js";
+import { recordGaps } from "@strabon/db";
 import {
   recordPromptVersion,
   recordRun,

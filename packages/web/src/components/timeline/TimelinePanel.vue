@@ -103,7 +103,10 @@
         }}</span>
       </div>
 
+      <!-- Garde nécessaire : tous les sites n'ont pas d'article EN. Sans elle,
+           le lien s'affichait quand même, href pointant sur null. -->
       <a
+        v-if="site.wikipedia_page_en_url"
         :href="site.wikipedia_page_en_url"
         target="_blank"
         rel="noopener"
@@ -261,11 +264,19 @@ onUnmounted(() => {
 const siteId = computed(() => mapStore.selectedSiteId);
 const { data: site } = useSiteDetailQuery(siteId);
 
+// L'API renvoie inception_year / dissolution_year (des NOMBRES), pas des objets
+// `inception` / `dissolution`. L'ancien code lisait ces derniers, qui n'existent
+// pas : les deux valeurs étaient donc toujours vides à l'écran. formatYear
+// attend `{year, precision}`, jamais un nombre nu.
 const inceptionStr = computed(() =>
-  site.value ? formatYear(site.value.inception ?? null) : null,
+  site.value?.inception_year != null
+    ? formatYear({ year: site.value.inception_year, precision: 9 })
+    : null,
 );
 const dissolutionStr = computed(() =>
-  site.value ? formatYear(site.value.dissolution ?? null) : null,
+  site.value?.dissolution_year != null
+    ? formatYear({ year: site.value.dissolution_year, precision: 9 })
+    : null,
 );
 
 const currentState = computed(() => {

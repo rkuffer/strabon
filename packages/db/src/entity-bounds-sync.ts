@@ -24,7 +24,7 @@ import {
   type EntityBounds,
   type SiteTimeline,
 } from "@strabon/shared";
-import { recordBoundsConflicts } from "@strabon/db";
+import { recordBoundsConflicts } from "./bounds.js";
 
 const WDQS = "https://query.wikidata.org/sparql";
 const USER_AGENT = "Strabon/1.0 (historical atlas; github.com/rkuffer/strabon)";

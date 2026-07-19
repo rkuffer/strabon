@@ -10,3 +10,19 @@ export {
 } from "./reference.js";
 export { searchEntities, type EntityCandidate } from "./entities.js";
 export { loadEntityBounds, recordBoundsConflicts } from "./bounds.js";
+export {
+  recordGaps,
+  verifyQid,
+  backfillSites,
+  autoResolveGaps,
+  resolveGapManually,
+  rejectGap,
+  type MissingEntity,
+  type VerificationResult,
+  type ResolutionOutcome,
+} from "./referential-gaps.js";
+export {
+  fetchAndStoreBounds,
+  reapplyBoundsToSites,
+  syncBoundsForNewEntity,
+} from "./entity-bounds-sync.js";

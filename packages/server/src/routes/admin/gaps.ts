@@ -5,7 +5,7 @@ import {
   autoResolveGaps,
   resolveGapManually,
   rejectGap,
-} from "../../agent/referential-gaps.js";
+} from "@strabon/db";
 
 export const adminGapsRoutes: FastifyPluginAsync = async (app) => {
   // GET /admin/gaps — list referential gaps

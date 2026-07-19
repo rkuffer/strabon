@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/vue-query";
 import { computed, ref, watch, type Ref } from "vue";
 import type {
   SiteState,
+  SiteDetail,
   HullFeature,
   SiteSearchResult,
   HullKind,
@@ -149,7 +150,8 @@ export function useHullsQuery(
 export function useSiteDetailQuery(id: Ref<string | null>) {
   return useQuery({
     queryKey: computed(() => ["site", id.value]),
-    queryFn: () => (id.value ? fetchJson(`/api/sites/${id.value}`) : null),
+    queryFn: () =>
+      id.value ? fetchJson<SiteDetail>(`/api/sites/${id.value}`) : null,
     enabled: computed(() => id.value != null),
     staleTime: 60_000,
   });

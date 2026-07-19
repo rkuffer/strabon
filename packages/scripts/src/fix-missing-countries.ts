@@ -8,7 +8,7 @@
 // =============================================================================
 
 import { getSql, closeSql } from "@strabon/db";
-import { wikiFetchJson } from "../../server/src/agent/wiki-fetch.js";
+import { wikiFetchJson } from "@strabon/shared";
 import { readFileSync } from "fs";
 
 const WIKIDATA_API = "https://www.wikidata.org/w/api.php";

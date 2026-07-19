@@ -11,7 +11,7 @@
 // =============================================================================
 
 import { getSql } from "@strabon/db";
-import { wikiFetchJson } from "./wiki-fetch.js";
+import { wikiFetchJson } from "@strabon/shared";
 
 const SPARQL_ENDPOINT = "https://query.wikidata.org/sparql";
 

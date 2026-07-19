@@ -8,7 +8,7 @@
 // =============================================================================
 
 import { getSql, closeSql } from "@strabon/db";
-import { wikiFetchJson } from "../../server/src/agent/wiki-fetch.js";
+import { wikiFetchJson } from "@strabon/shared";
 
 const WIKIDATA_API = "https://www.wikidata.org/w/api.php";
 
@@ -47,7 +47,6 @@ const LANG_CODES: Record<string, string> = {
   "Q783": "es",  // Honduras
   "Q792": "es",  // El Salvador
   "Q811": "es",  // Nicaragua
-  "Q794": "vi",  // Vietnam → wait that's wrong, Q794 is Iran
   "Q794": "fa",  // Iran
   "Q851": "ar",  // Saudi Arabia
   "Q817": "ar",  // Kuwait
@@ -72,13 +71,9 @@ const LANG_CODES: Record<string, string> = {
   "Q889": "ps",  // Afghanistan
   "Q843": "ur",  // Pakistan
   "Q865": "zh",  // Taiwan
-  "Q884": "ko",  // South Korea
   "Q423": "ko",  // North Korea
-  "Q574": "ti",  // East Timor → pt actually
   "Q574": "pt",  // East Timor
-  "Q1033": "yo", // Nigeria → en actually
   "Q1033": "en", // Nigeria
-  "Q258": "af",  // South Africa → multilingual, en dominant
   "Q258": "en",  // South Africa
   "Q115": "am",  // Ethiopia
   "Q114": "sw",  // Kenya → en/sw
@@ -101,7 +96,6 @@ const LANG_CODES: Record<string, string> = {
   "Q948": "ar",  // Tunisia
   "Q1049": "ar", // Sudan
   "Q958": "ar",  // Eritrea → ti
-  "Q945": "fr",  // Madagascar → mg
   "Q945": "mg",  // Madagascar
 };
 

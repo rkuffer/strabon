@@ -1,5 +1,5 @@
 import { getSql } from "./client.js";
-import type { SiteState, HullFeature } from "@strabon/shared";
+import type { SiteState, HullFeature, SiteTimeline, JsonObject } from "@strabon/shared";
 import { MAX_MARKERS } from "@strabon/shared";
 import type { SiteSearchResult } from "@strabon/shared";
 
@@ -152,8 +152,8 @@ export async function upsertSite(site: {
   // base_importance est désormais une colonne GÉNÉRÉE (dérivée de
   // sitelinks_count + article EN) : elle ne peut plus être écrite explicitement.
   names?: Record<string, string>;
-  timeline?: object;
-  meta?: object;
+  timeline?: SiteTimeline;
+  meta?: JsonObject;
   wikidata_enriched_at?: Date;
   timeline_extracted_at?: Date;
   timeline_extraction_model?: string;

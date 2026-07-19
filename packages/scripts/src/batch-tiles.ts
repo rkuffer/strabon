@@ -10,7 +10,7 @@
 // =============================================================================
 
 import { getSql, closeSql } from "@strabon/db";
-import { processTile } from "../../server/src/agent/tile-processor.js";
+import { processTile } from "./tile-processor.js";
 
 function argValue(args: string[], flag: string): string | null {
   const i = args.indexOf(flag);

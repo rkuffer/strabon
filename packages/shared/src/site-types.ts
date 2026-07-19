@@ -503,3 +503,51 @@ export type SiteSearchResult = {
   country: string | null;
   score: number;
 };
+
+// ── JSON ─────────────────────────────────────────────────────────────────────
+// Type JSON récursif, utilisé pour les colonnes jsonb hétérogènes (`meta`).
+// `Record<string, unknown>` ne convient PAS : `unknown` n'est pas sérialisable
+// du point de vue du driver (postgres.js exige un JSONValue), et `object` nu n'a
+// pas de signature d'index, donc n'est pas assignable non plus. Ce type dit
+// exactement ce que la colonne accepte : du JSON, arbitrairement imbriqué.
+export type JsonValue =
+  | string
+  | number
+  | boolean
+  | null
+  | JsonValue[]
+  | { [key: string]: JsonValue };
+
+export type JsonObject = { [key: string]: JsonValue };
+
+/**
+ * Charge utile de `GET /api/sites/:id` (miroir du SELECT de getSiteById).
+ *
+ * Typer cette réponse n'est pas cosmétique : sans elle, `fetchJson` renvoie `{}`
+ * et TOUT accès à une propriété passe silencieusement. C'est ainsi que
+ * `site.inception` / `site.dissolution` ont pu être lus pendant longtemps dans
+ * TimelinePanel alors que l'API renvoie `inception_year` / `dissolution_year` —
+ * les deux champs s'affichaient donc toujours vides, sans la moindre erreur.
+ */
+export type SiteDetail = {
+  id: string;
+  wikidata_id: string | null;
+  title_en: string;
+  wikipedia_page_en_url: string | null;
+  source: string | null;
+  lat: number | null;
+  lon: number | null;
+  country: string | null;
+  country_qid: string | null;
+  inception_year: number | null;
+  dissolution_year: number | null;
+  site_type: string | null;
+  base_importance: number;
+  names: Record<string, string> | null;
+  timeline: SiteTimeline | null;
+  meta: JsonObject | null;
+  last_updated: string | null;
+  wikidata_enriched_at: string | null;
+  timeline_extracted_at: string | null;
+  timeline_extraction_model: string | null;
+};

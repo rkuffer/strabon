@@ -98,7 +98,9 @@ const props = defineProps<{
 
 // ── État ──────────────────────────────────────────────────────────────────────
 const state = ref<{
-  timeline: any;
+  // Typé (et non `any`) : sinon chaque `.map((e) => e.from)` sur une piste
+  // reçoit un paramètre implicitement `any`, que noImplicitAny rejette.
+  timeline: SiteTimeline | null;
   model: string;
   extractedAt: string;
   runId: number | null;

@@ -11,7 +11,7 @@
 //   npx tsx packages/scripts/src/ingest-languages.ts --ingest < languages-resolved.json
 // =============================================================================
 
-import { wikiFetchJson } from "../../server/src/agent/wiki-fetch.js";
+import { wikiFetchJson } from "@strabon/shared";
 import { getSql, closeSql } from "@strabon/db";
 
 const WIKIDATA_API = "https://www.wikidata.org/w/api.php";
