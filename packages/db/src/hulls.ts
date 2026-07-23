@@ -111,54 +111,6 @@ export async function queryHulls(
           ${!isCooccurrent}
           OR entry->>'role' = ANY(${roles}::TEXT[])
         )
-
-      UNION
-
-      -- ── Attributions sourcées hors extraction (site_attributions) ─────────
-      -- Un rattachement site↔entité tenu de Wikidata (P2596) vaut pour le hull
-      -- sans exiger d'extraction L2 : c'est tout l'objet de la table. On ne
-      -- filtre donc PAS sur enrichment_level ici — la quasi-totalité de ces
-      -- sites sont des L0 (mesuré : 597 sites attribués, 7 seulement extraits).
-      --
-      -- UNION (et non UNION ALL) : un site attribué à la fois par sa timeline
-      -- et par Wikidata ne doit compter qu'une fois, sinon site_count et le
-      -- seuil MIN_SITES_PER_HULL seraient faussés.
-      SELECT
-        s.location,
-        a.entity_qid,
-        we.label_en      AS entity_name,
-        role_rank(NULL)  AS role_rk
-      FROM site_attributions a
-      JOIN sites s              ON s.id  = a.site_id
-      JOIN wikidata_entities we ON we.qid = a.entity_qid
-      WHERE a.kind = ${kind}
-        AND s.location IS NOT NULL
-        AND (s.inception_year   IS NULL OR s.inception_year   <= ${year})
-        AND (s.dissolution_year IS NULL OR s.dissolution_year >= ${year})
-        AND site_occupied_at(s.timeline, ${year})
-        -- Validité temporelle. P2596 ne date RIEN : Wikidata dit qu'un site
-        -- relève d'une culture, jamais pendant quelles années. On s'appuie donc
-        -- sur les bornes chronologiques de l'entité.
-        --
-        -- COALESCE et non la seule colonne de la ligne : a.from_year/to_year
-        -- est une COPIE prise à l'ingestion, qui sert de SURCHARGE par site
-        -- (« ce site-ci ne relève de Hallstatt que de -800 à -600 »). Quand elle
-        -- est absente — le cas courant — on lit les bornes VIVANTES de l'entité.
-        -- Sans ce repli, toute borne ajoutée après coup (passe SPARQL ou LLM)
-        -- resterait sans effet tant que build-culture-attributions.ts n'aurait
-        -- pas été relancé, et rien ne signalerait l'oubli.
-        --
-        -- NULL des deux côtés = non borné, donc rendu à toute époque : permissif
-        -- à dessein, car masquer silencieusement une attribution sourcée serait
-        -- pire qu'un hull mal daté et visible. Pour interdire l'anachronisme,
-        -- exiger que le COALESCE soit non nul.
-        AND (COALESCE(a.from_year, we.inception) IS NULL
-             OR COALESCE(a.from_year, we.inception) <= ${year})
-        AND (COALESCE(a.to_year, we.dissolution) IS NULL
-             OR COALESCE(a.to_year, we.dissolution) >= ${year})
-        -- Les pistes co-occurrentes portent un rôle que l'attribution n'a pas :
-        -- on ne l'alimente que sur les pistes à régime step (culture, polity).
-        AND ${!isCooccurrent}
     ),
     -- DBSCAN per entity: each geographically coherent group gets its own id
     clustered AS (
