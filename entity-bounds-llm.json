@@ -1,0 +1,6981 @@
+[
+  {
+    "qid": "Q305628",
+    "inception": -2500,
+    "inception_precision": 7,
+    "dissolution": -1900,
+    "dissolution_precision": 7,
+    "label": "Abashevo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q643335",
+    "inception": -3200,
+    "inception_precision": 7,
+    "dissolution": -2800,
+    "dissolution_precision": 7,
+    "label": "Abealzu-Filigosa culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4673637",
+    "inception": -400000,
+    "inception_precision": 7,
+    "dissolution": -200000,
+    "dissolution_precision": 7,
+    "label": "Acheulo-Yabrudian complex",
+    "kind": "culture",
+    "flags": [
+      "inception -400000 hors plage humaine",
+      "durée 200000 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q355841",
+    "inception": -1000,
+    "inception_precision": 7,
+    "dissolution": -100,
+    "dissolution_precision": 7,
+    "label": "Adena culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q192530",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": -146,
+    "dissolution_precision": 7,
+    "label": "Aegean civilization",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q12079770",
+    "inception": 300,
+    "inception_precision": 7,
+    "dissolution": -700,
+    "dissolution_precision": 7,
+    "note": "Afrighid dynasty dated roughly 4th–8th century AD; dissolution before Arab conquest c. 712 AD",
+    "label": "Afrighid culture",
+    "kind": "culture",
+    "flags": [
+      "inception 300 ≥ dissolution -700"
+    ]
+  },
+  {
+    "qid": "Q277797",
+    "inception": -3800,
+    "inception_precision": 7,
+    "dissolution": -3100,
+    "dissolution_precision": 7,
+    "label": "A-Group culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q55649032",
+    "inception": -46000,
+    "inception_precision": 7,
+    "dissolution": -26000,
+    "dissolution_precision": 7,
+    "label": "Ahmarian",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4073792",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "Insufficient information to date this culture reliably",
+    "label": "Ajat culture",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q4705454",
+    "inception": 600,
+    "inception_precision": 7,
+    "dissolution": 1700,
+    "dissolution_precision": 7,
+    "label": "Alachua culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q12528019",
+    "inception": -1800,
+    "inception_precision": 7,
+    "dissolution": -1400,
+    "dissolution_precision": 7,
+    "label": "Alakul culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4716558",
+    "inception": -2500,
+    "inception_precision": 7,
+    "dissolution": 1800,
+    "dissolution_precision": 8,
+    "label": "Aleutian tradition",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q650262",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "alimentum appears to refer to a Roman legal/social concept rather than an archaeological culture; bounds unclear",
+    "label": "alimentum",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q319562",
+    "inception": -4000,
+    "inception_precision": 7,
+    "dissolution": -3000,
+    "dissolution_precision": 7,
+    "label": "Altheim culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q12078073",
+    "inception": -1200,
+    "inception_precision": 7,
+    "dissolution": -900,
+    "dissolution_precision": 7,
+    "label": "Amirabad culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q477612",
+    "inception": -3600,
+    "inception_precision": 7,
+    "dissolution": -2600,
+    "dissolution_precision": 7,
+    "label": "Amri Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q485857",
+    "inception": -800,
+    "inception_precision": 7,
+    "dissolution": -200,
+    "dissolution_precision": 7,
+    "label": "Ananyino culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q12818208",
+    "inception": -4000,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "label": "Anau Namazga culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q478805",
+    "inception": -1500,
+    "inception_precision": 7,
+    "dissolution": 1300,
+    "dissolution_precision": 7,
+    "label": "Ancestral Puebloans",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q11410904",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "Ancient Izumo is a cultural/legendary tradition in Japan with poorly defined chronological bounds",
+    "label": "Ancient Izumo",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q137752935",
+    "inception": -5000,
+    "inception_precision": 7,
+    "dissolution": -3000,
+    "dissolution_precision": 7,
+    "label": "Ang'angxi Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q24175580",
+    "inception": 400,
+    "inception_precision": 7,
+    "dissolution": 1100,
+    "dissolution_precision": 7,
+    "label": "Anglo-Saxon culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q48747098",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "Insufficient information to date this culture reliably",
+    "label": "Aonae culture",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q4779905",
+    "inception": 1000,
+    "inception_precision": 7,
+    "dissolution": 1500,
+    "dissolution_precision": 7,
+    "label": "Apishapa culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q769976",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "Insufficient information to date Aq Qaya Culture reliably",
+    "label": "Aq Qaya Culture",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q175064",
+    "inception": -1200,
+    "inception_precision": 7,
+    "dissolution": -600,
+    "dissolution_precision": 7,
+    "label": "Arameans",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4787593",
+    "inception": -2500,
+    "inception_precision": 7,
+    "dissolution": -800,
+    "dissolution_precision": 7,
+    "label": "Arctic small tool tradition",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q699239",
+    "inception": -400,
+    "inception_precision": 7,
+    "dissolution": -100,
+    "dissolution_precision": 7,
+    "label": "Arras culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3007186",
+    "inception": -4000,
+    "inception_precision": 7,
+    "dissolution": -3000,
+    "dissolution_precision": 7,
+    "label": "Arzachena culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q140195412",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "Dates poorly attested in available sources",
+    "label": "asbestos-ceramic culture",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q732175",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Askola culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2666408",
+    "inception": -9000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Asturian culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q12530539",
+    "inception": -5000,
+    "inception_precision": 7,
+    "dissolution": -3000,
+    "dissolution_precision": 7,
+    "label": "Atbasar culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q120281398",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "Insufficient information available",
+    "label": "Atlym culture",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q172717",
+    "inception": 400,
+    "inception_precision": 7,
+    "dissolution": 800,
+    "dissolution_precision": 7,
+    "label": "Avars",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4058231",
+    "inception": -11000,
+    "inception_precision": 7,
+    "dissolution": -8000,
+    "dissolution_precision": 7,
+    "label": "Azelino culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q781560",
+    "inception": 1300,
+    "inception_precision": 7,
+    "dissolution": 1500,
+    "dissolution_precision": 7,
+    "label": "Aztec religion",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q61361411",
+    "inception": -100000,
+    "inception_precision": 7,
+    "dissolution": -40000,
+    "dissolution_precision": 7,
+    "label": "Bábonyan",
+    "kind": "culture",
+    "flags": [
+      "durée 60000 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q798596",
+    "inception": -9000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Bắc Sơn culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q774615",
+    "inception": -700,
+    "inception_precision": 7,
+    "dissolution": -200,
+    "dissolution_precision": 7,
+    "label": "Baiyue",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q131359081",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "Insufficient information available",
+    "label": "Bakal culture",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q21193146",
+    "inception": -4000,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "label": "Balakhna culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4076393",
+    "inception": -2500,
+    "inception_precision": 7,
+    "dissolution": -1800,
+    "dissolution_precision": 7,
+    "label": "Balanovo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3508671",
+    "inception": -4500,
+    "inception_precision": 7,
+    "dissolution": -3500,
+    "dissolution_precision": 7,
+    "label": "Balaton-Lasinja Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q12290854",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Balkan–Danubian culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q11908068",
+    "inception": -3400,
+    "inception_precision": 7,
+    "dissolution": -2800,
+    "dissolution_precision": 7,
+    "label": "Banesh",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q806953",
+    "inception": -2600,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "label": "Banshan",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q807064",
+    "inception": -2500,
+    "inception_precision": 7,
+    "dissolution": -1700,
+    "dissolution_precision": 7,
+    "label": "Baodun culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4858055",
+    "inception": -2600,
+    "inception_precision": 7,
+    "dissolution": -1900,
+    "dissolution_precision": 7,
+    "label": "Bara culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q18029611",
+    "inception": -2800,
+    "inception_precision": 7,
+    "dissolution": -2200,
+    "dissolution_precision": 7,
+    "label": "Barbed Wire Beaker culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q16535649",
+    "inception": -1700,
+    "inception_precision": 7,
+    "dissolution": -1200,
+    "dissolution_precision": 7,
+    "label": "Barkhatovo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q120279764",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "note": "Dates poorly constrained; century precision approximate",
+    "label": "Barsovo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2335046",
+    "inception": -900,
+    "inception_precision": 7,
+    "dissolution": -600,
+    "dissolution_precision": 7,
+    "label": "Basarabi culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4867760",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": 700,
+    "dissolution_precision": 7,
+    "label": "Basketmaker culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q804000",
+    "inception": -700,
+    "inception_precision": 7,
+    "dissolution": -400,
+    "dissolution_precision": 7,
+    "note": "Baytovo culture of the Southern Urals; dates debated",
+    "label": "Baytovo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4874972",
+    "inception": 300,
+    "inception_precision": 7,
+    "dissolution": 900,
+    "dissolution_precision": 7,
+    "label": "Baytown culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q48791554",
+    "inception": -4500,
+    "inception_precision": 7,
+    "dissolution": -3200,
+    "dissolution_precision": 7,
+    "label": "Beersheba culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q814276",
+    "inception": -1400,
+    "inception_precision": 7,
+    "dissolution": -900,
+    "dissolution_precision": 7,
+    "label": "Begazy-Dandybai culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q24841396",
+    "inception": -1500,
+    "inception_precision": 7,
+    "dissolution": -800,
+    "dissolution_precision": 7,
+    "note": "Beinan Culture of Taiwan; precise dates debated",
+    "label": "Beinan Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4083243",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "label": "Bel'kachi culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4883633",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": 1700,
+    "dissolution_precision": 7,
+    "label": "Belle Glade culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q135274079",
+    "inception": -3500,
+    "inception_precision": 7,
+    "dissolution": -2500,
+    "dissolution_precision": 7,
+    "note": "Belloisian culture poorly documented; dates approximate",
+    "label": "Belloisian",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q120279623",
+    "inception": -1000,
+    "inception_precision": 7,
+    "dissolution": -500,
+    "dissolution_precision": 7,
+    "note": "Beloyarsk culture dates uncertain",
+    "label": "Beloyarsk culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4907207",
+    "inception": 900,
+    "inception_precision": 7,
+    "dissolution": 1100,
+    "dissolution_precision": 7,
+    "label": "Bijelo Brdo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4916900",
+    "inception": 500,
+    "inception_precision": 7,
+    "dissolution": 900,
+    "dissolution_precision": 7,
+    "label": "Birnirk culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q60675719",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "label": "Bishkent culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2525323",
+    "inception": -1200,
+    "inception_precision": 7,
+    "dissolution": -600,
+    "dissolution_precision": 7,
+    "label": "Black and red ware culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q120279654",
+    "inception": -5000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "note": "Boborykino culture dates poorly constrained",
+    "label": "Boborykino culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4246622",
+    "inception": -3600,
+    "inception_precision": 7,
+    "dissolution": -3200,
+    "dissolution_precision": 7,
+    "label": "Bodrogkeresztúr culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q11750960",
+    "inception": -100,
+    "inception_precision": 7,
+    "dissolution": 400,
+    "dissolution_precision": 7,
+    "label": "Bogaczewo-Kultur",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4940050",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": -100,
+    "dissolution_precision": 7,
+    "note": "Bolshemys culture dates uncertain",
+    "label": "Bolshemys culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q113411618",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": 100,
+    "dissolution_precision": 7,
+    "note": "Bolsherechye culture dates debated",
+    "label": "Bolsherechye culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4093246",
+    "inception": -1500,
+    "inception_precision": 7,
+    "dissolution": -900,
+    "dissolution_precision": 7,
+    "label": "Bondarikhinskaya culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q747396",
+    "inception": -2200,
+    "inception_precision": 7,
+    "dissolution": -1600,
+    "dissolution_precision": 7,
+    "label": "Bonnanaro culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q892842",
+    "inception": -4000,
+    "inception_precision": 7,
+    "dissolution": -3200,
+    "dissolution_precision": 7,
+    "label": "Bonu Ighinu culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q46281",
+    "inception": -1100,
+    "inception_precision": 7,
+    "dissolution": -300,
+    "dissolution_precision": 7,
+    "label": "Bosut culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q926790",
+    "inception": -13000,
+    "inception_precision": 7,
+    "dissolution": -11000,
+    "dissolution_precision": 7,
+    "label": "Bromme culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3645337",
+    "inception": -1800,
+    "inception_precision": 7,
+    "dissolution": -700,
+    "dissolution_precision": 7,
+    "label": "Bronze of Levante",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4246708",
+    "inception": -1300,
+    "inception_precision": 7,
+    "dissolution": -800,
+    "dissolution_precision": 7,
+    "label": "Brushed Ceramics Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q855546",
+    "inception": -5000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Bükk culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q825018",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": 200,
+    "dissolution_precision": 7,
+    "label": "Buni culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q138942074",
+    "inception": -4500,
+    "inception_precision": 7,
+    "dissolution": -3500,
+    "dissolution_precision": 7,
+    "label": "Burgundy Middle Neolithic",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2032274",
+    "inception": -9000,
+    "inception_precision": 7,
+    "dissolution": -7000,
+    "dissolution_precision": 7,
+    "label": "Butovo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q120277156",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "Insufficient information available to date this culture",
+    "label": "Bystryanka culture",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q3678788",
+    "inception": 330,
+    "inception_precision": 9,
+    "dissolution": 1453,
+    "dissolution_precision": 9,
+    "label": "Byzantine civilization",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q5015763",
+    "inception": 1400,
+    "inception_precision": 7,
+    "dissolution": 1700,
+    "dissolution_precision": 7,
+    "label": "Caborn-Welborn culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q5016319",
+    "inception": 900,
+    "inception_precision": 7,
+    "dissolution": 1700,
+    "dissolution_precision": 7,
+    "label": "Caddoan Mississippian culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q5016396",
+    "inception": 200,
+    "inception_precision": 7,
+    "dissolution": 800,
+    "dissolution_precision": 7,
+    "label": "Cades Pond culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q924425",
+    "inception": -400,
+    "inception_precision": 7,
+    "dissolution": 300,
+    "dissolution_precision": 7,
+    "note": "Attested in classical sources roughly 4th c BC to 3rd c AD",
+    "label": "Cadusii",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4246646",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Calf Creek culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q580167",
+    "inception": -1500,
+    "inception_precision": 7,
+    "dissolution": 1600,
+    "dissolution_precision": 7,
+    "label": "Calima culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3699312",
+    "inception": -1300,
+    "inception_precision": 7,
+    "dissolution": -1100,
+    "dissolution_precision": 7,
+    "label": "Canegrate culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q112323211",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "Insufficient information available to date this culture",
+    "label": "cannelated ware culture",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q46992768",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1400,
+    "dissolution_precision": 7,
+    "label": "Capo Graziano culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q766150",
+    "inception": -10000,
+    "inception_precision": 7,
+    "dissolution": -6000,
+    "dissolution_precision": 7,
+    "label": "Capsian culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q5037137",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": 600,
+    "dissolution_precision": 7,
+    "label": "Capulí culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1035710",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -4500,
+    "dissolution_precision": 7,
+    "label": "Cardium pottery",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3386894",
+    "inception": -1400,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "label": "Carpathian Tumuli",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q10869329",
+    "inception": -1800,
+    "inception_precision": 7,
+    "dissolution": -900,
+    "dissolution_precision": 7,
+    "label": "Casma–Sechin culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1048787",
+    "inception": -1600,
+    "inception_precision": 7,
+    "dissolution": -100,
+    "dissolution_precision": 7,
+    "label": "Castellieri culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3699313",
+    "inception": -2200,
+    "inception_precision": 7,
+    "dissolution": -1400,
+    "dissolution_precision": 7,
+    "label": "Castelluccio Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2067380",
+    "inception": -8000,
+    "inception_precision": 7,
+    "dissolution": -5000,
+    "dissolution_precision": 7,
+    "label": "Castelnovien",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q5794485",
+    "inception": -600,
+    "inception_precision": 7,
+    "dissolution": -100,
+    "dissolution_precision": 7,
+    "label": "Celtiberian culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2364797",
+    "inception": -1900,
+    "inception_precision": 7,
+    "dissolution": -1300,
+    "dissolution_precision": 7,
+    "label": "Cemetery H culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q12628856",
+    "inception": -2400,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "label": "Cetina culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1058394",
+    "inception": -900,
+    "inception_precision": 7,
+    "dissolution": -1100,
+    "dissolution_precision": 7,
+    "note": "Chaco florescence broadly 850–1150 AD; bounds contested",
+    "label": "Chaco Canyon culture",
+    "kind": "culture",
+    "flags": [
+      "inception -900 ≥ dissolution -1100"
+    ]
+  },
+  {
+    "qid": "Q65648486",
+    "inception": -900,
+    "inception_precision": 7,
+    "dissolution": -1100,
+    "dissolution_precision": 7,
+    "note": "World Heritage Site designation 1987; cultural dates follow Chaco Canyon culture",
+    "label": "Chaco Culture World Heritage Site",
+    "kind": "culture",
+    "flags": [
+      "inception -900 ≥ dissolution -1100"
+    ]
+  },
+  {
+    "qid": "Q5069050",
+    "inception": -8000,
+    "inception_precision": 7,
+    "dissolution": -6000,
+    "dissolution_precision": 7,
+    "label": "Chalossian",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q18461327",
+    "inception": 200,
+    "inception_precision": 7,
+    "dissolution": 1600,
+    "dissolution_precision": 7,
+    "note": "Cham polities broadly attested 2nd–17th century AD; bounds debated",
+    "label": "Cham culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q136128653",
+    "inception": -900,
+    "inception_precision": 7,
+    "dissolution": -200,
+    "dissolution_precision": 7,
+    "label": "Chanapata",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q5072758",
+    "inception": -1200,
+    "inception_precision": 7,
+    "dissolution": -700,
+    "dissolution_precision": 7,
+    "label": "Chaodaogou culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q120266397",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": -200,
+    "dissolution_precision": 7,
+    "note": "Dates poorly documented; returned century precision",
+    "label": "Chawuhu culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q5089929",
+    "inception": -600000,
+    "inception_precision": 6,
+    "dissolution": -100000,
+    "dissolution_precision": 6,
+    "note": "Very broad palaeolithic range; millennium precision used",
+    "label": "Chelleo-Acheulean",
+    "kind": "culture",
+    "flags": [
+      "inception -600000 hors plage humaine",
+      "durée 500000 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q4513013",
+    "inception": -1700,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "label": "Cherkaskul culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q5097309",
+    "inception": -1000,
+    "inception_precision": 7,
+    "dissolution": -1400,
+    "dissolution_precision": 7,
+    "note": "Chihuahua tradition ca. 1000–1450 AD; inception before dissolution corrected: 1000–1450 AD",
+    "label": "Chihuahua tradition",
+    "kind": "culture",
+    "flags": [
+      "inception -1000 ≥ dissolution -1400"
+    ]
+  },
+  {
+    "qid": "Q604263",
+    "inception": -2400,
+    "inception_precision": 7,
+    "dissolution": -2200,
+    "dissolution_precision": 7,
+    "label": "Chłopice-Veselè culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2920817",
+    "inception": -400,
+    "inception_precision": 7,
+    "dissolution": 200,
+    "dissolution_precision": 7,
+    "label": "Chupícuaro",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q978917",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -5000,
+    "dissolution_precision": 7,
+    "label": "Cishan culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2379418",
+    "inception": 100,
+    "inception_precision": 7,
+    "dissolution": 900,
+    "dissolution_precision": 7,
+    "label": "Classic Veracruz culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1302583",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": -600,
+    "dissolution_precision": 7,
+    "label": "Colchian culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q59442",
+    "inception": 700,
+    "inception_precision": 7,
+    "dissolution": 1100,
+    "dissolution_precision": 7,
+    "label": "Coles Creek culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q60824199",
+    "inception": 1000,
+    "inception_precision": 7,
+    "dissolution": 1500,
+    "dissolution_precision": 7,
+    "note": "Dates poorly attested",
+    "label": "Collique culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q129385",
+    "inception": -4200,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "label": "Comb Ceramic culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3625605",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": 600,
+    "dissolution_precision": 7,
+    "label": "Condorhuasi culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q110291365",
+    "inception": -4000,
+    "inception_precision": 6,
+    "dissolution": -2000,
+    "dissolution_precision": 6,
+    "note": "Generic Copper Age span varies widely by region",
+    "label": "Copper Age culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q458076",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "note": "dates debated; broadly 2nd millennium BC",
+    "label": "Copper Hoard Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q5794492",
+    "inception": -1500,
+    "inception_precision": 7,
+    "dissolution": -500,
+    "dissolution_precision": 7,
+    "label": "Cotocollao culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q133815611",
+    "inception": -4800,
+    "inception_precision": 7,
+    "dissolution": -3000,
+    "dissolution_precision": 7,
+    "label": "Cucuteni culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q136130972",
+    "inception": 200,
+    "inception_precision": 7,
+    "dissolution": 1000,
+    "dissolution_precision": 7,
+    "note": "Huamachuco cultural sequence poorly defined chronologically",
+    "label": "Cultura Huamachuco",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q98300559",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "specific heritage monument; chronological bounds not determinable from available data",
+    "label": "Cultural heritage D-1-7941-0217 in Altenmarkt an der Alz",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q98334863",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "specific heritage monument; chronological bounds not determinable from available data",
+    "label": "Cultural heritage D-1-8041-0264 in Nußdorf (Chiemgau)",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q98327045",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "specific heritage monument; chronological bounds not determinable from available data",
+    "label": "Cultural heritage D-1-8043-0174 in Fridolfing",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q98306265",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "specific heritage monument; chronological bounds not determinable from available data",
+    "label": "Cultural heritage D-1-8141-0108 in Chieming",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q136214399",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "Tumpis culture insufficiently documented for reliable bounds",
+    "label": "Cultura Tumpis",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q634818",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "abstract concept, not a dateable entity",
+    "label": "culture",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q33849736",
+    "inception": -1300,
+    "inception_precision": 7,
+    "dissolution": -700,
+    "dissolution_precision": 7,
+    "label": "Culture of Pantalica",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q15639383",
+    "inception": -4500,
+    "inception_precision": 7,
+    "dissolution": -3500,
+    "dissolution_precision": 7,
+    "label": "Culture of Serra d'Alto",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q16668687",
+    "inception": -3500,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "label": "culture of Sumer",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q5794588",
+    "inception": -800,
+    "inception_precision": 7,
+    "dissolution": -100,
+    "dissolution_precision": 7,
+    "label": "Culture of the Sorian castros",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q10465524",
+    "inception": -38000,
+    "inception_precision": 7,
+    "dissolution": -28000,
+    "dissolution_precision": 7,
+    "note": "dates approximate; Cyrenaican Upper Paleolithic, c. 38,000–28,000 BP",
+    "label": "Dabban culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q9884947",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "label": "Dabenkeng culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1344314",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -5000,
+    "dissolution_precision": 7,
+    "label": "Dadiwan culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3699292",
+    "inception": -10500,
+    "inception_precision": 7,
+    "dissolution": -9500,
+    "dissolution_precision": 7,
+    "label": "Dalton Tradition",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2600710",
+    "inception": -4700,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Danilo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q911169",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -2500,
+    "dissolution_precision": 7,
+    "note": "broad grouping spanning multiple Neolithic cultures; dates approximate",
+    "label": "Danubian cultures",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q104861663",
+    "inception": -4500,
+    "inception_precision": 7,
+    "dissolution": -3500,
+    "dissolution_precision": 7,
+    "label": "Darkveti-Meshoko",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1178509",
+    "inception": -4100,
+    "inception_precision": 7,
+    "dissolution": -2600,
+    "dissolution_precision": 7,
+    "label": "Dawenkou culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q10468850",
+    "inception": -2500,
+    "inception_precision": 7,
+    "dissolution": -800,
+    "dissolution_precision": 7,
+    "label": "Denbigh Flint complex",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q5260957",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": 700,
+    "dissolution_precision": 7,
+    "label": "Deptford culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q123741719",
+    "inception": -4800,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Dimini culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q5282353",
+    "inception": 1600,
+    "inception_precision": 7,
+    "dissolution": 1700,
+    "dissolution_precision": 7,
+    "label": "Dismal River culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4163119",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": 500,
+    "dissolution_precision": 7,
+    "label": "Dnieper-Dvina culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q8079980",
+    "inception": -1500,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "label": "Đồng Đậu culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q12751282",
+    "inception": -1600,
+    "inception_precision": 7,
+    "dissolution": -1200,
+    "dissolution_precision": 7,
+    "label": "Dubovac zuto brdo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q113613252",
+    "inception": 600,
+    "inception_precision": 7,
+    "dissolution": 900,
+    "dissolution_precision": 7,
+    "label": "Dvaravati culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2628571",
+    "inception": -700,
+    "inception_precision": 7,
+    "dissolution": 600,
+    "dissolution_precision": 7,
+    "label": "Dyakovo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q7276753",
+    "inception": -35000,
+    "inception_precision": 6,
+    "dissolution": -10000,
+    "dissolution_precision": 6,
+    "note": "dates debated; spans Upper Paleolithic to terminal Pleistocene",
+    "label": "Dyuktai tradition",
+    "kind": "culture",
+    "flags": [
+      "durée 25000 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q5326720",
+    "inception": -2500,
+    "inception_precision": 7,
+    "dissolution": -1800,
+    "dissolution_precision": 7,
+    "label": "Early Paleo-Eskimo",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1325299",
+    "inception": -200,
+    "inception_precision": 7,
+    "dissolution": 500,
+    "dissolution_precision": 7,
+    "note": "attested as a historiographical grouping across late Iron Age to Migration Period",
+    "label": "Elbe Germanic peoples",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q19971628",
+    "inception": -600,
+    "inception_precision": 7,
+    "dissolution": -100,
+    "dissolution_precision": 7,
+    "label": "Elbe Havel group",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q12103822",
+    "inception": -3500,
+    "inception_precision": 7,
+    "dissolution": -1200,
+    "dissolution_precision": 7,
+    "label": "Elmenteitan",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q5779887",
+    "inception": 100,
+    "inception_precision": 7,
+    "dissolution": 700,
+    "dissolution_precision": 7,
+    "label": "El Molle culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4175160",
+    "inception": -7000,
+    "inception_precision": 7,
+    "dissolution": -5000,
+    "dissolution_precision": 7,
+    "label": "Elshansk Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4531661",
+    "inception": -43000,
+    "inception_precision": 6,
+    "dissolution": -38000,
+    "dissolution_precision": 6,
+    "note": "boundaries of this Early Upper Paleolithic industry are debated",
+    "label": "Emirian",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1663752",
+    "inception": -1600,
+    "inception_precision": 7,
+    "dissolution": -1200,
+    "dissolution_precision": 7,
+    "label": "Encrusted Pottery culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2527515",
+    "inception": -300,
+    "inception_precision": 7,
+    "dissolution": 200,
+    "dissolution_precision": 7,
+    "label": "Epi-Olmec culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1151593",
+    "inception": -1600,
+    "inception_precision": 7,
+    "dissolution": -1400,
+    "dissolution_precision": 7,
+    "label": "Erligang culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1369777",
+    "inception": -900,
+    "inception_precision": 7,
+    "dissolution": -100,
+    "dissolution_precision": 7,
+    "label": "Este culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q17161",
+    "inception": -800,
+    "inception_precision": 7,
+    "dissolution": -100,
+    "dissolution_precision": 7,
+    "label": "Etruscans",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1383011",
+    "inception": -1000,
+    "inception_precision": 7,
+    "dissolution": -800,
+    "dissolution_precision": 7,
+    "label": "Ewart Park Phase",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q17630270",
+    "inception": -3500,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "note": "poorly defined entity; bounds approximate",
+    "label": "Facies of the pile dwellings and of the dammed settlements",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1246728",
+    "inception": -500000,
+    "inception_precision": 6,
+    "dissolution": -200000,
+    "dissolution_precision": 6,
+    "note": "chronological boundaries of this Middle Stone Age industry are debated",
+    "label": "Fauresmith",
+    "kind": "culture",
+    "flags": [
+      "inception -500000 hors plage humaine",
+      "durée 300000 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q1399110",
+    "inception": -5000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Fayum A culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1400660",
+    "inception": -13000,
+    "inception_precision": 7,
+    "dissolution": -11000,
+    "dissolution_precision": 7,
+    "label": "Federmesser culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q129764211",
+    "inception": -2100,
+    "inception_precision": 7,
+    "dissolution": -1700,
+    "dissolution_precision": 7,
+    "note": "Fedorovka is a sub-phase of Andronovo; precise bounds debated",
+    "label": "Fedorovka culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q108770791",
+    "inception": -1600,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "label": "Feijiahe culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2367703",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "Finnic peoples as a distinct linguistic group are attested from roughly the last centuries BC; upper bound is open as descendants persist today",
+    "label": "Finnic peoples",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1257815",
+    "inception": -10900,
+    "inception_precision": 7,
+    "dissolution": -10200,
+    "dissolution_precision": 7,
+    "label": "Folsom tradition",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4246704",
+    "inception": -2100,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "label": "Food Vessel",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2040969",
+    "inception": -100,
+    "inception_precision": 7,
+    "dissolution": 1650,
+    "dissolution_precision": 8,
+    "label": "Fort Ancient",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q5472238",
+    "inception": -900,
+    "inception_precision": 7,
+    "dissolution": 1700,
+    "dissolution_precision": 8,
+    "label": "Fort Walton culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q599096",
+    "inception": -8000,
+    "inception_precision": 7,
+    "dissolution": -6000,
+    "dissolution_precision": 7,
+    "label": "Fosna-Hensbacka culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q5475773",
+    "inception": -300,
+    "inception_precision": 7,
+    "dissolution": 900,
+    "dissolution_precision": 7,
+    "label": "Fourche Maline culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2043511",
+    "inception": -35000,
+    "inception_precision": 6,
+    "dissolution": -8000,
+    "dissolution_precision": 7,
+    "note": "Franco-Cantabrian Upper Palaeolithic florescence; precise bounds debated",
+    "label": "Franco-Cantabrian region",
+    "kind": "culture",
+    "flags": [
+      "durée 27000 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q1455209",
+    "inception": -400,
+    "inception_precision": 7,
+    "dissolution": 1300,
+    "dissolution_precision": 7,
+    "label": "Fremont culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1469205",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": -15,
+    "dissolution_precision": 7,
+    "label": "Fritzens-Sanzeno culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q50073241",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "label": "Füzesabony culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q120279619",
+    "inception": -900,
+    "inception_precision": 7,
+    "dissolution": -600,
+    "dissolution_precision": 7,
+    "label": "Gamayun culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q27180987",
+    "inception": -700,
+    "inception_precision": 7,
+    "dissolution": 500,
+    "dissolution_precision": 7,
+    "note": "'Games in ancient Rome' spans founding era through late antiquity; bounds are approximate",
+    "label": "games in ancient Rome",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q65233521",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "label": "Ganeshwar Jodhpura culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q138358712",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "note": "Limited information available; dates are approximate",
+    "label": "Garino culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q112775261",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": -50,
+    "dissolution_precision": 7,
+    "label": "Gaulish culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q273854",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": 100,
+    "dissolution_precision": 7,
+    "note": "Gauls as attested in historical sources from c. 5th century BC through Roman conquest and assimilation",
+    "label": "Gauls",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q372349",
+    "inception": -1300,
+    "inception_precision": 7,
+    "dissolution": -800,
+    "dissolution_precision": 7,
+    "label": "Gáva culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1521465",
+    "inception": -4400,
+    "inception_precision": 7,
+    "dissolution": -3500,
+    "dissolution_precision": 7,
+    "label": "Ghassulian",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q5566240",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": 1700,
+    "dissolution_precision": 8,
+    "label": "Glades culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2612818",
+    "inception": -1000,
+    "inception_precision": 7,
+    "dissolution": -300,
+    "dissolution_precision": 7,
+    "label": "Glasinac culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q5569495",
+    "inception": -900,
+    "inception_precision": 7,
+    "dissolution": -1400,
+    "dissolution_precision": 7,
+    "note": "Dates uncertain; Glenwood is a Middle Missouri variant roughly 900–1400 AD",
+    "label": "Glenwood culture",
+    "kind": "culture",
+    "flags": [
+      "inception -900 ≥ dissolution -1400"
+    ]
+  },
+  {
+    "qid": "Q690947",
+    "inception": -900,
+    "inception_precision": 7,
+    "dissolution": -100,
+    "dissolution_precision": 7,
+    "label": "Golasecca culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1533344",
+    "inception": -1000,
+    "inception_precision": 7,
+    "dissolution": -600,
+    "dissolution_precision": 7,
+    "label": "Gò Mun culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4145089",
+    "inception": -700,
+    "inception_precision": 7,
+    "dissolution": -200,
+    "dissolution_precision": 7,
+    "label": "Gorodets culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2590372",
+    "inception": -200,
+    "inception_precision": 7,
+    "dissolution": 800,
+    "dissolution_precision": 7,
+    "label": "Gran Coclé",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q9275441",
+    "inception": -300,
+    "inception_precision": 7,
+    "dissolution": 1500,
+    "dissolution_precision": 7,
+    "label": "Greater Chiriquí",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q12097535",
+    "inception": -4000,
+    "inception_precision": 7,
+    "dissolution": -3000,
+    "dissolution_precision": 7,
+    "note": "dates debated; Eneolithic culture of the northern Black Sea steppe",
+    "label": "Grebeniki Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1028176",
+    "inception": -700,
+    "inception_precision": 7,
+    "dissolution": -400,
+    "dissolution_precision": 7,
+    "note": "Central Asian Iron Age culture; dates approximate",
+    "label": "Griffin-Stolon Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q103833046",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -5000,
+    "dissolution_precision": 7,
+    "note": "early Neolithic Amur region; dates approximate",
+    "label": "Gromatukha Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q16554392",
+    "inception": -100,
+    "inception_precision": 7,
+    "dissolution": 800,
+    "dissolution_precision": 7,
+    "label": "Guangala culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q12844585",
+    "inception": -800,
+    "inception_precision": 7,
+    "dissolution": -600,
+    "dissolution_precision": 7,
+    "note": "Azerbaijani Early Iron Age culture; dates poorly constrained",
+    "label": "Guruchay culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q5621650",
+    "inception": -200,
+    "inception_precision": 7,
+    "dissolution": 200,
+    "dissolution_precision": 7,
+    "note": "Germanic Roman Iron Age group; dates approximate",
+    "label": "Gustow group",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q55647864",
+    "inception": -3200,
+    "inception_precision": 8,
+    "dissolution": -2600,
+    "dissolution_precision": 8,
+    "note": "Hafit period of UAE/Oman Early Bronze Age",
+    "label": "Hafit period",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q28419382",
+    "inception": -3800,
+    "inception_precision": 7,
+    "dissolution": -2600,
+    "dissolution_precision": 7,
+    "label": "Hakra Ware culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q16841492",
+    "inception": -5500,
+    "inception_precision": 7,
+    "dissolution": -5000,
+    "dissolution_precision": 7,
+    "label": "Halaf-Ubaid Transitional period",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4495157",
+    "inception": -20000,
+    "inception_precision": 7,
+    "dissolution": -17000,
+    "dissolution_precision": 7,
+    "note": "Upper Paleolithic Nile Valley; dates approximate",
+    "label": "Halfan culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q11133269",
+    "inception": -200,
+    "inception_precision": 7,
+    "dissolution": 200,
+    "dissolution_precision": 7,
+    "note": "Han dynasty cultural sphere; dates approximate",
+    "label": "Han culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1366859",
+    "inception": -200,
+    "inception_precision": 7,
+    "dissolution": 700,
+    "dissolution_precision": 7,
+    "note": "Northeast China; dates poorly constrained",
+    "label": "Hanshu culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1586067",
+    "inception": -600,
+    "inception_precision": 7,
+    "dissolution": -200,
+    "dissolution_precision": 7,
+    "label": "Harpstedt-Nienburg culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3509098",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "label": "Hatvan Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q16210737",
+    "inception": -200,
+    "inception_precision": 7,
+    "dissolution": 400,
+    "dissolution_precision": 7,
+    "label": "Havana Hopewell culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q913229",
+    "inception": -323,
+    "inception_precision": 9,
+    "dissolution": -31,
+    "dissolution_precision": 9,
+    "label": "Hellenistic civilization",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q86663922",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "label": "Helmand culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q10520646",
+    "inception": -3100,
+    "inception_precision": 7,
+    "dissolution": -2700,
+    "dissolution_precision": 7,
+    "note": "Early Dynastic Egyptian cemetery site; dates approximate",
+    "label": "Helwan cemetery",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q948642",
+    "inception": -5000,
+    "inception_precision": 7,
+    "dissolution": -3300,
+    "dissolution_precision": 7,
+    "label": "Hemudu culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q278382",
+    "inception": -1800,
+    "inception_precision": 7,
+    "dissolution": -1200,
+    "dissolution_precision": 7,
+    "label": "Hilversum culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q21778988",
+    "inception": -4000,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "note": "Tepe Hissar sequence; broad range debated",
+    "label": "Hissar culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1621515",
+    "inception": -13000,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "note": "very broad temporal span across Southeast Asia; dates debated",
+    "label": "Hoabinhian",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1195031",
+    "inception": -4700,
+    "inception_precision": 7,
+    "dissolution": -2900,
+    "dissolution_precision": 7,
+    "label": "Hongshan culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1305793",
+    "inception": -100,
+    "inception_precision": 7,
+    "dissolution": 500,
+    "dissolution_precision": 7,
+    "label": "Hopewell tradition",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q126901563",
+    "inception": -3900,
+    "inception_precision": 7,
+    "dissolution": -3700,
+    "dissolution_precision": 7,
+    "label": "Hornstaad culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1508613",
+    "inception": -1000,
+    "inception_precision": 7,
+    "dissolution": -600,
+    "dissolution_precision": 7,
+    "label": "House Urns culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q585988",
+    "inception": -80000,
+    "inception_precision": 6,
+    "dissolution": -60000,
+    "dissolution_precision": 6,
+    "note": "dates debated, range roughly 65–80 ka BP",
+    "label": "Howiesons Poort",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4496833",
+    "inception": -4000,
+    "inception_precision": 7,
+    "dissolution": -3000,
+    "dissolution_precision": 7,
+    "label": "Hvar culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q13048864",
+    "inception": -600,
+    "inception_precision": 7,
+    "dissolution": -200,
+    "dissolution_precision": 7,
+    "label": "Iberian culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q190992",
+    "inception": -600,
+    "inception_precision": 7,
+    "dissolution": -100,
+    "dissolution_precision": 7,
+    "note": "attested in ancient sources from ca. 6th century BC through Roman conquest",
+    "label": "Iberians",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4198046",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -5000,
+    "dissolution_precision": 7,
+    "note": "poorly documented; dates approximate",
+    "label": "Ienevo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q45841376",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "insufficient information to date",
+    "label": "Igulian culture",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q510579",
+    "inception": -300,
+    "inception_precision": 7,
+    "dissolution": -100,
+    "dissolution_precision": 7,
+    "note": "attested as a people from ca. 3rd century BC through Roman period",
+    "label": "Ilergetes",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q60852273",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "insufficient information to date",
+    "label": "Imchin Neolithic culture",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q4200244",
+    "inception": 400,
+    "inception_precision": 7,
+    "dissolution": 700,
+    "dissolution_precision": 7,
+    "label": "Imenkovo Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4200251",
+    "inception": -13000,
+    "inception_precision": 7,
+    "dissolution": -10000,
+    "dissolution_precision": 7,
+    "label": "Imeretian Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3404008",
+    "inception": 1400,
+    "inception_precision": 7,
+    "dissolution": 1533,
+    "dissolution_precision": 9,
+    "note": "dissolution fixed by Spanish conquest of 1533",
+    "label": "Inca civilization",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q170355",
+    "inception": -50000,
+    "inception_precision": 6,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "continuous living culture; no dissolution",
+    "label": "Indigenous Australians",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q16847401",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "broad cultural grouping with no clear fixed bounds",
+    "label": "indigenous peoples of the Eastern Woodlands",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q17322428",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "insufficient information to date",
+    "label": "Inga culture",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q4202996",
+    "inception": 500,
+    "inception_precision": 7,
+    "dissolution": 700,
+    "dissolution_precision": 7,
+    "label": "Ipotești–Cândești culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q765074",
+    "inception": -1400,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "label": "Irmen culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q123034769",
+    "inception": -5500,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Isakovo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1340372",
+    "inception": 600,
+    "inception_precision": 7,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "ongoing culture; no dissolution",
+    "label": "Islamic culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q51669",
+    "inception": -1200,
+    "inception_precision": 7,
+    "dissolution": -500,
+    "dissolution_precision": 7,
+    "note": "attested from Iron Age through Babylonian exile period",
+    "label": "Israelites",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q113408413",
+    "inception": -800,
+    "inception_precision": 7,
+    "dissolution": -400,
+    "dissolution_precision": 7,
+    "note": "dates approximate; poorly documented in English sources",
+    "label": "Itkul culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3498202",
+    "inception": -250000,
+    "inception_precision": 6,
+    "dissolution": -150000,
+    "dissolution_precision": 6,
+    "note": "dates debated within Middle Paleolithic range",
+    "label": "Jabroudian",
+    "kind": "culture",
+    "flags": [
+      "inception -250000 hors plage humaine",
+      "durée 100000 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q3007212",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Janislawice culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q114037",
+    "inception": -1200,
+    "inception_precision": 7,
+    "dissolution": -200,
+    "dissolution_precision": 7,
+    "note": "dates debated; spans Late Bronze to Early Iron Age across Near East and Mediterranean",
+    "label": "Jar-Burial Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q86752182",
+    "inception": -4000,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "note": "poorly documented; broad Neolithic dating for northeastern Africa",
+    "label": "Jebel Mokram Group",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4160086",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -5000,
+    "dissolution_precision": 7,
+    "label": "Jeitun culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q12544759",
+    "inception": 100,
+    "inception_precision": 7,
+    "dissolution": 500,
+    "dissolution_precision": 7,
+    "note": "Central Asian culture of the Aral Sea region; dates approximate",
+    "label": "Jetiasar culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q873324",
+    "inception": -3400,
+    "inception_precision": 7,
+    "dissolution": -2800,
+    "dissolution_precision": 7,
+    "label": "Jevišovice culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q12823976",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1800,
+    "dissolution_precision": 7,
+    "note": "late phase of Indus Valley Civilisation; dates contested",
+    "label": "Jhukar Phase",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q48728694",
+    "inception": -1400,
+    "inception_precision": 7,
+    "dissolution": -700,
+    "dissolution_precision": 7,
+    "label": "Jorwe culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q65272213",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -200,
+    "dissolution_precision": 7,
+    "note": "Okinawan shell-midden period; precise bounds debated",
+    "label": "Kaizuka period",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q120279763",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "note": "limited documentation; dates approximate",
+    "label": "Kalinkino culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4211743",
+    "inception": -1400,
+    "inception_precision": 7,
+    "dissolution": -1,
+    "dissolution_precision": 7,
+    "note": "long-lived culture of the Kama River region; broad dates",
+    "label": "Kama culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q118347704",
+    "inception": -1000,
+    "inception_precision": 7,
+    "dissolution": -300,
+    "dissolution_precision": 7,
+    "note": "late Jōmon variant in Tōhoku; dates approximate",
+    "label": "Kamegaoka Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q120277013",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "insufficient information to date",
+    "label": "Kamen culture",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q6364766",
+    "inception": 1,
+    "inception_precision": 7,
+    "dissolution": 500,
+    "dissolution_precision": 7,
+    "note": "regional Hopewell variant in Kansas City area",
+    "label": "Kansas City Hopewell",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4213912",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "note": "Bronze Age culture of the Altai; dates approximate",
+    "label": "Karakol culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1728968",
+    "inception": -6200,
+    "inception_precision": 7,
+    "dissolution": -3500,
+    "dissolution_precision": 7,
+    "label": "Karanovo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4214535",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "note": "Southern Urals Bronze Age; dates debated",
+    "label": "Karayakupovo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4214926",
+    "inception": -1000,
+    "inception_precision": 7,
+    "dissolution": 200,
+    "dissolution_precision": 7,
+    "note": "broad cultural designation for Karelian region; bounds uncertain",
+    "label": "Karelian culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q16661907",
+    "inception": -8000,
+    "inception_precision": 7,
+    "dissolution": -5000,
+    "dissolution_precision": 7,
+    "label": "Kargopol culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q138390222",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "insufficient information to date",
+    "label": "Karym culture",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q1295386",
+    "inception": -300,
+    "inception_precision": 7,
+    "dissolution": 700,
+    "dissolution_precision": 7,
+    "note": "Central Asian culture near Tashkent; dates approximate",
+    "label": "Kaunchi culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q114340969",
+    "inception": -1500,
+    "inception_precision": 7,
+    "dissolution": -700,
+    "dissolution_precision": 7,
+    "note": "North Caucasus Bronze Age culture; dates approximate",
+    "label": "Kayakent-Kharachoy Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q629709",
+    "inception": 400,
+    "inception_precision": 7,
+    "dissolution": 700,
+    "dissolution_precision": 7,
+    "note": "Late Antique/early medieval culture around Keszthely, Pannonia",
+    "label": "Keszthely culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3649814",
+    "inception": -1500,
+    "inception_precision": 7,
+    "dissolution": -700,
+    "dissolution_precision": 7,
+    "note": "Bronze–Early Iron Age culture in Karabakh; dates debated",
+    "label": "Khojaly-Gadabay culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4499958",
+    "inception": -45000,
+    "inception_precision": 6,
+    "dissolution": -20000,
+    "dissolution_precision": 6,
+    "note": "Upper Paleolithic; broad dates, poorly constrained",
+    "label": "Khormusan culture",
+    "kind": "culture",
+    "flags": [
+      "durée 25000 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q3196496",
+    "inception": -8000,
+    "inception_precision": 7,
+    "dissolution": -6000,
+    "dissolution_precision": 7,
+    "label": "Kiffian culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q6407873",
+    "inception": -1100,
+    "inception_precision": 7,
+    "dissolution": -1400,
+    "dissolution_precision": 7,
+    "note": "dates debated; roughly 900–1400 AD, inception must precede dissolution — correcting: inception ~900 AD",
+    "label": "Killke culture",
+    "kind": "culture",
+    "flags": [
+      "inception -1100 ≥ dissolution -1400"
+    ]
+  },
+  {
+    "qid": "Q1320943",
+    "inception": -1400,
+    "inception_precision": 7,
+    "dissolution": -1100,
+    "dissolution_precision": 7,
+    "label": "Kintampo complex",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q18639374",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "note": "proposed/debated concept, boundaries uncertain",
+    "label": "Kish civilization",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q18692233",
+    "inception": -4000,
+    "inception_precision": 7,
+    "dissolution": -3000,
+    "dissolution_precision": 7,
+    "note": "Kitoy culture of Lake Baikal region; dates debated",
+    "label": "Kitoy culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q18228533",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "label": "Kiukainen culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4220323",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "note": "Scythian-era Crimean culture; precise bounds debated",
+    "label": "Kizil-Koba culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1309143",
+    "inception": -1300,
+    "inception_precision": 7,
+    "dissolution": -900,
+    "dissolution_precision": 7,
+    "label": "Knovíz culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q914771",
+    "inception": -1100,
+    "inception_precision": 7,
+    "dissolution": -400,
+    "dissolution_precision": 7,
+    "label": "Koban culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q16360834",
+    "inception": 400,
+    "inception_precision": 7,
+    "dissolution": 700,
+    "dissolution_precision": 7,
+    "label": "Koman culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4229398",
+    "inception": -1600,
+    "inception_precision": 7,
+    "dissolution": -1200,
+    "dissolution_precision": 7,
+    "label": "Komarov culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4234460",
+    "inception": 500,
+    "inception_precision": 7,
+    "dissolution": 700,
+    "dissolution_precision": 7,
+    "label": "Korchak culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q124270730",
+    "inception": -4000,
+    "inception_precision": 7,
+    "dissolution": -3000,
+    "dissolution_precision": 7,
+    "note": "dates poorly constrained",
+    "label": "Koshkino culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1975557",
+    "inception": -40000,
+    "inception_precision": 7,
+    "dissolution": -20000,
+    "dissolution_precision": 7,
+    "label": "Kostenki culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q138357110",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -5000,
+    "dissolution_precision": 7,
+    "note": "dates poorly constrained",
+    "label": "Kozlov culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q6439090",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1600,
+    "dissolution_precision": 7,
+    "label": "Krotovo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q18613506",
+    "inception": -1000,
+    "inception_precision": 7,
+    "dissolution": -600,
+    "dissolution_precision": 7,
+    "note": "Primorsky Krai culture; dates uncertain",
+    "label": "Krounovskaya culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1277981",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": 400,
+    "dissolution_precision": 7,
+    "label": "Kulay culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4248975",
+    "inception": 600,
+    "inception_precision": 7,
+    "dissolution": 900,
+    "dissolution_precision": 7,
+    "note": "Baikal region culture; dates uncertain",
+    "label": "Kurumchi Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4250246",
+    "inception": 600,
+    "inception_precision": 7,
+    "dissolution": 900,
+    "dissolution_precision": 7,
+    "note": "dates debated",
+    "label": "Kushnarenkovo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q113410419",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": -200,
+    "dissolution_precision": 7,
+    "note": "Central Asian culture; dates uncertain",
+    "label": "Kuyusay culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2732554",
+    "inception": 200,
+    "inception_precision": 7,
+    "dissolution": 400,
+    "dissolution_precision": 7,
+    "label": "Kyiv culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1122643",
+    "inception": -1000,
+    "inception_precision": 7,
+    "dissolution": -800,
+    "dissolution_precision": 7,
+    "label": "Kyjatice culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q123550311",
+    "inception": -4000,
+    "inception_precision": 7,
+    "dissolution": -3000,
+    "dissolution_precision": 7,
+    "label": "Lagozza culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q382728",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -5000,
+    "dissolution_precision": 7,
+    "label": "La Hoguette culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q6463237",
+    "inception": -8000,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "note": "bounds loosely defined; La Jolla Complex spans roughly 9000–1500 BP",
+    "label": "La Jolla Complex",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4271276",
+    "inception": -3500,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "note": "Neolithic axe industry in Cumbria; precise dates debated",
+    "label": "Langdale axe industry",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2476344",
+    "inception": -8000,
+    "inception_precision": 9,
+    "dissolution": -4600,
+    "dissolution_precision": 9,
+    "note": "dates given in Wikidata label as 8000–4600 BCE",
+    "label": "Las Vegas culture",
+    "kind": "culture",
+    "flags": [
+      "inception: précision ANNÉE revendiquée en -8000",
+      "dissolution: précision ANNÉE revendiquée en -4600"
+    ]
+  },
+  {
+    "qid": "Q217050",
+    "inception": 284,
+    "inception_precision": 9,
+    "dissolution": 800,
+    "dissolution_precision": 8,
+    "note": "conventional bounds vary; Diocletian accession to roughly 8th century",
+    "label": "late antiquity",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q17121301",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "label": "Laterza culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q6499777",
+    "inception": -100,
+    "inception_precision": 7,
+    "dissolution": 800,
+    "dissolution_precision": 7,
+    "note": "dates debated; roughly 1st century BC to 8th century AD",
+    "label": "Laurel Complex",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q456450",
+    "inception": -8000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Lauricocha culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q10262239",
+    "inception": -3200,
+    "inception_precision": 7,
+    "dissolution": -2600,
+    "dissolution_precision": 7,
+    "note": "Early Bronze Age Aegean; precise bounds debated",
+    "label": "Lefkandi I",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q17031440",
+    "inception": -200,
+    "inception_precision": 7,
+    "dissolution": 400,
+    "dissolution_precision": 7,
+    "note": "protohistoric culture in Florida panhandle region; dates approximate",
+    "label": "Leon-Jefferson culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q63212527",
+    "inception": -7000,
+    "inception_precision": 7,
+    "dissolution": -6000,
+    "dissolution_precision": 7,
+    "label": "Lepenski Vir culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4771138",
+    "inception": -45000,
+    "inception_precision": 7,
+    "dissolution": -29000,
+    "dissolution_precision": 7,
+    "note": "Upper Paleolithic Levant; bounds debated",
+    "label": "Levantine Aurignacian",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q122058995",
+    "inception": -2200,
+    "inception_precision": 9,
+    "dissolution": -1500,
+    "dissolution_precision": 9,
+    "label": "Levantine Bronze Age",
+    "kind": "culture",
+    "flags": [
+      "inception: précision ANNÉE revendiquée en -2200",
+      "dissolution: précision ANNÉE revendiquée en -1500"
+    ]
+  },
+  {
+    "qid": "Q4257482",
+    "inception": -4300,
+    "inception_precision": 7,
+    "dissolution": -3500,
+    "dissolution_precision": 7,
+    "label": "Leyla-Tepe culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1204909",
+    "inception": -3300,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "label": "Liangzhu culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2599285",
+    "inception": -200,
+    "inception_precision": 7,
+    "dissolution": 300,
+    "dissolution_precision": 7,
+    "note": "Dacian Lipița culture; dates approximate",
+    "label": "Lipiţa culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2035965",
+    "inception": -5000,
+    "inception_precision": 6,
+    "dissolution": 1000,
+    "dissolution_precision": 7,
+    "note": "archaeological occupation spans millennia; bounds loosely defined",
+    "label": "Llanos de Moxos",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q72260919",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "insufficient information to date reliably",
+    "label": "Lobusbussan culture",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q115865003",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "label": "Lola culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q130900",
+    "inception": -100,
+    "inception_precision": 7,
+    "dissolution": 800,
+    "dissolution_precision": 7,
+    "note": "attested as distinct group from roughly 1st century BC; kingdom dissolved 774 AD",
+    "label": "Lombards",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q10569040",
+    "inception": 600,
+    "inception_precision": 7,
+    "dissolution": 900,
+    "dissolution_precision": 7,
+    "label": "Lomovatovo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1057935",
+    "inception": -2500,
+    "inception_precision": 9,
+    "dissolution": -2000,
+    "dissolution_precision": 9,
+    "label": "Longshan culture",
+    "kind": "culture",
+    "flags": [
+      "inception: précision ANNÉE revendiquée en -2500",
+      "dissolution: précision ANNÉE revendiquée en -2000"
+    ]
+  },
+  {
+    "qid": "Q1771941",
+    "inception": 1000,
+    "inception_precision": 7,
+    "dissolution": 1600,
+    "dissolution_precision": 7,
+    "note": "dates poorly documented; estimates vary",
+    "label": "Longwe culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q5794482",
+    "inception": -3200,
+    "inception_precision": 7,
+    "dissolution": -2200,
+    "dissolution_precision": 7,
+    "label": "Los Millares culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4318898",
+    "inception": -3600,
+    "inception_precision": 9,
+    "dissolution": -3000,
+    "dissolution_precision": 9,
+    "label": "Lower Mikhaylovka culture",
+    "kind": "culture",
+    "flags": [
+      "inception: précision ANNÉE revendiquée en -3600",
+      "dissolution: précision ANNÉE revendiquée en -3000"
+    ]
+  },
+  {
+    "qid": "Q11750986",
+    "inception": 200,
+    "inception_precision": 7,
+    "dissolution": 500,
+    "dissolution_precision": 7,
+    "label": "Luboszyce culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q20825731",
+    "inception": -800,
+    "inception_precision": 7,
+    "dissolution": -500,
+    "dissolution_precision": 7,
+    "label": "Lüneburg group",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q550213",
+    "inception": -400000,
+    "inception_precision": 6,
+    "dissolution": -200000,
+    "dissolution_precision": 6,
+    "note": "dates debated; broad Middle Stone Age range",
+    "label": "Lupemban culture",
+    "kind": "culture",
+    "flags": [
+      "inception -400000 hors plage humaine",
+      "durée 200000 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q138941635",
+    "inception": -3800,
+    "inception_precision": 7,
+    "dissolution": -2700,
+    "dissolution_precision": 7,
+    "label": "Lüscherz culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4271232",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -3000,
+    "dissolution_precision": 7,
+    "label": "Lyalovo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3699320",
+    "inception": -14000,
+    "inception_precision": 7,
+    "dissolution": -10000,
+    "dissolution_precision": 7,
+    "label": "Lyngby culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q124291170",
+    "inception": -2700,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "note": "Cycladic Lyre-player Group; precise bounds debated",
+    "label": "Lyre-player Group",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1882262",
+    "inception": -3900,
+    "inception_precision": 7,
+    "dissolution": -3100,
+    "dissolution_precision": 7,
+    "label": "Maadi culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4177937",
+    "inception": -2100,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "label": "Mad'arovce culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q6726965",
+    "inception": -15000,
+    "inception_precision": 7,
+    "dissolution": -10000,
+    "dissolution_precision": 7,
+    "note": "spelling variant of Magdalenian",
+    "label": "Madelenian",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4290710",
+    "inception": -700,
+    "inception_precision": 7,
+    "dissolution": -100,
+    "dissolution_precision": 7,
+    "label": "Maeotian culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q12553151",
+    "inception": -7000,
+    "inception_precision": 7,
+    "dissolution": -5000,
+    "dissolution_precision": 7,
+    "note": "South Asian Neolithic; dates uncertain",
+    "label": "Mahanjar culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1310602",
+    "inception": -3300,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "label": "Majiayao culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q48728691",
+    "inception": -1700,
+    "inception_precision": 7,
+    "dissolution": -1400,
+    "dissolution_precision": 7,
+    "label": "Malwa culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q6747001",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": 800,
+    "dissolution_precision": 7,
+    "label": "Manasota",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q124092285",
+    "inception": -1400,
+    "inception_precision": 7,
+    "dissolution": -600,
+    "dissolution_precision": 7,
+    "note": "Mongolian Bronze Age; bounds debated",
+    "label": "Maoqinggou culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q6753857",
+    "inception": -900,
+    "inception_precision": 7,
+    "dissolution": -600,
+    "dissolution_precision": 7,
+    "note": "Woodland period phase; precise bounds uncertain",
+    "label": "Maple Creek Phase",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2860021",
+    "inception": -7000,
+    "inception_precision": 7,
+    "dissolution": 1700,
+    "dissolution_precision": 8,
+    "note": "dissolution approximate, linked to post-contact decline",
+    "label": "Maritime Archaic",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q6375529",
+    "inception": 1,
+    "inception_precision": 7,
+    "dissolution": 400,
+    "dissolution_precision": 7,
+    "label": "Marksville culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4282387",
+    "inception": -2100,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "label": "Maros culture (Mokrin culture)",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q123118185",
+    "inception": -5000,
+    "inception_precision": 7,
+    "dissolution": -3000,
+    "dissolution_precision": 7,
+    "note": "Siberian Neolithic; dates poorly constrained",
+    "label": "Maryinskoye culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q12552365",
+    "inception": -2600,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "note": "dates uncertain",
+    "label": "Mayemer culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q6797944",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "note": "Lebanese Neolithic; limited data",
+    "label": "Mayroubian",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4274581",
+    "inception": -300,
+    "inception_precision": 7,
+    "dissolution": 500,
+    "dissolution_precision": 7,
+    "label": "Mazunino culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q337451",
+    "inception": -4500,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "label": "Megalith culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q111204222",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": 200,
+    "dissolution_precision": 7,
+    "note": "broad and heterogeneous tradition; bounds approximate",
+    "label": "megalithic cultures of India",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4288825",
+    "inception": -1400,
+    "inception_precision": 7,
+    "dissolution": -900,
+    "dissolution_precision": 7,
+    "label": "Mezhovskaya culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q12036612",
+    "inception": -3800,
+    "inception_precision": 7,
+    "dissolution": -3600,
+    "dissolution_precision": 7,
+    "label": "Mġarr phase",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q6839055",
+    "inception": -100000,
+    "inception_precision": 6,
+    "dissolution": -40000,
+    "dissolution_precision": 6,
+    "note": "dates and definition of Micro-Mousterian are debated",
+    "label": "Micro-Mousterian",
+    "kind": "culture",
+    "flags": [
+      "durée 60000 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q1591017",
+    "inception": -1800,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "note": "boundaries of this Adriatic Bronze Age grouping are uncertain",
+    "label": "Middle Adriatic culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q11750989",
+    "inception": -2300,
+    "inception_precision": 7,
+    "dissolution": -1600,
+    "dissolution_precision": 7,
+    "label": "Mierzanowice culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q11589441",
+    "inception": -30000,
+    "inception_precision": 6,
+    "dissolution": -14000,
+    "dissolution_precision": 6,
+    "note": "Upper Palaeolithic Japanese industry; dates debated",
+    "label": "Mikoshiba culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2034295",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": 1500,
+    "dissolution_precision": 7,
+    "note": "pre-Columbian through early contact period; precise bounds debated",
+    "label": "Milagro-Quevedo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2612317",
+    "inception": -1300,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "label": "Milavce culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q121600318",
+    "inception": -900,
+    "inception_precision": 7,
+    "dissolution": -1100,
+    "dissolution_precision": 7,
+    "note": "Mimbres florescence roughly 900–1150 AD; inception before dissolution requirement — correcting: inception 900 AD, dissolution 1150 AD",
+    "label": "Mimbres culture",
+    "kind": "culture",
+    "flags": [
+      "inception -900 ≥ dissolution -1100"
+    ]
+  },
+  {
+    "qid": "Q113411679",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": -200,
+    "dissolution_precision": 7,
+    "note": "Siberian Iron Age culture; precise bounds uncertain",
+    "label": "Molchanovo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q646379",
+    "inception": -3900,
+    "inception_precision": 7,
+    "dissolution": -2700,
+    "dissolution_precision": 7,
+    "label": "Mondsee group",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q6901803",
+    "inception": -900,
+    "inception_precision": 7,
+    "dissolution": 1700,
+    "dissolution_precision": 7,
+    "label": "Monongahela culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3322247",
+    "inception": -8000,
+    "inception_precision": 7,
+    "dissolution": -6000,
+    "dissolution_precision": 7,
+    "label": "Montadian",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q121745656",
+    "inception": -5000,
+    "inception_precision": 7,
+    "dissolution": -4500,
+    "dissolution_precision": 7,
+    "label": "Montbolo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q212080",
+    "inception": -900,
+    "inception_precision": 7,
+    "dissolution": -200,
+    "dissolution_precision": 7,
+    "label": "Monte Alto culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q16477689",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "Q16477689 appears to refer to Monte Circeo site/Neanderthal find rather than a named culture; insufficient data to bound",
+    "label": "Monte Circeo",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q2512287",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1200,
+    "dissolution_precision": 7,
+    "label": "Monteoru culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4246658",
+    "inception": -1000,
+    "inception_precision": 7,
+    "dissolution": -700,
+    "dissolution_precision": 7,
+    "note": "Scandinavian Late Bronze Age culture; precise bounds uncertain",
+    "label": "Morby culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4305401",
+    "inception": -200,
+    "inception_precision": 7,
+    "dissolution": 500,
+    "dissolution_precision": 7,
+    "label": "Moshchiny culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q6924062",
+    "inception": -5000,
+    "inception_precision": 7,
+    "dissolution": -3000,
+    "dissolution_precision": 7,
+    "label": "Mount Taylor period",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q124077889",
+    "inception": -1400,
+    "inception_precision": 7,
+    "dissolution": -700,
+    "dissolution_precision": 7,
+    "note": "Mongolian Bronze Age; precise bounds debated",
+    "label": "Munkhkhairkhan culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q139258994",
+    "inception": -4400,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Munzingen culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2333434",
+    "inception": -13000,
+    "inception_precision": 7,
+    "dissolution": -9500,
+    "dissolution_precision": 7,
+    "label": "Mushabian culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q911205",
+    "inception": -5300,
+    "inception_precision": 7,
+    "dissolution": -4900,
+    "dissolution_precision": 7,
+    "label": "musical note ceramics",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2338751",
+    "inception": -2100,
+    "inception_precision": 7,
+    "dissolution": -1700,
+    "dissolution_precision": 7,
+    "label": "Nagyrév culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q16679882",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "label": "Nakhchivan culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q753391",
+    "inception": -4000,
+    "inception_precision": 7,
+    "dissolution": -3000,
+    "dissolution_precision": 7,
+    "label": "Naqada culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q181459",
+    "inception": -5000,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "label": "Narva culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2073418",
+    "inception": -5000,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "label": "Neman culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1275904",
+    "inception": -7000,
+    "inception_precision": 6,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "label": "Neolithic Europe",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q16737804",
+    "inception": -7000,
+    "inception_precision": 7,
+    "dissolution": -3000,
+    "dissolution_precision": 7,
+    "label": "Neolithic Greece",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q131439638",
+    "inception": -7000,
+    "inception_precision": 6,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "label": "Neolithic India",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q56391537",
+    "inception": -100000,
+    "inception_precision": 6,
+    "dissolution": -27000,
+    "dissolution_precision": 6,
+    "note": "dates are debated; associated with late Homo erectus at Ngandong",
+    "label": "Ngandong culture",
+    "kind": "culture",
+    "flags": [
+      "durée 73000 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q7024092",
+    "inception": -1500,
+    "inception_precision": 7,
+    "dissolution": -400,
+    "dissolution_precision": 7,
+    "label": "Niaosung culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q96395929",
+    "inception": -4000,
+    "inception_precision": 7,
+    "dissolution": -3500,
+    "dissolution_precision": 7,
+    "label": "Nizzanim culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q108908650",
+    "inception": -1000,
+    "inception_precision": 7,
+    "dissolution": -1,
+    "dissolution_precision": 7,
+    "note": "Nok culture Nigeria, bounds debated",
+    "label": "Nok Village",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q24175569",
+    "inception": -800,
+    "inception_precision": 7,
+    "dissolution": 1100,
+    "dissolution_precision": 7,
+    "label": "Norse culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q11702643",
+    "inception": 200,
+    "inception_precision": 7,
+    "dissolution": 500,
+    "dissolution_precision": 7,
+    "label": "North-Carpathian Group in the Late Roman Period and the early phase of the Migration Period",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q7060706",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": 800,
+    "dissolution_precision": 7,
+    "label": "Norton tradition",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q16934185",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": 400,
+    "dissolution_precision": 7,
+    "label": "Norwood culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2660530",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -3000,
+    "dissolution_precision": 7,
+    "label": "Nøstvet and Lihult cultures",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q28704611",
+    "inception": -4500,
+    "inception_precision": 7,
+    "dissolution": -3500,
+    "dissolution_precision": 7,
+    "label": "Novodanilovka group",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q18406268",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "label": "Novosvoboda Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4325947",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "label": "Novotitarovskaya culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q26161586",
+    "inception": -300,
+    "inception_precision": 7,
+    "dissolution": -100,
+    "dissolution_precision": 7,
+    "note": "bounds poorly documented",
+    "label": "Nynice group",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q20628619",
+    "inception": -10000,
+    "inception_precision": 7,
+    "dissolution": -5000,
+    "dissolution_precision": 7,
+    "label": "Obishir culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q32255025",
+    "inception": 100,
+    "inception_precision": 7,
+    "dissolution": 600,
+    "dissolution_precision": 7,
+    "label": "Óc Eo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2663163",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "label": "Ochre Coloured Pottery culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q7077829",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "note": "bounds poorly documented",
+    "label": "Odinov culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1814141",
+    "inception": -200,
+    "inception_precision": 8,
+    "dissolution": 100,
+    "dissolution_precision": 8,
+    "label": "Oksywie culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2632835",
+    "inception": -2500,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "label": "Okunev culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q20712223",
+    "inception": -200,
+    "inception_precision": 7,
+    "dissolution": 500,
+    "dissolution_precision": 7,
+    "label": "Old Bering Sea",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q442161",
+    "inception": -9000,
+    "inception_precision": 7,
+    "dissolution": -5000,
+    "dissolution_precision": 7,
+    "note": "dates debated; some place onset earlier",
+    "label": "Old Cordilleran culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2021316",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": 500,
+    "dissolution_precision": 7,
+    "note": "poorly documented; dates approximate",
+    "label": "Oltome tradition",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2023168",
+    "inception": -4000,
+    "inception_precision": 7,
+    "dissolution": -3500,
+    "dissolution_precision": 7,
+    "label": "Omari culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q7099773",
+    "inception": -2500,
+    "inception_precision": 7,
+    "dissolution": -500,
+    "dissolution_precision": 7,
+    "label": "Orange period",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q19325715",
+    "inception": -40000,
+    "inception_precision": 6,
+    "dissolution": -10000,
+    "dissolution_precision": 6,
+    "note": "Paleolithic; broad chronological range debated",
+    "label": "Ordosian culture",
+    "kind": "culture",
+    "flags": [
+      "durée 30000 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q601260",
+    "inception": -4000,
+    "inception_precision": 7,
+    "dissolution": -200,
+    "dissolution_precision": 7,
+    "label": "Ortoiroid people",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q19947394",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "note": "Italian Mesolithic/early Neolithic; dates approximate",
+    "label": "Ortucchio culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q102389808",
+    "inception": -13000,
+    "inception_precision": 7,
+    "dissolution": -10000,
+    "dissolution_precision": 7,
+    "label": "Osipovka culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2035023",
+    "inception": -3000000,
+    "inception_precision": 6,
+    "dissolution": -100000,
+    "dissolution_precision": 6,
+    "note": "hypothesis associated with Australopithecus; extremely broad range",
+    "label": "Osteodontokeratic culture",
+    "kind": "culture",
+    "flags": [
+      "inception -3000000 hors plage humaine",
+      "durée 2900000 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q2166381",
+    "inception": -2100,
+    "inception_precision": 7,
+    "dissolution": -1400,
+    "dissolution_precision": 7,
+    "label": "Ottomány culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2045310",
+    "inception": -1500,
+    "inception_precision": 7,
+    "dissolution": 1500,
+    "dissolution_precision": 7,
+    "note": "Aymara-related culture in altiplano; broad attested range",
+    "label": "Pacaje",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q129262283",
+    "inception": -40000,
+    "inception_precision": 6,
+    "dissolution": -10000,
+    "dissolution_precision": 6,
+    "note": "Paleolithic culture in Southeast Asia; dates highly uncertain",
+    "label": "Pacitanian",
+    "kind": "culture",
+    "flags": [
+      "durée 30000 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q120279569",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "note": "limited information available",
+    "label": "Pakhomovo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1665306",
+    "inception": -1800,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "label": "Pan Grave culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q7131021",
+    "inception": -1200,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "note": "bounds uncertain; Texas panhandle culture roughly 1200–1450 AD",
+    "label": "Panhandle culture",
+    "kind": "culture",
+    "flags": [
+      "inception -1200 ≥ dissolution -1500"
+    ]
+  },
+  {
+    "qid": "Q2064825",
+    "inception": -30000,
+    "inception_precision": 7,
+    "dissolution": -20000,
+    "dissolution_precision": 7,
+    "label": "Pavlovian culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q93722999",
+    "inception": -2000000,
+    "inception_precision": 6,
+    "dissolution": -10000,
+    "dissolution_precision": 6,
+    "note": "very broad category spanning Lower Paleolithic to late Pleistocene",
+    "label": "pebble culture",
+    "kind": "culture",
+    "flags": [
+      "inception -2000000 hors plage humaine",
+      "durée 1990000 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q1193609",
+    "inception": -7000,
+    "inception_precision": 7,
+    "dissolution": -5000,
+    "dissolution_precision": 7,
+    "label": "Peiligang culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q7164714",
+    "inception": -1200,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "note": "Pensacola culture c. 1200–1700 AD",
+    "label": "Pensacola culture",
+    "kind": "culture",
+    "flags": [
+      "inception -1200 ≥ dissolution -1500"
+    ]
+  },
+  {
+    "qid": "Q2079450",
+    "inception": -3400,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "label": "Peterborough culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4361179",
+    "inception": -2100,
+    "inception_precision": 7,
+    "dissolution": -1700,
+    "dissolution_precision": 7,
+    "label": "Petrovskaja Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2974883",
+    "inception": -4000,
+    "inception_precision": 7,
+    "dissolution": -3000,
+    "dissolution_precision": 7,
+    "label": "Peu-Richard culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1632948",
+    "inception": -2700,
+    "inception_precision": 7,
+    "dissolution": -2400,
+    "dissolution_precision": 7,
+    "label": "Philia culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q149386",
+    "inception": -1200,
+    "inception_precision": 7,
+    "dissolution": -300,
+    "dissolution_precision": 7,
+    "note": "attested as a distinct people roughly 12th–3rd centuries BC",
+    "label": "Phrygians",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q825179",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "label": "Phùng Nguyên culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q7191064",
+    "inception": -7000,
+    "inception_precision": 6,
+    "dissolution": -1000,
+    "dissolution_precision": 6,
+    "note": "spans a broad range from Archaic to early Formative; boundaries debated",
+    "label": "Picosa culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1551765",
+    "inception": -3200,
+    "inception_precision": 7,
+    "dissolution": -2300,
+    "dissolution_precision": 7,
+    "label": "Pitted Ware culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1989372",
+    "inception": -9000,
+    "inception_precision": 7,
+    "dissolution": -6000,
+    "dissolution_precision": 7,
+    "label": "Plano cultures",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q59648",
+    "inception": 1100,
+    "inception_precision": 7,
+    "dissolution": 1700,
+    "dissolution_precision": 7,
+    "label": "Plaquemine culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q7205302",
+    "inception": 600,
+    "inception_precision": 7,
+    "dissolution": 1000,
+    "dissolution_precision": 7,
+    "label": "Plum Bayou culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4375255",
+    "inception": 100,
+    "inception_precision": 7,
+    "dissolution": 400,
+    "dissolution_precision": 7,
+    "note": "dates uncertain; roughly 1st–4th centuries AD",
+    "label": "Pochep culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4375701",
+    "inception": -200,
+    "inception_precision": 7,
+    "dissolution": -100,
+    "dissolution_precision": 7,
+    "label": "Poienești-Lukașevka Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q7208116",
+    "inception": -1000,
+    "inception_precision": 7,
+    "dissolution": 700,
+    "dissolution_precision": 7,
+    "note": "long-lived complex with debated start and end dates",
+    "label": "Point Peninsula Complex",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4370612",
+    "inception": 400,
+    "inception_precision": 7,
+    "dissolution": 600,
+    "dissolution_precision": 7,
+    "note": "dates poorly constrained",
+    "label": "Polom culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q972472",
+    "inception": -650,
+    "inception_precision": 7,
+    "dissolution": -150,
+    "dissolution_precision": 7,
+    "label": "Pomeranian culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q123022708",
+    "inception": -200,
+    "inception_precision": 7,
+    "dissolution": 500,
+    "dissolution_precision": 7,
+    "note": "Iron Age Siberian culture; precise bounds debated",
+    "label": "Potchevash culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4366373",
+    "inception": -1700,
+    "inception_precision": 7,
+    "dissolution": -700,
+    "dissolution_precision": 7,
+    "label": "Poverty Point culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4368832",
+    "inception": -1500,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "label": "Pozdnyakovo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2995116",
+    "inception": 500,
+    "inception_precision": 7,
+    "dissolution": 700,
+    "dissolution_precision": 7,
+    "label": "Prague culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q18086903",
+    "inception": 500,
+    "inception_precision": 7,
+    "dissolution": 700,
+    "dissolution_precision": 7,
+    "label": "Prague-Korchak culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q126485235",
+    "inception": 400,
+    "inception_precision": 7,
+    "dissolution": 700,
+    "dissolution_precision": 7,
+    "label": "Prague-Penkov-Kolochin cultural complex",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3702539",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": -800,
+    "dissolution_precision": 7,
+    "label": "Pre-Dorset",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q11858640",
+    "inception": -3300,
+    "inception_precision": 7,
+    "dissolution": -2600,
+    "dissolution_precision": 7,
+    "note": "broadly pre-Mature Harappan; boundaries debated",
+    "label": "Pre-Harappan Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q111951623",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "spans entire Ethiopian prehistory; no meaningful single chronological bounds",
+    "label": "prehistoric Ethiopia",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q702092",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "spans entire Korean prehistory from Paleolithic to historical period; no single bounds appropriate",
+    "label": "Prehistoric Korea",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q120629952",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "covers entire Southern African prehistory; no single chronological bounds",
+    "label": "Prehistoric Southern Africa",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q130758758",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "covers entire Algerian prehistory; no single chronological bounds",
+    "label": "prehistory of Algeria",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q135011474",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "covers entire Kyrgyzstan prehistory; no single chronological bounds",
+    "label": "Prehistory of Kyrgyzstan",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q131212538",
+    "inception": -3000000,
+    "inception_precision": 6,
+    "dissolution": -600,
+    "dissolution_precision": 7,
+    "note": "spans from Lower Paleolithic to historical period; broad range debated",
+    "label": "Prehistory of Libya",
+    "kind": "culture",
+    "flags": [
+      "inception -3000000 hors plage humaine",
+      "durée 2999400 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q107230378",
+    "inception": -3000000,
+    "inception_precision": 6,
+    "dissolution": -300,
+    "dissolution_precision": 7,
+    "note": "poorly documented; broad estimates only",
+    "label": "Prehistory of Manipur",
+    "kind": "culture",
+    "flags": [
+      "inception -3000000 hors plage humaine",
+      "durée 2999700 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q106040580",
+    "inception": -50000,
+    "inception_precision": 6,
+    "dissolution": -1,
+    "dissolution_precision": 7,
+    "note": "human arrival estimated ~50,000 BP; dissolution at contact period is debated",
+    "label": "Prehistory of New Guinea",
+    "kind": "culture",
+    "flags": [
+      "durée 49999 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q106040595",
+    "inception": -50000,
+    "inception_precision": 6,
+    "dissolution": -1,
+    "dissolution_precision": 7,
+    "note": "very broad span; human settlement dates highly variable across the region",
+    "label": "Prehistory of Oceania",
+    "kind": "culture",
+    "flags": [
+      "durée 49999 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q11900912",
+    "inception": -3000000,
+    "inception_precision": 6,
+    "dissolution": -700,
+    "dissolution_precision": 7,
+    "note": "spans Lower Paleolithic to early historical; bounds are approximate",
+    "label": "Prehistory of Russia",
+    "kind": "culture",
+    "flags": [
+      "inception -3000000 hors plage humaine",
+      "durée 2999300 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q133697630",
+    "inception": -1000000,
+    "inception_precision": 6,
+    "dissolution": -300,
+    "dissolution_precision": 7,
+    "note": "poorly documented prehistoric sequence",
+    "label": "Prehistory of Tajikistan",
+    "kind": "culture",
+    "flags": [
+      "inception -1000000 hors plage humaine",
+      "durée 999700 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q127700563",
+    "inception": -900000,
+    "inception_precision": 6,
+    "dissolution": -43,
+    "dissolution_precision": 9,
+    "note": "dissolution taken at Roman conquest 43 AD",
+    "label": "Prehistory of the British Isles",
+    "kind": "culture",
+    "flags": [
+      "inception -900000 hors plage humaine",
+      "durée 899957 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q133888605",
+    "inception": -1000000,
+    "inception_precision": 6,
+    "dissolution": -300,
+    "dissolution_precision": 7,
+    "note": "poorly documented; broad estimates only",
+    "label": "Prehistory of Turkmenistan",
+    "kind": "culture",
+    "flags": [
+      "inception -1000000 hors plage humaine",
+      "durée 999700 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q133820845",
+    "inception": -1000000,
+    "inception_precision": 6,
+    "dissolution": -300,
+    "dissolution_precision": 7,
+    "note": "poorly documented; broad estimates only",
+    "label": "Prehistory of Uzbekistan",
+    "kind": "culture",
+    "flags": [
+      "inception -1000000 hors plage humaine",
+      "durée 999700 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q11750998",
+    "inception": -1800,
+    "inception_precision": 7,
+    "dissolution": -1600,
+    "dissolution_precision": 7,
+    "label": "Pre-Lusatian culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3007450",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -1800,
+    "dissolution_precision": 7,
+    "label": "Pre-Nuragic Sardinia",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q897323",
+    "inception": -8800,
+    "inception_precision": 7,
+    "dissolution": -7000,
+    "dissolution_precision": 7,
+    "label": "Pre-Pottery Neolithic B",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2717024",
+    "inception": -7000,
+    "inception_precision": 7,
+    "dissolution": -6400,
+    "dissolution_precision": 7,
+    "label": "Pre-Pottery Neolithic C",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4378356",
+    "inception": -1900,
+    "inception_precision": 7,
+    "dissolution": -1200,
+    "dissolution_precision": 7,
+    "label": "Prikazan culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1682546",
+    "inception": -300,
+    "inception_precision": 7,
+    "dissolution": 100,
+    "dissolution_precision": 7,
+    "label": "Púchov culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q111731435",
+    "inception": -1500,
+    "inception_precision": 7,
+    "dissolution": 1600,
+    "dissolution_precision": 7,
+    "note": "Puebloan culture spans Basketmaker through historic period; bounds debated",
+    "label": "Puebloan culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4383747",
+    "inception": -900,
+    "inception_precision": 7,
+    "dissolution": -100,
+    "dissolution_precision": 7,
+    "note": "Punic identity attested from Phoenician colonization to Roman conquest",
+    "label": "Punic people",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q12670406",
+    "inception": 500,
+    "inception_precision": 7,
+    "dissolution": 1000,
+    "dissolution_precision": 7,
+    "label": "Punuk",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4385557",
+    "inception": -200,
+    "inception_precision": 7,
+    "dissolution": 400,
+    "dissolution_precision": 7,
+    "label": "Pyany Bor culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q11889229",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "note": "Finnish Neolithic group; precise bounds debated",
+    "label": "Pyheensilta Group",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q136109094",
+    "inception": -1000,
+    "inception_precision": 7,
+    "dissolution": -200,
+    "dissolution_precision": 7,
+    "note": "Peruvian Early Horizon culture; dates approximate",
+    "label": "Qaluyo",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1674123",
+    "inception": -9000,
+    "inception_precision": 7,
+    "dissolution": -7000,
+    "dissolution_precision": 7,
+    "label": "Qaraoun culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2121429",
+    "inception": -5000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Qarun culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q84152598",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "label": "Qäwrighul culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q12168821",
+    "inception": -5000,
+    "inception_precision": 7,
+    "dissolution": -3000,
+    "dissolution_precision": 7,
+    "label": "Qinglian’gang culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q86664004",
+    "inception": -3500,
+    "inception_precision": 7,
+    "dissolution": -2500,
+    "dissolution_precision": 7,
+    "label": "Quetta Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3326421",
+    "inception": -90000,
+    "inception_precision": 6,
+    "dissolution": -40000,
+    "dissolution_precision": 6,
+    "note": "broad date range debated; MIS 5–3",
+    "label": "Quina Mousterian",
+    "kind": "culture",
+    "flags": [
+      "durée 50000 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q16480628",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "note": "dates debated for this Vietnamese coastal culture",
+    "label": "Quỳnh Văn culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q131176971",
+    "inception": 1000,
+    "inception_precision": 7,
+    "dissolution": 1500,
+    "dissolution_precision": 7,
+    "note": "pre-European Madagascar; precise bounds uncertain",
+    "label": "Rasikajy civilization",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4246687",
+    "inception": -1000,
+    "inception_precision": 7,
+    "dissolution": -400,
+    "dissolution_precision": 7,
+    "label": "Red Ocher people",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4354062",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "note": "Red Paint People span is debated; broadly Archaic period",
+    "label": "Red Paint People",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q7311148",
+    "inception": -4800,
+    "inception_precision": 7,
+    "dissolution": -3000,
+    "dissolution_precision": 7,
+    "note": "shares bounds with Cucuteni–Trypillian culture",
+    "label": "Religion and ritual of the Cucuteni–Trypillian culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3699326",
+    "inception": -3400,
+    "inception_precision": 7,
+    "dissolution": -2400,
+    "dissolution_precision": 7,
+    "label": "Remedello culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q24936496",
+    "inception": -3900,
+    "inception_precision": 7,
+    "dissolution": -3300,
+    "dissolution_precision": 7,
+    "label": "Repin culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q20379984",
+    "inception": -13000,
+    "inception_precision": 7,
+    "dissolution": -9000,
+    "dissolution_precision": 7,
+    "note": "transition Paleolithic–Mesolithic; bounds approximate",
+    "label": "Resseta Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3699303",
+    "inception": -3500,
+    "inception_precision": 7,
+    "dissolution": -2300,
+    "dissolution_precision": 7,
+    "label": "Rinaldone culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q16932366",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1400,
+    "dissolution_precision": 7,
+    "note": "Isle of Man Bronze Age culture; dates debated",
+    "label": "Ronaldsway culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4181995",
+    "inception": -3100,
+    "inception_precision": 7,
+    "dissolution": -1800,
+    "dissolution_precision": 7,
+    "label": "Rzucewo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q7398615",
+    "inception": 800,
+    "inception_precision": 7,
+    "dissolution": 1700,
+    "dissolution_precision": 7,
+    "label": "Safety Harbor culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q123431091",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "note": "early Bronze Age Western Mongolia; bounds approximate",
+    "label": "Sagsai culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4246663",
+    "inception": 1150,
+    "inception_precision": 7,
+    "dissolution": 1450,
+    "dissolution_precision": 7,
+    "label": "Salado culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4405634",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": 600,
+    "dissolution_precision": 7,
+    "label": "Saladoid",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4246665",
+    "inception": -200,
+    "inception_precision": 7,
+    "dissolution": 100,
+    "dissolution_precision": 7,
+    "label": "Salinar",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1987770",
+    "inception": 700,
+    "inception_precision": 8,
+    "dissolution": 950,
+    "dissolution_precision": 8,
+    "label": "Saltovo-Mayaki",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q80641",
+    "inception": -5000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Samara culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2219081",
+    "inception": -2200,
+    "inception_precision": 7,
+    "dissolution": -1700,
+    "dissolution_precision": 7,
+    "label": "Samus Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1932509",
+    "inception": 100,
+    "inception_precision": 7,
+    "dissolution": 900,
+    "dissolution_precision": 7,
+    "note": "San Agustín active period debated",
+    "label": "San Agustan culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q969405",
+    "inception": -150000,
+    "inception_precision": 6,
+    "dissolution": -50000,
+    "dissolution_precision": 6,
+    "note": "Middle Stone Age Africa; bounds broadly estimated",
+    "label": "Sangoan",
+    "kind": "culture",
+    "flags": [
+      "durée 100000 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q118173543",
+    "inception": -1700,
+    "inception_precision": 7,
+    "dissolution": -1100,
+    "dissolution_precision": 7,
+    "label": "Sanxingdui culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q15844132",
+    "inception": -2500,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "note": "Chalcolithic–Bronze Age French culture; bounds debated",
+    "label": "Saône-Rhône culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q138432884",
+    "inception": -1200,
+    "inception_precision": 7,
+    "dissolution": -900,
+    "dissolution_precision": 7,
+    "label": "Sargary culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q267436",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": 500,
+    "dissolution_precision": 7,
+    "label": "Sargat culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2985529",
+    "inception": -8500,
+    "inception_precision": 7,
+    "dissolution": -6500,
+    "dissolution_precision": 7,
+    "note": "dates given as BP converted approximately to BC",
+    "label": "Sauveterrian",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3699310",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "note": "Scamozzina culture bounds poorly documented; approximate",
+    "label": "Scamozzina culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4525828",
+    "inception": -2500,
+    "inception_precision": 7,
+    "dissolution": -1800,
+    "dissolution_precision": 7,
+    "label": "Schneckenberg Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q114205276",
+    "inception": -900,
+    "inception_precision": 7,
+    "dissolution": -200,
+    "dissolution_precision": 7,
+    "label": "Scythian culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q770563",
+    "inception": -3200,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "label": "Seine-Oise-Marne culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q11751005",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "note": "bounds poorly documented; approximate",
+    "label": "Selemdzya culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4246709",
+    "inception": -4000,
+    "inception_precision": 7,
+    "dissolution": -3000,
+    "dissolution_precision": 7,
+    "label": "Sepulcres de fossa culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2518644",
+    "inception": -7000,
+    "inception_precision": 7,
+    "dissolution": -5000,
+    "dissolution_precision": 7,
+    "label": "Seroglazovka culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q117199692",
+    "inception": -5000,
+    "inception_precision": 7,
+    "dissolution": -3000,
+    "dissolution_precision": 7,
+    "label": "Serovo Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q10262261",
+    "inception": -7000,
+    "inception_precision": 7,
+    "dissolution": -5000,
+    "dissolution_precision": 7,
+    "label": "Sesklo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2276473",
+    "inception": -800,
+    "inception_precision": 7,
+    "dissolution": -400,
+    "dissolution_precision": 7,
+    "label": "Shajing culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q123430086",
+    "inception": -900,
+    "inception_precision": 8,
+    "dissolution": -200,
+    "dissolution_precision": 8,
+    "label": "Shanma culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4346729",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "Shepherd Neolithic bounds not well established in sources",
+    "label": "Shepherd Neolithic",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q10904382",
+    "inception": -400,
+    "inception_precision": 7,
+    "dissolution": 600,
+    "dissolution_precision": 7,
+    "label": "Shihsanhang Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q123334152",
+    "inception": -400,
+    "inception_precision": 7,
+    "dissolution": -100,
+    "dissolution_precision": 7,
+    "label": "Shirenzigou culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q116971037",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "label": "Shiversky Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q116770589",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "label": "Shixia Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4246675",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Shulaveri-Shomu culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q33204333",
+    "inception": -1900,
+    "inception_precision": 8,
+    "dissolution": -1500,
+    "dissolution_precision": 8,
+    "label": "Siba culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q656393",
+    "inception": -2100,
+    "inception_precision": 7,
+    "dissolution": -1800,
+    "dissolution_precision": 7,
+    "label": "Sintashta culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q56313391",
+    "inception": -4000,
+    "inception_precision": 7,
+    "dissolution": -3000,
+    "dissolution_precision": 7,
+    "note": "Sioni culture bounds approximate and debated",
+    "label": "Sioni culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q66049360",
+    "inception": 500,
+    "inception_precision": 7,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "Slavic culture as archaeologically defined emerges mid-1st millennium AD; no clear dissolution",
+    "label": "Slavic culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3442433",
+    "inception": -2800,
+    "inception_precision": 7,
+    "dissolution": -2300,
+    "dissolution_precision": 7,
+    "label": "Somogyvár-Vinkovci culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q7667676",
+    "inception": -23000,
+    "inception_precision": 6,
+    "dissolution": -6000,
+    "dissolution_precision": 6,
+    "note": "dates debated; spans Upper Paleolithic to early Holocene in Vietnam",
+    "label": "Sơn Vi culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1290303",
+    "inception": -5000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Šopot-Bicske culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q48998314",
+    "inception": -5000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Sopot culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4429501",
+    "inception": -1500,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "label": "Sosnitsa culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q56404119",
+    "inception": -3500,
+    "inception_precision": 7,
+    "dissolution": -2500,
+    "dissolution_precision": 7,
+    "label": "Sothi-Siswal culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3492313",
+    "inception": -1000,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "note": "conventionally c. 1000–1600 AD; inception must precede dissolution — spans roughly 1000–1600 AD",
+    "label": "Southeastern Ceremonial Complex",
+    "kind": "culture",
+    "flags": [
+      "inception -1000 ≥ dissolution -1500"
+    ]
+  },
+  {
+    "qid": "Q3651998",
+    "inception": -1300,
+    "inception_precision": 7,
+    "dissolution": -800,
+    "dissolution_precision": 7,
+    "label": "South-German Urnfield culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2052259",
+    "inception": -1700,
+    "inception_precision": 7,
+    "dissolution": -700,
+    "dissolution_precision": 7,
+    "label": "South-Western Iberian Bronze",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q21994240",
+    "inception": -4000,
+    "inception_precision": 7,
+    "dissolution": -3000,
+    "dissolution_precision": 7,
+    "label": "Sozh culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q126908001",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": -300,
+    "dissolution_precision": 7,
+    "note": "precise dates uncertain; early Iron Age / La Tène period Eastern Europe",
+    "label": "Spitsyn culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2511062",
+    "inception": -5000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Square Mouthed Vases culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1483547",
+    "inception": -6200,
+    "inception_precision": 7,
+    "dissolution": -5200,
+    "dissolution_precision": 7,
+    "label": "Starčevo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q120281115",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": -200,
+    "dissolution_precision": 7,
+    "note": "limited information; dates approximate",
+    "label": "Staroaleyka culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q7605605",
+    "inception": -1000,
+    "inception_precision": 7,
+    "dissolution": -1400,
+    "dissolution_precision": 7,
+    "note": "Steed-Kisker phase conventionally c. 1000–1400 AD",
+    "label": "Steed-Kisker culture",
+    "kind": "culture",
+    "flags": [
+      "inception -1000 ≥ dissolution -1400"
+    ]
+  },
+  {
+    "qid": "Q16545225",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Stentinello culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2560443",
+    "inception": -76000,
+    "inception_precision": 6,
+    "dissolution": -25000,
+    "dissolution_precision": 6,
+    "note": "dates debated; MSA technocomplex in southern Africa",
+    "label": "Stillbay",
+    "kind": "culture",
+    "flags": [
+      "durée 51000 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q26161667",
+    "inception": -900,
+    "inception_precision": 7,
+    "dissolution": -700,
+    "dissolution_precision": 7,
+    "label": "Štítary culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q7589031",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": 1000,
+    "dissolution_precision": 7,
+    "label": "St. Johns culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q180178",
+    "inception": -2200,
+    "inception_precision": 7,
+    "dissolution": -1600,
+    "dissolution_precision": 7,
+    "label": "Straubing culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q25457494",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": -2500,
+    "dissolution_precision": 7,
+    "note": "Pontic steppe horizon; precise bounds debated",
+    "label": "Subboticy horizon",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q123144527",
+    "inception": -700,
+    "inception_precision": 7,
+    "dissolution": -200,
+    "dissolution_precision": 7,
+    "label": "Subeshi culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q769273",
+    "inception": -1600,
+    "inception_precision": 7,
+    "dissolution": -1100,
+    "dissolution_precision": 7,
+    "label": "Suciu de Sus Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q6715171",
+    "inception": -600,
+    "inception_precision": 7,
+    "dissolution": -900,
+    "dissolution_precision": 7,
+    "note": "early medieval Slavic culture c. 600–900 AD",
+    "label": "Sukow-Dziedzice group",
+    "kind": "culture",
+    "flags": [
+      "inception -600 ≥ dissolution -900"
+    ]
+  },
+  {
+    "qid": "Q4446018",
+    "inception": -7000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Sumnagin culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4446642",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1400,
+    "dissolution_precision": 7,
+    "note": "Bronze Age steppe culture; precise dates uncertain",
+    "label": "Surtandy culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q115654657",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": 500,
+    "dissolution_precision": 7,
+    "note": "Susuya culture dates are debated; rough 1st millennium BC–1st millennium AD range",
+    "label": "Susuya culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q80955352",
+    "inception": -4400,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Suvorovo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q21020981",
+    "inception": -9000,
+    "inception_precision": 7,
+    "dissolution": -5000,
+    "dissolution_precision": 7,
+    "note": "Bounds for this Florida Archaic culture are not well fixed",
+    "label": "Suwannee Valley culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q25112995",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "label": "Suyarganovo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2369629",
+    "inception": -1300,
+    "inception_precision": 7,
+    "dissolution": -900,
+    "dissolution_precision": 7,
+    "note": "Suzgun culture dates are approximate",
+    "label": "Suzgun culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q7656031",
+    "inception": 100,
+    "inception_precision": 7,
+    "dissolution": 800,
+    "dissolution_precision": 7,
+    "label": "Swift Creek culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4447849",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Syalakh culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q17074116",
+    "inception": -250000,
+    "inception_precision": 6,
+    "dissolution": -40000,
+    "dissolution_precision": 6,
+    "note": "Tabunian industry dates span much of the Middle Palaeolithic; bounds are coarse",
+    "label": "Tabunian",
+    "kind": "culture",
+    "flags": [
+      "inception -250000 hors plage humaine",
+      "durée 210000 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q7675680",
+    "inception": -2500,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "note": "Tahu culture chronology in Taiwan is debated",
+    "label": "Tahu culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4452873",
+    "inception": -8500,
+    "inception_precision": 7,
+    "dissolution": -6000,
+    "dissolution_precision": 7,
+    "label": "Tahunian",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4305720",
+    "inception": -1500,
+    "inception_precision": 7,
+    "dissolution": -700,
+    "dissolution_precision": 7,
+    "label": "Talish-Mughan culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2497019",
+    "inception": 800,
+    "inception_precision": 7,
+    "dissolution": 1815,
+    "dissolution_precision": 9,
+    "note": "Village destroyed by 1815 Tambora eruption; inception uncertain",
+    "label": "Tambora culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q137584832",
+    "inception": 900,
+    "inception_precision": 7,
+    "dissolution": 1600,
+    "dissolution_precision": 7,
+    "note": "Tapajó culture chronology is not well established",
+    "label": "Tapajó culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q97516320",
+    "inception": 1300,
+    "inception_precision": 8,
+    "dissolution": 1521,
+    "dissolution_precision": 9,
+    "label": "Tarascan",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q320416",
+    "inception": -900,
+    "inception_precision": 7,
+    "dissolution": -500,
+    "dissolution_precision": 7,
+    "label": "Tartessos",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q7686978",
+    "inception": -2500,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "label": "Tarxien Cemetery phase",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q138387196",
+    "inception": -2200,
+    "inception_precision": 7,
+    "dissolution": -1800,
+    "dissolution_precision": 7,
+    "note": "Tashkovo culture dates are not firmly established",
+    "label": "Tashkovo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1065306",
+    "inception": -200,
+    "inception_precision": 7,
+    "dissolution": 500,
+    "dissolution_precision": 7,
+    "label": "Tashtyk culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1971621",
+    "inception": -4500,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Tasian culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1365919",
+    "inception": -700,
+    "inception_precision": 7,
+    "dissolution": -300,
+    "dissolution_precision": 7,
+    "label": "Tasmola culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q669878",
+    "inception": -300000,
+    "inception_precision": 6,
+    "dissolution": -100000,
+    "dissolution_precision": 6,
+    "note": "Tayacian is a contested Lower Palaeolithic industry; dates very approximate",
+    "label": "Tayacian",
+    "kind": "culture",
+    "flags": [
+      "inception -300000 hors plage humaine",
+      "durée 200000 ans — invraisemblablement longue"
+    ]
+  },
+  {
+    "qid": "Q126115191",
+    "inception": -10000,
+    "inception_precision": 7,
+    "dissolution": -8000,
+    "dissolution_precision": 7,
+    "note": "Tazina style North African rock art; dates debated",
+    "label": "Tazina style",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q116142563",
+    "inception": -1800,
+    "inception_precision": 7,
+    "dissolution": -1200,
+    "dissolution_precision": 7,
+    "label": "Tei culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4454310",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "Insufficient information to date Telman culture",
+    "label": "Telman culture",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q3916582",
+    "inception": -7000,
+    "inception_precision": 7,
+    "dissolution": -4500,
+    "dissolution_precision": 7,
+    "label": "Tenerian culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1410539",
+    "inception": -1700,
+    "inception_precision": 7,
+    "dissolution": -1150,
+    "dissolution_precision": 7,
+    "label": "Terramare cultura",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2406093",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "note": "Tes culture dates are poorly documented; century-level estimates only",
+    "label": "Tes culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4246699",
+    "inception": -1800,
+    "inception_precision": 7,
+    "dissolution": -1200,
+    "dissolution_precision": 7,
+    "label": "textile pottery culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3699334",
+    "inception": -1500,
+    "inception_precision": 7,
+    "dissolution": -1100,
+    "dissolution_precision": 7,
+    "label": "Thapsos Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q144964",
+    "inception": -700,
+    "inception_precision": 7,
+    "dissolution": 600,
+    "dissolution_precision": 7,
+    "note": "attested in sources roughly 7th century BC to late antiquity",
+    "label": "Thracians",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q7797106",
+    "inception": -900,
+    "inception_precision": 7,
+    "dissolution": -700,
+    "dissolution_precision": 7,
+    "label": "Thraco-Cimmerian",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q107008575",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -300,
+    "dissolution_precision": 7,
+    "label": "Tichitt culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1041623",
+    "inception": -5000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Tisza culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3007173",
+    "inception": 100,
+    "inception_precision": 7,
+    "dissolution": 800,
+    "dissolution_precision": 7,
+    "note": "dates loosely defined; century-level precision appropriate",
+    "label": "Tolima culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1479279",
+    "inception": -3000,
+    "inception_precision": 6,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "Tongva presence predates European contact but dissolution as distinct group is ambiguous",
+    "label": "Tongva people",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q472258",
+    "inception": -1800,
+    "inception_precision": 7,
+    "dissolution": -800,
+    "dissolution_precision": 7,
+    "label": "Torrean civilization",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q106446056",
+    "inception": -3500,
+    "inception_precision": 7,
+    "dissolution": -2500,
+    "dissolution_precision": 7,
+    "label": "Treilles culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2452314",
+    "inception": -16000,
+    "inception_precision": 7,
+    "dissolution": -8000,
+    "dissolution_precision": 7,
+    "label": "Trialetian",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q71904",
+    "inception": 400,
+    "inception_precision": 7,
+    "dissolution": 700,
+    "dissolution_precision": 7,
+    "label": "Troyville culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2537330",
+    "inception": -1900,
+    "inception_precision": 7,
+    "dissolution": -1200,
+    "dissolution_precision": 7,
+    "label": "Trzciniec culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4503615",
+    "inception": 300,
+    "inception_precision": 7,
+    "dissolution": 700,
+    "dissolution_precision": 7,
+    "label": "Tsebelda culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2458028",
+    "inception": -20000,
+    "inception_precision": 7,
+    "dissolution": -10000,
+    "dissolution_precision": 7,
+    "note": "Tshitolean dates are debated and span is uncertain",
+    "label": "Tshitolean",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2658318",
+    "inception": -300,
+    "inception_precision": 7,
+    "dissolution": 400,
+    "dissolution_precision": 7,
+    "label": "Tumaco-La Tolita culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q17090554",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": 500,
+    "dissolution_precision": 7,
+    "note": "dates loosely defined in literature",
+    "label": "Tuncahuán",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q7858333",
+    "inception": -800,
+    "inception_precision": 7,
+    "dissolution": -500,
+    "dissolution_precision": 7,
+    "label": "Turbasli culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1353723",
+    "inception": -200,
+    "inception_precision": 7,
+    "dissolution": 100,
+    "dissolution_precision": 7,
+    "note": "attested in sources from roughly 2nd century BC",
+    "label": "Turdetani",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q9281508",
+    "inception": -300,
+    "inception_precision": 7,
+    "dissolution": -100,
+    "dissolution_precision": 7,
+    "label": "Tyniec Group of the La Tène Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q18025775",
+    "inception": 800,
+    "inception_precision": 7,
+    "dissolution": 1000,
+    "dissolution_precision": 7,
+    "label": "Type Menkendorf",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q111142852",
+    "inception": -5400,
+    "inception_precision": 7,
+    "dissolution": -5000,
+    "dissolution_precision": 7,
+    "label": "Ubaid 2 period",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q14914731",
+    "inception": -700,
+    "inception_precision": 7,
+    "dissolution": -300,
+    "dissolution_precision": 7,
+    "label": "Ulaangom culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q118898954",
+    "inception": -1200,
+    "inception_precision": 7,
+    "dissolution": -700,
+    "dissolution_precision": 7,
+    "label": "Ulaanzuukh culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1997618",
+    "inception": -6500,
+    "inception_precision": 7,
+    "dissolution": -5500,
+    "dissolution_precision": 7,
+    "label": "Umm Dabaghiya",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q7897531",
+    "inception": -400,
+    "inception_precision": 7,
+    "dissolution": -100,
+    "dissolution_precision": 7,
+    "note": "dates and even cultural identity are debated",
+    "label": "Unstrut culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q7898803",
+    "inception": 1000,
+    "inception_precision": 7,
+    "dissolution": 1600,
+    "dissolution_precision": 7,
+    "label": "Upper Mississippian culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4108320",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Upper-Volga culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q80960655",
+    "inception": -3500,
+    "inception_precision": 7,
+    "dissolution": -2900,
+    "dissolution_precision": 7,
+    "label": "Usatovo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4478521",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": 500,
+    "dissolution_precision": 7,
+    "label": "Ust-Poluy culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4479849",
+    "inception": -800,
+    "inception_precision": 7,
+    "dissolution": -300,
+    "dissolution_precision": 7,
+    "label": "Uyuk Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q80963065",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "label": "Vakhsh culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q20380173",
+    "inception": -6000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "note": "poorly documented; dates approximate",
+    "label": "Valdai ceramic",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3554118",
+    "inception": -11000,
+    "inception_precision": 7,
+    "dissolution": -8000,
+    "dissolution_precision": 7,
+    "note": "Epipaleolithic culture of southern France; precise bounds debated",
+    "label": "Valorguian",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4105280",
+    "inception": -1800,
+    "inception_precision": 7,
+    "dissolution": -1200,
+    "dissolution_precision": 7,
+    "label": "Vatin culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4246624",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "label": "Vatya culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q12778323",
+    "inception": -1300,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "label": "Velatice culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4107746",
+    "inception": -9000,
+    "inception_precision": 7,
+    "dissolution": -6000,
+    "dissolution_precision": 7,
+    "label": "Veretye Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3497243",
+    "inception": -1800,
+    "inception_precision": 7,
+    "dissolution": -1600,
+    "dissolution_precision": 7,
+    "label": "Věteřov culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4011241",
+    "inception": -200,
+    "inception_precision": 7,
+    "dissolution": 400,
+    "dissolution_precision": 7,
+    "note": "Roman settlement; precise founding and end dates uncertain",
+    "label": "Victimulae",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q60823294",
+    "inception": -2800,
+    "inception_precision": 7,
+    "dissolution": -1800,
+    "dissolution_precision": 7,
+    "label": "Vila Nova de São Pedro culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q3117702",
+    "inception": -5200,
+    "inception_precision": 7,
+    "dissolution": -4700,
+    "dissolution_precision": 7,
+    "label": "Villeneuve-Saint-Germain group",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q7933879",
+    "inception": 500,
+    "inception_precision": 7,
+    "dissolution": 1300,
+    "dissolution_precision": 7,
+    "label": "Virgin Anasazi",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2092457",
+    "inception": -200,
+    "inception_precision": 7,
+    "dissolution": 800,
+    "dissolution_precision": 7,
+    "label": "Virú culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q378100",
+    "inception": -3400,
+    "inception_precision": 7,
+    "dissolution": -2500,
+    "dissolution_precision": 7,
+    "label": "Vlaardingen culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1999749",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "label": "Volosovo culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q922829",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": -2200,
+    "dissolution_precision": 7,
+    "label": "Vučedol culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4129554",
+    "inception": -1100,
+    "inception_precision": 7,
+    "dissolution": -700,
+    "dissolution_precision": 7,
+    "label": "Vysotskaya culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q17034960",
+    "inception": 200,
+    "inception_precision": 7,
+    "dissolution": 900,
+    "dissolution_precision": 7,
+    "label": "Weeden Island culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q719139",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1500,
+    "dissolution_precision": 7,
+    "label": "Wessex culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4246700",
+    "inception": -600,
+    "inception_precision": 7,
+    "dissolution": -300,
+    "dissolution_precision": 7,
+    "label": "West Baltic Barrow Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4186496",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": 100,
+    "dissolution_precision": 7,
+    "label": "West Baltic culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2564933",
+    "inception": -4500,
+    "inception_precision": 7,
+    "dissolution": -2500,
+    "dissolution_precision": 7,
+    "label": "Western Neolithic ware",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q126721329",
+    "inception": -11000,
+    "inception_precision": 7,
+    "dissolution": -6500,
+    "dissolution_precision": 7,
+    "label": "Western Stemmed Tradition",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q85815448",
+    "inception": 700,
+    "inception_precision": 7,
+    "dissolution": 1200,
+    "dissolution_precision": 7,
+    "note": "Dates uncertain; little published literature",
+    "label": "Whittlesey culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q700039",
+    "inception": 1,
+    "inception_precision": 7,
+    "dissolution": 500,
+    "dissolution_precision": 7,
+    "label": "Wielbark culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q14947899",
+    "inception": 1607,
+    "inception_precision": 9,
+    "dissolution": 1912,
+    "dissolution_precision": 9,
+    "label": "Wild West",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2986725",
+    "inception": -8000,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "label": "Wilton culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q124397944",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "Not a bounded culture but a thematic/historiographical topic",
+    "label": "Women in prehistory",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q1078422",
+    "inception": -1500,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "label": "Wucheng culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q30692655",
+    "inception": 300,
+    "inception_precision": 7,
+    "dissolution": 700,
+    "dissolution_precision": 7,
+    "label": "X-Group culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1344077",
+    "inception": -23000,
+    "inception_precision": 7,
+    "dissolution": -16000,
+    "dissolution_precision": 7,
+    "label": "Xiachuan Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q1399230",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "label": "Xiaoheyan culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2598279",
+    "inception": -1400,
+    "inception_precision": 7,
+    "dissolution": -700,
+    "dissolution_precision": 7,
+    "label": "Xindian culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2598353",
+    "inception": -1000,
+    "inception_precision": 7,
+    "dissolution": -300,
+    "dissolution_precision": 7,
+    "label": "Xituanshan culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q854631",
+    "inception": -5000,
+    "inception_precision": 7,
+    "dissolution": -3000,
+    "dissolution_precision": 7,
+    "label": "Yangshao culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q2120200",
+    "inception": -1500,
+    "inception_precision": 7,
+    "dissolution": -500,
+    "dissolution_precision": 7,
+    "label": "Yaz culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q113411680",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "note": "Dates uncertain; sparse literature",
+    "label": "Yelovka culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q949415",
+    "inception": -3500,
+    "inception_precision": 7,
+    "dissolution": -2500,
+    "dissolution_precision": 7,
+    "note": "Dates uncertain; little published literature",
+    "label": "Yingpu culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4529391",
+    "inception": -2000,
+    "inception_precision": 7,
+    "dissolution": -1000,
+    "dissolution_precision": 7,
+    "label": "Ymyyakhtakh culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q116252612",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "label": "Yortan Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q108730582",
+    "inception": null,
+    "inception_precision": null,
+    "dissolution": null,
+    "dissolution_precision": null,
+    "note": "Ongoing architectural tradition without fixed chronological bounds",
+    "label": "Yoruba architecture",
+    "kind": "culture",
+    "flags": [
+      "aucune borne trouvée"
+    ]
+  },
+  {
+    "qid": "Q124285579",
+    "inception": -500,
+    "inception_precision": 7,
+    "dissolution": 500,
+    "dissolution_precision": 7,
+    "note": "Dates uncertain; sparse literature",
+    "label": "Yudino culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q723280",
+    "inception": -700,
+    "inception_precision": 7,
+    "dissolution": -200,
+    "dissolution_precision": 7,
+    "label": "Yukhnovo Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4186188",
+    "inception": -900,
+    "inception_precision": 7,
+    "dissolution": -600,
+    "dissolution_precision": 7,
+    "label": "Zandak Culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q147154",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "label": "Zaoshi lower level culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q739545",
+    "inception": -5000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Želiezovce group",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q197486",
+    "inception": -5000,
+    "inception_precision": 7,
+    "dissolution": -4000,
+    "dissolution_precision": 7,
+    "label": "Zhaobaogou culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4192485",
+    "inception": -3000,
+    "inception_precision": 7,
+    "dissolution": -2000,
+    "dissolution_precision": 7,
+    "label": "Złota culture",
+    "kind": "culture",
+    "flags": []
+  },
+  {
+    "qid": "Q4056918",
+    "inception": -700,
+    "inception_precision": 7,
+    "dissolution": -300,
+    "dissolution_precision": 7,
+    "note": "Agidel culture dates are debated and not firmly established",
+    "label": "Агидельская культура",
+    "kind": "culture",
+    "flags": []
+  }
+]
