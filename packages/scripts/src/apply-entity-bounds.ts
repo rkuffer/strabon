@@ -52,7 +52,7 @@ async function main() {
     SELECT qid, label_en, inception, inception_precision,
            dissolution, dissolution_precision
     FROM wikidata_entities
-    WHERE inception IS NOT NULL OR dissolution IS NOT NULL
+    WHERE active AND (inception IS NOT NULL OR dissolution IS NOT NULL)
   `;
 
   const bounds = new Map<string, EntityBounds>(

@@ -208,6 +208,7 @@ async function main() {
     SELECT qid, kind, label_en
     FROM wikidata_entities
     WHERE bounds_source IS NULL
+      AND active
       ${KIND_FILTER ? sql`AND kind = ${KIND_FILTER}` : sql``}
     ORDER BY kind, qid
   `;

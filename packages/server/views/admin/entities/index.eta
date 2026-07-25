@@ -46,12 +46,14 @@
       display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
       margin-bottom: 14px;
     }
-    input[type=search], select {
+    input[type=search], input[type=number], select {
       background: var(--surface); border: 1px solid var(--border); border-radius: 3px;
       color: var(--text); padding: 6px 9px; font-size: 13px; font-family: inherit;
     }
     input[type=search] { min-width: 240px; }
-    input[type=search]:focus, select:focus { outline: none; border-color: var(--accent); }
+    input[type=number] { width: 84px; }
+    input[type=search]:focus, input[type=number]:focus, select:focus { outline: none; border-color: var(--accent); }
+    .year-range { display: flex; align-items: center; gap: 5px; color: var(--muted); font-size: 13px; }
     button {
       background: rgba(201,168,76,.1); border: 1px solid rgba(201,168,76,.35);
       color: var(--accent); border-radius: 3px; padding: 6px 12px;
@@ -89,6 +91,22 @@
     .usage { text-align: right; font-variant-numeric: tabular-nums; }
     .usage b { color: var(--accent); font-weight: 500; }
     .usage.zero { color: #55595c; }
+    .dates { font-variant-numeric: tabular-nums; color: var(--muted); white-space: nowrap; font-size: 13px; }
+    .dates .sep { opacity: .45; margin: 0 4px; }
+    .dates .none { color: #55595c; }
+    .act { white-space: nowrap; }
+    .badge-active {
+      font-size: 11px; padding: 1px 7px; border-radius: 2px;
+      border: 1px solid var(--border); letter-spacing: .04em;
+    }
+    .badge-active.on  { color: var(--polity); border-color: rgba(126,184,160,.4); }
+    .badge-active.off { color: #b8926a; border-color: rgba(184,146,106,.45); }
+    .btn-toggle {
+      margin-left: 8px; padding: 2px 9px; font-size: 11px;
+      background: transparent; border: 1px solid var(--border); color: var(--muted);
+    }
+    .btn-toggle:hover { border-color: var(--text); color: var(--text); background: transparent; }
+    tr.inactive td:not(.act) { opacity: .45; }
     .empty { padding: 30px; text-align: center; color: var(--muted); }
   </style>
 </head>
@@ -133,6 +151,24 @@
         <option value="label" <%= it.sort === 'label' ? 'selected' : '' %>>Sort by label</option>
       </select>
 
+      <select name="status">
+        <option value="all"      <%= it.status === 'all' ? 'selected' : '' %>>All statuses</option>
+        <option value="active"   <%= it.status === 'active' ? 'selected' : '' %>>Active only</option>
+        <option value="inactive" <%= it.status === 'inactive' ? 'selected' : '' %>>Inactive only</option>
+      </select>
+
+      <span class="year-range" title="Year range — negative = BC. Matches entities whose lifespan overlaps the range.">
+        <input type="number" name="from" value="<%= it.fromYear == null ? '' : it.fromYear %>" placeholder="from" step="1" />
+        →
+        <input type="number" name="to" value="<%= it.toYear == null ? '' : it.toYear %>" placeholder="to" step="1" />
+      </span>
+
+      <select name="dated">
+        <option value="all"     <%= it.dated === 'all' ? 'selected' : '' %>>Any datation</option>
+        <option value="dated"   <%= it.dated === 'dated' ? 'selected' : '' %>>Dated only</option>
+        <option value="undated" <%= it.dated === 'undated' ? 'selected' : '' %>>Undated only</option>
+      </select>
+
       <label class="chk">
         <input type="checkbox" name="unused" value="1" <%= it.unusedOnly ? 'checked' : '' %> />
         Unused only
@@ -142,9 +178,11 @@
     </form>
 
     <div class="stats">
-      <b><%= it.stats.total %></b> entities ·
+      <b><%= it.stats.total %></b> entities shown ·
       <b><%= it.stats.used %></b> used by at least one site ·
-      <span class="<%= it.stats.unused > 0 ? 'warn' : '' %>"><b><%= it.stats.unused %></b> never used</span>
+      <span class="<%= it.stats.unused > 0 ? 'warn' : '' %>"><b><%= it.stats.unused %></b> never used</span> ·
+      <b><%= it.activeCount %></b> active ·
+      <span class="<%= it.inactiveCount > 0 ? 'warn' : '' %>"><b><%= it.inactiveCount %></b> inactive</span>
     </div>
 
     <% if (!it.entities.length) { %>
@@ -158,11 +196,13 @@
             <th>Description</th>
             <th style="width:130px">Family</th>
             <th style="width:70px" class="usage">Sites</th>
+            <th style="width:150px">Dates</th>
+            <th style="width:160px">Status</th>
           </tr>
         </thead>
         <tbody>
           <% it.entities.forEach(function(e){ %>
-            <tr>
+            <tr class="<%= e.active ? '' : 'inactive' %>" data-qid="<%= e.qid %>">
               <td class="qid">
                 <a href="https://www.wikidata.org/wiki/<%= e.qid %>"
                    target="_blank" rel="noopener"><%= e.qid %></a>
@@ -177,11 +217,41 @@
               <td class="usage <%= e.usage === 0 ? 'zero' : '' %>">
                 <% if (e.usage > 0) { %><b><%= e.usage %></b><% } else { %>—<% } %>
               </td>
+              <td class="dates">
+                <% if (e.inception_label || e.dissolution_label) { %>
+                  <%= e.inception_label || '?' %><span class="sep">→</span><%= e.dissolution_label || '…' %>
+                <% } else { %>
+                  <span class="none">—</span>
+                <% } %>
+              </td>
+              <td class="act">
+                <span class="badge-active <%= e.active ? 'on' : 'off' %>"><%= e.active ? 'active' : 'inactive' %></span>
+                <button type="button" class="btn-toggle" onclick="toggleActive('<%= e.qid %>')"><%= e.active ? 'Disable' : 'Enable' %></button>
+              </td>
             </tr>
           <% }) %>
         </tbody>
       </table>
     <% } %>
   </main>
+
+  <script>
+    function toggleActive(qid) {
+      fetch('/admin/entities/' + qid + '/toggle-active', { method: 'POST' })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          if (!d || !d.ok) return;
+          var tr = document.querySelector('tr[data-qid="' + qid + '"]');
+          if (!tr) return;
+          tr.classList.toggle('inactive', !d.active);
+          var badge = tr.querySelector('.badge-active');
+          badge.className = 'badge-active ' + (d.active ? 'on' : 'off');
+          badge.textContent = d.active ? 'active' : 'inactive';
+          var btn = tr.querySelector('.btn-toggle');
+          btn.textContent = d.active ? 'Disable' : 'Enable';
+        })
+        .catch(function () {});
+    }
+  </script>
 </body>
 </html>

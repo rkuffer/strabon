@@ -93,6 +93,7 @@ async function main() {
     SELECT qid, kind
     FROM wikidata_entities
     WHERE TRUE
+      AND active
       ${REFRESH ? sql`` : sql`AND sitelinks_count IS NULL`}
       ${KIND_FILTER ? sql`AND kind = ${KIND_FILTER}` : sql``}
     ORDER BY kind, qid

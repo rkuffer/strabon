@@ -144,7 +144,8 @@ function anomalies(b: LlmBound, t: Target): string[] {
     else {
       const span = d - i;
       if (span < 10) out.push(`durée ${span} ans — invraisemblablement courte`);
-      if (span > 20_000) out.push(`durée ${span} ans — invraisemblablement longue`);
+      if (span > 20_000)
+        out.push(`durée ${span} ans — invraisemblablement longue`);
     }
   }
 
@@ -181,6 +182,7 @@ async function main() {
     SELECT qid, kind, label_en, description_en
     FROM wikidata_entities
     WHERE bounds_source IS NULL
+      AND active
       ${kindFilter ? sql`AND kind = ${kindFilter}` : sql``}
     ORDER BY kind, label_en
   `;
@@ -194,8 +196,11 @@ async function main() {
     return;
   }
 
-  const results: (LlmBound & { label: string; kind: string; flags: string[] })[] =
-    [];
+  const results: (LlmBound & {
+    label: string;
+    kind: string;
+    flags: string[];
+  })[] = [];
   let written = 0;
   let missing = 0;
 
@@ -217,7 +222,9 @@ async function main() {
         .join("");
       parsed = extractJsonArray(text);
       if (!parsed) {
-        console.error(`\n  ⚠ lot ${i}: réponse non parsable\n${text.slice(0, 300)}`);
+        console.error(
+          `\n  ⚠ lot ${i}: réponse non parsable\n${text.slice(0, 300)}`,
+        );
       }
     } catch (err: any) {
       console.error(`\n  ⚠ lot ${i} échoué : ${err?.message}`);
@@ -236,7 +243,8 @@ async function main() {
           typeof raw.inception_precision === "number"
             ? raw.inception_precision
             : null,
-        dissolution: typeof raw.dissolution === "number" ? raw.dissolution : null,
+        dissolution:
+          typeof raw.dissolution === "number" ? raw.dissolution : null,
         dissolution_precision:
           typeof raw.dissolution_precision === "number"
             ? raw.dissolution_precision
@@ -274,9 +282,16 @@ async function main() {
   writeFileSync(outPath, JSON.stringify(results, null, 2));
 
   const flagged = results.filter((r) => r.flags.length);
-  const P: Record<number, string> = { 6: "millénaire", 7: "siècle", 8: "décennie", 9: "année" };
+  const P: Record<number, string> = {
+    6: "millénaire",
+    7: "siècle",
+    8: "décennie",
+    9: "année",
+  };
   const fmt = (y: number | null, p: number | null) =>
-    y == null ? "—" : `${y < 0 ? `${-y} BC` : `${y} AD`}${p && p < 9 ? ` (${P[p] ?? p})` : ""}`;
+    y == null
+      ? "—"
+      : `${y < 0 ? `${-y} BC` : `${y} AD`}${p && p < 9 ? ` (${P[p] ?? p})` : ""}`;
 
   console.log(`Bornes obtenues (${results.length} entités) — extrait :\n`);
   for (const r of results.slice(0, 25)) {
