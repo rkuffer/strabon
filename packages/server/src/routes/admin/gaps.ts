@@ -1,11 +1,7 @@
 // packages/server/src/routes/admin/gaps.ts
 import type { FastifyPluginAsync } from "fastify";
 import { getSql } from "@strabon/db";
-import {
-  autoResolveGaps,
-  resolveGapManually,
-  rejectGap,
-} from "@strabon/db";
+import { autoResolveGaps, resolveGapManually, rejectGap } from "@strabon/db";
 
 export const adminGapsRoutes: FastifyPluginAsync = async (app) => {
   // GET /admin/gaps — list referential gaps
@@ -163,4 +159,40 @@ export const adminGapsRoutes: FastifyPluginAsync = async (app) => {
     await rejectGap(sql, gapId, req.body?.note);
     return reply.send({ ok: true });
   });
+
+  // GET /admin/gaps/search-entities?q=…&kind=… — search OUR referential (not
+  // Wikidata), so a gap can be resolved to an entity that already exists under a
+  // DIFFERENT name. The model writes "Hittite Empire" (no QID); our polity
+  // referential has that entity as "Hatti". Searching label_en + search_text
+  // (which carries FR label + aliases) + description_en surfaces Hatti; picking
+  // its QID and resolving then backfills the "Hittite Empire" timeline entries.
+  // `active` gate: never propose an invalidated entity.
+  app.get<{ Querystring: { q?: string; kind?: string } }>(
+    "/admin/gaps/search-entities",
+    async (req, reply) => {
+      const sql = getSql();
+      const q = (req.query.q ?? "").trim();
+      if (q.length < 2) return reply.send({ results: [] });
+      const kind = req.query.kind;
+      const like = `%${q}%`;
+      const results = await sql`
+        SELECT qid, kind, label_en, description_en, family_label
+        FROM wikidata_entities
+        WHERE active
+          ${kind && kind !== "all" ? sql`AND kind = ${kind}` : sql``}
+          AND (label_en ILIKE ${like}
+               OR search_text ILIKE ${like}
+               OR description_en ILIKE ${like})
+        ORDER BY
+          CASE
+            WHEN label_en ILIKE ${q} THEN 0
+            WHEN label_en ILIKE ${q + "%"} THEN 1
+            ELSE 2
+          END,
+          label_en
+        LIMIT 10
+      `;
+      return reply.send({ results });
+    },
+  );
 };

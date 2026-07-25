@@ -257,6 +257,15 @@
   .qid-hit-desc { color: var(--text-muted); display: block; margin: 0.15em 0 0.3em; }
   .qid-hit-links { display: flex; gap: 0.4em; align-items: center; }
   .qid-hit-pick { margin-left: auto; }
+  .qid-section-label {
+    font-size: 0.68em; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-muted); padding: 0.4em 0.6em 0.2em; font-weight: 600;
+  }
+  .qid-hit-ours { background: color-mix(in srgb, #6366f1 8%, transparent); }
+  .qid-hit-kind {
+    font-size: 0.72em; padding: 0.05em 0.4em; border-radius: 3px;
+    border: 1px solid var(--border, rgba(127,127,127,0.3)); color: var(--text-muted);
+  }
 .occurrences { width: 100%; border-collapse: collapse; font-size: 0.78em; margin: 0.5em 0; }
   .occurrences th {
     text-align: left; font-weight: 500; font-size: 0.85em;
@@ -303,6 +312,21 @@
     const res = await fetch(url);
     if (!res.ok) throw new Error('Wikidata search failed');
     return (await res.json()).search || [];
+  }
+
+  // Search OUR referential (server-side, wikidata_entities). Lets a gap resolve
+  // to an entity that already exists under a different name (Hittite Empire → Hatti).
+  async function searchOurs(query, kind) {
+    try {
+      const url = '/admin/gaps/search-entities?' + new URLSearchParams({
+        q: query, kind: kind || 'all',
+      });
+      const res = await fetch(url);
+      if (!res.ok) return [];
+      return (await res.json()).results || [];
+    } catch {
+      return [];
+    }
   }
 
   /**
@@ -421,28 +445,55 @@
         return;
       }
 
-      if (q.length < 3) { results.hidden = true; return; }
+      if (q.length < 2) { results.hidden = true; return; }
 
       try {
-        const hits = await wdSearch(q);
-        if (!hits.length) { results.hidden = true; return; }
+        // Search BOTH our referential and Wikidata, in parallel. Our own entities
+        // come first: a gap often already exists under another name (Hittite
+        // Empire → our "Hatti"), and that is the QID you want to reassign.
+        const kind = gap.dataset.kind || 'all';
+        const [ours, hits] = await Promise.all([
+          searchOurs(q, kind),
+          wdSearch(q).catch(() => []),
+        ]);
 
-        // Second call: get the Wikipedia links for all candidates at once.
-        const details = await wdDetails(hits.map((h) => h.id));
+        let html = '';
 
-        results.innerHTML = hits.map((h) => {
-          const d = details.get(h.id);
-          return `
-            <div class="qid-hit">
+        if (ours.length) {
+          html += '<div class="qid-section-label">In our referential (' + kind + ')</div>';
+          html += ours.map((e) => `
+            <div class="qid-hit qid-hit-ours">
               <div class="qid-hit-top">
-                <span class="qid-hit-label">${h.label ?? ''}</span>
-                ${wdLink(h.id)}
-                <button type="button" class="btn btn-xs qid-hit-pick" data-qid="${h.id}">Pick</button>
+                <span class="qid-hit-label">${e.label_en ?? ''}</span>
+                ${wdLink(e.qid)}
+                <span class="qid-hit-kind">${e.kind ?? ''}</span>
+                <button type="button" class="btn btn-xs qid-hit-pick" data-qid="${e.qid}">Pick</button>
               </div>
-              <span class="qid-hit-desc">${h.description ?? ''}</span>
-              <div class="qid-hit-links">${d ? wpLink(d.wpUrl, d.wpTitle) : ''}</div>
-            </div>`;
-        }).join('');
+              <span class="qid-hit-desc">${e.description_en ?? ''}${e.family_label ? ' · ' + e.family_label : ''}</span>
+            </div>`).join('');
+        }
+
+        if (hits.length) {
+          // Second call: get the Wikipedia links for all Wikidata candidates at once.
+          const details = await wdDetails(hits.map((h) => h.id));
+          html += '<div class="qid-section-label">Wikidata</div>';
+          html += hits.map((h) => {
+            const d = details.get(h.id);
+            return `
+              <div class="qid-hit">
+                <div class="qid-hit-top">
+                  <span class="qid-hit-label">${h.label ?? ''}</span>
+                  ${wdLink(h.id)}
+                  <button type="button" class="btn btn-xs qid-hit-pick" data-qid="${h.id}">Pick</button>
+                </div>
+                <span class="qid-hit-desc">${h.description ?? ''}</span>
+                <div class="qid-hit-links">${d ? wpLink(d.wpUrl, d.wpTitle) : ''}</div>
+              </div>`;
+          }).join('');
+        }
+
+        if (!html) { results.hidden = true; return; }
+        results.innerHTML = html;
         results.hidden = false;
       } catch {
         results.hidden = true;
@@ -479,7 +530,21 @@
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Server error');
-        window.location.reload();
+        // Proof the timeline entries were updated — or the warning that none matched.
+        // backfillSites joins on the NORMALISED name: 0 means the timeline entry
+        // name differs from the gap name (the QID is saved, timelines untouched).
+        const n = data.sitesPatched ?? 0;
+        if (n === 0) {
+          alert(
+            'Entity saved to the referential, but 0 timeline entries were backfilled.\n\n' +
+            'The timeline entry name likely differs from the gap name "' + (data.name ?? '') + '", ' +
+            'so no entry could be matched by name. The QID is stored; timelines were not changed.'
+          );
+          window.location.reload();
+        } else {
+          resolveBtn.textContent = '✓ ' + n + ' site(s) updated';
+          setTimeout(() => window.location.reload(), 1100);
+        }
       } catch (err) {
         alert('Error: ' + err.message);
         resolveBtn.disabled = false;
