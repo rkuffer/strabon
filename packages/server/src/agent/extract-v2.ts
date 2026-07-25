@@ -187,6 +187,43 @@ export function getFiliationContext(site: any): string {
   return parts.length ? `\n## Filiation\n${parts.join("\n")}\n` : "";
 }
 
+/**
+ * Per-site cultural attribution injected into the prompt.
+ *
+ * Fed from `site_attributions` (Wikidata P2596), it names the archaeological
+ * culture(s) the site is CLASSIFIED under — the one dimension the narrative
+ * sources rarely state ("the Gauls settled here", never "Hallstatt C site").
+ * It is a PRIOR, never an order: the model still owes on-site attestation from
+ * the article and must DATE each entry from the sources, not from the culture's
+ * general span. Deliberately passes NO entity bounds — injecting them is exactly
+ * the anachronism that got attributions pulled from the hulls.
+ *
+ * Rows: { label_en, entity_qid }. Empty list → empty block (marker collapses).
+ */
+export function getAttributionsContext(
+  attributions: { label_en: string; entity_qid: string }[],
+): string {
+  if (!attributions.length) return "";
+  const list = attributions
+    .map((a) => `  - ${a.label_en} (${a.entity_qid})`)
+    .join("\n");
+  return `
+## Cultural attribution (Wikidata classification)
+Wikidata catalogues this site under the following archaeological culture(s):
+${list}
+
+This is a PRIOR, not an instruction — it names the culture(s) the site is
+classified under, information the narrative sources rarely state explicitly.
+Use it on the \`culture\` track, subject to two binary tests:
+- If you cannot point to on-site evidence in the article for a listed culture,
+  that culture does NOT go on the timeline. The Wikidata classification alone is
+  not on-site attestation.
+- If a period is attributable both to an ethnonym (e.g. "Gauls") and to one of
+  these archaeological cultures, name the archaeological culture, not the ethnonym.
+Date each entry from the sources; never derive bounds from the culture's span.
+`;
+}
+
 // ── Prompt builder ──────────────────
 
 // Le template EST l'artefact archivé. Il porte ses trous — pas d'instanciation,
@@ -739,6 +776,7 @@ Rules:
 The division of labour is: the timeline carries only QIDs you are SURE of;
 "proposed_qid" carries the ones you merely SUSPECT, for machine verification.
 {{filiation}}
+{{attributions}}
 
 ## Rules
 
@@ -1213,6 +1251,7 @@ export function buildPromptV2(
     cultures: string;
   },
   filiation: string,
+  attributions: string,
 ): string {
   const localSection = context.local
     ? `\n## Local language source (${context.localLang})\nThe following is extracted from the ${context.localLang} Wikipedia article. It may contain additional names, dates or details not present in the English version. Use it to complement the English source.\n---\n${context.local}\n---`
@@ -1227,6 +1266,7 @@ export function buildPromptV2(
     .replaceAll("{{polities}}", refs.polities)
     .replaceAll("{{cultures}}", refs.cultures)
     .replaceAll("{{filiation}}", filiation)
+    .replaceAll("{{attributions}}", attributions)
     .replaceAll("{{two_sources_note}}", twoSources)
     .replaceAll("{{context_en}}", context.en)
     .replaceAll("{{local_section}}", localSection);
@@ -1247,6 +1287,7 @@ export function buildPromptV2(
     "polities",
     "cultures",
     "filiation",
+    "attributions",
     "two_sources_note",
     "context_en",
     "local_section",

@@ -19,6 +19,7 @@ import {
   loadReferentials,
   buildPromptV2,
   getFiliationContext,
+  getAttributionsContext,
   normalizeTimelineV2,
   isRejection,
   isEmptyTimeline,
@@ -139,7 +140,30 @@ async function extractSite(
 
   // 2. Prompt + LLM
   const filiation = getFiliationContext(site);
-  const prompt = buildPromptV2(site.title_en, wikiContext, refs, filiation);
+
+  // Cultural attributions (Wikidata P2596) as a per-site classification prior.
+  // `active` gate: never re-inject a culture invalidated in the referential.
+  // Bounds are deliberately NOT injected — the model dates from the sources.
+  const attributionRows = await sql`
+    SELECT we.label_en, a.entity_qid
+    FROM site_attributions a
+    JOIN wikidata_entities we ON we.qid = a.entity_qid
+    WHERE a.site_id = ${site.id}
+      AND a.kind = 'culture'
+      AND we.active
+    ORDER BY we.label_en
+  `;
+  const attributions = getAttributionsContext(
+    attributionRows as { label_en: string; entity_qid: string }[],
+  );
+
+  const prompt = buildPromptV2(
+    site.title_en,
+    wikiContext,
+    refs,
+    filiation,
+    attributions,
+  );
   console.log(`[extract] prompt: ${prompt.length} chars → ${MODEL}`);
 
   // Archive the prompt TEMPLATE (markers unsubstituted) if we have not seen this
