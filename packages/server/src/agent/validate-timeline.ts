@@ -225,11 +225,15 @@ export async function validateTimelineQids(
   }
 
   // ── Look up the true kind of each QID in the referential ────────────────────
+  // `AND active`: an invalidated entity (false culture dropped via triage) is
+  // treated as ABSENT from the referential — same doctrine as loadReferentials,
+  // which no longer offers it. Without this, extraction and validation diverge:
+  // the prompt stops proposing the entity while validation keeps blessing it.
   const qids = [...used.keys()];
   const rows = await sql`
     SELECT qid, kind, label_en
     FROM wikidata_entities
-    WHERE qid = ANY(${qids})
+    WHERE qid = ANY(${qids}) AND active
   `;
   const known = new Map<string, { kind: string; label: string }>(
     rows.map((r: any) => [r.qid, { kind: r.kind, label: r.label_en }]),

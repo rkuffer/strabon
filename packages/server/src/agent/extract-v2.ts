@@ -91,19 +91,25 @@ export async function loadReferentials(sql: Sql<any>) {
   // Les bornes sont récupérées pour TOUS les kinds : elles sont exactement ce que
   // le garde déterministe vérifie après l'extraction. Juger le modèle sur un
   // critère qu'on ne lui montre jamais est injuste — et surtout inutile.
+  //
+  // `active` gates out invalidated entities (false cultures dropped via
+  // triage-culture-referential). It is a HARD gate, placed AHEAD of `keep`: an
+  // invalidated entity still sitting in an old timeline — hence in `used`, which
+  // `keep` would otherwise force back in — is NOT re-offered to the model.
   const [religions, languages, polities, cultures] = await Promise.all([
-    // Religions (78) and languages (144) weigh 4% of the referential — never filtered.
+    // Religions (78) and languages (144) weigh 4% of the referential — never
+    // sitelinks-filtered, but still gated on `active`.
     sql`SELECT qid, label_en, family_label, inception, dissolution
-        FROM wikidata_entities WHERE kind = 'religion' ORDER BY label_en`,
+        FROM wikidata_entities WHERE kind = 'religion' AND active ORDER BY label_en`,
     sql`SELECT qid, label_en, family_label, inception, dissolution
-        FROM wikidata_entities WHERE kind = 'language' ORDER BY label_en`,
+        FROM wikidata_entities WHERE kind = 'language' AND active ORDER BY label_en`,
     sql`SELECT w.qid, w.label_en, w.description_en, w.inception, w.dissolution
         FROM wikidata_entities w
-        WHERE w.kind = 'polity' AND ${keep}
+        WHERE w.kind = 'polity' AND w.active AND ${keep}
         ORDER BY w.label_en`,
     sql`SELECT w.qid, w.label_en, w.description_en, w.inception, w.dissolution
         FROM wikidata_entities w
-        WHERE w.kind = 'culture' AND ${keep}
+        WHERE w.kind = 'culture' AND w.active AND ${keep}
         ORDER BY w.label_en`,
   ]);
 

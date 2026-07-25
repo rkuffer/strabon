@@ -614,6 +614,24 @@ CREATE INDEX IF NOT EXISTS idx_wikidata_entities_family
 
 
 -- =============================================================================
+-- WIKIDATA_ENTITIES — validity
+-- =============================================================================
+-- `active` = the entity is a REAL member of the referential. It is set false to
+-- invalidate spurious ingested entities (e.g. false cultures: the abstract
+-- concept "culture" Q634818, listed-monument or "Prehistory of…" intruders),
+-- via triage-culture-referential. It is DISTINCT from bounds/notoriety: an
+-- inactive entity is not merely low-priority, it is not a thing that should be
+-- offered at all.
+--
+-- Consumption sites gate on `active`: loadReferentials (prompt injection) and
+-- validate-timeline (an inactive QID is treated as ABSENT from the referential,
+-- so its usages are stripped to gaps). Ingestion is a no-op on it — the ON
+-- CONFLICT DO UPDATE clauses never list `active`, so re-ingesting a manually
+-- invalidated entity does NOT silently reactivate it.
+ALTER TABLE wikidata_entities ADD COLUMN IF NOT EXISTS active BOOLEAN NOT NULL DEFAULT true;
+
+
+-- =============================================================================
 -- WIKIDATA_ENTITIES — chronological bounds
 -- =============================================================================
 -- Widest-window bounds (earliest inception P571/P580, latest dissolution
