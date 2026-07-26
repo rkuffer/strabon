@@ -1,0 +1,65 @@
+<div class="page-header">
+  <h1>Entrées de timeline sans QID</h1>
+  <p class="subtitle">
+    <%= it.sites.length %><%= it.truncated ? '+' : '' %> site(s) ·
+    <strong><%= it.totalEntries %></strong> entrée(s) sans QID sur les pistes référentielles
+    <% if (it.truncated) { %> · <span class="warn">liste tronquée à <%= it.limit %></span><% } %>
+  </p>
+</div>
+
+<form class="filter-bar" method="get" action="/admin/no-qid">
+  <input type="search" name="q" class="input-search" placeholder="Titre du site…" value="<%= it.q || '' %>" />
+  <select name="track" class="input-select" onchange="this.form.submit()">
+    <option value="all" <%= it.track === 'all' ? 'selected' : '' %>>Toutes les pistes</option>
+    <% for (const t of it.tracks) { %>
+      <option value="<%= t %>" <%= it.track === t ? 'selected' : '' %>><%= t %></option>
+    <% } %>
+  </select>
+  <button type="submit" class="btn btn-sm">Filtrer</button>
+</form>
+
+<% if (!it.sites.length) { %>
+  <div class="empty">Aucune entrée sans QID <%= it.track !== 'all' ? 'sur la piste ' + it.track : '' %>. 🎉</div>
+<% } else { %>
+<table class="data-table nq-table">
+  <thead>
+    <tr>
+      <th>Site</th>
+      <th class="nq-imp">Imp.</th>
+      <th class="nq-n">Sans QID</th>
+      <th>Entrées</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (const s of it.sites) { %>
+    <tr>
+      <td class="nq-site"><a href="/admin/sites/<%= s.id %>" target="_blank"><%= s.title_en || s.id %></a></td>
+      <td class="nq-imp"><% if (s.base_importance != null) { %><span class="importance-badge"><%= s.base_importance %></span><% } %></td>
+      <td class="nq-n"><%= s.n %></td>
+      <td class="nq-chips">
+        <% for (const m of s.missing) { %>
+          <span class="nq-chip nq-<%= m.track %>"><span class="nq-tk"><%= m.track %></span><%= m.name %></span>
+        <% } %>
+      </td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>
+<% } %>
+
+<style>
+  .nq-table    { width:100%; }
+  .nq-table th, .nq-table td { padding:7px 12px; font-size:12px; vertical-align:top; }
+  .nq-imp      { width:56px; }
+  .nq-n        { width:70px; text-align:center; font-weight:600; font-variant-numeric:tabular-nums; }
+  .nq-site a   { font-weight:600; }
+  .nq-chips    { display:flex; flex-wrap:wrap; gap:5px; }
+  .nq-chip     { display:inline-flex; align-items:baseline; gap:5px; font-size:11px; padding:2px 7px; border-radius:3px; border:1px solid var(--border); background:color-mix(in srgb, var(--muted) 6%, transparent); }
+  .nq-tk       { font-size:9px; text-transform:uppercase; letter-spacing:.04em; opacity:.75; }
+  .nq-polity   .nq-tk { color:#c98b5a; }
+  .nq-culture  .nq-tk { color:#c9a84c; }
+  .nq-religion .nq-tk { color:#b98fd0; }
+  .nq-language .nq-tk { color:#6fb6c9; }
+  .empty       { padding:30px; text-align:center; color:var(--muted); }
+  .warn        { color:#c98b5a; }
+</style>

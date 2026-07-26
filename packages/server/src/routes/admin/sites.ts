@@ -133,6 +133,51 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
     return String(v);
   }
 
+  const ROLES = ["state", "major", "minor", "minority"];
+  const PRECISIONS = [6, 7, 8, 9];
+
+  // Apply optional date/role fields onto an entry (mutates). Returns an error
+  // string or null. Precision 9 (year) and circa=false are stored as ABSENCE to
+  // match the extraction convention; `to`=null/"" deletes the bound; role only
+  // applies to the co-occurrent tracks.
+  function applyDatesAndRole(
+    entry: any,
+    body: any,
+    track: string,
+  ): string | null {
+    if (body.from !== undefined) {
+      if (typeof body.from !== "number" || !Number.isFinite(body.from))
+        return "from must be a number";
+      entry.from = Math.trunc(body.from);
+    }
+    if (body.from_precision !== undefined) {
+      if (body.from_precision === null || body.from_precision === 9)
+        delete entry.from_precision;
+      else if (PRECISIONS.includes(body.from_precision))
+        entry.from_precision = body.from_precision;
+      else return "invalid from_precision";
+    }
+    if (body.from_circa !== undefined) {
+      if (body.from_circa) entry.from_circa = true;
+      else delete entry.from_circa;
+    }
+    if (body.to !== undefined) {
+      if (body.to === null || body.to === "") delete entry.to;
+      else if (typeof body.to === "number" && Number.isFinite(body.to))
+        entry.to = Math.trunc(body.to);
+      else return "to must be a number or null";
+    }
+    if (
+      body.role !== undefined &&
+      (track === "religion" || track === "language")
+    ) {
+      if (!body.role) delete entry.role;
+      else if (ROLES.includes(body.role)) entry.role = body.role;
+      else return "invalid role";
+    }
+    return null;
+  }
+
   // POST /admin/sites/:id/timeline/delete-entry  { track, index, expectedName? }
   app.post<{
     Params: { id: string };
@@ -159,7 +204,12 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
     return reply.send({ ok: true, track, index });
   });
 
-  // POST /admin/sites/:id/timeline/set-qid  { track, index, qid, expectedName? }
+  // POST /admin/sites/:id/timeline/set-qid
+  //   { track, index, qid?, newName?, notes?, from?, from_precision?, from_circa?,
+  //     to?, role?, expectedName? }
+  // Edits a referential-track entry: (re)assign the QID and/or amend the label,
+  // note, dates (from + precision + circa, to) and role. Every field is optional
+  // so a curator can fix just the dates, or just the note, without re-picking a QID.
   app.post<{
     Params: { id: string };
     Body: {
@@ -167,14 +217,21 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
       index?: number;
       qid?: string;
       expectedName?: string;
+      newName?: string;
+      notes?: string;
+      from?: number;
+      from_precision?: number | null;
+      from_circa?: boolean;
+      to?: number | null;
+      role?: string;
     };
   }>("/admin/sites/:id/timeline/set-qid", async (req, reply) => {
     const sql = getSql();
-    const { track, index, qid, expectedName } = req.body ?? {};
+    const { track, index, qid, expectedName, newName, notes } = req.body ?? {};
     if (typeof track !== "string" || typeof index !== "number")
       return reply.status(400).send({ error: "track and index are required" });
-    if (!qid || !/^Q\d+$/.test(qid))
-      return reply.status(400).send({ error: "A valid QID is required" });
+    if (qid != null && qid !== "" && !/^Q\d+$/.test(qid))
+      return reply.status(400).send({ error: "Invalid QID" });
     if (!QID_TRACKS.includes(track))
       return reply
         .status(400)
@@ -186,7 +243,8 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
     const arr = entryArray(tl, track);
     if (!arr || index < 0 || index >= arr.length)
       return reply.status(400).send({ error: "Entry not found at that index" });
-    const v = arr[index]?.value;
+    const entry = arr[index];
+    const v = entry?.value;
     if (!v || typeof v !== "object")
       return reply.status(400).send({ error: "Entry has no value object" });
     if (expectedName != null && (v.name ?? null) !== expectedName)
@@ -194,8 +252,80 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
         .status(409)
         .send({ error: "Timeline changed; refresh and retry" });
 
-    v.wikidata = qid;
+    if (qid) v.wikidata = qid;
+    if (typeof newName === "string" && newName.trim())
+      v.name = newName.trim().slice(0, 200);
+    if (typeof notes === "string") {
+      const t = notes.trim().slice(0, 2000);
+      if (t) entry.notes = t;
+      else delete entry.notes;
+    }
+    const drErr = applyDatesAndRole(entry, req.body ?? {}, track);
+    if (drErr) return reply.status(400).send({ error: drErr });
+
     await sql`UPDATE sites SET timeline = ${sql.json(tl)}, last_updated = now() WHERE id = ${req.params.id}`;
-    return reply.send({ ok: true, track, index, qid });
+    return reply.send({
+      ok: true,
+      track,
+      index,
+      qid: v.wikidata ?? null,
+      name: v.name,
+      notes: entry.notes ?? null,
+    });
+  });
+
+  // POST /admin/sites/:id/timeline/add-entry
+  //   { track, name, qid?, from, from_precision?, from_circa?, to?, role?, notes? }
+  // Adds a NEW entry to a referential track, inserted chronologically. For the
+  // Jerusalem case: intercalating a hand-built culture sequence (Levantine
+  // Chalcolithic → Early/Middle/Late Bronze Age → Israelites …).
+  app.post<{
+    Params: { id: string };
+    Body: {
+      track?: string;
+      name?: string;
+      qid?: string;
+      from?: number;
+      from_precision?: number | null;
+      from_circa?: boolean;
+      to?: number | null;
+      role?: string;
+      notes?: string;
+    };
+  }>("/admin/sites/:id/timeline/add-entry", async (req, reply) => {
+    const sql = getSql();
+    const body = req.body ?? {};
+    const track = body.track;
+    if (typeof track !== "string" || !QID_TRACKS.includes(track))
+      return reply
+        .status(400)
+        .send({ error: "A referential track is required" });
+    const name = (body.name ?? "").trim();
+    if (!name) return reply.status(400).send({ error: "A label is required" });
+    if (typeof body.from !== "number" || !Number.isFinite(body.from))
+      return reply.status(400).send({ error: "from (year) is required" });
+    if (body.qid != null && body.qid !== "" && !/^Q\d+$/.test(body.qid))
+      return reply.status(400).send({ error: "Invalid QID" });
+
+    const tl = await loadTimeline(sql, req.params.id);
+    if (!tl) return reply.status(404).send({ error: "No timeline" });
+    if (!tl[track] || !Array.isArray(tl[track].entries))
+      tl[track] = { entries: [] };
+
+    const entry: any = {
+      from: Math.trunc(body.from),
+      value: { name: name.slice(0, 200) },
+    };
+    if (body.qid) entry.value.wikidata = body.qid;
+    if (typeof body.notes === "string" && body.notes.trim())
+      entry.notes = body.notes.trim().slice(0, 2000);
+    const drErr = applyDatesAndRole(entry, body, track);
+    if (drErr) return reply.status(400).send({ error: drErr });
+
+    tl[track].entries.push(entry);
+    tl[track].entries.sort((a: any, b: any) => (a.from ?? 0) - (b.from ?? 0));
+
+    await sql`UPDATE sites SET timeline = ${sql.json(tl)}, last_updated = now() WHERE id = ${req.params.id}`;
+    return reply.send({ ok: true, track, name, from: entry.from });
   });
 };

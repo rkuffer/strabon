@@ -1,6 +1,7 @@
 // packages/server/src/routes/admin/gaps.ts
 import type { FastifyPluginAsync } from "fastify";
 import { getSql } from "@strabon/db";
+import { formatYear } from "@strabon/shared";
 import { autoResolveGaps, resolveGapManually, rejectGap } from "@strabon/db";
 
 export const adminGapsRoutes: FastifyPluginAsync = async (app) => {
@@ -175,8 +176,9 @@ export const adminGapsRoutes: FastifyPluginAsync = async (app) => {
       if (q.length < 2) return reply.send({ results: [] });
       const kind = req.query.kind;
       const like = `%${q}%`;
-      const results = await sql`
-        SELECT qid, kind, label_en, description_en, family_label
+      const rows = await sql`
+        SELECT qid, kind, label_en, description_en, family_label,
+               inception, inception_precision, dissolution, dissolution_precision
         FROM wikidata_entities
         WHERE active
           ${kind && kind !== "all" ? sql`AND kind = ${kind}` : sql``}
@@ -192,6 +194,17 @@ export const adminGapsRoutes: FastifyPluginAsync = async (app) => {
           label_en
         LIMIT 10
       `;
+      const results = (rows as any[]).map((r) => ({
+        qid: r.qid,
+        kind: r.kind,
+        label_en: r.label_en,
+        description_en: r.description_en,
+        family_label: r.family_label,
+        dates:
+          r.inception == null && r.dissolution == null
+            ? null
+            : `${r.inception == null ? "?" : formatYear({ year: r.inception, precision: r.inception_precision ?? 9 })} → ${r.dissolution == null ? "…" : formatYear({ year: r.dissolution, precision: r.dissolution_precision ?? 9 })}`,
+      }));
       return reply.send({ results });
     },
   );

@@ -203,14 +203,18 @@ const missing = Array.isArray(tl && tl.missing_entities) ? tl.missing_entities :
   <% for (var ki = 0; ki < TRACK_KEYS.length; ki++) {
     var trackKey = TRACK_KEYS[ki];
     var track = tl[trackKey];
-    if (!track || !Array.isArray(track.entries) || !track.entries.length) continue;
+    var isRef = QID_TRACKS.indexOf(trackKey) !== -1;
+    var entries = (track && Array.isArray(track.entries)) ? track.entries : [];
+    if (!entries.length && !isRef) continue;
     var hasRole = ROLE_TRACKS.indexOf(trackKey) !== -1;
   %>
   <div class="track-block">
     <h3 class="track-title track-title--<%= trackKey %>">
       <%= trackKey.toUpperCase() %>
-      <span class="text-muted">(<%= track.entries.length %> entrées)</span>
+      <span class="text-muted">(<%= entries.length %> entrées)</span>
+      <% if (isRef) { %><button type="button" class="add-entry" data-track="<%= trackKey %>" title="Ajouter une entrée manuellement">+ Ajouter</button><% } %>
     </h3>
+    <% if (entries.length) { %>
     <table class="data-table data-table--compact">
       <thead>
         <tr>
@@ -224,9 +228,9 @@ const missing = Array.isArray(tl && tl.missing_entities) ? tl.missing_entities :
         </tr>
       </thead>
       <tbody>
-        <% for (var ei = 0; ei < track.entries.length; ei++) { var e = track.entries[ei]; %>
+        <% for (var ei = 0; ei < entries.length; ei++) { var e = entries[ei]; %>
         <tr>
-          <td><code><%= fmtYear(e.from) %><%= e.from_circa ? ' ~' : '' %></code></td>
+          <td><code><%= fmtYear(e.from) %><%= e.from_circa ? ' ~' : '' %></code><% if (trackKey !== 'site_type' && e.to != null) { %> <code class="hiatus">→ <%= fmtYear(e.to) %></code><% } %></td>
           <% if (trackKey === 'site_type') { %>
             <td><% if (e.to != null) { %><code class="hiatus"><%= fmtYear(e.to) %></code><% } else { %>—<% } %></td>
           <% } %>
@@ -235,7 +239,13 @@ const missing = Array.isArray(tl && tl.missing_entities) ? tl.missing_entities :
               <span class="qid-edit<%= e.value.wikidata ? '' : ' qid-edit--empty' %>"
                     data-track="<%= trackKey %>" data-index="<%= ei %>"
                     data-name="<%= e.value.name %>" data-qid="<%= e.value.wikidata || '' %>"
-                    title="Cliquer pour attribuer / ré-attribuer le QID"><%= e.value.name %><% if (e.value.wikidata) { %> <span class="wd-id"><%= e.value.wikidata %></span><% } else { %> <span class="no-qid">no QID</span><% } %></span>
+                    data-notes="<%= e.notes || '' %>"
+                    data-from="<%= e.from != null ? e.from : '' %>"
+                    data-to="<%= e.to != null ? e.to : '' %>"
+                    data-fromprec="<%= e.from_precision != null ? e.from_precision : '' %>"
+                    data-fromcirca="<%= e.from_circa ? '1' : '' %>"
+                    data-role="<%= e.role || '' %>"
+                    title="Cliquer pour éditer l'entrée"><%= e.value.name %><% if (e.value.wikidata) { %> <span class="wd-id"><%= e.value.wikidata %></span><% } else { %> <span class="no-qid">no QID</span><% } %></span>
             <% } else { %>
               <%~ toDisplayStr(e.value) %>
             <% } %>
@@ -262,6 +272,9 @@ const missing = Array.isArray(tl && tl.missing_entities) ? tl.missing_entities :
         <% } %>
       </tbody>
     </table>
+    <% } else { %>
+      <p class="track-empty text-muted">Aucune entrée. Utilisez « + Ajouter ».</p>
+    <% } %>
   </div>
   <% } %>
 
@@ -315,19 +328,57 @@ const missing = Array.isArray(tl && tl.missing_entities) ? tl.missing_entities :
       <button type="button" class="modal-close" id="qid-modal-close" title="Fermer">✕</button>
     </div>
     <div class="modal-body">
-      <div id="qid-modal-current" class="modal-current"></div>
+      <div id="qid-modal-context" class="modal-context"></div>
 
-      <label class="modal-label">Rechercher dans nos entities</label>
-      <input type="text" id="qid-search-ours" class="modal-input" placeholder="ex. Hatti…" autocomplete="off" />
+      <label class="modal-label">Libellé de l'entrée</label>
+      <div class="lbl-row">
+        <input type="text" id="qid-label-input" class="modal-input" autocomplete="off" />
+        <button type="button" id="qid-label-use" class="lbl-use" hidden></button>
+      </div>
+
+      <label class="modal-label">Rechercher un QID — nos entities</label>
+      <input type="text" id="qid-search-ours" class="modal-input" placeholder="ex. Levantine Chalcolithic…" autocomplete="off" />
       <div id="qid-results-ours" class="modal-results"></div>
 
-      <label class="modal-label">Rechercher sur Wikidata</label>
-      <input type="text" id="qid-search-wd" class="modal-input" placeholder="ex. Hittite Empire…" autocomplete="off" />
+      <label class="modal-label">Rechercher un QID — Wikidata</label>
+      <input type="text" id="qid-search-wd" class="modal-input" placeholder="ex. Early Bronze Age…" autocomplete="off" />
       <div id="qid-results-wd" class="modal-results"></div>
 
-      <div class="modal-selected" id="qid-selected" hidden>
-        Sélectionné : <span id="qid-selected-val"></span>
+      <div class="modal-selected" id="qid-selected" hidden>Sélectionné : <span id="qid-selected-val"></span></div>
+
+      <div class="date-grid">
+        <div>
+          <label class="modal-label">Début (négatif = BC)</label>
+          <div class="date-row">
+            <input type="number" id="qid-from" class="modal-input date-year" step="1" placeholder="année" />
+            <select id="qid-from-prec" class="modal-input date-prec" title="Précision">
+              <option value="9">année</option>
+              <option value="8">décennie</option>
+              <option value="7">siècle</option>
+              <option value="6">millénaire</option>
+            </select>
+            <label class="date-circa" title="approximatif"><input type="checkbox" id="qid-from-circa" /> ~</label>
+          </div>
+        </div>
+        <div>
+          <label class="modal-label">Fin (optionnel)</label>
+          <input type="number" id="qid-to" class="modal-input date-year" step="1" placeholder="—" />
+        </div>
       </div>
+
+      <div id="qid-role-wrap" hidden>
+        <label class="modal-label">Rôle</label>
+        <select id="qid-role" class="modal-input">
+          <option value="">—</option>
+          <option value="state">state</option>
+          <option value="major">major</option>
+          <option value="minor">minor</option>
+          <option value="minority">minority</option>
+        </select>
+      </div>
+
+      <label class="modal-label">Note</label>
+      <textarea id="qid-note-input" class="modal-input modal-textarea" rows="3" placeholder="Note…"></textarea>
     </div>
     <div class="modal-foot">
       <button type="button" class="btn btn-ghost" id="qid-cancel">Annuler</button>
@@ -417,6 +468,24 @@ const missing = Array.isArray(tl && tl.missing_entities) ? tl.missing_entities :
 .mr-hit-pick      { margin-left:auto; font-size:11px; padding:2px 8px; background:transparent; border:1px solid var(--border); color:var(--muted); border-radius:3px; cursor:pointer; }
 .mr-hit-pick:hover { color:var(--text); border-color:var(--text); }
 .modal-selected   { margin-top:12px; font-size:12px; color:var(--text); padding:8px 10px; background:color-mix(in srgb,#6366f1 12%,transparent); border-radius:4px; }
+.lbl-row          { display:flex; gap:6px; align-items:center; }
+.lbl-use          { flex:0 0 auto; font-size:11px; padding:3px 9px; background:transparent; border:1px solid var(--border); color:var(--muted); border-radius:3px; cursor:pointer; white-space:nowrap; }
+.lbl-use:hover    { color:var(--text); border-color:var(--text); }
+.modal-textarea   { resize:vertical; min-height:52px; font-family:inherit; line-height:1.4; }
+.modal-context    { font-size:12px; color:var(--muted); margin-bottom:14px; padding:9px 11px; background:var(--bg2,rgba(127,127,127,.06)); border-radius:4px; line-height:1.5; }
+.modal-context .ctx-type { display:inline-block; font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--bg,#111); background:var(--accent2,#8a7); padding:2px 9px; border-radius:3px; margin-right:8px; }
+.modal-context .ctx-site { color:var(--text); font-weight:600; }
+.modal-context .ctx-line { display:block; margin-top:4px; }
+.modal-context .ctx-k { color:var(--muted); }
+.date-grid        { display:grid; grid-template-columns:2fr 1fr; gap:12px; margin-top:4px; }
+.date-row         { display:flex; gap:5px; align-items:center; }
+.date-year        { width:100%; }
+.date-prec        { flex:0 0 auto; width:auto; }
+.date-circa       { display:flex; align-items:center; gap:3px; white-space:nowrap; color:var(--muted); font-size:13px; }
+.add-entry        { margin-left:10px; font-size:11px; font-weight:400; padding:2px 9px; background:transparent; border:1px solid var(--border); color:var(--muted); border-radius:3px; cursor:pointer; vertical-align:middle; }
+.add-entry:hover  { color:var(--text); border-color:var(--text); }
+.track-empty      { font-size:12px; padding:4px 0 8px; }
+.mr-hit-dates     { font-size:10px; color:var(--muted); font-variant-numeric:tabular-nums; margin-left:6px; white-space:nowrap; }
 .modal-foot       { display:flex; justify-content:flex-end; gap:8px; padding:12px 16px; border-top:1px solid var(--border); }
 </style>
 
@@ -454,44 +523,128 @@ function toggleJson() {
       .catch(function (e) { alert('Erreur : ' + e.message); btn.disabled = false; });
   });
 
-  // ── QID modal ──
+  // ── Entry modal (edit + add) ──
+  var SITE_TITLE = <%~ JSON.stringify(it.site.title_en || it.site.id || '') %>;
+  var QID_TRACKS_JS = ['polity','culture','religion','language'];
+  var ROLE_TRACKS_JS = ['religion','language'];
+
   var modal = document.getElementById('qid-modal');
   var elTitle = document.getElementById('qid-modal-title');
-  var elCurrent = document.getElementById('qid-modal-current');
+  var elContext = document.getElementById('qid-modal-context');
   var inOurs = document.getElementById('qid-search-ours');
   var inWd = document.getElementById('qid-search-wd');
   var resOurs = document.getElementById('qid-results-ours');
   var resWd = document.getElementById('qid-results-wd');
   var elSel = document.getElementById('qid-selected');
   var elSelVal = document.getElementById('qid-selected-val');
+  var elLabelInput = document.getElementById('qid-label-input');
+  var elLabelUse = document.getElementById('qid-label-use');
+  var elNoteInput = document.getElementById('qid-note-input');
+  var elFrom = document.getElementById('qid-from');
+  var elFromPrec = document.getElementById('qid-from-prec');
+  var elFromCirca = document.getElementById('qid-from-circa');
+  var elTo = document.getElementById('qid-to');
+  var elRoleWrap = document.getElementById('qid-role-wrap');
+  var elRole = document.getElementById('qid-role');
   var btnAssign = document.getElementById('qid-assign');
 
-  var editing = null;   // { track, index, name, qid }
-  var selected = null;  // chosen QID
+  var editing = null;       // { mode, track, index, name, qid, notes, from, from_precision, from_circa, to, role }
+  var selected = null;      // chosen QID
+  var selectedLabel = null;
 
-  function setSelected(qid) {
-    selected = /^Q\d+$/.test(qid) ? qid : null;
-    if (selected) { elSel.hidden = false; elSelVal.innerHTML = wdLink(selected); btnAssign.disabled = false; }
-    else { elSel.hidden = true; btnAssign.disabled = true; }
+  function fmtY(y) { if (y == null || y === '') return null; y = Number(y); return y < 0 ? Math.abs(y) + ' BC' : y + ' AD'; }
+  function fmtRange(from, to, circa) {
+    var f = fmtY(from); if (f == null) return '—';
+    return (circa ? '~' : '') + f + (to != null && to !== '' ? ' → ' + fmtY(to) : '');
   }
 
-  function pickBtn(qid) { return '<button type="button" class="mr-hit-pick" data-qid="' + qid + '">Choisir</button>'; }
+  function renderContext() {
+    var html = '<span class="ctx-type">' + esc(editing.track) + '</span>';
+    html += '<span class="ctx-site">' + esc(SITE_TITLE) + '</span>';
+    if (editing.mode === 'add') {
+      html += '<span class="ctx-line ctx-k">Nouvelle entrée</span>';
+    } else {
+      html += '<span class="ctx-line"><span class="ctx-k">Dates : </span>' + esc(fmtRange(editing.from, editing.to, editing.from_circa)) + '</span>';
+      html += '<span class="ctx-line"><span class="ctx-k">Libellé : </span>' + esc(editing.name || '—') + (editing.qid ? ' (' + editing.qid + ')' : '') + '</span>';
+      if (editing.notes) html += '<span class="ctx-line"><span class="ctx-k">Note : </span>' + esc(editing.notes) + '</span>';
+    }
+    elContext.innerHTML = html;
+  }
 
-  function openModal(span) {
-    editing = { track: span.dataset.track, index: Number(span.dataset.index), name: span.dataset.name || '', qid: span.dataset.qid || '' };
-    elTitle.textContent = (editing.qid ? 'Ré-attribuer le QID' : 'Attribuer un QID') + ' — ' + editing.track;
-    var cur = '<span class="cur-name">' + esc(editing.name) + '</span>';
-    cur += editing.qid ? ' — actuel : ' + wdLink(editing.qid) : ' — <span class="no-qid">no QID</span>';
-    elCurrent.innerHTML = cur;
-    inOurs.value = editing.name; inWd.value = editing.name;
+  function updateSave() {
+    if (!editing) { btnAssign.disabled = true; return; }
+    if (editing.mode === 'add') {
+      btnAssign.disabled = !(elLabelInput.value.trim() && elFrom.value.trim() !== '' && !isNaN(Number(elFrom.value)));
+      return;
+    }
+    var labelChanged = elLabelInput.value.trim() !== (editing.name || '');
+    var noteChanged = elNoteInput.value !== (editing.notes || '');
+    var fromChanged = elFrom.value.trim() !== '' && Number(elFrom.value) !== editing.from;
+    var precChanged = Number(elFromPrec.value) !== (editing.from_precision || 9);
+    var circaChanged = elFromCirca.checked !== !!editing.from_circa;
+    var toChanged = (elTo.value.trim() === '' ? null : Number(elTo.value)) !== (editing.to != null ? editing.to : null);
+    var roleChanged = !elRoleWrap.hidden && elRole.value !== (editing.role || '');
+    btnAssign.disabled = !(selected || labelChanged || noteChanged || fromChanged || precChanged || circaChanged || toChanged || roleChanged);
+  }
+
+  function setSelected(qid, label) {
+    selected = /^Q\d+$/.test(qid) ? qid : null;
+    selectedLabel = label || null;
+    elSel.hidden = !selected;
+    if (selected) elSelVal.innerHTML = wdLink(selected);
+    if (selected && selectedLabel && selectedLabel !== elLabelInput.value.trim()) {
+      elLabelUse.textContent = 'utiliser « ' + selectedLabel + ' »'; elLabelUse.hidden = false;
+    } else { elLabelUse.hidden = true; }
+    updateSave();
+  }
+
+  function pickBtn(qid, label) {
+    return '<button type="button" class="mr-hit-pick" data-qid="' + qid + '" data-label="' + esc(label || '') + '">Choisir</button>';
+  }
+
+  function setupRole() { elRoleWrap.hidden = ROLE_TRACKS_JS.indexOf(editing.track) === -1; }
+
+  function resetSearch() {
     resOurs.classList.remove('show'); resWd.classList.remove('show');
     resOurs.innerHTML = ''; resWd.innerHTML = '';
-    setSelected('');
-    btnAssign.textContent = 'Attribuer';
-    modal.hidden = false;
-    runOurs(); runWd();
-    inOurs.focus();
+    elLabelUse.hidden = true; setSelected('');
   }
+
+  function openEditModal(span) {
+    editing = {
+      mode: 'edit', track: span.dataset.track, index: Number(span.dataset.index),
+      name: span.dataset.name || '', qid: span.dataset.qid || '', notes: span.dataset.notes || '',
+      from: span.dataset.from !== '' ? Number(span.dataset.from) : null,
+      from_precision: span.dataset.fromprec !== '' ? Number(span.dataset.fromprec) : null,
+      from_circa: span.dataset.fromcirca === '1',
+      to: span.dataset.to !== '' ? Number(span.dataset.to) : null,
+      role: span.dataset.role || ''
+    };
+    elTitle.textContent = 'Éditer l\u2019entrée';
+    elLabelInput.value = editing.name; elNoteInput.value = editing.notes;
+    elFrom.value = editing.from != null ? editing.from : '';
+    elFromPrec.value = String(editing.from_precision || 9);
+    elFromCirca.checked = !!editing.from_circa;
+    elTo.value = editing.to != null ? editing.to : '';
+    setupRole(); elRole.value = editing.role || '';
+    inOurs.value = editing.name; inWd.value = editing.name;
+    resetSearch(); renderContext();
+    btnAssign.textContent = 'Enregistrer';
+    modal.hidden = false; runOurs(); runWd(); elLabelInput.focus();
+  }
+
+  function openAddModal(track) {
+    editing = { mode: 'add', track: track, name: '', qid: '', notes: '', from: null, from_precision: null, from_circa: false, to: null, role: '' };
+    elTitle.textContent = 'Ajouter une entrée';
+    elLabelInput.value = ''; elNoteInput.value = '';
+    elFrom.value = ''; elFromPrec.value = '9'; elFromCirca.checked = false; elTo.value = '';
+    setupRole(); elRole.value = '';
+    inOurs.value = ''; inWd.value = '';
+    resetSearch(); renderContext();
+    btnAssign.textContent = 'Ajouter';
+    modal.hidden = false; runOurs(); runWd(); elLabelInput.focus();
+  }
+
   function closeModal() { modal.hidden = true; editing = null; }
 
   var runOurs = debounce(function () {
@@ -505,7 +658,8 @@ function toggleJson() {
         resOurs.innerHTML = rows.map(function (e) {
           return '<div class="mr-hit"><span class="mr-hit-label">' + esc(e.label_en) + '</span>' +
                  '<span class="mr-hit-kind">' + esc(e.kind) + '</span>' + wdLink(e.qid) +
-                 '<span class="mr-hit-desc">' + esc(e.description_en || '') + '</span>' + pickBtn(e.qid) + '</div>';
+                 (e.dates ? '<span class="mr-hit-dates">' + esc(e.dates) + '</span>' : '') +
+                 '<span class="mr-hit-desc">' + esc(e.description_en || '') + '</span>' + pickBtn(e.qid, e.label_en) + '</div>';
         }).join('');
         resOurs.classList.add('show');
       }).catch(function () { resOurs.classList.remove('show'); });
@@ -523,7 +677,7 @@ function toggleJson() {
       if (!hits.length) { resWd.classList.remove('show'); return; }
       resWd.innerHTML = hits.map(function (h) {
         return '<div class="mr-hit"><span class="mr-hit-label">' + esc(h.label || '') + '</span>' + wdLink(h.id) +
-               '<span class="mr-hit-desc">' + esc(h.description || '') + '</span>' + pickBtn(h.id) + '</div>';
+               '<span class="mr-hit-desc">' + esc(h.description || '') + '</span>' + pickBtn(h.id, h.label) + '</div>';
       }).join('');
       resWd.classList.add('show');
     }).catch(function () { resWd.classList.remove('show'); });
@@ -531,30 +685,77 @@ function toggleJson() {
 
   document.addEventListener('click', function (ev) {
     var span = ev.target.closest && ev.target.closest('.qid-edit');
-    if (span) { ev.preventDefault(); openModal(span); }
+    if (span) { ev.preventDefault(); openEditModal(span); return; }
+    var add = ev.target.closest && ev.target.closest('.add-entry');
+    if (add) { ev.preventDefault(); openAddModal(add.dataset.track); }
   });
   [resOurs, resWd].forEach(function (box) {
     box.addEventListener('click', function (ev) {
       var pick = ev.target.closest('.mr-hit-pick');
-      if (pick) setSelected(pick.dataset.qid);
+      if (pick) setSelected(pick.dataset.qid, pick.dataset.label);
     });
   });
   inOurs.addEventListener('input', runOurs);
   inWd.addEventListener('input', runWd);
+  elLabelUse.addEventListener('click', function () {
+    if (selectedLabel) { elLabelInput.value = selectedLabel; elLabelUse.hidden = true; updateSave(); }
+  });
+  elLabelInput.addEventListener('input', function () {
+    if (!elLabelUse.hidden && selectedLabel && elLabelInput.value.trim() === selectedLabel) elLabelUse.hidden = true;
+    updateSave();
+  });
+  elNoteInput.addEventListener('input', updateSave);
+  elFrom.addEventListener('input', updateSave);
+  elFromPrec.addEventListener('change', updateSave);
+  elFromCirca.addEventListener('change', updateSave);
+  elTo.addEventListener('input', updateSave);
+  elRole.addEventListener('change', updateSave);
   document.getElementById('qid-modal-close').addEventListener('click', closeModal);
   document.getElementById('qid-cancel').addEventListener('click', closeModal);
-  modal.addEventListener('click', function (ev) { if (ev.target === modal) closeModal(); });
+  // Overlay close: only when the gesture BOTH starts and ends on the backdrop —
+  // prevents an accidental close when selecting text in an input and releasing
+  // outside it (the click target then resolves to the overlay).
+  var downOnOverlay = false;
+  modal.addEventListener('mousedown', function (ev) { downOnOverlay = (ev.target === modal); });
+  modal.addEventListener('click', function (ev) { if (ev.target === modal && downOnOverlay) closeModal(); });
   document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && !modal.hidden) closeModal(); });
 
-  btnAssign.addEventListener('click', function () {
-    if (!editing || !selected) return;
-    btnAssign.disabled = true; btnAssign.textContent = 'Attribution…';
-    fetch('/admin/sites/' + encodeURIComponent(SITE_ID) + '/timeline/set-qid', {
+  function collectDates(body) {
+    if (elFrom.value.trim() !== '') body.from = Number(elFrom.value);
+    body.from_precision = Number(elFromPrec.value);
+    body.from_circa = elFromCirca.checked;
+    body.to = elTo.value.trim() === '' ? null : Number(elTo.value);
+    if (!elRoleWrap.hidden) body.role = elRole.value;
+  }
+
+  function post(path, body) {
+    btnAssign.disabled = true; var prev = btnAssign.textContent; btnAssign.textContent = '…';
+    fetch('/admin/sites/' + encodeURIComponent(SITE_ID) + path, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ track: editing.track, index: editing.index, qid: selected, expectedName: editing.name }),
+      body: JSON.stringify(body),
     }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
       .then(function (res) { if (!res.ok) throw new Error(res.d.error || 'Erreur serveur'); window.location.reload(); })
-      .catch(function (e) { alert('Erreur : ' + e.message); btnAssign.disabled = false; btnAssign.textContent = 'Attribuer'; });
+      .catch(function (e) { alert('Erreur : ' + e.message); btnAssign.disabled = false; btnAssign.textContent = prev; });
+  }
+
+  btnAssign.addEventListener('click', function () {
+    if (!editing) return;
+    if (editing.mode === 'add') {
+      var name = elLabelInput.value.trim();
+      if (!name || elFrom.value.trim() === '' || isNaN(Number(elFrom.value))) return;
+      var addBody = { track: editing.track, name: name };
+      if (selected) addBody.qid = selected;
+      if (elNoteInput.value.trim()) addBody.notes = elNoteInput.value;
+      collectDates(addBody);
+      post('/timeline/add-entry', addBody);
+      return;
+    }
+    var body = { track: editing.track, index: editing.index, expectedName: editing.name };
+    if (selected) body.qid = selected;
+    if (elLabelInput.value.trim() !== (editing.name || '')) body.newName = elLabelInput.value.trim();
+    if (elNoteInput.value !== (editing.notes || '')) body.notes = elNoteInput.value;
+    collectDates(body);
+    post('/timeline/set-qid', body);
   });
 })();
 </script>

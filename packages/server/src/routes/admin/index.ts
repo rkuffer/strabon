@@ -8,6 +8,7 @@ import { adminGapsRoutes } from "./gaps.js";
 import { adminEntitiesRoutes } from "./entities.js";
 import { adminBoundsRoutes } from "./bounds.js";
 import { adminAttributionsRoutes } from "./attributions.js";
+import { adminNoQidRoutes } from "./no-qid.js";
 
 export const adminRoutes: FastifyPluginAsync = async (app) => {
   await app.register(adminDashboardRoutes);
@@ -18,4 +19,5 @@ export const adminRoutes: FastifyPluginAsync = async (app) => {
   await app.register(adminEntitiesRoutes);
   await app.register(adminBoundsRoutes);
   await app.register(adminAttributionsRoutes);
+  await app.register(adminNoQidRoutes);
 };

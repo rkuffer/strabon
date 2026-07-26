@@ -24,6 +24,7 @@
         <li class="nav-sep"></li>
         <li><a href="/admin/extract"      class="nav-item">Extraction LLM</a></li>
         <li><a href="/admin/gaps" class="nav-item">Gaps</a></li>
+        <li><a href="/admin/no-qid" class="nav-item">Sans QID</a></li>
         <li><a href="/admin/bounds" class="nav-item">Bounds</a></li>
         <li class="nav-sep"></li>
         <li><a href="/admin/entities"     class="nav-item">Entities</a></li>
