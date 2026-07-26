@@ -103,4 +103,99 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
       });
     },
   );
+
+  // ── Timeline editing ─────────────────────────────────────────────────────
+  // An entry is addressed by (track, index): the detail view renders each
+  // track's entries in JSONB array order, so the index is stable within a
+  // render. `expectedName` is a cheap staleness guard — if the entry at that
+  // index no longer carries the name the view showed, the timeline changed
+  // under us and we refuse rather than edit the wrong entry.
+  const QID_TRACKS = ["polity", "culture", "religion", "language"];
+
+  async function loadTimeline(sql: any, id: string): Promise<any | null> {
+    const rows = await sql`SELECT timeline FROM sites WHERE id = ${id}`;
+    if (!rows.length || rows[0].timeline == null) return null;
+    const raw = rows[0].timeline;
+    return typeof raw === "string" ? JSON.parse(raw) : raw;
+  }
+
+  function entryArray(tl: any, track: string): any[] | null {
+    const arr = track === "events" ? tl?.events : tl?.[track]?.entries;
+    return Array.isArray(arr) ? arr : null;
+  }
+
+  function entryName(entry: any, track: string): string | null {
+    if (track === "events") return entry?.type ?? null;
+    const v = entry?.value;
+    if (v == null) return null;
+    if (typeof v === "string") return v;
+    if (typeof v === "object") return v.name ?? v.text ?? null;
+    return String(v);
+  }
+
+  // POST /admin/sites/:id/timeline/delete-entry  { track, index, expectedName? }
+  app.post<{
+    Params: { id: string };
+    Body: { track?: string; index?: number; expectedName?: string };
+  }>("/admin/sites/:id/timeline/delete-entry", async (req, reply) => {
+    const sql = getSql();
+    const { track, index, expectedName } = req.body ?? {};
+    if (typeof track !== "string" || typeof index !== "number")
+      return reply.status(400).send({ error: "track and index are required" });
+
+    const tl = await loadTimeline(sql, req.params.id);
+    if (!tl) return reply.status(404).send({ error: "No timeline" });
+
+    const arr = entryArray(tl, track);
+    if (!arr || index < 0 || index >= arr.length)
+      return reply.status(400).send({ error: "Entry not found at that index" });
+    if (expectedName != null && entryName(arr[index], track) !== expectedName)
+      return reply
+        .status(409)
+        .send({ error: "Timeline changed; refresh and retry" });
+
+    arr.splice(index, 1);
+    await sql`UPDATE sites SET timeline = ${sql.json(tl)}, last_updated = now() WHERE id = ${req.params.id}`;
+    return reply.send({ ok: true, track, index });
+  });
+
+  // POST /admin/sites/:id/timeline/set-qid  { track, index, qid, expectedName? }
+  app.post<{
+    Params: { id: string };
+    Body: {
+      track?: string;
+      index?: number;
+      qid?: string;
+      expectedName?: string;
+    };
+  }>("/admin/sites/:id/timeline/set-qid", async (req, reply) => {
+    const sql = getSql();
+    const { track, index, qid, expectedName } = req.body ?? {};
+    if (typeof track !== "string" || typeof index !== "number")
+      return reply.status(400).send({ error: "track and index are required" });
+    if (!qid || !/^Q\d+$/.test(qid))
+      return reply.status(400).send({ error: "A valid QID is required" });
+    if (!QID_TRACKS.includes(track))
+      return reply
+        .status(400)
+        .send({ error: `Track ${track} has no QID slot` });
+
+    const tl = await loadTimeline(sql, req.params.id);
+    if (!tl) return reply.status(404).send({ error: "No timeline" });
+
+    const arr = entryArray(tl, track);
+    if (!arr || index < 0 || index >= arr.length)
+      return reply.status(400).send({ error: "Entry not found at that index" });
+    const v = arr[index]?.value;
+    if (!v || typeof v !== "object")
+      return reply.status(400).send({ error: "Entry has no value object" });
+    if (expectedName != null && (v.name ?? null) !== expectedName)
+      return reply
+        .status(409)
+        .send({ error: "Timeline changed; refresh and retry" });
+
+    v.wikidata = qid;
+    await sql`UPDATE sites SET timeline = ${sql.json(tl)}, last_updated = now() WHERE id = ${req.params.id}`;
+    return reply.send({ ok: true, track, index, qid });
+  });
 };

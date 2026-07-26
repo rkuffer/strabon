@@ -1,0 +1,185 @@
+<div class="page-header">
+  <h1>Attributions par entité</h1>
+  <p class="subtitle">
+    <%= it.totals.entities %> entité(s) · <%= it.totals.sites %> site(s) attribué(s) ·
+    <strong><%= it.totals.queueable %></strong> à mettre en file d'extraction
+  </p>
+</div>
+
+<!-- Filters -->
+<form class="filter-bar" method="get" action="/admin/attributions">
+  <input type="search" name="q" class="input-search" placeholder="Nom d'entité…" value="<%= it.q || '' %>" />
+  <% if (it.kinds.length > 1) { %>
+  <select name="kind" class="input-select">
+    <option value="all">Tous les kinds</option>
+    <% for (const k of it.kinds) { %>
+      <option value="<%= k %>" <%= it.kind === k ? 'selected' : '' %>><%= k %></option>
+    <% } %>
+  </select>
+  <% } %>
+  <label class="chk">
+    <input type="checkbox" name="hide_done" value="1" <%= it.hideDone ? 'checked' : '' %> onchange="this.form.submit()" />
+    Masquer les entités sans site à extraire
+  </label>
+  <button type="submit" class="btn btn-sm">Filtrer</button>
+</form>
+
+<% if (it.entities.length) { %>
+<div class="attr-toolbar">
+  <button type="button" class="btn btn-xs" onclick="collapseAll(true)">Tout replier</button>
+  <button type="button" class="btn btn-xs" onclick="collapseAll(false)">Tout déplier</button>
+</div>
+<% } %>
+
+<% if (!it.entities.length) { %>
+  <div class="empty">Aucune attribution.</div>
+<% } %>
+
+<% for (const e of it.entities) { %>
+<div class="ent-block" data-qid="<%= e.qid %>">
+  <div class="ent-head">
+    <div class="ent-title">
+      <span class="ent-toggle">▼</span>
+      <span class="ent-label"><%= e.label %></span>
+      <a href="https://www.wikidata.org/wiki/<%= e.qid %>" target="_blank" rel="noopener" class="wd-id"><%= e.qid %> ↗</a>
+      <span class="ent-kind"><%= e.kind %></span>
+      <% if (!e.active) { %><span class="ent-inactive">inactive</span><% } %>
+      <% if (e.dates) { %><span class="ent-dates"><%= e.dates %></span><% } %>
+    </div>
+    <div class="ent-actions">
+      <span class="ent-counts">
+        <%= e.sites.length %> site(s) ·
+        <span class="c-extr"><%= e.nExtracted %> extr.</span> ·
+        <span class="c-queued"><%= e.nQueued %> queued</span> ·
+        <span class="c-idx"><%= e.nIndexed %> à extraire</span>
+      </span>
+      <% if (e.nIndexed > 0) { %>
+        <button type="button" class="btn btn-sm btn-queue-all" onclick="queueEntity(this)">Tout mettre en file (<span class="qa-n"><%= e.nIndexed %></span>)</button>
+      <% } %>
+    </div>
+  </div>
+  <table class="data-table data-table--compact ent-table">
+    <tbody>
+      <% for (const s of e.sites) { %>
+      <tr data-site-id="<%= s.id %>" data-level="<%= s.level %>">
+        <td class="s-title"><a href="/admin/sites/<%= s.id %>" target="_blank"><%= s.title || s.id %></a></td>
+        <td class="s-imp"><% if (s.importance != null) { %><span class="importance-badge"><%= s.importance %></span><% } %></td>
+        <td class="s-level"><span class="badge badge--level badge--<%= s.level %>"><%= s.level %></span></td>
+        <td class="s-act">
+          <% if (s.level === 'indexed') { %>
+            <button type="button" class="btn btn-xs btn-queue" onclick="queueSite(this)">Mettre en file</button>
+          <% } %>
+        </td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+<% } %>
+
+<style>
+  .ent-block   { margin-bottom:22px; border:1px solid var(--border); border-radius:5px; overflow:hidden; }
+  .ent-head    { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; padding:10px 14px; background:color-mix(in srgb, var(--muted) 8%, transparent); border-bottom:1px solid var(--border); cursor:pointer; }
+  .ent-block.collapsed .ent-head { border-bottom:none; }
+  .ent-toggle  { display:inline-block; width:12px; font-size:9px; color:var(--muted); transition:transform .12s; }
+  .ent-block.collapsed .ent-toggle { transform:rotate(-90deg); }
+  .ent-block.collapsed .ent-table { display:none; }
+  .attr-toolbar{ display:flex; gap:8px; margin-bottom:14px; }
+  .ent-title   { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+  .ent-label   { font-weight:600; font-size:14px; }
+  .ent-kind    { font-size:10px; text-transform:uppercase; letter-spacing:.05em; padding:1px 6px; border:1px solid var(--border); border-radius:3px; color:var(--muted); }
+  .ent-inactive{ font-size:10px; padding:1px 6px; border-radius:3px; color:#b8926a; border:1px solid rgba(184,146,106,.45); }
+  .ent-dates   { font-size:12px; color:var(--muted); font-variant-numeric:tabular-nums; }
+  .ent-actions { display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  .ent-counts  { font-size:12px; color:var(--muted); }
+  .c-extr      { color:#7eb8a0; }
+  .c-queued    { color:var(--accent, #c9a84c); }
+  .c-idx       { color:var(--text); font-weight:600; }
+  .ent-table   { width:100%; margin:0; }
+  .ent-table td{ padding:5px 14px; font-size:12px; border-bottom:1px solid color-mix(in srgb, var(--border) 60%, transparent); }
+  .ent-table tr:last-child td { border-bottom:none; }
+  .s-imp       { width:60px; }
+  .s-level     { width:110px; }
+  .s-act       { width:140px; text-align:right; }
+  tr[data-level="queued"] .s-title a { opacity:.7; }
+  .btn-xs      { font-size:11px; padding:2px 9px; }
+  .btn-queue   { background:transparent; border:1px solid var(--border); color:var(--muted); border-radius:3px; cursor:pointer; }
+  .btn-queue:hover { color:var(--text); border-color:var(--text); }
+  .empty       { padding:30px; text-align:center; color:var(--muted); }
+</style>
+
+<script>
+  async function postQueue(ids) {
+    const res = await fetch('/admin/curation/queue', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ site_ids: ids }),
+    });
+    if (!res.ok) throw new Error('Erreur serveur');
+    return res.json(); // { updated, ids }
+  }
+
+  function markQueued(tr) {
+    tr.dataset.level = 'queued';
+    var badge = tr.querySelector('.s-level .badge');
+    if (badge) { badge.className = 'badge badge--level badge--queued'; badge.textContent = 'queued'; }
+    var act = tr.querySelector('.s-act');
+    if (act) act.innerHTML = '';
+  }
+
+  function refreshBlock(block) {
+    if (!block) return;
+    var remaining = block.querySelectorAll('tr[data-level="indexed"]').length;
+    var idx = block.querySelector('.c-idx');
+    if (idx) idx.textContent = remaining + ' à extraire';
+    var qa = block.querySelector('.btn-queue-all');
+    if (qa) {
+      if (remaining === 0) qa.remove();
+      else { var n = qa.querySelector('.qa-n'); if (n) n.textContent = remaining; }
+    }
+  }
+
+  async function queueSite(btn) {
+    var tr = btn.closest('tr');
+    var block = btn.closest('.ent-block');
+    btn.disabled = true; btn.textContent = '…';
+    try {
+      var d = await postQueue([tr.dataset.siteId]);
+      if (d.updated > 0) markQueued(tr);
+      else { btn.disabled = false; btn.textContent = 'Mettre en file'; }
+      refreshBlock(block);
+    } catch (e) {
+      alert('Erreur : ' + e.message);
+      btn.disabled = false; btn.textContent = 'Mettre en file';
+    }
+  }
+
+  async function queueEntity(btn) {
+    var block = btn.closest('.ent-block');
+    var rows = [].slice.call(block.querySelectorAll('tr[data-level="indexed"]'));
+    var ids = rows.map(function (r) { return r.dataset.siteId; });
+    if (!ids.length) return;
+    if (!confirm('Mettre ' + ids.length + ' site(s) en file d\u2019extraction ?')) return;
+    btn.disabled = true; btn.textContent = 'Envoi…';
+    try {
+      await postQueue(ids);
+      rows.forEach(markQueued);
+      refreshBlock(block);
+    } catch (e) {
+      alert('Erreur : ' + e.message);
+      btn.disabled = false; btn.textContent = 'Tout mettre en file (' + ids.length + ')';
+    }
+  }
+  // Collapse / expand entity blocks. The whole header toggles, except clicks on
+  // its buttons or links (queue actions, Wikidata link) which must not fold.
+  document.addEventListener('click', function (ev) {
+    var head = ev.target.closest && ev.target.closest('.ent-head');
+    if (!head) return;
+    if (ev.target.closest('button') || ev.target.closest('a')) return;
+    head.parentElement.classList.toggle('collapsed');
+  });
+  function collapseAll(state) {
+    document.querySelectorAll('.ent-block').forEach(function (b) {
+      b.classList.toggle('collapsed', state);
+    });
+  }
+</script>

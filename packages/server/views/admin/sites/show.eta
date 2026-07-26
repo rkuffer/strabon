@@ -31,6 +31,20 @@ const TRACK_KEYS = ['site_type','polity','culture','religion','language','name',
 // These two carry a `role` qualifier (state / major / minor / minority).
 const ROLE_TRACKS = ['religion','language'];
 
+// These four carry a {name, wikidata} value — the QID is editable via the modal.
+const QID_TRACKS = ['polity','culture','religion','language'];
+
+// Best-effort display name for an entry, used as the staleness guard (must match
+// the server's entryName()).
+function entryDisplayName(e) {
+  var v = e && e.value;
+  if (v == null) return '';
+  if (typeof v === 'string') return v;
+  if (typeof v === 'number') return String(v);
+  if (typeof v === 'object') return v.name || v.text || '';
+  return String(v);
+}
+
 const missing = Array.isArray(tl && tl.missing_entities) ? tl.missing_entities : [];
 %>
 
@@ -206,6 +220,7 @@ const missing = Array.isArray(tl && tl.missing_entities) ? tl.missing_entities :
           <% if (hasRole) { %><th>Rôle</th><% } %>
           <th>Confiance</th>
           <th>Notes</th>
+          <th class="col-act"></th>
         </tr>
       </thead>
       <tbody>
@@ -215,7 +230,16 @@ const missing = Array.isArray(tl && tl.missing_entities) ? tl.missing_entities :
           <% if (trackKey === 'site_type') { %>
             <td><% if (e.to != null) { %><code class="hiatus"><%= fmtYear(e.to) %></code><% } else { %>—<% } %></td>
           <% } %>
-          <td><%~ toDisplayStr(e.value) %></td>
+          <td>
+            <% if (QID_TRACKS.indexOf(trackKey) !== -1 && e.value && typeof e.value === 'object' && e.value.name) { %>
+              <span class="qid-edit<%= e.value.wikidata ? '' : ' qid-edit--empty' %>"
+                    data-track="<%= trackKey %>" data-index="<%= ei %>"
+                    data-name="<%= e.value.name %>" data-qid="<%= e.value.wikidata || '' %>"
+                    title="Cliquer pour attribuer / ré-attribuer le QID"><%= e.value.name %><% if (e.value.wikidata) { %> <span class="wd-id"><%= e.value.wikidata %></span><% } else { %> <span class="no-qid">no QID</span><% } %></span>
+            <% } else { %>
+              <%~ toDisplayStr(e.value) %>
+            <% } %>
+          </td>
           <% if (hasRole) { %>
             <td>
               <% if (e.role) { %>
@@ -229,6 +253,11 @@ const missing = Array.isArray(tl && tl.missing_entities) ? tl.missing_entities :
             <% } else { %>—<% } %>
           </td>
           <td class="text-muted cell-notes"><%= e.notes || '' %></td>
+          <td class="col-act">
+            <button type="button" class="entry-del" title="Supprimer cette entrée"
+                    data-track="<%= trackKey %>" data-index="<%= ei %>"
+                    data-name="<%= entryDisplayName(e) %>">✕</button>
+          </td>
         </tr>
         <% } %>
       </tbody>
@@ -240,7 +269,7 @@ const missing = Array.isArray(tl && tl.missing_entities) ? tl.missing_entities :
   <div class="track-block">
     <h3 class="track-title">EVENTS <span class="text-muted">(<%= tl.events.length %> événements)</span></h3>
     <table class="data-table data-table--compact">
-      <thead><tr><th>Année</th><th>Type</th><th>Cause</th><th>Auteur</th><th>Description</th></tr></thead>
+      <thead><tr><th>Année</th><th>Type</th><th>Cause</th><th>Auteur</th><th>Description</th><th class="col-act"></th></tr></thead>
       <tbody>
         <% for (var evi = 0; evi < tl.events.length; evi++) { var ev = tl.events[evi]; %>
         <tr>
@@ -254,6 +283,11 @@ const missing = Array.isArray(tl && tl.missing_entities) ? tl.missing_entities :
             <% } %>
           </td>
           <td class="text-muted cell-notes"><%= ev.description || '' %></td>
+          <td class="col-act">
+            <button type="button" class="entry-del" title="Supprimer cet événement"
+                    data-track="events" data-index="<%= evi %>"
+                    data-name="<%= ev.type || '' %>">✕</button>
+          </td>
         </tr>
         <% } %>
       </tbody>
@@ -270,6 +304,35 @@ const missing = Array.isArray(tl && tl.missing_entities) ? tl.missing_entities :
   </h2>
   <div id="json-raw" style="display:none">
     <pre class="json-pre"><%= JSON.stringify(it.site, function(k, v) { return typeof v === 'bigint' ? v.toString() : v; }, 2) %></pre>
+  </div>
+</div>
+
+<!-- ── QID edit modal ── -->
+<div id="qid-modal" class="modal-overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <span id="qid-modal-title">Attribuer un QID</span>
+      <button type="button" class="modal-close" id="qid-modal-close" title="Fermer">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="qid-modal-current" class="modal-current"></div>
+
+      <label class="modal-label">Rechercher dans nos entities</label>
+      <input type="text" id="qid-search-ours" class="modal-input" placeholder="ex. Hatti…" autocomplete="off" />
+      <div id="qid-results-ours" class="modal-results"></div>
+
+      <label class="modal-label">Rechercher sur Wikidata</label>
+      <input type="text" id="qid-search-wd" class="modal-input" placeholder="ex. Hittite Empire…" autocomplete="off" />
+      <div id="qid-results-wd" class="modal-results"></div>
+
+      <div class="modal-selected" id="qid-selected" hidden>
+        Sélectionné : <span id="qid-selected-val"></span>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button type="button" class="btn btn-ghost" id="qid-cancel">Annuler</button>
+      <button type="button" class="btn btn-primary" id="qid-assign" disabled>Attribuer</button>
+    </div>
   </div>
 </div>
 
@@ -321,6 +384,40 @@ const missing = Array.isArray(tl && tl.missing_entities) ? tl.missing_entities :
 
 .hint             { font-size:11px; color:var(--muted); margin-top:8px; }
 .json-pre         { background:var(--bg); padding:14px; border-radius:2px; font-size:11px; font-family:'JetBrains Mono',monospace; overflow-x:auto; color:var(--muted); border:1px solid var(--border); max-height:400px; overflow-y:auto; }
+
+/* ── Timeline editing ── */
+.col-act          { width:28px; text-align:center; }
+.entry-del        { background:transparent; border:1px solid transparent; color:var(--muted); cursor:pointer; font-size:12px; line-height:1; padding:2px 5px; border-radius:3px; opacity:.5; }
+.entry-del:hover  { opacity:1; color:#e06a5a; border-color:rgba(224,106,90,.4); }
+.qid-edit         { cursor:pointer; border-bottom:1px dashed transparent; }
+.qid-edit:hover   { border-bottom-color:var(--accent2); }
+.qid-edit--empty  { }
+.qid-edit--empty:hover { background:color-mix(in srgb,#c07060 12%,transparent); border-radius:2px; }
+
+/* ── Modal ── */
+.modal-overlay    { position:fixed; inset:0; background:rgba(0,0,0,.55); display:flex; align-items:flex-start; justify-content:center; padding-top:8vh; z-index:1000; }
+.modal-overlay[hidden] { display:none; }
+.modal            { background:var(--bg,#111); border:1px solid var(--border); border-radius:6px; width:min(560px,92vw); max-height:80vh; display:flex; flex-direction:column; box-shadow:0 12px 40px rgba(0,0,0,.5); }
+.modal-head       { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid var(--border); font-size:13px; font-weight:600; }
+.modal-close      { background:transparent; border:none; color:var(--muted); cursor:pointer; font-size:15px; }
+.modal-close:hover { color:var(--text); }
+.modal-body       { padding:14px 16px; overflow-y:auto; }
+.modal-current    { font-size:12px; color:var(--muted); margin-bottom:12px; padding:8px 10px; background:var(--bg2,rgba(127,127,127,.06)); border-radius:4px; }
+.modal-current .cur-name { color:var(--text); font-weight:600; }
+.modal-label      { display:block; font-size:10px; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin:12px 0 4px; }
+.modal-input      { width:100%; box-sizing:border-box; padding:7px 9px; font-size:13px; font-family:inherit; background:var(--surface,transparent); color:var(--text); border:1px solid var(--border); border-radius:3px; }
+.modal-input:focus { outline:none; border-color:var(--accent2); }
+.modal-results    { margin-top:4px; border:1px solid var(--border); border-radius:3px; max-height:190px; overflow-y:auto; display:none; }
+.modal-results.show { display:block; }
+.mr-hit           { padding:6px 9px; font-size:12px; border-bottom:1px solid var(--border); display:flex; align-items:baseline; gap:8px; }
+.mr-hit:last-child { border-bottom:none; }
+.mr-hit-label     { font-weight:600; }
+.mr-hit-kind      { font-size:10px; padding:0 5px; border:1px solid var(--border); border-radius:3px; color:var(--muted); }
+.mr-hit-desc      { color:var(--muted); font-size:11px; flex:1; }
+.mr-hit-pick      { margin-left:auto; font-size:11px; padding:2px 8px; background:transparent; border:1px solid var(--border); color:var(--muted); border-radius:3px; cursor:pointer; }
+.mr-hit-pick:hover { color:var(--text); border-color:var(--text); }
+.modal-selected   { margin-top:12px; font-size:12px; color:var(--text); padding:8px 10px; background:color-mix(in srgb,#6366f1 12%,transparent); border-radius:4px; }
+.modal-foot       { display:flex; justify-content:flex-end; gap:8px; padding:12px 16px; border-top:1px solid var(--border); }
 </style>
 
 <script>
@@ -330,4 +427,134 @@ function toggleJson() {
   if (el.style.display === 'none') { el.style.display='block'; icon.textContent='▼'; }
   else { el.style.display='none'; icon.textContent='▶'; }
 }
+
+// ── Timeline editing ────────────────────────────────────────────────────────
+(function () {
+  // The server routes on /admin/sites/:id — the last path segment IS that id,
+  // whatever column it maps to. Deriving it from the URL avoids any mismatch.
+  var SITE_ID = decodeURIComponent(location.pathname.split('/').filter(Boolean).pop());
+  var WD = 'https://www.wikidata.org/w/api.php';
+
+  function debounce(fn, ms) { var t; return function () { var a = arguments, c = this; clearTimeout(t); t = setTimeout(function () { fn.apply(c, a); }, ms); }; }
+  function esc(s) { return (s == null ? '' : String(s)).replace(/[&<>"]/g, function (m) { return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' })[m]; }); }
+  function wdLink(qid) { return '<a href="https://www.wikidata.org/wiki/' + qid + '" target="_blank" rel="noopener" class="wd-id">' + qid + ' ↗</a>'; }
+
+  // ── Delete an entry ──
+  document.addEventListener('click', function (ev) {
+    var btn = ev.target.closest && ev.target.closest('.entry-del');
+    if (!btn) return;
+    var track = btn.dataset.track, index = btn.dataset.index, name = btn.dataset.name || '';
+    if (!confirm('Supprimer cette entrée ?\n\n' + track + ' — ' + name)) return;
+    btn.disabled = true;
+    fetch('/admin/sites/' + encodeURIComponent(SITE_ID) + '/timeline/delete-entry', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ track: track, index: Number(index), expectedName: name }),
+    }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (res) { if (!res.ok) throw new Error(res.d.error || 'Erreur serveur'); window.location.reload(); })
+      .catch(function (e) { alert('Erreur : ' + e.message); btn.disabled = false; });
+  });
+
+  // ── QID modal ──
+  var modal = document.getElementById('qid-modal');
+  var elTitle = document.getElementById('qid-modal-title');
+  var elCurrent = document.getElementById('qid-modal-current');
+  var inOurs = document.getElementById('qid-search-ours');
+  var inWd = document.getElementById('qid-search-wd');
+  var resOurs = document.getElementById('qid-results-ours');
+  var resWd = document.getElementById('qid-results-wd');
+  var elSel = document.getElementById('qid-selected');
+  var elSelVal = document.getElementById('qid-selected-val');
+  var btnAssign = document.getElementById('qid-assign');
+
+  var editing = null;   // { track, index, name, qid }
+  var selected = null;  // chosen QID
+
+  function setSelected(qid) {
+    selected = /^Q\d+$/.test(qid) ? qid : null;
+    if (selected) { elSel.hidden = false; elSelVal.innerHTML = wdLink(selected); btnAssign.disabled = false; }
+    else { elSel.hidden = true; btnAssign.disabled = true; }
+  }
+
+  function pickBtn(qid) { return '<button type="button" class="mr-hit-pick" data-qid="' + qid + '">Choisir</button>'; }
+
+  function openModal(span) {
+    editing = { track: span.dataset.track, index: Number(span.dataset.index), name: span.dataset.name || '', qid: span.dataset.qid || '' };
+    elTitle.textContent = (editing.qid ? 'Ré-attribuer le QID' : 'Attribuer un QID') + ' — ' + editing.track;
+    var cur = '<span class="cur-name">' + esc(editing.name) + '</span>';
+    cur += editing.qid ? ' — actuel : ' + wdLink(editing.qid) : ' — <span class="no-qid">no QID</span>';
+    elCurrent.innerHTML = cur;
+    inOurs.value = editing.name; inWd.value = editing.name;
+    resOurs.classList.remove('show'); resWd.classList.remove('show');
+    resOurs.innerHTML = ''; resWd.innerHTML = '';
+    setSelected('');
+    btnAssign.textContent = 'Attribuer';
+    modal.hidden = false;
+    runOurs(); runWd();
+    inOurs.focus();
+  }
+  function closeModal() { modal.hidden = true; editing = null; }
+
+  var runOurs = debounce(function () {
+    var q = inOurs.value.trim();
+    if (q.length < 2 || !editing) { resOurs.classList.remove('show'); return; }
+    fetch('/admin/gaps/search-entities?' + new URLSearchParams({ q: q, kind: editing.track }))
+      .then(function (r) { return r.ok ? r.json() : { results: [] }; })
+      .then(function (data) {
+        var rows = data.results || [];
+        if (!rows.length) { resOurs.innerHTML = '<div class="mr-hit"><span class="mr-hit-desc">Aucun résultat dans nos entities</span></div>'; resOurs.classList.add('show'); return; }
+        resOurs.innerHTML = rows.map(function (e) {
+          return '<div class="mr-hit"><span class="mr-hit-label">' + esc(e.label_en) + '</span>' +
+                 '<span class="mr-hit-kind">' + esc(e.kind) + '</span>' + wdLink(e.qid) +
+                 '<span class="mr-hit-desc">' + esc(e.description_en || '') + '</span>' + pickBtn(e.qid) + '</div>';
+        }).join('');
+        resOurs.classList.add('show');
+      }).catch(function () { resOurs.classList.remove('show'); });
+  }, 260);
+
+  async function wdSearch(q) {
+    var url = WD + '?' + new URLSearchParams({ action:'wbsearchentities', format:'json', language:'en', uselang:'en', type:'item', limit:'7', search:q, origin:'*' });
+    var r = await fetch(url); if (!r.ok) return []; return (await r.json()).search || [];
+  }
+
+  var runWd = debounce(function () {
+    var q = inWd.value.trim();
+    if (q.length < 2 || !editing) { resWd.classList.remove('show'); return; }
+    wdSearch(q).then(function (hits) {
+      if (!hits.length) { resWd.classList.remove('show'); return; }
+      resWd.innerHTML = hits.map(function (h) {
+        return '<div class="mr-hit"><span class="mr-hit-label">' + esc(h.label || '') + '</span>' + wdLink(h.id) +
+               '<span class="mr-hit-desc">' + esc(h.description || '') + '</span>' + pickBtn(h.id) + '</div>';
+      }).join('');
+      resWd.classList.add('show');
+    }).catch(function () { resWd.classList.remove('show'); });
+  }, 280);
+
+  document.addEventListener('click', function (ev) {
+    var span = ev.target.closest && ev.target.closest('.qid-edit');
+    if (span) { ev.preventDefault(); openModal(span); }
+  });
+  [resOurs, resWd].forEach(function (box) {
+    box.addEventListener('click', function (ev) {
+      var pick = ev.target.closest('.mr-hit-pick');
+      if (pick) setSelected(pick.dataset.qid);
+    });
+  });
+  inOurs.addEventListener('input', runOurs);
+  inWd.addEventListener('input', runWd);
+  document.getElementById('qid-modal-close').addEventListener('click', closeModal);
+  document.getElementById('qid-cancel').addEventListener('click', closeModal);
+  modal.addEventListener('click', function (ev) { if (ev.target === modal) closeModal(); });
+  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && !modal.hidden) closeModal(); });
+
+  btnAssign.addEventListener('click', function () {
+    if (!editing || !selected) return;
+    btnAssign.disabled = true; btnAssign.textContent = 'Attribution…';
+    fetch('/admin/sites/' + encodeURIComponent(SITE_ID) + '/timeline/set-qid', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ track: editing.track, index: editing.index, qid: selected, expectedName: editing.name }),
+    }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (res) { if (!res.ok) throw new Error(res.d.error || 'Erreur serveur'); window.location.reload(); })
+      .catch(function (e) { alert('Erreur : ' + e.message); btnAssign.disabled = false; btnAssign.textContent = 'Attribuer'; });
+  });
+})();
 </script>

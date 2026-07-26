@@ -27,6 +27,7 @@
         <li><a href="/admin/bounds" class="nav-item">Bounds</a></li>
         <li class="nav-sep"></li>
         <li><a href="/admin/entities"     class="nav-item">Entities</a></li>
+        <li><a href="/admin/attributions" class="nav-item">Attributions</a></li>
         <li class="nav-sep"></li>
         <li><a href="/" target="_blank"   class="nav-item nav-item--external">Carte ↗</a></li>
       </ul>

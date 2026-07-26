@@ -7,6 +7,7 @@ import { adminCurationRoutes } from "./curation.js";
 import { adminGapsRoutes } from "./gaps.js";
 import { adminEntitiesRoutes } from "./entities.js";
 import { adminBoundsRoutes } from "./bounds.js";
+import { adminAttributionsRoutes } from "./attributions.js";
 
 export const adminRoutes: FastifyPluginAsync = async (app) => {
   await app.register(adminDashboardRoutes);
@@ -16,4 +17,5 @@ export const adminRoutes: FastifyPluginAsync = async (app) => {
   await app.register(adminGapsRoutes);
   await app.register(adminEntitiesRoutes);
   await app.register(adminBoundsRoutes);
+  await app.register(adminAttributionsRoutes);
 };
