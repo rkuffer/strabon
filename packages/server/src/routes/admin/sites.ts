@@ -1,6 +1,12 @@
 // packages/server/src/routes/admin/sites.ts
 import type { FastifyPluginAsync } from "fastify";
-import { getSql, getSiteById } from "@strabon/db";
+import {
+  getSql,
+  getSiteById,
+  loadEntityBounds,
+  recordBoundsConflicts,
+} from "@strabon/db";
+import { applyEntityBounds } from "@strabon/shared";
 
 export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
   // GET /admin/sites — liste avec filtres
@@ -124,6 +130,27 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
     return Array.isArray(arr) ? arr : null;
   }
 
+  // Recompute this site's bound conflicts after a manual edit and rewrite its
+  // bounds_conflicts rows — otherwise /admin/bounds keeps showing a conflict the
+  // curator has just fixed here (that table is only otherwise refreshed at
+  // extraction / bounds-sync time). recordBoundsConflicts deletes the site's rows
+  // and re-inserts only the ones that still hold, so a corrected/deleted/reassigned
+  // entry drops out. Conflicts-only: we deliberately do NOT write back the cuts
+  // applyEntityBounds would apply, to avoid silently re-trimming a date the curator
+  // just set. Non-fatal — the edit itself already succeeded.
+  async function refreshBoundsConflicts(
+    siteId: string,
+    tl: any,
+  ): Promise<void> {
+    try {
+      const bounds = await loadEntityBounds();
+      const { conflicts } = applyEntityBounds(tl, bounds);
+      await recordBoundsConflicts(siteId, conflicts);
+    } catch (err) {
+      app.log.warn({ err, siteId }, "refreshBoundsConflicts failed");
+    }
+  }
+
   function entryName(entry: any, track: string): string | null {
     if (track === "events") return entry?.type ?? null;
     const v = entry?.value;
@@ -201,6 +228,7 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
 
     arr.splice(index, 1);
     await sql`UPDATE sites SET timeline = ${sql.json(tl)}, last_updated = now() WHERE id = ${req.params.id}`;
+    await refreshBoundsConflicts(req.params.id, tl);
     return reply.send({ ok: true, track, index });
   });
 
@@ -264,6 +292,7 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
     if (drErr) return reply.status(400).send({ error: drErr });
 
     await sql`UPDATE sites SET timeline = ${sql.json(tl)}, last_updated = now() WHERE id = ${req.params.id}`;
+    await refreshBoundsConflicts(req.params.id, tl);
     return reply.send({
       ok: true,
       track,
@@ -326,6 +355,7 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
     tl[track].entries.sort((a: any, b: any) => (a.from ?? 0) - (b.from ?? 0));
 
     await sql`UPDATE sites SET timeline = ${sql.json(tl)}, last_updated = now() WHERE id = ${req.params.id}`;
+    await refreshBoundsConflicts(req.params.id, tl);
     return reply.send({ ok: true, track, name, from: entry.from });
   });
 };
