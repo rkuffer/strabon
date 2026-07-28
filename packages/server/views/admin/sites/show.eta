@@ -235,17 +235,24 @@ const missing = Array.isArray(tl && tl.missing_entities) ? tl.missing_entities :
             <td><% if (e.to != null) { %><code class="hiatus"><%= fmtYear(e.to) %></code><% } else { %>—<% } %></td>
           <% } %>
           <td>
-            <% if (QID_TRACKS.indexOf(trackKey) !== -1 && e.value && typeof e.value === 'object' && e.value.name) { %>
-              <span class="qid-edit<%= e.value.wikidata ? '' : ' qid-edit--empty' %>"
+            <%
+              var refName = null, refQid = '';
+              if (QID_TRACKS.indexOf(trackKey) !== -1) {
+                if (e.value && typeof e.value === 'object' && e.value.name) { refName = e.value.name; refQid = e.value.wikidata || ''; }
+                else if (typeof e.value === 'string' && e.value) { refName = e.value; refQid = e.wikidata || ''; }
+              }
+            %>
+            <% if (refName) { %>
+              <span class="qid-edit<%= refQid ? '' : ' qid-edit--empty' %>"
                     data-track="<%= trackKey %>" data-index="<%= ei %>"
-                    data-name="<%= e.value.name %>" data-qid="<%= e.value.wikidata || '' %>"
+                    data-name="<%= refName %>" data-qid="<%= refQid %>"
                     data-notes="<%= e.notes || '' %>"
                     data-from="<%= e.from != null ? e.from : '' %>"
                     data-to="<%= e.to != null ? e.to : '' %>"
                     data-fromprec="<%= e.from_precision != null ? e.from_precision : '' %>"
                     data-fromcirca="<%= e.from_circa ? '1' : '' %>"
                     data-role="<%= e.role || '' %>"
-                    title="Cliquer pour éditer l'entrée"><%= e.value.name %><% if (e.value.wikidata) { %> <span class="wd-id"><%= e.value.wikidata %></span><% } else { %> <span class="no-qid">no QID</span><% } %></span>
+                    title="Cliquer pour éditer l'entrée"><%= refName %><% if (refQid) { %> <span class="wd-id"><%= refQid %></span><% } else { %> <span class="no-qid">no QID</span><% } %></span>
             <% } else { %>
               <%~ toDisplayStr(e.value) %>
             <% } %>

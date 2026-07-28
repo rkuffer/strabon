@@ -272,17 +272,37 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
     if (!arr || index < 0 || index >= arr.length)
       return reply.status(400).send({ error: "Entry not found at that index" });
     const entry = arr[index];
-    const v = entry?.value;
-    if (!v || typeof v !== "object")
-      return reply.status(400).send({ error: "Entry has no value object" });
-    if (expectedName != null && (v.name ?? null) !== expectedName)
+
+    // Accept both value shapes: the canonical {name, wikidata?} AND the legacy
+    // one where value is a bare string with wikidata as a SIBLING field (some
+    // older culture/polity extractions). Editing canonicalises to {name,
+    // wikidata?} and drops the sibling.
+    let curName: string | null;
+    let curQid: string | undefined;
+    if (entry?.value && typeof entry.value === "object") {
+      curName = entry.value.name ?? null;
+      curQid = entry.value.wikidata;
+    } else if (typeof entry?.value === "string") {
+      curName = entry.value;
+      curQid = typeof entry.wikidata === "string" ? entry.wikidata : undefined;
+    } else {
+      return reply.status(400).send({ error: "Entry has no value" });
+    }
+    if (expectedName != null && curName !== expectedName)
       return reply
         .status(409)
         .send({ error: "Timeline changed; refresh and retry" });
 
-    if (qid) v.wikidata = qid;
-    if (typeof newName === "string" && newName.trim())
-      v.name = newName.trim().slice(0, 200);
+    const finalName =
+      typeof newName === "string" && newName.trim()
+        ? newName.trim().slice(0, 200)
+        : (curName ?? "");
+    const finalQid = qid || curQid;
+    entry.value = finalQid
+      ? { name: finalName, wikidata: finalQid }
+      : { name: finalName };
+    if ("wikidata" in entry) delete entry.wikidata; // drop legacy sibling
+
     if (typeof notes === "string") {
       const t = notes.trim().slice(0, 2000);
       if (t) entry.notes = t;
@@ -297,8 +317,8 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
       ok: true,
       track,
       index,
-      qid: v.wikidata ?? null,
-      name: v.name,
+      qid: entry.value.wikidata ?? null,
+      name: entry.value.name,
       notes: entry.notes ?? null,
     });
   });
