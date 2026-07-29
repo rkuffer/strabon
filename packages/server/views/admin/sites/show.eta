@@ -353,6 +353,20 @@ const missing = Array.isArray(tl && tl.missing_entities) ? tl.missing_entities :
 
       <div class="modal-selected" id="qid-selected" hidden>Sélectionné : <span id="qid-selected-val"></span></div>
 
+      <div id="qid-ingest" class="ingest-block" hidden>
+        <label class="ingest-row">
+          <input type="checkbox" id="qid-ingest-check" />
+          <span>Ajouter au référentiel comme</span>
+          <select id="qid-ingest-kind" class="modal-input ingest-kind">
+            <option value="polity">polity</option>
+            <option value="culture">culture</option>
+            <option value="religion">religion</option>
+            <option value="language">language</option>
+          </select>
+        </label>
+        <div id="qid-ingest-note" class="ingest-note"></div>
+      </div>
+
       <div class="date-grid">
         <div>
           <label class="modal-label">Début (négatif = BC)</label>
@@ -479,6 +493,10 @@ const missing = Array.isArray(tl && tl.missing_entities) ? tl.missing_entities :
 .lbl-use          { flex:0 0 auto; font-size:11px; padding:3px 9px; background:transparent; border:1px solid var(--border); color:var(--muted); border-radius:3px; cursor:pointer; white-space:nowrap; }
 .lbl-use:hover    { color:var(--text); border-color:var(--text); }
 .modal-textarea   { resize:vertical; min-height:52px; font-family:inherit; line-height:1.4; }
+.ingest-block     { margin-top:8px; padding:9px 11px; border:1px solid var(--border); border-radius:4px; background:color-mix(in srgb, var(--accent2,#8a7) 8%, transparent); }
+.ingest-row       { display:flex; align-items:center; gap:8px; font-size:12px; cursor:pointer; }
+.ingest-kind      { width:auto; padding:3px 6px; font-size:12px; }
+.ingest-note      { font-size:11px; color:var(--muted); margin-top:5px; line-height:1.4; }
 .modal-context    { font-size:12px; color:var(--muted); margin-bottom:14px; padding:9px 11px; background:var(--bg2,rgba(127,127,127,.06)); border-radius:4px; line-height:1.5; }
 .modal-context .ctx-type { display:inline-block; font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--bg,#111); background:var(--accent2,#8a7); padding:2px 9px; border-radius:3px; margin-right:8px; }
 .modal-context .ctx-site { color:var(--text); font-weight:600; }
@@ -543,6 +561,10 @@ function toggleJson() {
   var resOurs = document.getElementById('qid-results-ours');
   var resWd = document.getElementById('qid-results-wd');
   var elSel = document.getElementById('qid-selected');
+  var elIngest = document.getElementById('qid-ingest');
+  var elIngestCheck = document.getElementById('qid-ingest-check');
+  var elIngestKind = document.getElementById('qid-ingest-kind');
+  var elIngestNote = document.getElementById('qid-ingest-note');
   var elSelVal = document.getElementById('qid-selected-val');
   var elLabelInput = document.getElementById('qid-label-input');
   var elLabelUse = document.getElementById('qid-label-use');
@@ -594,7 +616,7 @@ function toggleJson() {
     btnAssign.disabled = !(selected || labelChanged || noteChanged || fromChanged || precChanged || circaChanged || toChanged || roleChanged);
   }
 
-  function setSelected(qid, label) {
+  function setSelected(qid, label, source) {
     selected = /^Q\d+$/.test(qid) ? qid : null;
     selectedLabel = label || null;
     elSel.hidden = !selected;
@@ -602,7 +624,36 @@ function toggleJson() {
     if (selected && selectedLabel && selectedLabel !== elLabelInput.value.trim()) {
       elLabelUse.textContent = 'utiliser « ' + selectedLabel + ' »'; elLabelUse.hidden = false;
     } else { elLabelUse.hidden = true; }
+    // Ingestion offer: only for a Wikidata pick (an "ours" pick is already in the
+    // referential). Classification decides the default (a site is not added).
+    elIngest.hidden = true;
+    if (selected && source === 'wd') classifyAndShowIngest(selected);
     updateSave();
+  }
+
+  function classifyAndShowIngest(qid) {
+    fetch('/admin/sites/classify-qid?qid=' + encodeURIComponent(qid))
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (info) {
+        // Ignore a stale response if the selection changed meanwhile.
+        if (!info || selected !== qid) { return; }
+        if (info.inReferential) { elIngest.hidden = true; return; }
+        elIngest.hidden = false;
+        if (info.isSite) {
+          elIngestCheck.checked = false;
+          elIngestKind.value = info.kind || (editing ? editing.track : 'polity');
+          elIngestNote.textContent = 'Détecté comme site (vit déjà dans « sites ») — normalement pas ajouté au référentiel. Coche pour forcer.';
+        } else if (info.kind) {
+          elIngestCheck.checked = true;
+          elIngestKind.value = info.kind;
+          elIngestNote.textContent = 'Nouvelle entité — sera ajoutée au référentiel.';
+        } else {
+          elIngestCheck.checked = true;
+          elIngestKind.value = editing ? editing.track : 'polity';
+          elIngestNote.textContent = 'Type non déterminé sur Wikidata — vérifie le kind avant d\u2019ajouter.';
+        }
+      })
+      .catch(function () { elIngest.hidden = true; });
   }
 
   function pickBtn(qid, label) {
@@ -696,11 +747,13 @@ function toggleJson() {
     var add = ev.target.closest && ev.target.closest('.add-entry');
     if (add) { ev.preventDefault(); openAddModal(add.dataset.track); }
   });
-  [resOurs, resWd].forEach(function (box) {
-    box.addEventListener('click', function (ev) {
-      var pick = ev.target.closest('.mr-hit-pick');
-      if (pick) setSelected(pick.dataset.qid, pick.dataset.label);
-    });
+  resOurs.addEventListener('click', function (ev) {
+    var pick = ev.target.closest('.mr-hit-pick');
+    if (pick) setSelected(pick.dataset.qid, pick.dataset.label, 'ours');
+  });
+  resWd.addEventListener('click', function (ev) {
+    var pick = ev.target.closest('.mr-hit-pick');
+    if (pick) setSelected(pick.dataset.qid, pick.dataset.label, 'wd');
   });
   inOurs.addEventListener('input', runOurs);
   inWd.addEventListener('input', runWd);
@@ -735,6 +788,13 @@ function toggleJson() {
     if (!elRoleWrap.hidden) body.role = elRole.value;
   }
 
+  function collectIngest(b) {
+    if (!elIngest.hidden && elIngestCheck.checked) {
+      b.ingest = true;
+      b.kind = elIngestKind.value;
+    }
+  }
+
   function post(path, body) {
     btnAssign.disabled = true; var prev = btnAssign.textContent; btnAssign.textContent = '…';
     fetch('/admin/sites/' + encodeURIComponent(SITE_ID) + path, {
@@ -754,6 +814,7 @@ function toggleJson() {
       if (selected) addBody.qid = selected;
       if (elNoteInput.value.trim()) addBody.notes = elNoteInput.value;
       collectDates(addBody);
+      collectIngest(addBody);
       post('/timeline/add-entry', addBody);
       return;
     }
@@ -762,6 +823,7 @@ function toggleJson() {
     if (elLabelInput.value.trim() !== (editing.name || '')) body.newName = elLabelInput.value.trim();
     if (elNoteInput.value !== (editing.notes || '')) body.notes = elNoteInput.value;
     collectDates(body);
+    collectIngest(body);
     post('/timeline/set-qid', body);
   });
 })();

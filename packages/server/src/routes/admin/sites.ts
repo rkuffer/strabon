@@ -5,8 +5,47 @@ import {
   getSiteById,
   loadEntityBounds,
   recordBoundsConflicts,
+  verifyQid,
+  fetchAndStoreBounds,
 } from "@strabon/db";
 import { applyEntityBounds } from "@strabon/shared";
+
+const WDQS = "https://query.wikidata.org/sparql";
+const WDQS_UA = "Strabon/1.0 (historical atlas; github.com/rkuffer/strabon)";
+
+// Roots for classifying a picked Wikidata QID via P31/P279*.
+// SITE is checked first and WINS: a city-state, ancient city, settlement, etc.
+// is a SITE (it lives in `sites`) and must NOT be duplicated into the entity
+// referential — its political role is expressed by referencing its QID on a
+// polity track, nothing more. The four referential kinds mirror EXPECTED_ROOTS
+// in referential-gaps.ts, plus ethnic group (Q41710) so ethnonyms classify as
+// culture.
+const CLASSIFY_ROOTS: Array<[string, string]> = [
+  ["Q486972", "site"],
+  ["Q839954", "site"],
+  ["Q515", "site"],
+  ["Q532", "site"],
+  ["Q3957", "site"],
+  ["Q15661340", "site"],
+  ["Q133442", "site"],
+  ["Q7275", "polity"],
+  ["Q3624078", "polity"],
+  ["Q6256", "polity"],
+  ["Q3024240", "polity"],
+  ["Q1250464", "polity"],
+  ["Q48349", "polity"],
+  ["Q465299", "culture"],
+  ["Q11042", "culture"],
+  ["Q28171", "culture"],
+  ["Q41710", "culture"],
+  ["Q9174", "religion"],
+  ["Q179805", "religion"],
+  ["Q1530022", "religion"],
+  ["Q34770", "language"],
+  ["Q17376908", "language"],
+  ["Q436240", "language"],
+];
+const REF_KINDS = ["polity", "culture", "religion", "language"];
 
 export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
   // GET /admin/sites — liste avec filtres
@@ -151,6 +190,98 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
     }
   }
 
+  // GET /admin/sites/classify-qid?qid=Q… — used by the entry modal when the
+  // curator picks a Wikidata QID, to decide whether it may enter the referential.
+  // Returns whether the QID is already in our referential, whether Wikidata
+  // classes it as a SITE (→ do NOT add), and the detected referential kind.
+  app.get<{ Querystring: { qid?: string } }>(
+    "/admin/sites/classify-qid",
+    async (req, reply) => {
+      const qid = req.query.qid;
+      if (!qid || !/^Q\d+$/.test(qid))
+        return reply.status(400).send({ error: "qid required" });
+
+      const sql = getSql();
+      const known = await sql`
+        SELECT kind FROM wikidata_entities WHERE qid = ${qid}
+      `;
+      if (known.length)
+        return reply.send({
+          inReferential: true,
+          existingKind: (known[0] as any).kind,
+          isSite: false,
+          kind: null,
+        });
+
+      const values = CLASSIFY_ROOTS.map(([r, k]) => `(wd:${r} "${k}")`).join(
+        " ",
+      );
+      const query = `SELECT DISTINCT ?kind WHERE { VALUES (?root ?kind) { ${values} } wd:${qid} wdt:P31/wdt:P279* ?root . }`;
+      try {
+        const res = await fetch(WDQS, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/sparql-query",
+            Accept: "application/sparql-results+json",
+            "User-Agent": WDQS_UA,
+          },
+          body: query,
+        });
+        if (!res.ok)
+          return reply.send({
+            inReferential: false,
+            isSite: false,
+            kind: null,
+            ok: false,
+          });
+        const json: any = await res.json();
+        const kinds = new Set<string>(
+          (json.results?.bindings ?? [])
+            .map((b: any) => b.kind?.value)
+            .filter(Boolean),
+        );
+        const isSite = kinds.has("site");
+        const refFound = REF_KINDS.filter((k) => kinds.has(k));
+        // A single unambiguous referential kind is offered as the default.
+        const kind = refFound.length === 1 ? refFound[0] : null;
+        return reply.send({ inReferential: false, isSite, kind, refFound });
+      } catch (err) {
+        app.log.warn({ err, qid }, "classify-qid failed");
+        return reply.send({
+          inReferential: false,
+          isSite: false,
+          kind: null,
+          ok: false,
+        });
+      }
+    },
+  );
+
+  // Ingest a picked Wikidata QID into the referential (verified) and fetch its
+  // bounds — mirrors the /admin/gaps resolution path. No-op if it already exists.
+  async function ensureEntityIngested(
+    sql: any,
+    qid: string,
+    kind: string,
+    name: string,
+  ): Promise<void> {
+    if (!REF_KINDS.includes(kind)) return; // guard: only the 4 referential kinds
+    const exists =
+      await sql`SELECT 1 FROM wikidata_entities WHERE qid = ${qid}`;
+    if (exists.length) return;
+    const verified = await verifyQid(qid, kind, name);
+    await sql`
+      INSERT INTO wikidata_entities
+        (qid, kind, label_en, description_en, search_text, family_label, source_class)
+      VALUES (
+        ${qid}, ${kind}, ${verified.label ?? name},
+        ${verified.description ?? null}, ${name}, NULL, 'site-editor'
+      )
+      ON CONFLICT (qid) DO NOTHING
+    `;
+    await fetchAndStoreBounds(sql, [qid]); // dates via SPARQL, with precision
+  }
+
   function entryName(entry: any, track: string): string | null {
     if (track === "events") return entry?.type ?? null;
     const v = entry?.value;
@@ -252,6 +383,8 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
       from_circa?: boolean;
       to?: number | null;
       role?: string;
+      ingest?: boolean;
+      kind?: string;
     };
   }>("/admin/sites/:id/timeline/set-qid", async (req, reply) => {
     const sql = getSql();
@@ -312,6 +445,12 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
     if (drErr) return reply.status(400).send({ error: drErr });
 
     await sql`UPDATE sites SET timeline = ${sql.json(tl)}, last_updated = now() WHERE id = ${req.params.id}`;
+    if (req.body?.ingest && finalQid) {
+      const k = REF_KINDS.includes(req.body?.kind ?? "")
+        ? (req.body!.kind as string)
+        : track;
+      await ensureEntityIngested(sql, finalQid, k, finalName);
+    }
     await refreshBoundsConflicts(req.params.id, tl);
     return reply.send({
       ok: true,
@@ -340,6 +479,8 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
       to?: number | null;
       role?: string;
       notes?: string;
+      ingest?: boolean;
+      kind?: string;
     };
   }>("/admin/sites/:id/timeline/add-entry", async (req, reply) => {
     const sql = getSql();
@@ -375,6 +516,12 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
     tl[track].entries.sort((a: any, b: any) => (a.from ?? 0) - (b.from ?? 0));
 
     await sql`UPDATE sites SET timeline = ${sql.json(tl)}, last_updated = now() WHERE id = ${req.params.id}`;
+    if (body.ingest && body.qid) {
+      const k = REF_KINDS.includes(body.kind ?? "")
+        ? (body.kind as string)
+        : track;
+      await ensureEntityIngested(sql, body.qid, k, name);
+    }
     await refreshBoundsConflicts(req.params.id, tl);
     return reply.send({ ok: true, track, name, from: entry.from });
   });
