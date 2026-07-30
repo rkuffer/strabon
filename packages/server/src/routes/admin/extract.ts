@@ -54,11 +54,30 @@ async function callClaude(
 ): Promise<{ raw: string; timeline: any }> {
   const client = getClient();
 
-  const message = await client.messages.create({
-    model: MODEL,
-    max_tokens: 16384,
-    messages: [{ role: "user", content: prompt }],
-  });
+  // Stream and accumulate rather than a blocking create: with a 32000-token cap
+  // the SDK refuses a NON-streaming call (its worst-case-time estimate exceeds the
+  // 10-minute non-streaming ceiling) and requires streaming. finalMessage()
+  // returns the same Message shape (content, stop_reason, usage), so nothing
+  // downstream changes.
+  const message = await client.messages
+    .stream({
+      model: MODEL,
+      max_tokens: 32000,
+      messages: [{ role: "user", content: prompt }],
+    })
+    .finalMessage();
+
+  // A truncated response is NOT malformed JSON — it's an incomplete one. Detect it
+  // explicitly so the failure reads "truncated, raise max_tokens" instead of the
+  // misleading "Invalid JSON", and so a partial timeline is never parsed/accepted.
+  if (message.stop_reason === "max_tokens") {
+    console.error(
+      `[extract] output truncated at max_tokens (${message.usage?.output_tokens ?? "?"} output tokens) — raise max_tokens`,
+    );
+    throw new Error(
+      "Model output truncated (hit max_tokens) — response incomplete, raise max_tokens",
+    );
+  }
 
   const raw = message.content
     .filter((block): block is Anthropic.TextBlock => block.type === "text")
