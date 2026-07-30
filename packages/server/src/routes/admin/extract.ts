@@ -49,9 +49,10 @@ function getClient(): Anthropic {
 
 // ── Appel Claude via SDK ──────────────────────────────────────────────────────
 
-async function callClaude(
-  prompt: string,
-): Promise<{ raw: string; timeline: any }> {
+async function callClaude(prompt: {
+  cachedPrefix: string;
+  siteBlock: string;
+}): Promise<{ raw: string; timeline: any }> {
   const client = getClient();
 
   // Stream and accumulate rather than a blocking create: with a 32000-token cap
@@ -59,13 +60,53 @@ async function callClaude(
   // 10-minute non-streaming ceiling) and requires streaming. finalMessage()
   // returns the same Message shape (content, stop_reason, usage), so nothing
   // downstream changes.
+  //
+  // Two content blocks with a cache breakpoint on the first: the static prefix
+  // (instructions + full referential) is the dominant share of the input and is
+  // byte-identical across sites, so it is written to cache once and then read at
+  // 10% of the input price for every later call within the TTL. The per-site block
+  // (site identity, priors, Wikipedia sources) follows the breakpoint and is never
+  // cached. Ordering matters: everything BEFORE the marked block is what gets
+  // cached, so the site block must come second.
   const message = await client.messages
     .stream({
       model: MODEL,
       max_tokens: 32000,
-      messages: [{ role: "user", content: prompt }],
+      // Sonnet 5 runs adaptive thinking BY DEFAULT, and thinking tokens count
+      // against max_tokens — so on a rich site they eat the budget and the JSON is
+      // truncated (this pipeline was built for Sonnet 4.6, which never thought).
+      // Extraction is a prescriptive structured-transform task, not a reasoning
+      // one: disabling thinking hands the whole budget back to the response and
+      // keeps cost/latency down. No-op on models that don't think by default.
+      // (To A/B *with* thinking for quality, enable it and raise max_tokens so both
+      //  the thinking and the JSON fit.)
+      thinking: { type: "disabled" },
+      messages: [
+        {
+          role: "user",
+          content: [
+            {
+              type: "text",
+              text: prompt.cachedPrefix,
+              cache_control: { type: "ephemeral" },
+            },
+            { type: "text", text: prompt.siteBlock },
+          ],
+        },
+      ],
     })
     .finalMessage();
+
+  // Cache observability: without this there is no way to tell a hit from a miss.
+  // Expect created>0 / read=0 on the first call of a run, then created=0 / read>0.
+  // If read stays 0 across a run, the prefix is not byte-stable (or the TTL lapsed
+  // between sites) — that is the signal to investigate, not a silent cost.
+  const u: any = message.usage ?? {};
+  console.log(
+    `[extract] tokens: cache_created=${u.cache_creation_input_tokens ?? 0} ` +
+      `cache_read=${u.cache_read_input_tokens ?? 0} ` +
+      `uncached_input=${u.input_tokens ?? 0} output=${u.output_tokens ?? 0}`,
+  );
 
   // A truncated response is NOT malformed JSON — it's an incomplete one. Detect it
   // explicitly so the failure reads "truncated, raise max_tokens" instead of the
@@ -183,7 +224,10 @@ async function extractSite(
     filiation,
     attributions,
   );
-  console.log(`[extract] prompt: ${prompt.length} chars → ${MODEL}`);
+  console.log(
+    `[extract] prompt: ${prompt.full.length} chars ` +
+      `(cached prefix ${prompt.cachedPrefix.length} / per-site ${prompt.siteBlock.length}) → ${MODEL}`,
+  );
 
   // Archive the prompt TEMPLATE (markers unsubstituted) if we have not seen this
   // version before. The repo stays the source of truth; this is a log of what

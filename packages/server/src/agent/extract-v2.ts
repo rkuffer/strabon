@@ -228,9 +228,12 @@ Date each entry from the sources; never derive bounds from the culture's span.
 
 // Le template EST l'artefact archivé. Il porte ses trous — pas d'instanciation,
 // donc pas de paramètre à neutraliser, donc rien à oublier quand on en ajoutera un.
-export const EXTRACTION_PROMPT_TEMPLATE = `You are extracting structured historical timeline data from Wikipedia articles about an inhabited place or historical site.
-
-Site: "{{title}}"
+// ── Static prefix (CACHED) ───────────────────────────────────────────────────
+// Byte-identical across every site: this is the prompt-cache prefix, written once
+// then read at 10% of the input price for every later call inside the TTL. NOTHING
+// per-site may appear here — a single varying character invalidates the whole
+// prefix. Per-site data lives in EXTRACTION_PROMPT_SITE below.
+export const EXTRACTION_PROMPT_STATIC = `You are extracting structured historical timeline data from Wikipedia articles about an inhabited place or historical site.
 
 ## Non-site detection — check FIRST
 
@@ -775,8 +778,6 @@ Rules:
 
 The division of labour is: the timeline carries only QIDs you are SURE of;
 "proposed_qid" carries the ones you merely SUSPECT, for machine verification.
-{{filiation}}
-{{attributions}}
 
 ## Rules
 
@@ -1226,6 +1227,21 @@ So:
   and correct: an empty stretch at the start of the name track.
 - The "lang" field must be the language of the NAME, not the language of the country.
   "Lutetia" is Latin. "Lutèce" is French. They are two entries.
+`;
+
+// ── Per-site block (NEVER cached) ────────────────────────────────────────────
+// Everything that changes from one site to the next, gathered AFTER the cache
+// breakpoint: the site identity, its filiation / attribution priors, and the
+// Wikipedia sources. `{{title}}`, `{{filiation}}` and `{{attributions}}` used to
+// sit inline among the instructions — which would have broken the cache prefix on
+// every single call. Moving them here is what makes the prefix above stable, and
+// it also reads better: rules and referential first, then this site's data.
+export const EXTRACTION_PROMPT_SITE = `
+## Site under extraction
+
+Site: "{{title}}"
+{{filiation}}
+{{attributions}}
 
 ## Wikipedia sources
 
@@ -1238,6 +1254,12 @@ So:
 {{local_section}}
 
 Return ONLY valid JSON — no prose, no markdown fences.`;
+
+// The archived artifact stays ONE template (static + per-site), so run-history
+// keeps logging a single prompt and a single hash. The split is a TRANSPORT
+// concern, not a change in what the model is asked.
+export const EXTRACTION_PROMPT_TEMPLATE =
+  EXTRACTION_PROMPT_STATIC + EXTRACTION_PROMPT_SITE;
 
 export const EXTRACTION_PROMPT_HASH = hashText(EXTRACTION_PROMPT_TEMPLATE);
 
@@ -1252,7 +1274,7 @@ export function buildPromptV2(
   },
   filiation: string,
   attributions: string,
-): string {
+): { cachedPrefix: string; siteBlock: string; full: string } {
   const localSection = context.local
     ? `\n## Local language source (${context.localLang})\nThe following is extracted from the ${context.localLang} Wikipedia article. It may contain additional names, dates or details not present in the English version. Use it to complement the English source.\n---\n${context.local}\n---`
     : "";
@@ -1260,16 +1282,33 @@ export function buildPromptV2(
     ? `Two sources are provided: the English article (primary) and a local language article (${context.localLang}, supplementary). Prefer the English source for dates and political entities; use the local source primarily for vernacular names and any additional historical details it provides.`
     : "";
 
-  const out = EXTRACTION_PROMPT_TEMPLATE.replaceAll("{{title}}", title)
-    .replaceAll("{{religions}}", refs.religions)
-    .replaceAll("{{languages}}", refs.languages)
-    .replaceAll("{{polities}}", refs.polities)
-    .replaceAll("{{cultures}}", refs.cultures)
-    .replaceAll("{{filiation}}", filiation)
-    .replaceAll("{{attributions}}", attributions)
-    .replaceAll("{{two_sources_note}}", twoSources)
-    .replaceAll("{{context_en}}", context.en)
-    .replaceAll("{{local_section}}", localSection);
+  // NB: the replacements are FUNCTIONS, not strings. String.replaceAll interprets
+  // $ patterns ($&, $`, $', $$, $n) inside a STRING replacement — so a Wikipedia
+  // article (or a Wikidata description) containing e.g. "$&" would make replaceAll
+  // re-insert the matched marker itself ("{{context_en}}"), which then trips the
+  // leftover-marker guard below. A function replacement is inserted verbatim, no
+  // $-interpretation. Do NOT revert these to bare strings.
+
+  // Static half — only the referential lists interpolate here. They are loaded
+  // globally (no per-site filter) and ordered by label, so this string is
+  // byte-stable across sites and survives as a cache prefix.
+  const cachedPrefix = EXTRACTION_PROMPT_STATIC.replaceAll(
+    "{{religions}}",
+    () => refs.religions,
+  )
+    .replaceAll("{{languages}}", () => refs.languages)
+    .replaceAll("{{polities}}", () => refs.polities)
+    .replaceAll("{{cultures}}", () => refs.cultures);
+
+  // Per-site half — everything that varies per call.
+  const siteBlock = EXTRACTION_PROMPT_SITE.replaceAll("{{title}}", () => title)
+    .replaceAll("{{filiation}}", () => filiation)
+    .replaceAll("{{attributions}}", () => attributions)
+    .replaceAll("{{two_sources_note}}", () => twoSources)
+    .replaceAll("{{context_en}}", () => context.en)
+    .replaceAll("{{local_section}}", () => localSection);
+
+  const out = cachedPrefix + siteBlock;
 
   // Un marqueur résiduel = un câblage oublié. Mieux vaut échouer ici que d'envoyer
   // « {{cultures}} » à Claude. (On perd le typecheck sur les interpolations ; ce
@@ -1297,7 +1336,7 @@ export function buildPromptV2(
   if (leftover) {
     throw new Error(`Prompt template: unsubstituted marker ${leftover[0]}`);
   }
-  return out;
+  return { cachedPrefix, siteBlock, full: out };
 }
 
 // ── Timeline normalization ────────────────────────────────────────────────────
