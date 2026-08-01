@@ -89,6 +89,7 @@ export const adminEntitiesRoutes: FastifyPluginAsync = async (app) => {
     // ── Entities ─────────────────────────────────────────────────────────────
     const rows = await sql`
       SELECT qid, label_en, description_en, kind, family_qid, family_label, active,
+             subordinate,
              inception, inception_precision, dissolution, dissolution_precision
       FROM wikidata_entities
       WHERE kind = ${kind}
@@ -162,6 +163,23 @@ export const adminEntitiesRoutes: FastifyPluginAsync = async (app) => {
       else inactiveCount = r.n;
     }
 
+    // ── Sovereign / subordinate counts (polity only — the rank is a polity-track
+    // concept; the column exists on all kinds but is meaningless elsewhere) ────
+    let sovereignCount = 0;
+    let subordinateCount = 0;
+    if (kind === "polity") {
+      const tierRows = await sql`
+        SELECT subordinate, COUNT(*)::int AS n
+        FROM wikidata_entities
+        WHERE kind = 'polity' AND active
+        GROUP BY subordinate
+      `;
+      for (const r of tierRows as any[]) {
+        if (r.subordinate) subordinateCount = r.n;
+        else sovereignCount = r.n;
+      }
+    }
+
     const used = entities.filter((e: any) => e.usage > 0).length;
 
     return reply.view("admin/entities/index", {
@@ -178,6 +196,8 @@ export const adminEntitiesRoutes: FastifyPluginAsync = async (app) => {
       status,
       activeCount,
       inactiveCount,
+      sovereignCount,
+      subordinateCount,
       fromYear,
       toYear,
       dated,
@@ -206,6 +226,32 @@ export const adminEntitiesRoutes: FastifyPluginAsync = async (app) => {
       `;
       if (!rows.length) return reply.code(404).send({ ok: false });
       return reply.send({ ok: true, qid: rows[0].qid, active: rows[0].active });
+    },
+  );
+
+  // POST /admin/entities/:qid/toggle-subordinate — flip the `subordinate` flag
+  // (déclutter micro-polities chantier). Default is false (sovereign); this is
+  // how the ambiguous cases the flag-polity-tiers.ts script surfaces (duchy,
+  // dynasty, protectorate, colony, "state in the HRE"…) get arbitrated by hand.
+  // The writer script never demotes (never sets false) and never re-flags a row
+  // already touched here — this endpoint is the only path to a manual PROMOTION
+  // to subordinate, or to reverting one. Polity-only in the UI, but the column
+  // exists on all kinds so no kind check is needed server-side.
+  app.post<{ Params: { qid: string } }>(
+    "/admin/entities/:qid/toggle-subordinate",
+    async (req, reply) => {
+      const sql = getSql();
+      const rows = await sql`
+        UPDATE wikidata_entities SET subordinate = NOT subordinate
+        WHERE qid = ${req.params.qid}
+        RETURNING qid, subordinate
+      `;
+      if (!rows.length) return reply.code(404).send({ ok: false });
+      return reply.send({
+        ok: true,
+        qid: rows[0].qid,
+        subordinate: rows[0].subordinate,
+      });
     },
   );
 };

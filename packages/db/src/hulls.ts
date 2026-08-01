@@ -65,6 +65,11 @@ export type HullQueryOptions = {
  *
  * - Reads the track through track_active_entries(), which handles both regimes:
  *   a step track yields ONE entity per site, a co-occurrent track yields N.
+ *   EXCEPTION — the polity track goes through track_sovereign_entry(), which
+ *   skips subordinate entities and falls back to the last sovereign entry, so a
+ *   site pledged to a county still counts for the empire above it. A site with
+ *   no sovereign entry at all before that year is simply absent (conservative:
+ *   no invented attachment).
  * - DBSCAN clustering to split geographically disjoint groups of the same entity.
  * - Intersection with land (ne_land) to drop maritime surfaces.
  * - Excludes sites sitting in an occupation hiatus at that year.
@@ -82,6 +87,12 @@ export async function queryHulls(
   const { track, regime } = trackFor(kind);
   const roles = rolesUpTo(opts.minRole ?? "major");
   const isCooccurrent = regime === "cooccurrent";
+  // Déclutter micro-polities : sur la piste polity, on lit la dernière entrée
+  // SOUVERAINE, en sautant les subordonnées (comtés, seigneuries, villes libres
+  // d'Empire…). Il faut les sauter AVANT la sélection du plus récent "from",
+  // sinon un site sous County of Sponheim en 1380 sortirait de tout hull au lieu
+  // de rester dans celui du Saint-Empire. Voir track_sovereign_entry().
+  const isPolity = kind === "polity";
 
   const rows = await sql`
     WITH active_sites AS (
@@ -91,9 +102,11 @@ export async function queryHulls(
         entry->'value'->>'name'                 AS entity_name,
         role_rank(entry->>'role')               AS role_rk
       FROM sites s
-      CROSS JOIN LATERAL track_active_entries(
-        s.timeline -> ${track}, ${year}::INTEGER, ${regime}::TEXT
-      ) AS entry
+      CROSS JOIN LATERAL ${
+        isPolity
+          ? sql`track_sovereign_entry(s.timeline -> ${track}, ${year}::INTEGER)`
+          : sql`track_active_entries(s.timeline -> ${track}, ${year}::INTEGER, ${regime}::TEXT)`
+      } AS entry
       WHERE s.location IS NOT NULL
         -- A site without an extracted timeline has nothing to contribute.
         -- Tiling indexes 2M+ sites at L0; only a few dozen carry a timeline.

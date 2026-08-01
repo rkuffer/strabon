@@ -181,7 +181,7 @@ async function main() {
            w.bounds_source, COALESCE(u.n, 0) AS usage
     FROM wikidata_entities w
     LEFT JOIN used u ON u.qid = w.qid
-    WHERE w.kind = 'culture'
+    WHERE w.kind = 'culture' AND w.active
     ORDER BY w.label_en
   `;
   console.log(`${entities.length} entités kind='culture'\n`);

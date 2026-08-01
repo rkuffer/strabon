@@ -101,6 +101,10 @@
     }
     .badge-active.on  { color: var(--polity); border-color: rgba(126,184,160,.4); }
     .badge-active.off { color: #b8926a; border-color: rgba(184,146,106,.45); }
+    .badge-tier { font-size: 11px; padding: 1px 7px; border-radius: 2px;
+      border: 1px solid var(--border); letter-spacing: .04em; margin-left: 6px; }
+    .badge-tier.sovereign    { color: var(--muted); border-color: var(--border); }
+    .badge-tier.subordinate  { color: var(--accent); border-color: rgba(201,168,76,.4); }
     .btn-toggle {
       margin-left: 8px; padding: 2px 9px; font-size: 11px;
       background: transparent; border: 1px solid var(--border); color: var(--muted);
@@ -183,6 +187,10 @@
       <span class="<%= it.stats.unused > 0 ? 'warn' : '' %>"><b><%= it.stats.unused %></b> never used</span> ·
       <b><%= it.activeCount %></b> active ·
       <span class="<%= it.inactiveCount > 0 ? 'warn' : '' %>"><b><%= it.inactiveCount %></b> inactive</span>
+      <% if (it.kind === 'polity') { %>
+        · <b><%= it.sovereignCount %></b> sovereign ·
+        <b><%= it.subordinateCount %></b> subordinate
+      <% } %>
     </div>
 
     <% if (!it.entities.length) { %>
@@ -198,6 +206,9 @@
             <th style="width:70px" class="usage">Sites</th>
             <th style="width:150px">Dates</th>
             <th style="width:160px">Status</th>
+            <% if (it.kind === 'polity') { %>
+              <th style="width:150px">Rank</th>
+            <% } %>
           </tr>
         </thead>
         <tbody>
@@ -228,6 +239,12 @@
                 <span class="badge-active <%= e.active ? 'on' : 'off' %>"><%= e.active ? 'active' : 'inactive' %></span>
                 <button type="button" class="btn-toggle" onclick="toggleActive('<%= e.qid %>')"><%= e.active ? 'Disable' : 'Enable' %></button>
               </td>
+              <% if (it.kind === 'polity') { %>
+                <td class="act">
+                  <span class="badge-tier <%= e.subordinate ? 'subordinate' : 'sovereign' %>"><%= e.subordinate ? 'subordinate' : 'sovereign' %></span>
+                  <button type="button" class="btn-toggle" onclick="toggleSubordinate('<%= e.qid %>')"><%= e.subordinate ? 'Mark sovereign' : 'Mark subordinate' %></button>
+                </td>
+              <% } %>
             </tr>
           <% }) %>
         </tbody>
@@ -249,6 +266,23 @@
           badge.textContent = d.active ? 'active' : 'inactive';
           var btn = tr.querySelector('.btn-toggle');
           btn.textContent = d.active ? 'Disable' : 'Enable';
+        })
+        .catch(function () {});
+    }
+
+    function toggleSubordinate(qid) {
+      fetch('/admin/entities/' + qid + '/toggle-subordinate', { method: 'POST' })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          if (!d || !d.ok) return;
+          var tr = document.querySelector('tr[data-qid="' + qid + '"]');
+          if (!tr) return;
+          var badge = tr.querySelector('.badge-tier');
+          if (!badge) return;
+          badge.className = 'badge-tier ' + (d.subordinate ? 'subordinate' : 'sovereign');
+          badge.textContent = d.subordinate ? 'subordinate' : 'sovereign';
+          var btn = badge.nextElementSibling;
+          btn.textContent = d.subordinate ? 'Mark sovereign' : 'Mark subordinate';
         })
         .catch(function () {});
     }
