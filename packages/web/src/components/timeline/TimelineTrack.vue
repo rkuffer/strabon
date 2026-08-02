@@ -178,7 +178,7 @@
               v-for="(block, i) in row.blocks"
               :key="i"
               class="tl-block"
-              :class="{ active: block.isActive }"
+              :class="{ active: block.isActive, 'is-clickable': !!block.qid }"
               :style="{
                 left: block.x + '%',
                 width: block.w + '%',
@@ -187,6 +187,8 @@
               }"
               @mouseenter="showTooltip($event, block)"
               @mouseleave="hideTooltip"
+              @click.stop="openEntityModal(block)"
+              @mousedown.stop
             >
               <span class="tl-block-text">{{ block.label }}</span>
             </div>
@@ -210,6 +212,15 @@
               v-for="lane in row.lanes"
               :key="lane.key"
               class="tl-lane"
+              :class="[
+                lane.tier ? `tl-lane--${lane.tier}` : '',
+                { 'tl-lane--empty': !lane.segments.length },
+              ]"
+              :title="
+                lane.tier === 'sovereign' && !lane.segments.length
+                  ? 'No sovereign polity named for this site — only local lords were extracted'
+                  : undefined
+              "
               :style="{ height: lane.h + 'px' }"
             >
               <div
@@ -218,7 +229,11 @@
                 class="tl-seg"
                 :class="[
                   `tl-seg--${seg.role ?? 'unknown'}`,
-                  { active: seg.isActive, open: seg.open },
+                  {
+                    active: seg.isActive,
+                    open: seg.open,
+                    'is-clickable': !!seg.qid,
+                  },
                 ]"
                 :style="{
                   left: seg.x + '%',
@@ -228,6 +243,8 @@
                 }"
                 @mouseenter="showTooltip($event, seg)"
                 @mouseleave="hideTooltip"
+                @click.stop="openEntityModal(seg)"
+                @mousedown.stop
               >
                 <span class="tl-block-text">{{ seg.label }}</span>
               </div>
@@ -305,6 +322,118 @@
         <div class="tl-tt-notes" v-if="tooltip.notes">{{ tooltip.notes }}</div>
       </div>
     </Teleport>
+
+    <!-- Fiche d'entité (clic sur un segment) -->
+    <Teleport to="body">
+      <div
+        v-if="entityModal.open"
+        class="ent-overlay"
+        @mousedown.self="closeEntityModal"
+      >
+        <div class="ent-modal" @mousedown.stop>
+          <button class="ent-close" type="button" @click="closeEntityModal">
+            ✕
+          </button>
+
+          <!-- Le nom écrit dans la timeline est montré tel quel : il peut
+               différer du label du référentiel, et cet écart est informatif. -->
+          <h3 class="ent-title">{{ entityModal.entryLabel }}</h3>
+          <div class="ent-qid">{{ entityModal.qid }}</div>
+
+          <div v-if="entityModal.loading" class="ent-msg">Loading…</div>
+          <div v-else-if="entityModal.error" class="ent-msg ent-msg--err">
+            {{ entityModal.error }}
+          </div>
+
+          <template v-else-if="entityModal.data">
+            <p v-if="entityModal.data.entity?.description_en" class="ent-desc">
+              {{ entityModal.data.entity.description_en }}
+            </p>
+
+            <!-- Entité citée mais absente du référentiel : ce n'est pas une
+                 erreur, c'est une information de curation. -->
+            <div v-if="!entityModal.data.in_referential" class="ent-msg">
+              Not in the authority referential.
+            </div>
+
+            <dl v-else class="ent-facts">
+              <template v-if="entityModal.data.entity.label_en">
+                <dt>Label</dt>
+                <dd>{{ entityModal.data.entity.label_en }}</dd>
+              </template>
+              <template v-if="entityModal.data.entity.kind">
+                <dt>Kind</dt>
+                <dd>
+                  {{ entityModal.data.entity.kind
+                  }}<span v-if="entityModal.data.entity.subordinate">
+                    · subordinate</span
+                  >
+                </dd>
+              </template>
+              <template v-if="modalBounds">
+                <dt>Bounds</dt>
+                <dd>
+                  {{ modalBounds
+                  }}<span
+                    v-if="entityModal.data.entity.bounds_source"
+                    class="ent-dim"
+                  >
+                    ({{ entityModal.data.entity.bounds_source
+                    }}{{
+                      entityModal.data.entity.bounds_confirmed
+                        ? ", confirmed"
+                        : ""
+                    }})</span
+                  >
+                </dd>
+              </template>
+              <template v-if="entityModal.data.entity.family_label">
+                <dt>Family</dt>
+                <dd>{{ entityModal.data.entity.family_label }}</dd>
+              </template>
+              <template v-if="entityModal.data.entity.sitelinks_count != null">
+                <dt>Sitelinks</dt>
+                <dd>{{ entityModal.data.entity.sitelinks_count }}</dd>
+              </template>
+              <dt>Used by</dt>
+              <dd>
+                {{ entityModal.data.entity.usage_count }}
+                site<span v-if="entityModal.data.entity.usage_count !== 1"
+                  >s</span
+                >
+              </dd>
+              <template v-if="!entityModal.data.entity.active">
+                <dt>Status</dt>
+                <dd class="ent-warn">inactive</dd>
+              </template>
+            </dl>
+
+            <p v-if="entityModal.data.entity?.bounds_note" class="ent-note">
+              {{ entityModal.data.entity.bounds_note }}
+            </p>
+
+            <div class="ent-links">
+              <a
+                v-for="w in entityModal.data.wikipedia"
+                :key="w.lang"
+                :href="w.url"
+                target="_blank"
+                rel="noopener"
+                class="ent-link ent-link--wp"
+                >Wikipedia ({{ w.lang }}) ↗</a
+              >
+              <a
+                :href="entityModal.data.wikidata_url"
+                target="_blank"
+                rel="noopener"
+                class="ent-link"
+                >Wikidata ↗</a
+              >
+            </div>
+          </template>
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>
 
@@ -314,6 +443,7 @@ import {
   getEntryAt,
   getActiveEntriesAt,
   buildLanes,
+  buildPolityLanes,
   getTimelineBounds,
   getTrack,
   presentTrackKeys,
@@ -375,6 +505,13 @@ function onScaleClickOutside(e: MouseEvent) {
 
 onMounted(() => document.addEventListener("click", onScaleClickOutside));
 onUnmounted(() => document.removeEventListener("click", onScaleClickOutside));
+
+// Échap ferme la fiche d'entité — même geste que le reste de l'admin.
+function onEntityModalKey(e: KeyboardEvent) {
+  if (e.key === "Escape" && entityModal.open) closeEntityModal();
+}
+onMounted(() => document.addEventListener("keydown", onEntityModalKey));
+onUnmounted(() => document.removeEventListener("keydown", onEntityModalKey));
 
 const timeline = computed<SiteTimeline | undefined>(
   () => props.site?.timeline ?? undefined,
@@ -704,6 +841,13 @@ type Block = {
   notes?: string;
   confidence?: string;
   rowLabel: string;
+  /**
+   * QID de l'entité citée par l'entrée, quand il y en a un. Porte le clic vers
+   * la modale de fiche. Absent sur les pistes non référentielles (name,
+   * population, site_type) et sur les entrées restées en gap (nom sans QID) —
+   * dans les deux cas le segment n'est simplement pas cliquable.
+   */
+  qid?: string;
 };
 
 type Gap = { x: number; w: number; title: string };
@@ -720,7 +864,18 @@ type LaneRow = {
   kind: "lanes";
   key: TrackKey;
   label: string;
-  lanes: { key: string; h: number; segments: Block[] }[];
+  lanes: {
+    key: string;
+    h: number;
+    segments: Block[];
+    /**
+     * Rang du couloir sur la piste polity ("sovereign" | "subordinate").
+     * Absent sur religion/language, dont les couloirs sont par ENTITÉ et non
+     * par rang. Sert au style (couloir subordonné plus fin/atténué) et à
+     * conserver le couloir souverain même VIDE.
+     */
+    tier?: "sovereign" | "subordinate";
+  }[];
 };
 
 function fmtY(year: number): string {
@@ -770,6 +925,98 @@ function blockFg(key: TrackKey, v: any, role?: RoleQualifier): string {
   return strFg(v?.name ?? String(v));
 }
 
+/**
+ * QID des polities SUBORDONNÉES citées par ce site, servis par l'API
+ * (getSiteById). Le rang vit sur le référentiel, pas dans la timeline stockée :
+ * sans cette liste le front ne peut pas distinguer un empire d'un comté.
+ * Vide ⇒ la piste polity garde le rendu escalier d'origine.
+ */
+const subordinateQids = computed<Set<string>>(
+  () => new Set<string>(props.site?.subordinate_qids ?? []),
+);
+
+// ── Modale de fiche d'entité (clic sur un segment) ───────────────────────────
+//
+// Le clic était resté libre sur les segments : il ouvre désormais la fiche de
+// l'entité citée. Ne s'ouvre que si le bloc porte un QID — une entrée restée en
+// gap (nom sans QID) n'a rien à montrer, on ne veut pas d'une modale vide.
+
+type EntityModalState = {
+  open: boolean;
+  qid: string | null;
+  /** Libellé tel qu'écrit DANS la timeline — peut différer du label référentiel. */
+  entryLabel: string;
+  loading: boolean;
+  error: string | null;
+  data: any | null;
+};
+
+const entityModal = reactive<EntityModalState>({
+  open: false,
+  qid: null,
+  entryLabel: "",
+  loading: false,
+  error: null,
+  data: null,
+});
+
+async function openEntityModal(block: Block) {
+  if (props.listView) return;
+  if (!block.qid) return;
+
+  hideTooltip();
+  entityModal.open = true;
+  entityModal.qid = block.qid;
+  entityModal.entryLabel = block.label;
+  entityModal.loading = true;
+  entityModal.error = null;
+  entityModal.data = null;
+
+  try {
+    const res = await fetch(`/api/entities/${block.qid}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    // Une réponse arrivée après une autre ouverture serait périmée : on ne la
+    // pose que si la modale montre toujours la même entité.
+    const json = await res.json();
+    if (entityModal.qid === block.qid) entityModal.data = json;
+  } catch (err) {
+    if (entityModal.qid === block.qid) {
+      entityModal.error = "Entity details could not be loaded.";
+    }
+  } finally {
+    if (entityModal.qid === block.qid) entityModal.loading = false;
+  }
+}
+
+function closeEntityModal() {
+  entityModal.open = false;
+  entityModal.qid = null;
+  entityModal.data = null;
+  entityModal.error = null;
+}
+
+/** Bornes du référentiel, formatées avec leur précision (millénaire/siècle/…). */
+const modalBounds = computed<string | null>(() => {
+  const e = entityModal.data?.entity;
+  if (!e) return null;
+  const from =
+    e.inception != null
+      ? formatYear({
+          year: e.inception,
+          precision: e.inception_precision ?? 9,
+        })
+      : null;
+  const to =
+    e.dissolution != null
+      ? formatYear({
+          year: e.dissolution,
+          precision: e.dissolution_precision ?? 9,
+        })
+      : null;
+  if (!from && !to) return null;
+  return `${from ?? "?"} → ${to ?? "…"}`;
+});
+
 const rows = computed<(StepRow | LaneRow)[]>(() => {
   const tl = timeline.value;
   if (!tl) return [];
@@ -814,6 +1061,7 @@ const rows = computed<(StepRow | LaneRow)[]>(() => {
               notes: e.notes,
               confidence: e.confidence,
               rowLabel: meta.label,
+              qid: (e.value as any)?.wikidata || undefined,
             };
           })
           .filter((b): b is Block => b !== null),
@@ -824,6 +1072,73 @@ const rows = computed<(StepRow | LaneRow)[]>(() => {
         key,
         label: meta.label,
         lanes: lanes.filter((l) => l.segments.length),
+      } satisfies LaneRow;
+    }
+
+    // ── Piste POLITY avec subordonnées : DEUX couloirs ───────────────────────
+    // Le souverain file sur le couloir du haut sans être interrompu par les
+    // comtés/seigneuries, qui descendent au couloir du bas. Sans aucune
+    // subordonnée on retombe volontairement sur le rendu escalier d'origine :
+    // pas de régression visuelle sur l'immense majorité des sites.
+    if (key === "polity" && subordinateQids.value.size) {
+      const isSub = (e: TrackEntry<any>) => {
+        const qid = (e.value as any)?.wikidata;
+        return !!qid && subordinateQids.value.has(qid);
+      };
+      const activeEntry = getEntryAt(track, props.year, {
+        honorTo: meta.closable,
+      });
+
+      const lanes = buildPolityLanes(track, end, isSub).map((lane) => ({
+        key: `${key}-${lane.tier}`,
+        tier: lane.tier,
+        h: lane.tier === "sovereign" ? 15 : 11,
+        segments: lane.segments
+          .map((seg): Block | null => {
+            const x = xPct(seg.from);
+            const w = xPct(seg.to) - x;
+            if (w <= 0) return null;
+            const e = seg.entry as TrackEntry<any>;
+            return {
+              x,
+              w,
+              bg: blockBg(key, e.value),
+              fg: blockFg(key, e.value),
+              label: formatTrackEntry(key, e),
+              // Le surlignage suit l'entrée réellement active sur la piste —
+              // donc le curseur éclaire la subordonnée quand il y en a une,
+              // sans éteindre le souverain qui continue de courir au-dessus.
+              isActive:
+                activeEntry === e ||
+                (lane.tier === "sovereign" &&
+                  seg.from <= props.year &&
+                  props.year <= seg.to),
+              open: seg.open,
+              from: seg.from,
+              to: seg.open ? null : seg.to,
+              fromPrecision: e.from_precision ?? 9,
+              fromCirca: e.from_circa,
+              notes: e.notes,
+              confidence: e.confidence,
+              rowLabel:
+                lane.tier === "sovereign"
+                  ? meta.label
+                  : `${meta.label} — subordinate`,
+              qid: (e.value as any)?.wikidata || undefined,
+            };
+          })
+          .filter((b): b is Block => b !== null),
+      }));
+
+      return {
+        kind: "lanes",
+        key,
+        label: meta.label,
+        // On NE filtre PAS les couloirs vides ici (contrairement aux pistes
+        // co-occurrentes) : un couloir souverain vide est une INFORMATION —
+        // le site n'a que des seigneurs locaux nommés, l'échelon englobant
+        // manque. Le trou doit se voir.
+        lanes,
       } satisfies LaneRow;
     }
 
@@ -863,6 +1178,7 @@ const rows = computed<(StepRow | LaneRow)[]>(() => {
           notes: e.notes,
           confidence: e.confidence,
           rowLabel: meta.label,
+          qid: (e.value as any)?.wikidata || undefined,
         });
       }
 
@@ -1442,6 +1758,20 @@ $lane-h: 17px;
 .tl-lane {
   position: relative;
   // La hauteur est portée inline : elle dépend du rôle dominant de l'entité.
+
+  // Piste polity — couloir SUBORDONNÉ (comtés, seigneuries, villes libres) :
+  // atténué, comme les rôles minoritaires sur religion/language. Le souverain
+  // reste la lecture principale ; le local est un second plan.
+  &--subordinate .tl-seg {
+    opacity: 0.62;
+  }
+
+  // Couloir SOUVERAIN vide = le site n'a que des seigneurs locaux nommés,
+  // l'échelon englobant manque dans l'extraction. On matérialise le vide par un
+  // filet discontinu plutôt que de laisser une bande blanche ambiguë.
+  &--empty {
+    border-top: 1px dashed rgba(255, 255, 255, 0.14);
+  }
 }
 
 .tl-seg {
@@ -1858,5 +2188,150 @@ $lane-h: 17px;
   font-size: 15px;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* ── Fiche d'entité (clic sur un segment) ────────────────────────────────── */
+
+.tl-block.is-clickable,
+.tl-seg.is-clickable {
+  cursor: pointer;
+}
+
+.ent-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 4000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(6, 5, 12, 0.62);
+  backdrop-filter: blur(2px);
+}
+
+.ent-modal {
+  position: relative;
+  width: min(440px, calc(100vw - 32px));
+  max-height: calc(100vh - 64px);
+  overflow-y: auto;
+  padding: 22px 24px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  background: #14121c;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.55);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.ent-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  padding: 2px 6px;
+  border: 0;
+  background: none;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 14px;
+  cursor: pointer;
+
+  &:hover {
+    color: rgba(255, 255, 255, 0.85);
+  }
+}
+
+.ent-title {
+  margin: 0 0 2px;
+  padding-right: 24px;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.ent-qid {
+  margin-bottom: 14px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.ent-desc {
+  margin: 0 0 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.ent-msg {
+  padding: 8px 0 12px;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.5);
+
+  &--err {
+    color: #d98a7a;
+  }
+}
+
+.ent-facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 5px 14px;
+  margin: 0 0 14px;
+  font-size: 12.5px;
+
+  dt {
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 10.5px;
+    padding-top: 1px;
+  }
+
+  dd {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.85);
+  }
+}
+
+.ent-dim {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.ent-warn {
+  color: #d9a05a;
+}
+
+.ent-note {
+  margin: 0 0 14px;
+  padding: 8px 10px;
+  border-left: 2px solid rgba(255, 255, 255, 0.14);
+  font-size: 12px;
+  font-style: italic;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.ent-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.ent-link {
+  padding: 5px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 3px;
+  font-size: 12px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.75);
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.34);
+    color: #fff;
+  }
+
+  /* Wikipédia est la destination utile en curation : on la met en avant. */
+  &--wp {
+    border-color: rgba(201, 168, 76, 0.45);
+    color: #e0c079;
+  }
 }
 </style>

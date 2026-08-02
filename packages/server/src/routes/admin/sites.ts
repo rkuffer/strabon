@@ -52,13 +52,20 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
   app.get<{
     Querystring: {
       q?: string;
-      status?: "no_timeline" | "no_coords" | "all";
+      status?: "no_timeline" | "no_coords" | "extracted" | "all";
       country?: string;
       page?: string;
+      sort?: "importance" | "extracted_asc" | "extracted_desc";
     };
   }>("/admin/sites", async (req, reply) => {
     const sql = getSql();
-    const { q, status = "all", country, page = "1" } = req.query;
+    const {
+      q,
+      status = "all",
+      country,
+      page = "1",
+      sort = "importance",
+    } = req.query;
     const limit = 50;
     const offset = (parseInt(page) - 1) * limit;
 
@@ -67,23 +74,37 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
     if (q) conditions.push(`s.title_en ILIKE '%${qEsc}%'`);
     if (status === "no_timeline") conditions.push(`s.timeline IS NULL`);
     if (status === "no_coords") conditions.push(`s.location IS NULL`);
+    if (status === "extracted")
+      conditions.push(`s.enrichment_level = 'extracted'`);
     if (country)
       conditions.push(`s.country_qid = '${country.replace(/'/g, "''")}'`);
 
     const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
 
+    // Clef de tri principale. `extracted_asc` (extraction la plus ANCIENNE
+    // d'abord) est le tri de ré-extraction : le pipeline a évolué depuis les
+    // premières extractions, on veut retrouver les timelines les plus vieilles
+    // pour les reconstruire. NULLS LAST garde les sites jamais extraits en fin
+    // de liste plutôt que de les mêler aux dates.
+    const sortClause =
+      sort === "extracted_asc"
+        ? `s.timeline_extracted_at ASC NULLS LAST, s.title_en`
+        : sort === "extracted_desc"
+          ? `s.timeline_extracted_at DESC NULLS LAST, s.title_en`
+          : `s.base_importance DESC NULLS LAST, s.title_en`;
+
     // Avec une recherche texte : correspondance exacte du titre d'abord, puis
-    // les titres qui commencent par la requête, puis le reste — importance en
-    // tie-break. Sans recherche : ordre habituel piloté par l'importance.
-    // (même logique que /admin/curation)
+    // les titres qui commencent par la requête, puis le reste — la clef de tri
+    // choisie sert de tie-break. Sans recherche : tri choisi directement.
+    // (même logique de pertinence que /admin/curation)
     const orderBy = q
       ? `CASE
            WHEN lower(s.title_en) = lower('${qEsc}') THEN 0
            WHEN s.title_en ILIKE '${qEsc}%' THEN 1
            ELSE 2
          END,
-         s.base_importance DESC NULLS LAST, s.title_en`
-      : `s.base_importance DESC NULLS LAST, s.title_en`;
+         ${sortClause}`
+      : sortClause;
 
     const [sites, totalRow, countries] = await Promise.all([
       sql.unsafe(`
@@ -115,6 +136,7 @@ export const adminSitesRoutes: FastifyPluginAsync = async (app) => {
       status,
       country,
       countries,
+      sort,
       limit,
     });
   });

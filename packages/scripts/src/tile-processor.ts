@@ -52,14 +52,14 @@ export type TileSite = {
   qid: string;
   label: string;
   description: string | null;
-  type: string | null;      // P31 type label (human-readable, for meta)
-  type_qid: string | null;  // P31 type QID (queryable — was previously discarded)
+  type: string | null; // P31 type label (human-readable, for meta)
+  type_qid: string | null; // P31 type QID (queryable — was previously discarded)
   lat: number;
   lon: number;
   country_qid: string | null;
   sitelinks_count: number | null;
   population: number | null;
-  inception_year: number | null;      // P571, historical year (BC negative)
+  inception_year: number | null; // P571, historical year (BC negative)
   wikipedia_page_en_url: string | null; // enwiki article, ~68% coverage, free here
   already_in_db: boolean;
 };
@@ -68,8 +68,8 @@ export type TileResult = {
   lon_min: number;
   lat_min: number;
   sites: TileSite[];
-  new_count: number;         // sites not already in DB
-  existing_count: number;    // sites already in DB (skipped)
+  new_count: number; // sites not already in DB
+  existing_count: number; // sites already in DB (skipped)
   total_from_sparql: number; // before dedup
   dryRun: boolean;
   executed: boolean;
@@ -106,7 +106,94 @@ function parseWikidataYear(value: string): number | null {
 // FILTER composes more predictably here. Measured with the hint: Paris tile
 // 2.9s / 1226 sites (previously a 504 for both this and the old 6-root query).
 
-function buildSparqlQuery(lonMin: number, latMin: number, classQids: string[]): string {
+// ── Label fallback chain ──────────────────────────────────────────────────────
+// `wikibase:language "en"` SEUL est un piège : le service ne retombe NI sur les
+// variantes régionales NI sur les autres langues — quand le libellé `en` exact
+// manque, il renvoie le QID, que le code accueillait comme un libellé légitime.
+// Mesuré en août 2026 : 551 610 sites (25,6 % de la base) titrés par leur QID,
+// alors que le nom existait presque toujours. Cas d'école : Q49255 (Tampa) a 128
+// libellés dont `en-gb` = "Tampa", mais pas de `en`.
+//
+// Ordre : anglais et ses variantes, puis `mul` (libellé multilingue Wikidata,
+// souvent LE toponyme pour un lieu), puis les langues à écriture latine, puis
+// les écritures non latines. Les non-latines viennent en DERNIER mais sont bien
+// présentes : un nom en cyrillique est un nom, le QID n'est rien. Cohérent avec
+// backfill-titles.ts, qui rattrape l'existant selon la même doctrine.
+//
+// Ce n'est pas un rattrapage complet : le service retient la PREMIÈRE langue
+// disponible de la chaîne, il ne sait pas préférer la langue du pays ni détecter
+// l'écriture. Les sites qui ressortent malgré tout avec un QID sont repris par
+// backfill-titles.ts, dont la garde est `title_en = wikidata_id`.
+const LABEL_LANGS = [
+  "en",
+  "en-gb",
+  "en-ca",
+  "en-us",
+  "mul",
+  "fr",
+  "de",
+  "es",
+  "it",
+  "pt",
+  "nl",
+  "ca",
+  "gl",
+  "eu",
+  "pl",
+  "cs",
+  "sk",
+  "sl",
+  "hr",
+  "bs",
+  "sh",
+  "ro",
+  "hu",
+  "sv",
+  "da",
+  "nb",
+  "nn",
+  "fi",
+  "et",
+  "lv",
+  "lt",
+  "tr",
+  "az",
+  "uz",
+  "kk",
+  "id",
+  "ms",
+  "vi",
+  "af",
+  "sq",
+  "cy",
+  "ga",
+  "la",
+  "ru",
+  "uk",
+  "be",
+  "bg",
+  "sr",
+  "el",
+  "hy",
+  "ka",
+  "ar",
+  "fa",
+  "he",
+  "hi",
+  "bn",
+  "th",
+  "my",
+  "km",
+  "zh",
+  "ja",
+  "ko",
+].join(",");
+
+function buildSparqlQuery(
+  lonMin: number,
+  latMin: number,
+  classQids: string[],
+): string {
   const inList = classQids.map((q) => `wd:${q}`).join(", ");
   return `
 SELECT DISTINCT
@@ -136,7 +223,7 @@ WHERE {
   OPTIONAL { ?site wdt:P1082 ?pop }
   OPTIONAL { ?site wdt:P571 ?inception }
   OPTIONAL { ?enwiki schema:about ?site ; schema:isPartOf <https://en.wikipedia.org/> . }
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "${LABEL_LANGS}". }
 }
 `;
 }
@@ -155,6 +242,13 @@ async function executeSparql(query: string): Promise<any[]> {
 }
 
 // ── Parse SPARQL bindings into TileSite, dedup by QID ─────────────────────────
+// A site yields ONE ROW PER COMBINATION of its multi-valued fields (several P31
+// types, several P17 countries…), so the same QID comes back many times. The
+// previous "keep the first row, skip the rest" rule silently DROPPED any optional
+// bound on a later row only — a real risk for `enwiki`, and exactly the shape of
+// the observed gap (Q4035/Osasco has an enwiki article, yet our column was NULL).
+// Now the first row seeds the record and later rows FILL ITS NULLS. Never a
+// replacement: the first non-null value wins, so the result stays deterministic.
 
 function parseResults(bindings: any[]): Omit<TileSite, "already_in_db">[] {
   const byQid = new Map<string, Omit<TileSite, "already_in_db">>();
@@ -164,21 +258,25 @@ function parseResults(bindings: any[]): Omit<TileSite, "already_in_db">[] {
     const qid = siteUri.split("/").pop() ?? "";
     if (!qid.startsWith("Q")) continue;
 
-    // Keep first occurrence per QID (dedup).
-    if (byQid.has(qid)) continue;
-
     // Parse coordinates from "Point(lon lat)" WKT.
-    let lat = 0, lon = 0;
+    let lat = 0,
+      lon = 0;
     const coordStr: string = b.coord?.value ?? "";
     const m = /Point\(([^ ]+) ([^ ]+)\)/.exec(coordStr);
-    if (m) { lon = parseFloat(m[1]); lat = parseFloat(m[2]); }
+    if (m) {
+      lon = parseFloat(m[1]);
+      lat = parseFloat(m[2]);
+    }
 
     // Sitelinks count and population: take the numeric value if present.
     const sl = b.sl?.value != null ? parseInt(b.sl.value, 10) : null;
     const pop = b.pop?.value != null ? parseInt(b.pop.value, 10) : null;
 
-    byQid.set(qid, {
+    const row = {
       qid,
+      // The label service now carries a fallback chain, so a QID here means the
+      // item has no label in ANY of those languages — rare, and picked up later
+      // by backfill-titles.ts (whose guard is `title_en = wikidata_id`).
       label: b.siteLabel?.value ?? qid,
       description: b.d?.value ?? null,
       type: b.typeLabel?.value ?? null,
@@ -188,9 +286,33 @@ function parseResults(bindings: any[]): Omit<TileSite, "already_in_db">[] {
       country_qid: b.country?.value?.split("/").pop() ?? null,
       sitelinks_count: isNaN(sl as number) ? null : sl,
       population: isNaN(pop as number) ? null : pop,
-      inception_year: b.inception?.value ? parseWikidataYear(b.inception.value) : null,
+      inception_year: b.inception?.value
+        ? parseWikidataYear(b.inception.value)
+        : null,
       wikipedia_page_en_url: b.enwiki?.value ?? null,
-    });
+    };
+
+    const seen = byQid.get(qid);
+    if (!seen) {
+      byQid.set(qid, row);
+      continue;
+    }
+
+    // Fill the nulls left by earlier rows. The label is a special case: a QID
+    // stands for "not found", so a real label on a later row supersedes it.
+    if (seen.label === qid && row.label !== qid) seen.label = row.label;
+    if (seen.description == null) seen.description = row.description;
+    if (seen.type == null) {
+      seen.type = row.type;
+      seen.type_qid = row.type_qid;
+    }
+    if (seen.country_qid == null) seen.country_qid = row.country_qid;
+    if (seen.sitelinks_count == null)
+      seen.sitelinks_count = row.sitelinks_count;
+    if (seen.population == null) seen.population = row.population;
+    if (seen.inception_year == null) seen.inception_year = row.inception_year;
+    if (seen.wikipedia_page_en_url == null)
+      seen.wikipedia_page_en_url = row.wikipedia_page_en_url;
   }
 
   return [...byQid.values()];
@@ -205,7 +327,8 @@ export async function processTile(
 ): Promise<TileResult> {
   const dryRun = opts.dryRun ?? false;
   const verbose = opts.verbose ?? true;
-  const log = (m: string) => verbose && console.log(`[tile ${lonMin},${latMin}] ${m}`);
+  const log = (m: string) =>
+    verbose && console.log(`[tile ${lonMin},${latMin}] ${m}`);
   const sql = getSql();
 
   // 1. Build and execute SPARQL.
@@ -219,6 +342,19 @@ export async function processTile(
   const parsed = parseResults(bindings);
   log(`${parsed.length} distinct sites after dedup`);
 
+  // Sites still titled by their own QID — i.e. no label in ANY language of the
+  // fallback chain. Logged rather than left silent: this is precisely the failure
+  // that went unnoticed until 25,6 % of the base carried a QID as its title.
+  // These rows are legitimate (title_en is NOT NULL, the QID is a placeholder)
+  // and backfill-titles.ts reclaims them later.
+  const unlabelled = parsed.filter((s) => s.label === s.qid).length;
+  if (unlabelled > 0) {
+    log(
+      `⚠ ${unlabelled}/${parsed.length} sites without any label — inserted with their QID as title, ` +
+        `recoverable via backfill-titles.ts`,
+    );
+  }
+
   // 3. Check which are already in DB.
   const sites: TileSite[] = [];
   let newCount = 0;
@@ -229,7 +365,8 @@ export async function processTile(
     `;
     const already = existing.length > 0;
     sites.push({ ...s, already_in_db: already });
-    if (already) existingCount++; else newCount++;
+    if (already) existingCount++;
+    else newCount++;
   }
   log(`${newCount} new, ${existingCount} already in DB`);
 

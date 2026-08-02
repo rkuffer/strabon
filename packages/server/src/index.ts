@@ -9,6 +9,7 @@ import { apiSitesRoutes } from "./routes/api/sites.js";
 import { apiHullsRoutes } from "./routes/api/hulls.js";
 import { apiPolitiesRoutes } from "./routes/api/polities.js";
 import { apiCulturesRoutes } from "./routes/api/cultures.js";
+import { apiEntitiesRoutes } from "./routes/api/entities.js";
 import { pageSitesRoutes } from "./routes/pages/sites.js";
 import { pagePolitiesRoutes } from "./routes/pages/polities.js";
 import { pageCulturesRoutes } from "./routes/pages/cultures.js";
@@ -75,6 +76,7 @@ await app.register(apiSitesRoutes, { prefix: "/api" });
 await app.register(apiHullsRoutes, { prefix: "/api" });
 await app.register(apiPolitiesRoutes, { prefix: "/api" });
 await app.register(apiCulturesRoutes, { prefix: "/api" });
+await app.register(apiEntitiesRoutes, { prefix: "/api" });
 
 // ── Routes pages HTML ─────────────────────────────────────────────────────────
 await app.register(pageSitesRoutes);

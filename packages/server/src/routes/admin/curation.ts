@@ -84,6 +84,12 @@ export const adminCurationRoutes: FastifyPluginAsync = async (app) => {
   });
 
   // POST /admin/curation/queue — mark selected sites as 'queued'
+  //
+  // FIRST-PASS ONLY: promotes indexed→queued and nothing else. The guard is
+  // deliberate — the bulk buttons on /admin/curation & /admin/attributions run
+  // against lists of indexed sites, and this gate is what keeps them from ever
+  // silently re-running an already-extracted site. Re-extraction goes through
+  // /requeue below, never here.
   app.post<{
     Body: { site_ids: string[] };
   }>("/admin/curation/queue", async (req, reply) => {
@@ -97,6 +103,40 @@ export const adminCurationRoutes: FastifyPluginAsync = async (app) => {
         SET enrichment_level = 'queued'
         WHERE id = ANY(${ids})
           AND enrichment_level = 'indexed'
+      `;
+      updated = result.count;
+    }
+
+    return { updated, ids };
+  });
+
+  // POST /admin/curation/requeue — re-queue already-extracted sites for a fresh
+  // extraction pass (extracted→queued).
+  //
+  // Distinct endpoint from /queue on purpose: the two intents must not share a
+  // button. /queue is the first pass (indexed→queued); this is the explicit
+  // re-extraction path, used when the pipeline has moved on since a site's
+  // original extraction and its timeline should be rebuilt.
+  //
+  // The gate here is the mirror image (enrichment_level='extracted'), so this
+  // path can ONLY touch already-extracted sites and can never resurrect an
+  // indexed/excluded one. Once re-queued, the batch extractor
+  // (/admin/extract/stream) picks the site up like any other queued site and
+  // overwrites its timeline — that machinery already ignores the prior level, so
+  // nothing else is needed downstream.
+  app.post<{
+    Body: { site_ids: string[] };
+  }>("/admin/curation/requeue", async (req, reply) => {
+    const sql = getSql();
+    const ids: string[] = req.body?.site_ids ?? [];
+
+    let updated = 0;
+    if (ids.length > 0) {
+      const result = await sql`
+        UPDATE sites
+        SET enrichment_level = 'queued'
+        WHERE id = ANY(${ids})
+          AND enrichment_level = 'extracted'
       `;
       updated = result.count;
     }

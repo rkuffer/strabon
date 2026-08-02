@@ -550,4 +550,11 @@ export type SiteDetail = {
   wikidata_enriched_at: string | null;
   timeline_extracted_at: string | null;
   timeline_extraction_model: string | null;
+  /**
+   * QID des entités polity SUBORDONNÉES citées par ce site (comtés, seigneuries,
+   * villes libres d'Empire…). Le rang vit sur wikidata_entities.subordinate, pas
+   * dans la timeline stockée : cette liste est le pont qui permet au front de
+   * rendre la piste polity sur deux couloirs. Vide (jamais null) si aucune.
+   */
+  subordinate_qids: string[];
 };

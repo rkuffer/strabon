@@ -8,7 +8,12 @@ export {
   upsertCulture,
   syncReferentialsFromTimeline,
 } from "./reference.js";
-export { searchEntities, type EntityCandidate } from "./entities.js";
+export {
+  searchEntities,
+  getEntityDetail,
+  type EntityCandidate,
+  type EntityDetail,
+} from "./entities.js";
 export { loadEntityBounds, recordBoundsConflicts } from "./bounds.js";
 export {
   recordGaps,

@@ -7,8 +7,14 @@
   <input type="text" name="q" value="<%= it.q || '' %>" placeholder="Rechercher..." class="input-search">
   <select name="status" class="input-select">
     <option value="all"         <%= it.status === 'all'         ? 'selected' : '' %>>Tous</option>
+    <option value="extracted"   <%= it.status === 'extracted'   ? 'selected' : '' %>>Extraits</option>
     <option value="no_timeline" <%= it.status === 'no_timeline' ? 'selected' : '' %>>Sans timeline</option>
     <option value="no_coords"   <%= it.status === 'no_coords'   ? 'selected' : '' %>>Sans coordonnées</option>
+  </select>
+  <select name="sort" class="input-select">
+    <option value="importance"     <%= it.sort === 'importance'     ? 'selected' : '' %>>Tri : importance</option>
+    <option value="extracted_asc"  <%= it.sort === 'extracted_asc'  ? 'selected' : '' %>>Tri : extraction (plus ancienne)</option>
+    <option value="extracted_desc" <%= it.sort === 'extracted_desc' ? 'selected' : '' %>>Tri : extraction (plus récente)</option>
   </select>
   <select name="country" class="input-select">
     <option value="">Tous les pays</option>
@@ -18,6 +24,16 @@
   </select>
   <button type="submit" class="btn">Filtrer</button>
 </form>
+
+<% const extractedShown = it.sites.filter(function (s) { return s.enrichment_level === 'extracted'; }).length; %>
+<% if (extractedShown > 0) { %>
+<div class="sites-toolbar">
+  <span class="tb-info"><%= extractedShown %> site(s) extrait(s) affiché(s)</span>
+  <button type="button" class="btn btn-sm btn-requeue-page" onclick="requeuePage(this)">
+    Re-mettre en file les extraits de la page (<span class="rq-n"><%= extractedShown %></span>)
+  </button>
+</div>
+<% } %>
 
 <table class="data-table">
   <thead>
@@ -30,13 +46,14 @@
       <th>Wikipedia</th>
       <th>Coords</th>
       <th>Niveau</th>
+      <th>Extrait le</th>
       <th>Timeline</th>
       <th></th>
     </tr>
   </thead>
   <tbody>
     <% it.sites.forEach(function(site) { %>
-    <tr>
+    <tr data-site-id="<%= site.id %>" data-level="<%= site.enrichment_level %>">
       <td><strong><a href="/admin/sites/<%= site.id %>"><%= site.title_en %></a></strong></td>
       <td class="text-muted"><%= site.country_name || '—' %></td>
       <td><span class="tag"><%= site.site_type || '—' %></span></td>
@@ -50,15 +67,23 @@
         <% } %>
       </td>
       <td><span class="status-dot <%= site.has_coords ? 'green' : 'red' %>"></span></td>
-      <td><span class="badge badge--level badge--<%= site.enrichment_level %>"><%= site.enrichment_level %></span></td>
+      <td class="s-level"><span class="badge badge--level badge--<%= site.enrichment_level %>"><%= site.enrichment_level %></span></td>
+      <td class="s-extat text-muted">
+        <%= site.timeline_extracted_at ? new Date(site.timeline_extracted_at).toLocaleDateString() : '—' %>
+      </td>
       <td>
         <% if (site.has_timeline) { %>
-          <span class="status-dot green" title="<%= site.timeline_extracted_at ? new Date(site.timeline_extracted_at).toLocaleDateString() : '' %>"></span>
+          <span class="status-dot green" title="<%= site.timeline_extracted_at ? new Date(site.timeline_extracted_at).toLocaleString() : '' %>"></span>
         <% } else { %>
           <a href="/admin/extract/<%= site.id %>" class="btn btn-sm btn-ghost">Extraire</a>
         <% } %>
       </td>
-      <td><a href="/admin/sites/<%= site.id %>" class="link-arrow">→</a></td>
+      <td class="s-act">
+        <% if (site.enrichment_level === 'extracted') { %>
+          <button type="button" class="btn btn-xs btn-requeue" onclick="requeueSite(this)" title="Re-extraire ce site">Re-mettre en file</button>
+        <% } %>
+        <a href="/admin/sites/<%= site.id %>" class="link-arrow">→</a>
+      </td>
     </tr>
     <% }) %>
   </tbody>
@@ -66,10 +91,82 @@
 
 <div class="pagination">
   <% if (it.page > 1) { %>
-    <a href="?page=<%= it.page - 1 %>&q=<%= it.q || '' %>&status=<%= it.status %>&country=<%= it.country || '' %>" class="btn btn-sm">← Préc.</a>
+    <a href="?page=<%= it.page - 1 %>&q=<%= it.q || '' %>&status=<%= it.status %>&country=<%= it.country || '' %>&sort=<%= it.sort %>" class="btn btn-sm">← Préc.</a>
   <% } %>
   <span class="page-info">Page <%= it.page %> / <%= it.pages %></span>
   <% if (it.page < it.pages) { %>
-    <a href="?page=<%= it.page + 1 %>&q=<%= it.q || '' %>&status=<%= it.status %>&country=<%= it.country || '' %>" class="btn btn-sm">Suiv. →</a>
+    <a href="?page=<%= it.page + 1 %>&q=<%= it.q || '' %>&status=<%= it.status %>&country=<%= it.country || '' %>&sort=<%= it.sort %>" class="btn btn-sm">Suiv. →</a>
   <% } %>
 </div>
+
+<style>
+  .sites-toolbar { display:flex; align-items:center; gap:14px; margin-bottom:14px; }
+  .sites-toolbar .tb-info { font-size:12px; color:var(--muted); }
+  .s-act        { white-space:nowrap; text-align:right; }
+  .s-act .btn-requeue { margin-right:10px; }
+  .btn-xs       { font-size:11px; padding:2px 9px; }
+  .btn-requeue  { background:transparent; border:1px solid var(--border); color:var(--muted); border-radius:3px; cursor:pointer; }
+  .btn-requeue:hover { color:var(--text); border-color:var(--text); }
+  tr[data-level="queued"] .s-title a, tr[data-level="queued"] td strong a { opacity:.7; }
+</style>
+
+<script>
+  async function postRequeue(ids) {
+    const res = await fetch('/admin/curation/requeue', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ site_ids: ids }),
+    });
+    if (!res.ok) throw new Error('Erreur serveur');
+    return res.json(); // { updated, ids }
+  }
+
+  // Reflect the new level in the row: flip the badge to `queued`, drop the
+  // per-row requeue button, and re-tag data-level so the page-level count and
+  // the bulk button stay accurate without a reload.
+  function markQueued(tr) {
+    tr.dataset.level = 'queued';
+    var badge = tr.querySelector('.s-level .badge');
+    if (badge) { badge.className = 'badge badge--level badge--queued'; badge.textContent = 'queued'; }
+    var btn = tr.querySelector('.btn-requeue');
+    if (btn) btn.remove();
+  }
+
+  function refreshToolbar() {
+    var n = document.querySelectorAll('tr[data-level="extracted"]').length;
+    var span = document.querySelector('.btn-requeue-page .rq-n');
+    if (span) span.textContent = n;
+    var bar = document.querySelector('.sites-toolbar');
+    if (bar && n === 0) bar.remove();
+  }
+
+  async function requeueSite(btn) {
+    var tr = btn.closest('tr');
+    btn.disabled = true; btn.textContent = '…';
+    try {
+      var d = await postRequeue([tr.dataset.siteId]);
+      if (d.updated > 0) markQueued(tr);
+      else { btn.disabled = false; btn.textContent = 'Re-mettre en file'; }
+      refreshToolbar();
+    } catch (e) {
+      alert('Erreur : ' + e.message);
+      btn.disabled = false; btn.textContent = 'Re-mettre en file';
+    }
+  }
+
+  async function requeuePage(btn) {
+    var rows = [].slice.call(document.querySelectorAll('tr[data-level="extracted"]'));
+    var ids = rows.map(function (r) { return r.dataset.siteId; });
+    if (!ids.length) return;
+    if (!confirm('Re-mettre ' + ids.length + ' site(s) extrait(s) en file d\u2019extraction ?')) return;
+    btn.disabled = true; btn.textContent = 'Envoi…';
+    try {
+      await postRequeue(ids);
+      rows.forEach(markQueued);
+      refreshToolbar();
+    } catch (e) {
+      alert('Erreur : ' + e.message);
+      btn.disabled = false;
+      btn.innerHTML = 'Re-mettre en file les extraits de la page (<span class="rq-n">' + ids.length + '</span>)';
+    }
+  }
+</script>

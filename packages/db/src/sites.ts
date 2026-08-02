@@ -166,16 +166,30 @@ export async function getSiteById(id: string) {
   const sql = getSql();
   const rows = await sql`
     SELECT
-      id, wikidata_id, title_en, wikipedia_page_en_url, source,
-      ST_Y(location) AS lat, ST_X(location) AS lon,
-      country, country_qid,
-      inception_year, dissolution_year,
-      site_type, base_importance,
-      names, timeline, meta,
-      last_updated, wikidata_enriched_at,
-      timeline_extracted_at, timeline_extraction_model
-    FROM sites
-    WHERE id = ${id}
+      s.id, s.wikidata_id, s.title_en, s.wikipedia_page_en_url, s.source,
+      ST_Y(s.location) AS lat, ST_X(s.location) AS lon,
+      s.country, s.country_qid,
+      s.inception_year, s.dissolution_year,
+      s.site_type, s.base_importance,
+      s.names, s.timeline, s.meta,
+      s.last_updated, s.wikidata_enriched_at,
+      s.timeline_extracted_at, s.timeline_extraction_model,
+      -- Rang des entités polity citées par CE site. Le front en a besoin pour
+      -- rendre la piste polity sur deux couloirs (souverain / subordonné) : la
+      -- timeline stockée ne porte que des QID, le rang vit sur le référentiel.
+      -- Restreint aux QID réellement présents dans la timeline du site (pas la
+      -- liste globale des subordonnées, qui serait inutilement lourde).
+      COALESCE((
+        SELECT ARRAY_AGG(DISTINCT w.qid)
+        FROM jsonb_array_elements(
+               COALESCE(s.timeline->'polity'->'entries', '[]'::JSONB)
+             ) AS e
+        JOIN wikidata_entities w
+          ON w.qid = NULLIF(e->'value'->>'wikidata', '')
+        WHERE w.subordinate
+      ), ARRAY[]::TEXT[]) AS subordinate_qids
+    FROM sites s
+    WHERE s.id = ${id}
     LIMIT 1
   `;
   return rows[0] ?? null;

@@ -313,6 +313,91 @@ export function buildLanes<T>(
   );
 }
 
+// ── Piste POLITY : lecture à DEUX NIVEAUX (souverain / subordonné) ────────────
+
+export type PolityTier = "sovereign" | "subordinate";
+
+export type PolityLane<T> = {
+  tier: PolityTier;
+  segments: LaneSegment<T>[];
+};
+
+/**
+ * Découpe la piste polity en DEUX COULOIRS — souverain au-dessus, subordonné
+ * en dessous.
+ *
+ * POURQUOI cette fonction et pas le régime escalier ordinaire : sur une piste
+ * escalier, une entrée est fermée par la SUIVANTE, quelle qu'elle soit. Donc
+ * dès qu'un comté est nommé, l'empire qui l'englobe paraît « remplacé » —
+ * Langweiler affiche le Saint-Empire remplacé en 1363 par le comté de Sponheim,
+ * alors que le village n'a jamais quitté l'Empire. La hiérarchie est APLATIE par
+ * le rendu, pas par les données.
+ *
+ * DEUX RÈGLES DE FERMETURE, une par rang :
+ *   - SOUVERAIN : court jusqu'au prochain SOUVERAIN, en SAUTANT les subordonnées
+ *     intercalées (report — c'est ce qui le « laisse filer »).
+ *   - SUBORDONNÉ : règle escalier ordinaire, fermé par l'entrée suivante quel
+ *     que soit son rang.
+ * Dans les deux cas un `to` explicite prime : sur polity il signale un TROU réel
+ * (cf. prompt « Regime 1b » : on ne ferme pas une polity parce que la suivante
+ * commence), jamais un simple passage de relais.
+ *
+ * COULOIR SOUVERAIN VIDE : si le site n'a QUE des subordonnées sur une période
+ * (Munich commence au duché de Bavière puis à l'évêché de Freising, sans que le
+ * Saint-Empire englobant soit jamais posé), le couloir du haut reste vide et le
+ * manque est VISIBLE — choix délibéré, on n'invente pas le souverain.
+ *
+ * @param isSubordinate prédicat de rang, fourni par l'appelant (le front le
+ *   dérive de wikidata_entities.subordinate exposé par l'API) — cette fonction
+ *   ne connaît pas le référentiel.
+ */
+export function buildPolityLanes<T>(
+  track: Track<T> | undefined,
+  endYear: number,
+  isSubordinate: (entry: TrackEntry<T>) => boolean,
+): PolityLane<T>[] {
+  if (!track?.entries?.length) return [];
+  const sorted = [...track.entries].sort((a, b) => a.from - b.from);
+
+  const sovereign: LaneSegment<T>[] = [];
+  const subordinate: LaneSegment<T>[] = [];
+
+  for (let i = 0; i < sorted.length; i++) {
+    const e = sorted[i];
+    const sub = isSubordinate(e);
+
+    // Un subordonné est fermé par l'entrée suivante quelle qu'elle soit ;
+    // un souverain seulement par le prochain souverain.
+    let next: TrackEntry<T> | undefined;
+    for (let j = i + 1; j < sorted.length; j++) {
+      if (sub || !isSubordinate(sorted[j])) {
+        next = sorted[j];
+        break;
+      }
+    }
+
+    const explicitTo = e.to != null ? e.to : null;
+    const closeAt = explicitTo ?? next?.from ?? endYear;
+
+    (sub ? subordinate : sovereign).push({
+      from: e.from,
+      to: Math.max(closeAt, e.from),
+      open: explicitTo == null && !next,
+      entry: e,
+    });
+  }
+
+  // Sans aucune subordonnée, la piste se lit comme avant : un seul couloir.
+  if (!subordinate.length) return [{ tier: "sovereign", segments: sovereign }];
+
+  // Avec des subordonnées, les DEUX couloirs sont émis — y compris un couloir
+  // souverain vide, pour que l'absence de souverain se voie.
+  return [
+    { tier: "sovereign", segments: sovereign },
+    { tier: "subordinate", segments: subordinate },
+  ];
+}
+
 // ── Occupation : trous (hiatus) déduits de la piste site_type ─────────────────
 
 export type YearInterval = { from: number; to: number };
