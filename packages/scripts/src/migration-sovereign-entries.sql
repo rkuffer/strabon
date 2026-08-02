@@ -16,18 +16,36 @@
 -- Il faut sauter les subordonnées AVANT la sélection du « plus récent », pour
 -- retomber sur la dernière entrée SOUVERAINE. C'est ce que fait cette fonction.
 --
--- SÉMANTIQUE DU `to` (prompt d'extraction, section « Regime 1b ») : sur polity,
--- « Do not close a polity merely because the next one begins » — un `to` ne
--- signale PAS le passage à l'entrée suivante, il signale un TROU véritable
--- (l'entité a disparu sans successeur nommable, ou le site est abandonné).
--- On le respecte donc tel quel : une souveraine explicitement fermée ne couvre
--- plus rien après son `to`, et le site sort de l'agrégat.
+-- DEUX BORNES, DE NATURES DIFFÉRENTES — ne pas les confondre :
 --
--- CHOIX CONSERVATEUR : si aucune entrée souveraine n'existe avant l'année
--- demandée (cas Munich, dont la piste démarre à « Duchy of Bavaria » puis
--- « Prince-Bishopric of Freising » sans que le Saint-Empire englobant soit
--- jamais posé — un défaut d'extraction), la fonction ne renvoie RIEN. Le site
--- est simplement absent de l'agrégat : on n'invente pas de rattachement.
+--   1. `to` de l'ENTRÉE (JSON, écrit par le modèle). Prompt d'extraction,
+--      section « Regime 1b » : « Do not close a polity merely because the next
+--      one begins » — un `to` ne marque PAS le passage à l'entrée suivante, il
+--      marque un TROU véritable (entité disparue sans successeur nommable, ou
+--      site abandonné). On le respecte tel quel.
+--
+--   2. `dissolution` de l'ENTITÉ (wikidata_entities). Garde-fou contre la
+--      REMONTÉE TROP LOIN : sauter une subordonnée de longue durée peut faire
+--      retomber sur une souveraine morte depuis des siècles. Cas mesuré —
+--      Q696417 : Roman Empire (100) → County of Sponheim (1037-1804,
+--      subordonnée) → France (1806) ; en 1450 la remontée atterrit sur l'Empire
+--      romain. Mesure sur 1200/1250/1450/1650 : 34 cas, tous des violations
+--      massives et non ambiguës (Hittite Empire -1178, Old Babylonian -1750,
+--      Carolingian 887, West Francia 987…).
+--
+-- ON ÉCARTE, ET ON S'ARRÊTE — jamais de second tour. Continuer à remonter ne
+-- pourrait donner qu'une entrée ENCORE PLUS ANCIENNE, donc encore plus sûrement
+-- dissoute et plus anachronique : ce serait mécaniquement pire. Si la dernière
+-- souveraine ne convient pas, la fonction ne renvoie RIEN et le site sort de
+-- l'agrégat pour cette année — même ligne conservatrice que le cas Munich (dont
+-- la piste démarre à « Duchy of Bavaria » puis « Prince-Bishopric of Freising »
+-- sans que le Saint-Empire englobant soit jamais posé) : on n'invente pas de
+-- rattachement, l'absence est lisible.
+--
+-- NOTE — ce garde-fou ne corrige PAS les entrées « Roman Empire » portant un
+-- `to: 1453` explicite (assimilation Empire romain / Empire byzantin par
+-- l'extraction) : leur `to` étant postérieur, elles passent. Défaut
+-- d'extraction, chantier distinct.
 --
 -- Renvoie 0 ou 1 entrée, comme le régime step de track_active_entries().
 -- =============================================================================
@@ -38,7 +56,7 @@ CREATE OR REPLACE FUNCTION track_sovereign_entry(
 RETURNS SETOF JSONB AS $$
   SELECT latest.e
   FROM (
-    SELECT e
+    SELECT e, we.dissolution
     FROM jsonb_array_elements(COALESCE(track->'entries', '[]'::JSONB)) AS e
     LEFT JOIN wikidata_entities we
       ON we.qid = NULLIF(e->'value'->>'wikidata', '')
@@ -51,6 +69,9 @@ RETURNS SETOF JSONB AS $$
     ORDER BY (e->>'from')::INTEGER DESC
     LIMIT 1
   ) AS latest
-  WHERE latest.e->>'to' IS NULL
-     OR year_val <= (latest.e->>'to')::INTEGER
+  -- Les deux bornes, appliquées à la SEULE entrée retenue (pas de second tour).
+  WHERE (latest.e->>'to' IS NULL
+         OR year_val <= (latest.e->>'to')::INTEGER)
+    AND (latest.dissolution IS NULL
+         OR year_val <= latest.dissolution)
 $$ LANGUAGE SQL STABLE;
